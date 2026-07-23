@@ -30,8 +30,9 @@
     --shadow: 0 10px 30px rgba(20,24,40,0.08);
     --shadow-lift: 0 16px 40px rgba(20,24,40,0.14);
     --radius: 16px;
-    --ease: cubic-bezier(0.22, 1, 0.36, 1);
-    --spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+    --ease: ease-out;
+    --spring: ease-out;
+    --motion: 200ms ease-out;
     --font: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
   }
 
@@ -144,6 +145,12 @@
     width: 18px; height: 18px; stroke: currentColor; fill: none;
     stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
   }
+  .rail-item .ri-ico--img img {
+    width: 18px; height: 18px;
+    border-radius: 5px;
+    object-fit: cover;
+    display: block;
+  }
   .rail-item .ri-label {
     overflow: hidden; text-overflow: ellipsis;
     opacity: 1; transition: opacity .18s;
@@ -177,8 +184,11 @@
     flex-shrink: 0; opacity: .45;
     transition: transform .22s var(--ease), opacity .18s;
   }
-  .ico-chevron svg {
+  .ico-chevron svg,
+  .ico-chevron .ui-ico-img {
     width: 14px; height: 14px;
+  }
+  .ico-chevron svg {
     stroke: currentColor; fill: none;
     stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
   }
@@ -292,60 +302,35 @@
   .rail-flyout .rail-children > .rail-children-inner,
   .rail-flyout .rail-sub-children > .rail-sub-children-inner { overflow: visible; }
 
-  /* ---------- Sidebar ---------- */
+  /* ---------- Sidebar (right, under tabs like props) ---------- */
   .sidebar {
     width: 300px;
     background: var(--panel);
     backdrop-filter: blur(20px);
-    border-right: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    border-right: none;
     display: flex; flex-direction: column;
     flex-shrink: 0;
-    transition: width .28s var(--ease), opacity .22s var(--ease), transform .28s var(--ease);
     overflow: hidden;
     z-index: 4;
+    transition: width .28s var(--ease), opacity .22s var(--ease), border-color .22s;
   }
-  .sidebar.collapsed { width: 0; opacity: 0; pointer-events: none; }
+  .sidebar.is-hidden {
+    width: 0;
+    opacity: 0;
+    border-left-color: transparent;
+    pointer-events: none;
+  }
   .sidebar-inner { width: 300px; display: flex; flex-direction: column; height: 100%; }
   .sidebar-header {
-    padding: 16px 14px 8px 18px;
+    padding: 16px 18px 8px;
     font-weight: 700; font-size: 16px;
-    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    display: flex; align-items: center; gap: 10px;
   }
   .sidebar-header .sidebar-title {
     display: flex; align-items: baseline; gap: 8px; min-width: 0;
   }
   .sidebar-header .hint { font-size: 11px; font-weight: 500; color: var(--muted); }
-  .sidebar-collapse {
-    width: 28px; height: 28px; flex-shrink: 0;
-    border: none; border-radius: 8px; background: transparent;
-    color: var(--muted); cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background .18s var(--ease), color .18s;
-  }
-  .sidebar-collapse:hover { background: rgba(0,0,0,.05); color: var(--text); }
-  .sidebar-collapse .ico-chevron { opacity: 1; }
-  .sidebar-collapse .ico-chevron svg { width: 16px; height: 16px; }
-
-  .sidebar-expand-tab {
-    position: absolute; left: 0; top: 50%; z-index: 6;
-    transform: translate(-50%, -50%);
-    width: 22px; height: 52px;
-    border: 1px solid var(--border); border-left: none;
-    border-radius: 0 10px 10px 0;
-    background: rgba(255,255,255,.92);
-    backdrop-filter: blur(12px);
-    box-shadow: var(--shadow);
-    color: var(--muted); cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: color .18s, background .18s, box-shadow .18s;
-  }
-  .sidebar-expand-tab:hover {
-    color: var(--brand-dark); background: #fff;
-    box-shadow: var(--shadow-lift);
-  }
-  .sidebar-expand-tab[hidden] { display: none; }
-  .sidebar-expand-tab .ico-chevron { opacity: 1; }
-  .sidebar-expand-tab .ico-chevron svg { width: 14px; height: 14px; }
   .search { margin: 0 16px 12px; position: relative; }
   .search input {
     width: 100%; padding: 10px 34px 10px 12px;
@@ -379,6 +364,10 @@
   .cat-header:hover { filter: brightness(0.98); }
   .cat-header .left { display: flex; align-items: center; gap: 8px; }
   .cat-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .cat-ico {
+    width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+    object-fit: contain; display: block;
+  }
   .cat-count { opacity: .65; font-weight: 500; margin-left: 4px; }
   .cat:not(.collapsed) .ico-chevron { transform: rotate(90deg); }
   .cat.collapsed .cat-items { display: none; }
@@ -390,20 +379,20 @@
   }
   .widget {
     display: flex; flex-direction: column; align-items: center; gap: 6px;
-    padding: 6px 4px; border-radius: 12px; cursor: grab;
+    padding: 6px 4px; border-radius: 16px; cursor: grab;
     border: 1px solid transparent;
-    transition: transform .22s var(--spring), background .2s, box-shadow .22s, border-color .2s;
+    transition: transform var(--motion), background var(--motion), box-shadow var(--motion), border-color var(--motion);
   }
   .widget:hover {
     background: #fff;
     border-color: rgba(0,0,0,0.05);
-    transform: translateY(-2px) scale(1.04);
-    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(15,23,42,.10);
   }
-  .widget:active { cursor: grabbing; transform: scale(0.97); }
+  .widget:active { cursor: grabbing; transform: scale(0.98); }
   .widget .label {
-    font-size: 10.5px; color: var(--muted); text-align: center;
-    line-height: 1.25; max-width: 72px;
+    font-size: 11.5px; font-weight: 600; color: var(--muted); text-align: center;
+    line-height: 1.25; max-width: 78px;
   }
 
   /* ---------- Glass squircle icon tiles ---------- */
@@ -424,10 +413,9 @@
     box-shadow:
       0 1px 0 rgba(255,255,255,.85) inset,
       0 -1px 0 rgba(255,255,255,.15) inset,
-      0 8px 20px -6px var(--tile-shadow, rgba(0,0,0,.12)),
-      0 2px 6px rgba(20,24,40,.04);
+      0 8px 24px rgba(15,23,42,.08);
     color: var(--tile-icon, #6B6B6B);
-    transition: transform .22s var(--spring), box-shadow .22s var(--ease), border-color .2s, background .2s;
+    transition: transform var(--motion), box-shadow var(--motion), border-color var(--motion), background var(--motion);
   }
   .icon-tile::before {
     content: '';
@@ -457,6 +445,54 @@
   .icon-tile.xl svg { width: 34px; height: 34px; }
   .icon-tile.node { width: 64px; height: 64px; border-radius: 20px; }
   .icon-tile.node svg { width: 30px; height: 30px; }
+  .icon-tile.icon-tile--img {
+    background: transparent;
+    border: none;
+    box-shadow: 0 1px 2px rgba(0,0,0,.32);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    overflow: visible;
+    transition: transform var(--motion), box-shadow var(--motion);
+  }
+  .icon-tile.icon-tile--img::before,
+  .icon-tile.icon-tile--img::after {
+    display: block;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 2;
+    background: none;
+    mix-blend-mode: normal;
+    filter: none;
+    opacity: 1;
+    left: 0; right: 0; top: 0; height: auto;
+  }
+  /* diagonal corner rim light (top-left + bottom-right) — thin */
+  .icon-tile.icon-tile--img::before {
+    box-shadow: inset 0.75px 0.75px 0 rgba(255,255,255,.7);
+    -webkit-mask-image: linear-gradient(135deg, #000 0 22%, transparent 34% 100%);
+    mask-image: linear-gradient(135deg, #000 0 22%, transparent 34% 100%);
+  }
+  .icon-tile.icon-tile--img::after {
+    box-shadow: inset -0.75px -0.75px 0 rgba(255,255,255,.4);
+    -webkit-mask-image: linear-gradient(135deg, transparent 0 66%, #000 78% 100%);
+    mask-image: linear-gradient(135deg, transparent 0 66%, #000 78% 100%);
+  }
+  .icon-tile.icon-tile--img img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: inherit;
+    position: relative; z-index: 1;
+  }
+  .widget:hover .icon-tile.icon-tile--img,
+  .widget:hover .icon-tile {
+    transform: scale(1.05);
+  }
+  .widget:hover .icon-tile.icon-tile--img {
+    box-shadow: 0 1px 2px rgba(0,0,0,.38);
+    border: none;
+  }
 
   .icon-blue {
     --tile-a: #E8F1FC; --tile-b: #C9DBF5;
@@ -500,7 +536,7 @@
   .tabs-list::-webkit-scrollbar { display: none; }
 
   .tab {
-    --tab-bg: #3E7BDB;
+    --tab-bg: #F8FAFF;
     position: relative;
     display: inline-flex; align-items: center; justify-content: center;
     gap: 8px;
@@ -509,18 +545,25 @@
     border: none;
     cursor: pointer;
     background: transparent;
-    color: #fff;
-    font-family: inherit; font-size: 13px; font-weight: 700;
+    color: #6B7280;
+    font-family: inherit; font-size: 13px; font-weight: 650;
     letter-spacing: -0.01em;
     white-space: nowrap;
     border-radius: 14px 14px 0 0;
     z-index: 1;
+    transition: color var(--motion);
   }
-  .tab:hover { z-index: 3; }
+  .tab:hover { z-index: 3; color: #4B5563; }
   .tab:hover .tab-shade {
-    box-shadow: 0 -3px 8px rgba(20,24,40,.12), inset 0 0 0 999px rgba(255,255,255,.1);
+    box-shadow: 0 -3px 8px rgba(20,24,40,.08), inset 0 0 0 999px rgba(255,255,255,.35);
   }
-  .tab.active { z-index: 5; }
+  .tab.active {
+    z-index: 5;
+    --tab-bg: var(--brand);
+    color: #fff;
+    font-weight: 700;
+  }
+  .tab.active:hover { color: #fff; }
 
   /* solid fill + folder ears */
   .tab-shade {
@@ -530,7 +573,8 @@
     pointer-events: none;
     background: var(--tab-bg);
     border-radius: 14px 14px 0 0;
-    box-shadow: 0 -3px 8px rgba(20,24,40,.12);
+    box-shadow: 0 -3px 8px rgba(20,24,40,.08);
+    transition: background var(--motion), box-shadow var(--motion);
   }
   .tab-shade::before,
   .tab-shade::after {
@@ -549,29 +593,41 @@
     background: radial-gradient(circle at 100% 0, transparent 11.5px, var(--tab-bg) 12px);
   }
 
-  .tab.tab-blue { --tab-bg: #3E7BDB; }
-  .tab.tab-teal { --tab-bg: #3EB8AE; }
-  .tab.tab-orange { --tab-bg: #F28A2E; }
-  .tab.tab-green { --tab-bg: #5BB85A; }
-  .tab.tab-purple { --tab-bg: #9B7AE8; }
+  .tab.tab-blue,
+  .tab.tab-teal,
+  .tab.tab-orange,
+  .tab.tab-green,
+  .tab.tab-purple { --tab-bg: #F8FAFF; }
+  .tab.active.tab-blue,
+  .tab.active.tab-teal,
+  .tab.active.tab-orange,
+  .tab.active.tab-green,
+  .tab.active.tab-purple,
+  .tab.active { --tab-bg: var(--brand); }
 
   .tab-label { position: relative; z-index: 1; pointer-events: none; }
   .tab-close {
     position: relative; z-index: 1;
     width: 18px; height: 18px; flex-shrink: 0;
     border: none; border-radius: 50%;
-    background: transparent; color: #fff;
+    background: transparent; color: currentColor;
     display: inline-flex; align-items: center; justify-content: center;
     cursor: pointer; padding: 0;
-    opacity: .7;
+    opacity: .55;
     transition: opacity .15s, background .15s;
   }
   .tab-close:hover {
     opacity: 1;
+    background: rgba(0,0,0,.08);
+  }
+  .tab.active .tab-close:hover {
     background: rgba(0,0,0,.18);
   }
+  .tab-close svg,
+  .tab-close .ui-ico-img {
+    width: 14px; height: 14px;
+  }
   .tab-close svg {
-    width: 10px; height: 10px;
     stroke: currentColor; fill: none;
     stroke-width: 2.2; stroke-linecap: round;
   }
@@ -592,14 +648,14 @@
     padding-bottom: 8px; flex-shrink: 0;
   }
   .btn-run {
-    background: linear-gradient(145deg, #FF9440, var(--brand));
+    background: linear-gradient(180deg, #FF9B3D, #FF7A00);
     color: #fff; border: none; font-weight: 700;
     padding: 7px 14px; border-radius: 8px; cursor: pointer;
-    box-shadow: 0 4px 12px rgba(255,122,26,0.25);
-    transition: transform .2s var(--spring), box-shadow .2s, filter .2s;
+    box-shadow: 0 10px 24px rgba(255,122,0,.25);
+    transition: filter var(--motion), box-shadow var(--motion), transform var(--motion);
   }
-  .btn-run:hover { transform: translateY(-1px); filter: brightness(1.03); }
-  .btn-run:active { transform: scale(0.97); }
+  .btn-run:hover { filter: brightness(1.05); }
+  .btn-run:active { transform: scale(0.98); }
   .btn-ghost {
     background: transparent; border: 1px solid var(--border); font-weight: 600;
     color: var(--text); padding: 6px 12px; border-radius: 8px; cursor: pointer;
@@ -623,41 +679,57 @@
     visibility: hidden;
     pointer-events: none;
   }
-  .splash-bubbles {
-    position: absolute; inset: 0;
-    pointer-events: none;
-  }
-  .splash-bubble {
-    position: absolute;
-    display: block;
-    border-radius: 28px;
-    background: rgba(255,255,255,.92);
-    box-shadow:
-      0 14px 32px rgba(120,40,0,.22),
-      0 2px 0 rgba(255,255,255,.6) inset;
-    overflow: hidden;
-    animation: splashFloat 5.5s ease-in-out infinite;
-  }
-  .splash-bubble img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: 10%;
-    box-sizing: border-box;
-  }
-  .splash-bubble.b1 { width: 118px; height: 118px; left: 7%; top: 14%; animation-delay: 0s; }
-  .splash-bubble.b2 { width: 132px; height: 132px; left: 16%; top: 52%; animation-delay: -.9s; }
-  .splash-bubble.b3 { width: 108px; height: 108px; left: 5%; bottom: 10%; animation-delay: -1.7s; }
-  .splash-bubble.b4 { width: 96px; height: 96px; left: 28%; top: 10%; animation-delay: -2.3s; }
-  .splash-bubble.b5 { width: 140px; height: 140px; right: 8%; top: 38%; animation-delay: -1.2s; }
-  .splash-bubble.b6 { width: 124px; height: 124px; right: 6%; bottom: 12%; animation-delay: -2.1s; }
-  .splash-bubble.b7 { width: 88px; height: 88px; right: 22%; top: 12%; animation-delay: -.4s; }
-  .splash-bubble.b8 { width: 100px; height: 100px; right: 28%; bottom: 22%; animation-delay: -2.8s; }
-  @keyframes splashFloat {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-16px) rotate(2deg); }
-  }
+.splash-bubbles {
+  position: absolute; inset: 0;
+  pointer-events: none;
+}
+.splash-bubble {
+  position: absolute;
+  display: flex; align-items: center; justify-content: center;
+  overflow: visible;
+  border-radius: 50%;
+  background: #fff;
+  animation: splashFloat 5.5s ease-in-out infinite;
+}
+.splash-bubble img {
+  width: 54%; height: 54%;
+  object-fit: contain;
+  display: block;
+}
+.splash-bubble.tone-white { background: #9B7AE8; }
+.splash-bubble.tone-orange { background: #FF5A1F; }
+.splash-bubble.tone-green { background: #7ED321; }
+.splash-bubble.tone-blue { background: #4A9FE8; }
+.splash-bubble.tone-white img,
+.splash-bubble.tone-orange img,
+.splash-bubble.tone-green img,
+.splash-bubble.tone-blue img {
+  filter: brightness(0) invert(1);
+}
+.splash-bubble.b1 { width: 76px; height: 76px; left: 8%; top: 18%; animation-delay: 0s; }
+.splash-bubble.b2 { width: 88px; height: 88px; left: 18%; top: 58%; animation-delay: -.8s; }
+.splash-bubble.b3 { width: 112px; height: 112px; left: 4%; bottom: 12%; animation-delay: -1.6s; }
+.splash-bubble.b4 { width: 44px; height: 44px; left: 28%; top: 12%; animation-delay: -2.2s; }
+.splash-bubble.b5 { width: 52px; height: 52px; left: 22%; top: 38%; animation-delay: -3s; }
+.splash-bubble.b6 { width: 80px; height: 80px; right: 22%; top: 14%; animation-delay: -.4s; }
+.splash-bubble.b7 { width: 40px; height: 40px; right: 12%; top: 28%; animation-delay: -1.2s; }
+.splash-bubble.b8 { width: 116px; height: 116px; right: 6%; top: 42%; animation-delay: -2s; }
+.splash-bubble.b9 { width: 56px; height: 56px; right: 18%; bottom: 16%; animation-delay: -2.8s; }
+.splash-bubble.b10 { width: 72px; height: 72px; right: 4%; bottom: 28%; animation-delay: -1.5s; }
+.splash-hero {
+  width: min(280px, 58vw);
+  margin: 0 0 20px;
+  filter: drop-shadow(0 16px 40px rgba(80,30,0,.28));
+  animation: splashIn .7s var(--ease) both;
+}
+.splash-hero img {
+  width: 100%; height: auto;
+  display: block;
+}
+@keyframes splashFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
 
   .splash-center {
     position: relative; z-index: 1;
@@ -665,10 +737,6 @@
     text-align: center;
     padding: 24px;
     animation: splashIn .7s var(--ease) both;
-  }
-  @keyframes splashIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
   }
   .splash-eyebrow {
     margin: 0 0 14px;
@@ -718,6 +786,174 @@
     letter-spacing: -0.02em; color: #2A2A2A;
   }
   .splash-mark span { color: var(--brand); }
+
+  /* ---------- Open dialog ---------- */
+  .open-overlay {
+    position: fixed; inset: 0; z-index: 110;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(40, 42, 48, 0.42);
+    padding: 28px;
+  }
+  .open-overlay[hidden] { display: none !important; }
+  .open-dialog {
+    width: min(820px, 100%);
+    height: min(520px, 86vh);
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 24px 64px rgba(0,0,0,.28), 0 2px 8px rgba(0,0,0,.08);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .open-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 18px 14px;
+    border-bottom: 1px solid #ECEEF1;
+    flex-shrink: 0;
+  }
+  .open-head-title {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 16px; font-weight: 750; color: #1a1a1a;
+    flex-shrink: 0;
+  }
+  .open-head-title svg {
+    width: 18px; height: 18px; stroke: currentColor; fill: none;
+    stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .open-head-desc {
+    flex: 1; min-width: 0;
+    font-size: 12.5px; color: #8A8F98; font-weight: 500;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .open-close {
+    width: 28px; height: 28px; flex-shrink: 0;
+    border: none; border-radius: 8px; background: transparent;
+    color: #9AA0A8; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .open-close:hover { background: #F3F4F6; color: #444; }
+  .open-close svg {
+    width: 16px; height: 16px; stroke: currentColor; fill: none;
+    stroke-width: 1.8; stroke-linecap: round;
+  }
+  .open-body {
+    flex: 1; min-height: 0;
+    display: grid; grid-template-columns: 200px 1fr;
+  }
+  .open-nav {
+    border-right: 1px solid #ECEEF1;
+    padding: 14px 10px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .open-nav-item {
+    border: none; background: transparent; cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    width: 100%; padding: 10px 12px; border-radius: 10px;
+    color: #3A3A3A; font: inherit; font-size: 13.5px; font-weight: 600;
+    text-align: left;
+    transition: background .15s, color .15s;
+  }
+  .open-nav-item:hover { background: #F5F6F8; }
+  .open-nav-item.active {
+    background: #1E1E1E; color: #fff;
+  }
+  .open-nav-item svg,
+  .open-nav-item .ui-ico-img {
+    width: 17px; height: 17px; flex-shrink: 0;
+  }
+  .open-nav-item svg {
+    stroke: currentColor; fill: none;
+    stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .open-main {
+    padding: 20px 22px 16px;
+    display: flex; flex-direction: column; min-width: 0;
+  }
+  .open-main-title {
+    margin: 0 0 16px;
+    font-size: 18px; font-weight: 750; color: #1a1a1a;
+  }
+  .open-panel { flex: 1; min-height: 0; display: none; flex-direction: column; }
+  .open-panel.active { display: flex; }
+  .open-drop {
+    flex: 1; min-height: 220px;
+    border: 1.5px dashed #C8CCD4;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    background: #FAFBFC;
+    transition: border-color .15s, background .15s;
+    cursor: pointer;
+  }
+  .open-drop:hover,
+  .open-drop.dragover {
+    border-color: var(--brand);
+    background: #FFF8F2;
+  }
+  .open-drop-text {
+    font-size: 14px; color: #6B7280; font-weight: 500;
+    text-align: center; padding: 16px;
+  }
+  .open-drop-link {
+    color: #3B7DD8; text-decoration: underline;
+    text-underline-offset: 2px; cursor: pointer;
+    font-weight: 600;
+  }
+  .open-example-list {
+    display: flex; flex-direction: column; gap: 6px;
+    overflow-y: auto; flex: 1;
+  }
+  .open-example-item {
+    border: 1px solid #ECEEF1; background: #fff; cursor: pointer;
+    border-radius: 10px; padding: 12px 14px;
+    display: flex; align-items: center; gap: 12px;
+    text-align: left; font: inherit; color: var(--text);
+    transition: border-color .15s, background .15s;
+  }
+  .open-example-item:hover {
+    border-color: #D0D4DC; background: #F8F9FB;
+  }
+  .open-example-item .ex-ico {
+    width: 36px; height: 36px; border-radius: 9px; flex-shrink: 0;
+    background: #FFF0E4; color: var(--brand-dark);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .open-example-item .ex-ico svg,
+  .open-example-item .ex-ico .ui-ico-img {
+    width: 28px; height: 28px;
+  }
+  .open-example-item .ex-ico svg {
+    stroke: currentColor; fill: none;
+    stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .open-example-item .ex-meta { min-width: 0; }
+  .open-example-item .ex-name {
+    font-size: 13.5px; font-weight: 700; margin: 0 0 2px;
+  }
+  .open-example-item .ex-desc {
+    font-size: 12px; color: var(--muted); margin: 0;
+  }
+  .open-drive {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 14px;
+    text-align: center; color: var(--muted);
+  }
+  .open-drive p { margin: 0; font-size: 13.5px; line-height: 1.5; max-width: 320px; }
+  .open-drive-btn {
+    height: 40px; padding: 0 18px; border-radius: 10px; border: none;
+    background: #1E1E1E; color: #fff; font: inherit; font-weight: 650;
+    cursor: pointer;
+  }
+  .open-drive-btn:hover { background: #333; }
+  .open-foot {
+    display: flex; justify-content: flex-end;
+    padding-top: 16px; flex-shrink: 0;
+  }
+  .open-cancel {
+    height: 36px; padding: 0 16px; border-radius: 8px;
+    border: 1px solid #D8DCE3; background: #fff;
+    color: #5A5F68; font: inherit; font-size: 13px; font-weight: 600;
+    cursor: pointer;
+  }
+  .open-cancel:hover { background: #F7F8FA; color: #333; }
 
   /* ---------- Auth ---------- */
   .auth-overlay {
@@ -827,18 +1063,37 @@
     width: 36px; height: 36px; border: none; background: transparent;
     border-radius: 10px; color: #444; cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center;
-    transition: background .15s, color .15s, transform .15s var(--spring);
+    transition: background 150ms ease-out, color 150ms ease-out, transform 150ms ease-out;
   }
-  .tool-icon:hover { background: rgba(0,0,0,0.05); color: #1A1A1A; }
+  .tool-icon:hover { background: #F6F8FC; color: #1A1A1A; }
   .tool-icon.active {
-    color: #fff;
-    background: #2C2C2C;
+    color: var(--brand-dark);
+    background: #FFF2E6;
   }
-  .tool-icon.active:hover { background: #1A1A1A; color: #fff; }
+  .tool-icon.active:hover { background: #FFE9D6; color: var(--brand-dark); }
   .tool-icon svg {
     width: 18px; height: 18px; stroke: currentColor; fill: none;
     stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
   }
+  .ui-ico-img {
+    width: 18px; height: 18px;
+    border-radius: 5px;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
+  }
+  .ui-ico-img.sm { width: 14px; height: 14px; border-radius: 4px; }
+  .ui-ico-img.xs { width: 10px; height: 10px; border-radius: 3px; }
+  .ui-ico-img.md { width: 20px; height: 20px; border-radius: 6px; }
+  .ui-ico-img.lg { width: 28px; height: 28px; border-radius: 7px; }
+  .tool-icon .ui-ico-img,
+  .tool-flyout-item .ui-ico-img { width: 18px; height: 18px; }
+  .open-nav-item .ui-ico-img { width: 18px; height: 18px; }
+  .open-head-title .ui-ico-img { width: 20px; height: 20px; }
+  .open-close .ui-ico-img { width: 16px; height: 16px; }
+  .tab-close .ui-ico-img { width: 14px; height: 14px; }
+  .rail-toggle .ui-ico-img { width: 16px; height: 16px; }
+  .nav-btn .ui-ico-img { width: 16px; height: 16px; }
 
   .tool-group {
     position: relative;
@@ -854,17 +1109,20 @@
     border-radius: 0 10px 10px 0;
     padding: 0;
   }
-  .tool-group .tool-more:hover { background: rgba(0,0,0,0.05); color: #1A1A1A; }
+  .tool-group .tool-more:hover { background: #F6F8FC; color: #1A1A1A; }
   .tool-group.open .tool-more,
   .tool-group.active-group .tool-more { color: inherit; }
   .tool-group.active-group .tool-main {
-    color: #fff; background: #2C2C2C;
+    color: var(--brand-dark); background: #FFF2E6;
     border-radius: 10px 0 0 10px;
   }
   .tool-group.active-group .tool-more {
-    color: #fff; background: #2C2C2C;
+    color: var(--brand-dark); background: #FFF2E6;
   }
-  .tool-group.active-group .tool-more:hover { background: #1A1A1A; }
+  .tool-group.active-group .tool-more:hover { background: #FFE9D6; }
+  .tool-group .tool-more .ui-ico-img {
+    width: 10px; height: 10px;
+  }
   .tool-group .tool-more svg {
     width: 10px; height: 10px; stroke: currentColor; fill: none;
     stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
@@ -911,13 +1169,12 @@
   }
   .nav-panel {
     width: 188px;
-    background: rgba(255,255,255,0.94);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(0,0,0,0.06);
+    background: rgba(255,255,255,.72);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,.65);
     border-radius: 14px;
-    box-shadow:
-      0 2px 4px rgba(20,24,40,0.04),
-      0 12px 32px rgba(20,24,40,0.12);
+    box-shadow: 0 16px 32px rgba(15,23,42,.08);
     overflow: hidden;
     display: flex; flex-direction: column;
   }
@@ -925,8 +1182,8 @@
     position: relative;
     height: 112px;
     background:
-      radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px) 0 0 / 10px 10px,
-      #F7F8FA;
+      radial-gradient(circle, rgba(15,23,42,0.06) 1px, transparent 1px) 0 0 / 10px 10px,
+      linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 100%);
     cursor: crosshair;
   }
   .nav-map .dot {
@@ -956,8 +1213,12 @@
     transition: background .15s, color .15s;
   }
   .nav-bar .nav-btn:hover { background: rgba(0,0,0,0.05); color: #1A1A1A; }
+  .nav-bar .nav-btn svg,
+  .nav-bar .nav-btn .ui-ico-img {
+    width: 15px; height: 15px;
+  }
   .nav-bar .nav-btn svg {
-    width: 15px; height: 15px; stroke: currentColor; fill: none;
+    stroke: currentColor; fill: none;
     stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
   }
   .nav-bar .zoom-val {
@@ -974,8 +1235,8 @@
   .canvas-wrap {
     flex: 1; position: relative; overflow: hidden; cursor: default;
     background:
-      radial-gradient(circle, rgba(0,0,0,0.07) 1px, transparent 1px) 0 0 / 22px 22px,
-      linear-gradient(180deg, #F7F8FA 0%, #F1F2F5 100%);
+      radial-gradient(circle, rgba(15,23,42,0.08) 1px, transparent 1px) 0 0 / 22px 22px,
+      linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 100%);
   }
   .canvas-wrap.panning { cursor: grabbing; }
   .canvas-wrap.connecting { cursor: crosshair; }
@@ -990,34 +1251,34 @@
   .connectors .hit { pointer-events: stroke; cursor: pointer; }
   .conn-path {
     fill: none;
-    stroke: #B0B4BC;
-    stroke-width: 2;
+    stroke: #999999;
+    stroke-width: 1.25;
     stroke-linecap: round;
-    stroke-dasharray: 2.5 4;
-    animation: flow .85s linear infinite;
-    transition: stroke .2s, stroke-width .2s, filter .2s;
+    stroke-dasharray: none;
+    opacity: 0.28;
+    transition: stroke var(--motion), stroke-width var(--motion), opacity var(--motion), filter var(--motion);
   }
   .conn-path.selected {
     stroke: var(--brand);
-    stroke-width: 2.5;
-    filter: drop-shadow(0 0 4px rgba(255,122,26,0.45));
-    animation-duration: .65s;
+    stroke-width: 1.5;
+    opacity: 0.9;
+    filter: drop-shadow(0 0 3px rgba(255,122,26,0.28));
   }
   .conn-path.temp {
     stroke: var(--brand);
-    stroke-width: 2;
-    stroke-dasharray: 2.5 4;
-    animation: flow .65s linear infinite;
+    stroke-width: 1.25;
+    stroke-dasharray: none;
+    opacity: 0.55;
   }
   .conn-wrap:hover .conn-path {
-    stroke: #8B919A;
-    animation-duration: .65s;
+    stroke: #888888;
+    opacity: 0.42;
   }
   .conn-wrap.selected .conn-path,
   .conn-wrap:hover.selected .conn-path {
     stroke: var(--brand);
+    opacity: 0.95;
   }
-  @keyframes flow { to { stroke-dashoffset: -6.5; } }
 
   .conn-label {
     position: absolute; font-size: 11px; color: var(--muted);
@@ -1025,7 +1286,7 @@
     white-space: nowrap; pointer-events: none;
     border: 1px solid rgba(0,0,0,0.04);
     transform: translate(-50%, -50%);
-    opacity: 0; transition: opacity .2s;
+    opacity: 0; transition: opacity var(--motion);
   }
   .conn-label.show, .conn.selected + .conn-label, .conn-path.selected ~ .noop { opacity: 1; }
   .conn-wrap:hover .conn-label, .conn-wrap.selected .conn-label { opacity: 1; }
@@ -1039,7 +1300,6 @@
     user-select: none;
     touch-action: none;
     z-index: 2;
-    transition: filter .2s;
   }
   .node:active { cursor: grabbing; }
   .node .body {
@@ -1048,43 +1308,50 @@
     border-radius: 20px;
     background: transparent;
     display: flex; align-items: center; justify-content: center;
-    transition: transform .28s var(--spring);
+    transition: transform var(--motion);
+  }
+  .node .icon-tile {
+    box-shadow: 0 8px 24px rgba(15,23,42,.08);
+    transition: transform var(--motion), box-shadow var(--motion), border-color var(--motion);
+  }
+  .node .icon-tile.icon-tile--img {
+    box-shadow: 0 1px 2px rgba(0,0,0,.32), 0 8px 24px rgba(15,23,42,.08);
   }
   .node:hover .body { transform: translateY(-2px); }
   .node:hover .icon-tile {
-    box-shadow:
-      0 1px 0 rgba(255,255,255,.9) inset,
-      0 -1px 0 rgba(255,255,255,.2) inset,
-      0 12px 28px -6px var(--tile-shadow, rgba(0,0,0,.18)),
-      0 4px 10px rgba(20,24,40,.06);
-    transform: translateY(-1px) scale(1.03);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 12px 32px rgba(15,23,42,.12);
+  }
+  .node:hover .icon-tile.icon-tile--img {
+    box-shadow: 0 1px 2px rgba(0,0,0,.38), 0 12px 32px rgba(15,23,42,.12);
+    border: none;
   }
   .node.selected .body {
     transform: none;
   }
   .node.selected .icon-tile {
-    transform: translateY(-2px) scale(1.06);
-    border-color: color-mix(in srgb, var(--accent, var(--brand)) 55%, rgba(255,255,255,.5));
+    transform: scale(1.03);
+    border-color: color-mix(in srgb, #3B82F6 45%, rgba(255,255,255,.5));
     box-shadow:
-      0 0 0 2px var(--accent, var(--brand)),
-      0 0 0 5px color-mix(in srgb, var(--accent, var(--brand)) 18%, transparent),
-      0 1px 0 rgba(255,255,255,.9) inset,
-      0 12px 28px -6px var(--tile-shadow, rgba(0,0,0,.16));
-    animation: selectPop .42s var(--spring);
+      0 16px 36px rgba(59,130,246,.18),
+      0 0 18px rgba(59,130,246,.12);
   }
-  @keyframes selectPop {
-    0% { transform: scale(0.94); }
-    55% { transform: translateY(-2px) scale(1.09); }
-    100% { transform: translateY(-2px) scale(1.06); }
+  .node.selected .icon-tile.icon-tile--img {
+    border: none;
+    box-shadow:
+      0 1px 2px rgba(0,0,0,.28),
+      0 16px 36px rgba(59,130,246,.18),
+      0 0 18px rgba(59,130,246,.12);
   }
   .node .title {
-    font-weight: 700; font-size: 12.5px; line-height: 1.25;
+    font-weight: 550; font-size: 13.5px; line-height: 1.25;
     white-space: nowrap; max-width: 108px;
     overflow: hidden; text-overflow: ellipsis;
+    margin-top: -4px;
   }
   .node .badge {
     display: inline-block; margin-left: 2px;
-    color: #3FA34D; font-weight: 700; font-size: 11.5px;
+    color: var(--brand); font-weight: 600; font-size: 12.5px;
   }
 
   .port {
@@ -1092,7 +1359,7 @@
     background: #fff; border: 2px solid #B8BCC4;
     top: 50%; transform: translateY(-50%);
     cursor: crosshair; z-index: 3;
-    transition: transform .2s var(--spring), border-color .2s, background .2s, box-shadow .2s;
+    transition: transform var(--motion), border-color var(--motion), background var(--motion), box-shadow var(--motion);
     opacity: 0;
   }
   .node:hover .port, .node.selected .port, .canvas-wrap.connecting .port {
@@ -1255,60 +1522,17 @@
 
   <div class="rail-flyout" id="railFlyout" hidden></div>
 
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-inner">
-      <div class="sidebar-header">
-        <div class="sidebar-title">
-          <span>위젯</span>
-          <span class="hint">드래그해서 추가</span>
-        </div>
-        <button class="sidebar-collapse" type="button" id="btnToggleSidebar" title="위젯 패널 접기">
-          <span class="ico-chevron ico-chevron--left" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
-        </button>
-      </div>
-      <div class="search">
-        <input id="searchInput" placeholder="위젯 검색..." autocomplete="off">
-        <button class="clear" id="searchClear" type="button" title="지우기">✕</button>
-      </div>
-      <div class="categories" id="categories"></div>
-    </div>
-  </aside>
-
   <div class="main">
-    <button class="sidebar-expand-tab" type="button" id="btnExpandSidebar" title="위젯 패널 열기" hidden>
-      <span class="ico-chevron" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
-    </button>
     <div class="tabs">
       <div class="tabs-list" id="tabsList">
-  <button class="tab tab-blue active" type="button">
-    <span class="tab-shade" aria-hidden="true"></span>
-    <span class="tab-label">교과서</span>
-    <span class="tab-close" role="button" tabindex="0" title="닫기" aria-label="닫기">
-      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
-    </span>
-  </button>
-  <button class="tab tab-teal" type="button">
-    <span class="tab-shade" aria-hidden="true"></span>
-    <span class="tab-label">단행본</span>
-    <span class="tab-close" role="button" tabindex="0" title="닫기" aria-label="닫기">
-      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
-    </span>
-  </button>
-  <button class="tab tab-orange" type="button">
-    <span class="tab-shade" aria-hidden="true"></span>
-    <span class="tab-label">교사티칭룸</span>
-    <span class="tab-close" role="button" tabindex="0" title="닫기" aria-label="닫기">
-      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
-    </span>
-  </button>
-  <button class="tab tab-green" type="button">
-    <span class="tab-shade" aria-hidden="true"></span>
-    <span class="tab-label">진로프로그램 및 교구</span>
-    <span class="tab-close" role="button" tabindex="0" title="닫기" aria-label="닫기">
-      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
-    </span>
-  </button>
-</div>
+        <button class="tab tab-blue active" type="button">
+          <span class="tab-shade" aria-hidden="true"></span>
+          <span class="tab-label">빈 탭</span>
+          <span class="tab-close" role="button" tabindex="0" title="닫기" aria-label="닫기">
+            <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </span>
+        </button>
+      </div>
       <button class="tab-add" type="button" title="탭 추가">＋</button>
       <div class="tabs-actions">
         <button class="btn-ghost" type="button">Export</button>
@@ -1429,21 +1653,42 @@
       <aside class="props empty" id="props">
         <div class="props-inner" id="propsInner"></div>
       </aside>
+
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-inner">
+          <div class="sidebar-header">
+            <div class="sidebar-title">
+              <span>위젯</span>
+              <span class="hint">드래그해서 추가</span>
+            </div>
+          </div>
+          <div class="search">
+            <input id="searchInput" placeholder="위젯 검색..." autocomplete="off">
+            <button class="clear" id="searchClear" type="button" title="지우기">✕</button>
+          </div>
+          <div class="categories" id="categories"></div>
+        </div>
+      </aside>
     </div>
   </div>
 
 <div class="splash" id="splash" aria-busy="true" aria-label="로딩 중">
   <div class="splash-bubbles" aria-hidden="true">
-    <div class="splash-bubble b1"><img src="assets/icon-bag.png" alt=""></div>
-    <div class="splash-bubble b2"><img src="assets/icon-coupon.png" alt=""></div>
-    <div class="splash-bubble b3"><img src="assets/icon-board.png" alt=""></div>
-    <div class="splash-bubble b4"><img src="assets/icon-tags.png" alt=""></div>
-    <div class="splash-bubble b5"><img src="assets/icon-mega.png" alt=""></div>
-    <div class="splash-bubble b6"><img src="assets/icon-basket.png" alt=""></div>
-    <div class="splash-bubble b7"><img src="assets/icon-bag.png" alt=""></div>
-    <div class="splash-bubble b8"><img src="assets/icon-coupon.png" alt=""></div>
-  </div>
-  <div class="splash-center">
+  <div class="splash-bubble b1 tone-white"><img src="assets/splash-icon-blue.png" alt=""></div>
+  <div class="splash-bubble b2 tone-orange"><img src="assets/splash-icon-orange.png" alt=""></div>
+  <div class="splash-bubble b3 tone-white"><img src="assets/splash-icon-purple.png" alt=""></div>
+  <div class="splash-bubble b4 tone-green"><img src="assets/splash-icon-green.png" alt=""></div>
+  <div class="splash-bubble b5 tone-blue"><img src="assets/splash-icon-blue.png" alt=""></div>
+  <div class="splash-bubble b6 tone-orange"><img src="assets/splash-icon-orange.png" alt=""></div>
+  <div class="splash-bubble b7 tone-white"><img src="assets/splash-icon-purple.png" alt=""></div>
+  <div class="splash-bubble b8 tone-white"><img src="assets/splash-icon-green.png" alt=""></div>
+  <div class="splash-bubble b9 tone-blue"><img src="assets/splash-icon-blue.png" alt=""></div>
+  <div class="splash-bubble b10 tone-green"><img src="assets/splash-icon-orange.png" alt=""></div>
+</div>
+<div class="splash-center">
+    <div class="splash-hero">
+      <img src="assets/splash-orange-pengsu.png" alt="오렌지와 펭수">
+    </div>
     <p class="splash-eyebrow">처음 만나는 데이터 마이닝 플랫폼</p>
     <h1 class="splash-title">오렌지와 함께 하세요!</h1>
     <div class="splash-loader">
@@ -1453,6 +1698,85 @@
   </div>
   <div class="splash-mark">Orange<span>3</span></div>
 </div>
+
+  <div class="open-overlay" id="openOverlay" hidden>
+    <div class="open-dialog" role="dialog" aria-modal="true" aria-labelledby="openDialogTitle">
+      <div class="open-head">
+        <div class="open-head-title" id="openDialogTitle">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15.5V18a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2.5"/><path d="M12 4v11"/><path d="M8 8.5 12 4.5 16 8.5"/></svg>
+          Open
+        </div>
+        <div class="open-head-desc">Choose a source on the left and open an .ows workflow or .json canvas file.</div>
+        <button class="open-close" type="button" id="btnOpenClose" title="닫기" aria-label="닫기">
+          <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+      <div class="open-body">
+        <nav class="open-nav" aria-label="Open sources">
+          <button class="open-nav-item" type="button" data-open-source="examples">
+            <svg viewBox="0 0 24 24"><path d="M4 8.5V18a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 20 18V9.5"/><path d="M4 8.5 6.5 5h4L12 7h7.5v1.5"/></svg>
+            Example Workflow
+          </button>
+          <button class="open-nav-item" type="button" data-open-source="drive">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+            Google Drive
+          </button>
+          <button class="open-nav-item active" type="button" data-open-source="local">
+            <svg viewBox="0 0 24 24"><path d="M4 15.5V18a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2.5"/><path d="M12 4v11"/><path d="M8 8.5 12 4.5 16 8.5"/></svg>
+            Local File
+          </button>
+        </nav>
+        <div class="open-main">
+          <div class="open-panel" data-open-panel="examples">
+            <h3 class="open-main-title">Example Workflow</h3>
+            <div class="open-example-list" id="openExampleList">
+              <button class="open-example-item" type="button" data-example="iris">
+                <span class="ex-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5 14.2 9H20l-4.5 3.4L17.4 18 12 14.6 6.6 18l1.9-5.6L4 9h5.8L12 3.5Z"/></svg></span>
+                <span class="ex-meta">
+                  <p class="ex-name">Iris Classification</p>
+                  <p class="ex-desc">입문 · 분류 파이프라인</p>
+                </span>
+              </button>
+              <button class="open-example-item" type="button" data-example="cluster">
+                <span class="ex-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="2.5"/><circle cx="16" cy="8" r="2.5"/><circle cx="12" cy="15.5" r="2.5"/></svg></span>
+                <span class="ex-meta">
+                  <p class="ex-name">Clustering Demo</p>
+                  <p class="ex-desc">클러스터링 · 시각화</p>
+                </span>
+              </button>
+              <button class="open-example-item" type="button" data-example="regress">
+                <span class="ex-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19V10l3-3 3 5 3-7 3 5v9"/><path d="M5 19h14"/></svg></span>
+                <span class="ex-meta">
+                  <p class="ex-name">Linear Regression</p>
+                  <p class="ex-desc">회귀 · 예측 모델</p>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="open-panel" data-open-panel="drive">
+            <h3 class="open-main-title">Google Drive</h3>
+            <div class="open-drive">
+              <p>Connect Google Drive to browse and open shared .ows / .json workflow files.</p>
+              <button class="open-drive-btn" type="button" id="btnConnectDrive">Connect Drive</button>
+            </div>
+          </div>
+          <div class="open-panel active" data-open-panel="local">
+            <h3 class="open-main-title">Local File</h3>
+            <div class="open-drop" id="openDrop" role="button" tabindex="0" aria-label="Choose a local file">
+              <div class="open-drop-text">
+                Drag an .ows/.json file here, or
+                <span class="open-drop-link" id="openChooseLink">click to choose</span>.
+              </div>
+            </div>
+            <input type="file" id="openFileInput" accept=".ows,.json,application/json" hidden>
+          </div>
+          <div class="open-foot">
+            <button class="open-cancel" type="button" id="btnOpenCancel">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="auth-overlay" id="authOverlay" hidden>
     <form class="auth-card" id="authForm" autocomplete="on">
@@ -1511,8 +1835,13 @@
     instance: svg(`<path d="M7 9.5 12 6.5 17 9.5v6L12 18.5 7 15.5v-6Z" stroke-dasharray="2.5 2"/><path d="M12 6.5v12M7 9.5l5 3 5-3"/>`),
   };
 
-  function makeIco(iconKey, sizeClass = '', tileClass = 'icon-blue') {
+  function makeIco(iconKey, sizeClass = '', tileClass = 'icon-blue', imgSrc = null) {
     const el = document.createElement('div');
+    if (imgSrc) {
+      el.className = `icon-tile icon-tile--img ${tileClass} ${sizeClass}`.trim();
+      el.innerHTML = `<img src="${imgSrc}" alt="">`;
+      return el;
+    }
     el.className = `icon-tile ${tileClass} ${sizeClass}`.trim();
     el.innerHTML = ICONS[iconKey] || ICONS.sampler;
     return el;
@@ -1521,6 +1850,7 @@
   const CATS = [
     {
       id: 'select', name: '선택 · 샘플', tone: 'blue', color: '#4B8FE8', tile: 'icon-blue',
+      img: 'assets/icon-grid-blue.png',
       items: [
         { id: 'sampler', label: 'Data Sampler', icon: 'sampler', desc: '데이터를 무작위로 샘플링합니다.' },
         { id: 'sel-cols', label: 'Select Columns', icon: 'sel-cols', desc: '사용할 열을 선택합니다.' },
@@ -1532,6 +1862,7 @@
     },
     {
       id: 'transform', name: '변환 · 병합', tone: 'teal', color: '#3DB8A8', tile: 'icon-teal',
+      img: 'assets/icon-grid-teal.png',
       items: [
         { id: 'transpose', label: 'Transpose', icon: 'transpose', desc: '행과 열을 바꿉니다.' },
         { id: 'split', label: 'Split', icon: 'split', desc: '데이터를 분할합니다.' },
@@ -1545,6 +1876,7 @@
     },
     {
       id: 'clean', name: '정제 · 스크립트', tone: 'purple', color: '#9B7AE8', tile: 'icon-purple',
+      img: 'assets/icon-chart-purple.png',
       items: [
         { id: 'impute', label: 'Impute', icon: 'impute', desc: '결측값을 채웁니다.' },
         { id: 'continuize', label: 'Continuize', icon: 'continuize', desc: '연속형으로 변환합니다.' },
@@ -1556,6 +1888,7 @@
     },
     {
       id: 'create', name: '생성 · 수식', tone: 'orange', color: '#F0A03A', tile: 'icon-orange',
+      img: 'assets/icon-widgets-orange.png',
       items: [
         { id: 'melt', label: 'Melt', icon: 'melt', desc: '와이드 포맷을 롱으로 변환합니다.' },
         { id: 'formula', label: 'Formula', icon: 'formula', desc: '수식으로 열을 만듭니다.' },
@@ -1565,9 +1898,10 @@
     },
   ];
 
+
   const ITEM_MAP = {};
   CATS.forEach(c => c.items.forEach(it => {
-    ITEM_MAP[it.id] = { ...it, catId: c.id, tone: c.tone, color: c.color, catName: c.name, tile: c.tile };
+    ITEM_MAP[it.id] = { ...it, catId: c.id, tone: c.tone, color: c.color, catName: c.name, tile: c.tile, img: c.img };
   }));
 
   /* ========== State ========== */
@@ -1622,7 +1956,7 @@
       wrap.innerHTML = `
         <div class="cat-header">
           <span class="left">
-            <span class="cat-dot" style="background:${cat.color}"></span>
+            <img class="cat-ico" src="${cat.img}" alt="" aria-hidden="true">
             ${cat.name}<span class="cat-count">(${items.length})</span>
           </span>
           ${CHEVRON}
@@ -1634,7 +1968,7 @@
         w.className = 'widget';
         w.draggable = true;
         w.dataset.type = it.id;
-        w.appendChild(makeIco(it.icon, '', cat.tile));
+        w.appendChild(makeIco(it.icon, '', cat.tile, cat.img));
         const lab = document.createElement('div');
         lab.className = 'label';
         lab.textContent = it.label;
@@ -1643,7 +1977,7 @@
           dropType = it.id;
           e.dataTransfer.setData('text/plain', it.id);
           e.dataTransfer.effectAllowed = 'copy';
-          const ghost = makeIco(it.icon, 'lg', cat.tile);
+          const ghost = makeIco(it.icon, 'lg', cat.tile, cat.img);
           ghost.classList.add('drag-ghost');
           ghost.style.left = '-9999px';
           document.body.appendChild(ghost);
@@ -1723,7 +2057,7 @@
 
       const body = document.createElement('div');
       body.className = 'body';
-      body.appendChild(makeIco(meta.icon, 'node', meta.tile));
+      body.appendChild(makeIco(meta.icon, 'node', meta.tile, meta.img));
 
       const portIn = document.createElement('div');
       portIn.className = 'port in';
@@ -1931,7 +2265,7 @@
       const outC = connections.filter(c => c.from === n.id).length;
       propsInner.innerHTML = `
         <div class="props-head">
-          <div class="icon-tile xl ${meta.tile}">${ICONS[meta.icon] || ''}</div>
+          <div class="icon-tile xl icon-tile--img ${meta.tile}"><img src="${meta.img}" alt=""></div>
           <div class="meta">
             <div class="name">${n.name}</div>
             <span class="cat-pill"><i style="background:${meta.color}"></i>${meta.catName}</span>
@@ -2279,20 +2613,6 @@
   const MENU_MAX_DEPTH = 4;
   const MENU_DEFAULT_OPEN = new Set();
 
-  const MENU_ICONS = {
-    new: '<path d="M12 5v14M5 12h14"/>',
-    open: '<path d="M12 16V8M12 8l-3 3M12 8l3 3"/><path d="M4 17v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1"/>',
-    menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
-    workspaces: '<path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-5v-5H10v5H5a1 1 0 0 1-1-1v-7.5Z"/>',
-    widgets: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
-    datasets: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>',
-    templates: '<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/>',
-    examples: '<path d="M12 3.5 14.2 9H20l-4.5 3.4L17.4 18 12 14.6 6.6 18l1.9-5.6L4 9h5.8L12 3.5Z"/>',
-    datasetDes: '<path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14 3.5V8h4"/><circle cx="11" cy="14" r="2.5"/><path d="M13 16.2 15.5 18.7"/>',
-    help: '<circle cx="12" cy="12" r="8.5"/><path d="M9.8 9.5a2.4 2.4 0 1 1 3.4 2.2c-.8.4-1.2.9-1.2 1.8"/><circle cx="12" cy="16.5" r=".7" fill="currentColor" stroke="none"/>',
-    settings: '<circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>',
-  };
-
   const MENU_SECTIONS = [
     {
       items: [
@@ -2458,6 +2778,20 @@
     },
   ];
 
+  const MENU_ICONS = {
+    new: '<path d="M12 5v14M5 12h14"/>',
+    open: '<path d="M12 16V8M12 8l-3 3M12 8l3 3"/><path d="M4 17v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1"/>',
+    menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+    workspaces: '<path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-5v-5H10v5H5a1 1 0 0 1-1-1v-7.5Z"/>',
+    widgets: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
+    datasets: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>',
+    templates: '<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/>',
+    examples: '<path d="M12 3.5 14.2 9H20l-4.5 3.4L17.4 18 12 14.6 6.6 18l1.9-5.6L4 9h5.8L12 3.5Z"/>',
+    datasetDes: '<path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14 3.5V8h4"/><circle cx="11" cy="14" r="2.5"/><path d="M13 16.2 15.5 18.7"/>',
+    help: '<circle cx="12" cy="12" r="8.5"/><path d="M9.8 9.5a2.4 2.4 0 1 1 3.4 2.2c-.8.4-1.2.9-1.2 1.8"/><circle cx="12" cy="16.5" r=".7" fill="currentColor" stroke="none"/>',
+    settings: '<circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>',
+  };
+
   function menuIcon(key) {
     const p = MENU_ICONS[key] || MENU_ICONS.menu;
     return `<span class="ri-ico"><svg viewBox="0 0 24 24">${p}</svg></span>`;
@@ -2517,11 +2851,10 @@
     `).join('');
   }
 
-  function setSidebarOpen(open) {
+  function syncWidgetSidebar() {
     const sidebar = document.getElementById('sidebar');
-    const expandTab = document.getElementById('btnExpandSidebar');
-    sidebar.classList.toggle('collapsed', !open);
-    expandTab.hidden = open;
+    if (!sidebar) return;
+    sidebar.classList.toggle('is-hidden', activeMenuId !== 'widgets');
   }
 
   function setActiveMenu(id, label) {
@@ -2529,8 +2862,14 @@
     document.querySelectorAll('[data-menu]').forEach(el => {
       el.classList.toggle('active', el.dataset.menu === id);
     });
-    if (id === 'widgets' || id.startsWith('new-') || id.startsWith('tpl-')) {
-      setSidebarOpen(true);
+    syncWidgetSidebar();
+    if (id === 'open' || id === 'open-file' || id.startsWith('recent-') || id === 'open-recent') {
+      openOpenDialog('local');
+      return;
+    }
+    if (id === 'new-example' || id.startsWith('ex-')) {
+      openOpenDialog('examples');
+      return;
     }
     showHint(label || id);
   }
@@ -2580,6 +2919,11 @@
           || btn.querySelector('span')?.textContent || id;
 
         if (rail.classList.contains('collapsed') && !inFlyout) {
+          if (id === 'open') {
+            hideFlyout();
+            setActiveMenu(id, label);
+            return;
+          }
           const item = findMenuItem(id);
           if (item?.children?.length) {
             if (openFlyoutId === id) hideFlyout();
@@ -2589,6 +2933,11 @@
         }
 
         if (btn.classList.contains('has-children')) {
+          if (id === 'open') {
+            hideFlyout();
+            setActiveMenu(id, label);
+            return;
+          }
           const wrap = btn.closest('.rail-group') || btn.closest('.rail-sub-wrap');
           toggleWrap(wrap, depth < MENU_MAX_DEPTH - 1);
           setActiveMenu(id, label);
@@ -2616,6 +2965,7 @@
   renderMenuSections([{ items: MENU_BOTTOM }], railBottom);
   bindMenuClicks(rail);
   bindMenuClicks(railBottom);
+  syncWidgetSidebar();
 
   document.addEventListener('click', e => {
     if (!railFlyout.contains(e.target) && !e.target.closest('.rail-item.has-children')) hideFlyout();
@@ -2717,8 +3067,6 @@
 
   document.getElementById('btnZoomIn').onclick = () => setZoom(zoom * 1.12);
   document.getElementById('btnZoomOut').onclick = () => setZoom(zoom / 1.12);
-  document.getElementById('btnToggleSidebar').onclick = () => setSidebarOpen(false);
-  document.getElementById('btnExpandSidebar').onclick = () => setSidebarOpen(true);
   document.getElementById('btnRailToggle').onclick = () => {
     rail.classList.toggle('collapsed');
     hideFlyout();
@@ -2730,6 +3078,7 @@
   const tabsList = document.getElementById('tabsList');
 
 const TAB_COLORS = ['tab-blue', 'tab-teal', 'tab-orange', 'tab-green', 'tab-purple'];
+let tabSeq = 1;
 
 function tabCloseHtml() {
   return `<span class="tab-close" role="button" tabindex="0" title="닫기" aria-label="닫기">
@@ -2737,21 +3086,43 @@ function tabCloseHtml() {
   </span>`;
 }
 
+function blankTabLabel() {
+  const n = tabSeq++;
+  return n === 1 ? '빈 탭' : `빈 탭 ${n}`;
+}
+
+function createBlankTab(activate = true) {
+  if (!tabsList) return null;
+  const color = TAB_COLORS[(tabSeq - 1) % TAB_COLORS.length];
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = `tab ${color}`;
+  btn.innerHTML = `<span class="tab-shade" aria-hidden="true"></span><span class="tab-label">${blankTabLabel()}</span>${tabCloseHtml()}`;
+  tabsList.appendChild(btn);
+  if (activate) activateTab(btn);
+  return btn;
+}
+
 function activateTab(tab) {
   if (!tab || !tabsList) return;
   tabsList.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   tab.classList.add('active');
-  showHint(tab.querySelector('.tab-label')?.textContent.trim() || '탭');
+  showHint(tab.querySelector('.tab-label')?.textContent.trim() || '빈 탭');
 }
 
 function closeTab(tab) {
   if (!tab || !tabsList) return;
   const wasActive = tab.classList.contains('active');
-  const label = tab.querySelector('.tab-label')?.textContent.trim() || '탭';
+  const label = tab.querySelector('.tab-label')?.textContent.trim() || '빈 탭';
   const next = tab.nextElementSibling?.classList.contains('tab')
     ? tab.nextElementSibling
     : tab.previousElementSibling;
   tab.remove();
+  if (!tabsList.querySelector('.tab')) {
+    createBlankTab(true);
+    showHint('빈 탭');
+    return;
+  }
   if (wasActive && next) activateTab(next);
   else if (wasActive) {
     const first = tabsList.querySelector('.tab');
@@ -2773,17 +3144,11 @@ tabsList?.addEventListener('click', e => {
 });
 
 document.querySelector('.tab-add')?.addEventListener('click', () => {
-  if (!tabsList) return;
-  const n = tabsList.querySelectorAll('.tab').length + 1;
-  const color = TAB_COLORS[(n - 1) % TAB_COLORS.length];
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = `tab ${color}`;
-  btn.innerHTML = `<span class="tab-shade" aria-hidden="true"></span><span class="tab-label">새 탭 ${n}</span>${tabCloseHtml()}`;
-  tabsList.appendChild(btn);
-  activateTab(btn);
+  createBlankTab(true);
 });
 
+/* initial tab already in DOM counts as #1 */
+tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   document.getElementById('btnRun').onclick = () => {
     showHint('워크플로 실행 중…');
@@ -2828,6 +3193,121 @@ document.querySelector('.tab-add')?.addEventListener('click', () => {
   renderNodes();
 
   /* ========== Auth (local session) ========== */
+  /* ========== Open dialog ========== */
+  const openOverlay = document.getElementById('openOverlay');
+  const openFileInput = document.getElementById('openFileInput');
+  const openDrop = document.getElementById('openDrop');
+
+  function setOpenSource(source) {
+    document.querySelectorAll('.open-nav-item').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.openSource === source);
+    });
+    document.querySelectorAll('.open-panel').forEach(panel => {
+      panel.classList.toggle('active', panel.dataset.openPanel === source);
+    });
+  }
+
+  function openOpenDialog(source = 'local') {
+    hideFlyout();
+    setOpenSource(source);
+    openOverlay.hidden = false;
+  }
+
+  function closeOpenDialog() {
+    openOverlay.hidden = true;
+    openDrop?.classList.remove('dragover');
+  }
+
+  function handleOpenedFile(file) {
+    if (!file) return;
+    const name = file.name.replace(/\.(ows|json)$/i, '') || 'Opened Workflow';
+    closeOpenDialog();
+    if (tabsList) {
+      const color = TAB_COLORS[(tabSeq - 1) % TAB_COLORS.length];
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `tab ${color}`;
+      btn.innerHTML = `<span class="tab-shade" aria-hidden="true"></span><span class="tab-label">${name}</span>${tabCloseHtml()}`;
+      tabsList.appendChild(btn);
+      activateTab(btn);
+      tabSeq++;
+    }
+    showHint(`${file.name} 열림`);
+  }
+
+  document.querySelectorAll('.open-nav-item').forEach(btn => {
+    btn.addEventListener('click', () => setOpenSource(btn.dataset.openSource));
+  });
+  document.getElementById('btnOpenClose')?.addEventListener('click', closeOpenDialog);
+  document.getElementById('btnOpenCancel')?.addEventListener('click', closeOpenDialog);
+  openOverlay?.addEventListener('click', e => {
+    if (e.target === openOverlay) closeOpenDialog();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && openOverlay && !openOverlay.hidden) closeOpenDialog();
+  });
+
+  document.getElementById('openChooseLink')?.addEventListener('click', e => {
+    e.stopPropagation();
+    openFileInput?.click();
+  });
+  openDrop?.addEventListener('click', () => openFileInput?.click());
+  openDrop?.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openFileInput?.click();
+    }
+  });
+  openFileInput?.addEventListener('change', () => {
+    const file = openFileInput.files?.[0];
+    handleOpenedFile(file);
+    openFileInput.value = '';
+  });
+
+  ['dragenter', 'dragover'].forEach(ev => {
+    openDrop?.addEventListener(ev, e => {
+      e.preventDefault();
+      openDrop.classList.add('dragover');
+    });
+  });
+  ['dragleave', 'drop'].forEach(ev => {
+    openDrop?.addEventListener(ev, e => {
+      e.preventDefault();
+      openDrop.classList.remove('dragover');
+    });
+  });
+  openDrop?.addEventListener('drop', e => {
+    const file = e.dataTransfer?.files?.[0];
+    if (file) handleOpenedFile(file);
+  });
+
+  document.getElementById('openExampleList')?.addEventListener('click', e => {
+    const item = e.target.closest('.open-example-item');
+    if (!item) return;
+    const names = {
+      iris: 'Iris Classification',
+      cluster: 'Clustering Demo',
+      regress: 'Linear Regression',
+    };
+    const label = names[item.dataset.example] || 'Example Workflow';
+    closeOpenDialog();
+    if (tabsList) {
+      const color = TAB_COLORS[(tabSeq - 1) % TAB_COLORS.length];
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `tab ${color}`;
+      btn.innerHTML = `<span class="tab-shade" aria-hidden="true"></span><span class="tab-label">${label}</span>${tabCloseHtml()}`;
+      tabsList.appendChild(btn);
+      activateTab(btn);
+      tabSeq++;
+    }
+    showHint(`${label} 열림`);
+  });
+
+  document.getElementById('btnConnectDrive')?.addEventListener('click', () => {
+    showHint('Google Drive 연결은 데모에서 준비 중입니다');
+  });
+
   const AUTH_KEY = 'orange3-auth-user';
   const authOverlay = document.getElementById('authOverlay');
   const authForm = document.getElementById('authForm');
