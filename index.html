@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title data-i18n="doc.title">워크플로 에디터</title>
+<title>Workflow Editor</title>
 <style>
   :root {
     --brand: #227DE2;
@@ -95,27 +95,11 @@
     line-height: 0;
   }
   .rail-logo .logo-full {
-    display: none;
-  }
-  .logo-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #E5E7EB;
-    color: #6B7280;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    text-align: center;
-    line-height: 1;
-    border-radius: 8px;
-    user-select: none;
-  }
-  .rail-logo .logo-placeholder {
-    width: 100%;
-    max-width: 168px;
+    display: block;
     height: 36px;
-    padding: 0 10px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
   }
   .rail.collapsed .rail-logo { display: none; }
   .rail-toggle {
@@ -130,14 +114,6 @@
     width: 28px;
     height: 28px;
     object-fit: contain;
-  }
-  .rail-toggle .logo-placeholder.toggle-mark {
-    width: 28px;
-    height: 28px;
-    font-size: 11px;
-    line-height: 1;
-    padding: 0;
-    border-radius: 6px;
   }
   .rail-toggle .toggle-ico {
     display: block;
@@ -160,11 +136,7 @@
     height: 32px;
   }
   .rail.collapsed .rail-toggle .toggle-ico { display: none; }
-  .rail.collapsed .rail-toggle .toggle-mark {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  .rail.collapsed .rail-toggle .toggle-mark { display: block; }
   .rail-toggle:hover { background: #F3F3F3; color: var(--text); }
 
   .rail-section {
@@ -360,9 +332,7 @@
   /* ---------- Sidebar (right, under tabs like props) ---------- */
   .sidebar {
     width: 300px;
-    background:
-      radial-gradient(120% 60% at 100% 0%, color-mix(in srgb, var(--brand) 8%, transparent), transparent 55%),
-      linear-gradient(180deg, #F3F6FB 0%, #EEF1F6 100%);
+    background: #FAFBFC;
     backdrop-filter: none;
     border-left: 1px solid var(--border);
     border-right: none;
@@ -407,27 +377,16 @@
   .categories { overflow-y: auto; padding: 0 0 16px; scrollbar-width: thin; }
 
   .cat {
-    margin: 0 12px 8px;
-    border-radius: 16px;
+    margin: 0 12px 4px;
+    border-radius: 12px;
     overflow: hidden;
-    isolation: isolate;
-    background: rgba(255,255,255,.2);
-    backdrop-filter: blur(18px) saturate(1.35);
-    -webkit-backdrop-filter: blur(18px) saturate(1.35);
-    border: 1px solid rgba(255,255,255,.35);
-    box-shadow:
-      0 1px 0 rgba(255,255,255,.4) inset,
-      0 -1px 0 rgba(255,255,255,.1) inset,
-      0 4px 14px rgba(15, 23, 42, .04);
-    transition: box-shadow .22s ease, border-color .22s ease, background .22s ease, transform .22s ease;
+    background: #fff;
+    border: 1px solid rgba(15,23,42,.06);
+    box-shadow: none;
+    transition: box-shadow .2s ease;
   }
   .cat:not(.collapsed) {
-    background: rgba(255,255,255,.2);
-    border-color: rgba(255,255,255,.4);
-    box-shadow:
-      0 1px 0 rgba(255,255,255,.45) inset,
-      0 -1px 0 rgba(255,255,255,.12) inset,
-      0 8px 22px rgba(15, 23, 42, .05);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, .08);
   }
   .cat-header {
     display: flex; align-items: center; justify-content: space-between;
@@ -437,30 +396,27 @@
     font-weight: 700; font-size: 15px;
     letter-spacing: -0.01em;
     color: var(--accent, #1F2328);
-    background: linear-gradient(180deg, rgba(255,255,255,.28), transparent);
+    background: transparent;
     border-radius: 0;
     border: none;
     border-bottom: 1px solid transparent;
     transition: background .2s, border-color .2s;
   }
   .cat:not(.collapsed) .cat-header {
-    border-bottom-color: rgba(15, 23, 42, .06);
+    border-bottom-color: rgba(15,23,42,.06);
   }
-  .cat-header:hover {
-    background: linear-gradient(180deg, rgba(255,255,255,.4), rgba(255,255,255,.06));
-  }
+  .cat-header:hover { background: rgba(255,255,255,.35); }
   .cat-header .left { display: flex; align-items: center; gap: 8px; }
   .cat-dot { width: 8px; height: 8px; border-radius: 50%; }
   .cat-count {
     opacity: .55; font-weight: 500; margin-left: 4px;
     font-size: 14px;
-    color: inherit;
+    color: #888;
   }
   .cat-toggle {
     width: 18px; height: 18px; flex-shrink: 0;
     display: inline-flex; align-items: center; justify-content: center;
-    color: inherit;
-    opacity: .55;
+    color: #888;
   }
   .cat-toggle svg {
     width: 14px; height: 14px;
@@ -487,42 +443,65 @@
     transition: transform var(--motion), background var(--motion), box-shadow var(--motion), border-color var(--motion);
   }
   .widget:hover {
-    background: rgba(255,255,255,.55);
-    border-color: rgba(255,255,255,.7);
+    background: rgba(255,255,255,.7);
+    border-color: rgba(15,23,42,0.04);
     transform: translateY(-1px);
-    box-shadow:
-      0 1px 0 rgba(255,255,255,.8) inset,
-      0 4px 12px rgba(15,23,42,.06);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px rgba(15,23,42,.05);
   }
   .widget:active { cursor: grabbing; transform: scale(0.98); }
   .widget .label {
-    font-size: 12.5px; font-weight: 600;
-    color: var(--accent, #666);
+    font-size: 12.5px; font-weight: 500;
+    color: #666;
     text-align: center;
     line-height: 1.3; max-width: 84px;
     letter-spacing: -0.01em;
   }
 
-  /* ---------- Icon tiles (flat) ---------- */
+  /* ---------- Glass squircle icon tiles ---------- */
   .icon-tile {
     width: 52px; height: 52px; border-radius: 16px;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0; position: relative;
+    isolation: isolate;
     overflow: hidden;
-    background: var(--tile-a, #F4F5F7);
-    border: 1px solid var(--tile-border-color, #E5E7EB);
-    box-shadow: none;
+    background:
+      linear-gradient(155deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,.18) 42%, transparent 70%),
+      linear-gradient(160deg,
+        color-mix(in srgb, var(--tile-a, #fff) 48%, transparent) 0%,
+        color-mix(in srgb, var(--tile-b, #f2f2f2) 36%, transparent) 100%);
+    backdrop-filter: blur(10px) saturate(1.2);
+    -webkit-backdrop-filter: blur(10px) saturate(1.2);
+    border: 1px solid color-mix(in srgb, var(--tile-border-color, #fff) 40%, rgba(255,255,255,.7));
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.85) inset,
+      0 -1px 0 rgba(255,255,255,.45) inset,
+      0 1px 2px rgba(15,23,42,.05),
+      0 6px 14px rgba(15,23,42,.07);
     color: var(--tile-icon, #6B6B6B);
     transition: transform var(--motion), box-shadow var(--motion), border-color var(--motion), background var(--motion);
   }
-  .icon-tile::before,
-  .icon-tile::after { display: none; content: none; }
+  .icon-tile::before {
+    content: '';
+    position: absolute; inset: 1px;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(255,255,255,.4) 0%, rgba(255,255,255,.06) 38%, transparent 58%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .icon-tile::after {
+    content: '';
+    position: absolute; left: 12%; right: 22%; top: 5%; height: 30%;
+    border-radius: 999px;
+    background: linear-gradient(165deg, rgba(255,255,255,.75), rgba(255,255,255,0));
+    filter: blur(1.5px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: .9;
+  }
   .icon-tile svg {
     width: 26px; height: 26px; display: block;
     position: relative; z-index: 1;
-    filter: none;
+    filter: drop-shadow(0 1px 0 rgba(255,255,255,.35));
   }
   .icon-tile.lg { width: 64px; height: 64px; border-radius: 20px; }
   .icon-tile.lg svg { width: 30px; height: 30px; }
@@ -533,14 +512,43 @@
   .icon-tile.icon-tile--img {
     background: transparent;
     border: none;
-    box-shadow: none;
-    overflow: hidden;
-    transition: transform var(--motion);
+    box-shadow:
+      0 1px 2px rgba(15,23,42,.06),
+      0 6px 14px rgba(15,23,42,.10);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    overflow: visible;
+    transition: transform var(--motion), box-shadow var(--motion);
   }
   .icon-tile.icon-tile--img::before,
   .icon-tile.icon-tile--img::after {
-    display: none;
-    content: none;
+    display: block;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 2;
+    background: none;
+    mix-blend-mode: normal;
+    filter: none;
+    opacity: 1;
+    left: 0; right: 0; top: 0; height: auto;
+  }
+  /* diagonal rim light: bright top-left edge, faint bounce on bottom-right */
+  .icon-tile.icon-tile--img::before {
+    box-shadow:
+      inset 1px 1px 0 rgba(255,255,255,.9),
+      inset -1px -1px 0 rgba(255,255,255,.5);
+    -webkit-mask-image: linear-gradient(135deg, #000 0 20%, rgba(0,0,0,.15) 42% 58%, #000 80% 100%);
+    mask-image: linear-gradient(135deg, #000 0 20%, rgba(0,0,0,.15) 42% 58%, #000 80% 100%);
+  }
+  /* specular sheen: corner highlight + glancing sweep + bottom bounce */
+  .icon-tile.icon-tile--img::after {
+    background:
+      radial-gradient(120% 95% at 14% 6%, rgba(255,255,255,.8) 0%, rgba(255,255,255,.22) 26%, transparent 52%),
+      linear-gradient(147deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.06) 26%, transparent 44%),
+      radial-gradient(95% 65% at 82% 108%, rgba(255,255,255,.32), transparent 62%);
+    opacity: .9;
+    transition: opacity var(--motion);
   }
   .icon-tile.icon-tile--img img {
     width: 100%; height: 100%;
@@ -554,8 +562,11 @@
     transform: scale(1.03);
   }
   .widget:hover .icon-tile.icon-tile--img {
-    box-shadow: none;
+    box-shadow:
+      0 1px 2px rgba(15,23,42,.07),
+      0 10px 20px rgba(15,23,42,.13);
   }
+  .widget:hover .icon-tile.icon-tile--img::after { opacity: 1; }
 
   .icon-blue {
     --tile-a: #EEF4FC; --tile-b: #D8E6F7;
@@ -894,10 +905,14 @@
   width: 70%; height: 70%;
 }
 .splash-hero {
-  display: none;
+  width: min(269px, 55vw);
+  margin: 0;
+  filter: drop-shadow(0 16px 40px rgba(0,40,80,.28));
+  animation: splashIn .7s var(--ease) both;
 }
 .splash-hero img {
-  display: none;
+  width: 100%; height: auto;
+  display: block;
 }
 @keyframes splashFloat {
   0%, 100% { transform: translateY(0); }
@@ -1151,13 +1166,7 @@
     box-shadow: 0 24px 60px rgba(20,24,40,0.22);
   }
   .auth-brand { text-align: center; margin-bottom: 22px; }
-  .auth-brand .auth-logo { display: none; }
-  .auth-brand .logo-placeholder {
-    width: min(220px, 100%);
-    height: 48px;
-    margin: 0 auto;
-    font-size: 12px;
-  }
+  .auth-brand .auth-logo { height: 40px; width: auto; display: inline-block; }
   .auth-brand .word {
     font-size: 30px; font-weight: 700; letter-spacing: -0.04em; color: #2A2A2A;
   }
@@ -1202,6 +1211,200 @@
   .auth-hint {
     margin: 14px 0 0; text-align: center;
     font-size: 12px; color: var(--muted);
+  }
+
+  /* ---------- Onboarding (canvas empty state) ---------- */
+  .canvas-onboard {
+    position: absolute; inset: 0; z-index: 6;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+    padding: 32px 28px 48px;
+    overflow: auto;
+  }
+  .canvas-onboard[hidden] { display: none !important; }
+  .canvas-onboard-inner {
+    pointer-events: auto;
+    width: min(920px, 100%);
+    display: flex; flex-direction: column;
+    gap: 36px;
+  }
+  .canvas-onboard-hero {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 28px;
+  }
+  .canvas-onboard-copy {
+    flex: 1; min-width: 0;
+    text-align: left;
+  }
+  .canvas-onboard-copy h2 {
+    margin: 0 0 10px;
+    font-size: clamp(26px, 3.2vw, 34px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--brand-dark);
+    line-height: 1.3;
+  }
+  .canvas-onboard-copy p {
+    margin: 0 0 18px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #6B7280;
+    font-weight: 500;
+  }
+  .canvas-onboard-start {
+    min-width: 180px; height: 52px; padding: 0 32px;
+    border: none; border-radius: 14px;
+    background: linear-gradient(145deg, #4A96E8, var(--brand));
+    color: #fff; font: inherit; font-size: 17px; font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(34,125,226,0.30);
+    transition: transform .15s, filter .15s;
+  }
+  .canvas-onboard-start:hover { filter: brightness(1.03); transform: translateY(-1px); }
+  .canvas-onboard-start:active { transform: scale(0.98); }
+  .canvas-onboard-media {
+    flex: 0 0 auto;
+    width: min(280px, 34vw);
+    line-height: 0;
+  }
+  .canvas-onboard-media img {
+    width: 100%; height: auto;
+    display: block;
+    object-fit: contain;
+  }
+  .canvas-onboard-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .canvas-onboard-step {
+    appearance: none;
+    -webkit-appearance: none;
+    font: inherit;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #E5E7EB;
+    border-radius: 16px;
+    padding: 20px 18px 18px;
+    text-align: left;
+    min-height: 132px;
+    cursor: pointer;
+    transition: border-color .18s, box-shadow .18s, background .18s, transform .15s;
+  }
+  .canvas-onboard-step:hover {
+    border-color: color-mix(in srgb, var(--brand) 40%, #E5E7EB);
+    box-shadow: 0 6px 18px rgba(34,125,226,.10);
+    transform: translateY(-1px);
+  }
+  .canvas-onboard-step.is-selected,
+  .canvas-onboard-step[aria-pressed="true"] {
+    border-color: var(--brand);
+    background: var(--brand-soft);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 16%, transparent);
+  }
+  .canvas-onboard-step .step-head {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 10px;
+  }
+  .canvas-onboard-step .step-num {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--brand); color: #fff;
+    font-size: 13px; font-weight: 800; flex-shrink: 0;
+  }
+  .canvas-onboard-step .step-title {
+    font-size: 16px; font-weight: 750;
+    color: #1F2328; letter-spacing: -0.02em;
+  }
+  .canvas-onboard-step .step-desc {
+    margin: 0;
+    font-size: 13.5px; line-height: 1.5;
+    color: #6B7280; font-weight: 500;
+  }
+  .canvas-onboard-quick {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .canvas-onboard-quick-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--brand-dark);
+    text-align: center;
+  }
+  .canvas-onboard-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .canvas-onboard-action {
+    appearance: none;
+    -webkit-appearance: none;
+    font: inherit;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    background: #fff;
+    border: 1px solid #E5E7EB;
+    border-radius: 16px;
+    padding: 18px 18px;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color .18s, box-shadow .18s, background .18s, transform .15s;
+  }
+  .canvas-onboard-action:hover {
+    border-color: color-mix(in srgb, var(--brand) 40%, #E5E7EB);
+    box-shadow: 0 6px 18px rgba(34,125,226,.10);
+    transform: translateY(-1px);
+  }
+  .canvas-onboard-action .action-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .canvas-onboard-action .action-title {
+    display: block;
+    font-size: 15px; font-weight: 750;
+    color: #1F2328; letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .canvas-onboard-action .action-desc {
+    margin: 0;
+    font-size: 13px; line-height: 1.45;
+    color: #6B7280; font-weight: 500;
+  }
+  .canvas-onboard-action .action-arrow {
+    flex-shrink: 0;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    background: var(--brand-soft);
+    color: var(--brand);
+    transition: transform .18s, background .18s;
+  }
+  .canvas-onboard-action .action-arrow svg {
+    width: 16px; height: 16px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .canvas-onboard-action:hover .action-arrow {
+    background: color-mix(in srgb, var(--brand) 14%, #fff);
+    transform: translateX(2px);
+  }
+  @media (max-width: 820px) {
+    .canvas-onboard-hero { flex-direction: column-reverse; text-align: center; }
+    .canvas-onboard-copy { text-align: center; }
+    .canvas-onboard-media { width: min(220px, 55vw); }
+    .canvas-onboard-steps,
+    .canvas-onboard-actions { grid-template-columns: 1fr; }
+  }
+  .canvas-wrap.is-onboarding .toolbar,
+  .canvas-wrap.is-onboarding .view-controls {
+    display: none !important;
   }
 
   #railAuth { border-top: 1px solid var(--border); padding-top: 6px; }
@@ -1513,44 +1716,42 @@
     transition: transform var(--motion);
   }
   .node .icon-tile {
-    box-shadow: none;
-    transition: transform var(--motion), border-color var(--motion);
+    box-shadow: 0 3px 10px rgba(15,23,42,.05);
+    transition: transform var(--motion), box-shadow var(--motion), border-color var(--motion);
   }
   .node .icon-tile.icon-tile--img {
-    box-shadow: none;
+    box-shadow: 0 2px 8px rgba(15,23,42,.08);
   }
   .node:hover .body { transform: translateY(-1px); }
   .node:hover .icon-tile {
     transform: translateY(-1px) scale(1.03);
-    box-shadow: none;
+    box-shadow: 0 6px 16px rgba(15,23,42,.08);
   }
   .node:hover .icon-tile.icon-tile--img {
-    box-shadow: none;
-    border: none;
+    box-shadow: 0 4px 14px rgba(15,23,42,.1);
+    border: 1px solid rgba(255,255,255,.55);
   }
   .node.selected .body {
     transform: none;
   }
   .node.selected .icon-tile {
     transform: scale(1.02);
-    border-color: color-mix(in srgb, var(--brand) 40%, #E5E7EB);
-    box-shadow: none;
+    border-color: color-mix(in srgb, var(--brand) 40%, rgba(255,255,255,.5));
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--brand) 18%, transparent);
   }
   .node.selected .icon-tile.icon-tile--img {
-    border: 2px solid color-mix(in srgb, var(--brand) 45%, transparent);
-    box-shadow: none;
+    border: 1px solid color-mix(in srgb, var(--brand) 28%, rgba(255,255,255,.5));
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--brand) 16%, transparent);
   }
   .node .title {
-    font-weight: 650; font-size: 13.5px; line-height: 1.25;
+    font-weight: 550; font-size: 13.5px; line-height: 1.25;
     white-space: nowrap; max-width: 108px;
     overflow: hidden; text-overflow: ellipsis;
     margin-top: -4px;
-    color: var(--accent, #1F2328);
   }
   .node .badge {
     display: inline-block; margin-left: 2px;
-    color: inherit; font-weight: 600; font-size: 12.5px;
-    opacity: .75;
+    color: var(--brand); font-weight: 600; font-size: 12.5px;
   }
 
   .port {
@@ -1687,197 +1888,6 @@
   .cat.yellow .cat-header,
   .cat.cyan .cat-header,
   .cat.slate .cat-header { background: transparent; }
-
-  /* ========== Canvas empty-state onboarding ========== */
-  .canvas-onboard {
-    position: absolute; inset: 0; z-index: 20;
-    display: flex; align-items: center; justify-content: center;
-    padding: 28px 24px; overflow: auto;
-    background:
-      radial-gradient(1200px 600px at 50% 0%, rgba(34,125,226,.08), transparent 60%),
-      linear-gradient(180deg, rgba(248,250,252,.92), rgba(244,245,247,.96));
-  }
-  .canvas-onboard[hidden] { display: none !important; }
-  .canvas-onboard-inner {
-    width: min(920px, 100%);
-    display: flex; flex-direction: column; gap: 28px;
-  }
-  .canvas-onboard-hero {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 28px;
-  }
-  .canvas-onboard-copy {
-    flex: 1; min-width: 0;
-    text-align: left;
-  }
-  .canvas-onboard-copy h2 {
-    margin: 0 0 10px;
-    font-size: clamp(26px, 3.2vw, 34px);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    color: var(--brand-dark);
-    line-height: 1.3;
-  }
-  .canvas-onboard-copy p {
-    margin: 0;
-    font-size: 15px;
-    line-height: 1.55;
-    color: #6B7280;
-    font-weight: 500;
-  }
-  .canvas-onboard-media {
-    display: none;
-  }
-  .canvas-onboard-media img {
-    display: none;
-  }
-  .canvas-onboard-steps {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-  .canvas-onboard-step {
-    appearance: none;
-    -webkit-appearance: none;
-    font: inherit;
-    width: 100%;
-    background: #fff;
-    border: 1px solid #E5E7EB;
-    border-radius: 16px;
-    padding: 20px 18px 18px;
-    text-align: left;
-    min-height: 132px;
-    cursor: pointer;
-    transition: border-color .18s, box-shadow .18s, background .18s, transform .15s;
-  }
-  .canvas-onboard-step:hover {
-    border-color: color-mix(in srgb, var(--brand) 40%, #E5E7EB);
-    box-shadow: 0 6px 18px rgba(34,125,226,.10);
-    transform: translateY(-1px);
-  }
-  .canvas-onboard-step.is-selected,
-  .canvas-onboard-step[aria-pressed="true"] {
-    border-color: var(--brand);
-    background: var(--brand-soft);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 16%, transparent);
-  }
-  .canvas-onboard-step .step-head {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 10px;
-  }
-  .canvas-onboard-step .step-num {
-    width: 26px; height: 26px; border-radius: 50%;
-    display: inline-flex; align-items: center; justify-content: center;
-    background: var(--brand); color: #fff;
-    font-size: 13px; font-weight: 800; flex-shrink: 0;
-  }
-  .canvas-onboard-step .step-title {
-    font-size: 16px; font-weight: 750;
-    color: #1F2328; letter-spacing: -0.02em;
-  }
-  .canvas-onboard-step .step-desc {
-    margin: 0;
-    font-size: 13.5px; line-height: 1.5;
-    color: #6B7280; font-weight: 500;
-  }
-  .canvas-onboard-quick {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-  .canvas-onboard-quick-title {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    color: var(--brand-dark);
-    text-align: center;
-  }
-  .canvas-onboard-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  .canvas-onboard-action {
-    appearance: none;
-    -webkit-appearance: none;
-    font: inherit;
-    width: 100%;
-    min-height: 108px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    background: #fff;
-    border: 1px solid #E5E7EB;
-    border-radius: 16px;
-    padding: 26px 22px;
-    text-align: left;
-    cursor: pointer;
-    transition: border-color .18s, box-shadow .18s, background .18s, transform .15s;
-  }
-  .canvas-onboard-action:hover {
-    border-color: color-mix(in srgb, var(--brand) 40%, #E5E7EB);
-    box-shadow: 0 6px 18px rgba(34,125,226,.10);
-    transform: translateY(-1px);
-  }
-  .canvas-onboard-action .action-body { flex: 1; min-width: 0; }
-  .canvas-onboard-action .action-title {
-    display: block;
-    font-size: 18px; font-weight: 750;
-    color: #1F2328; letter-spacing: -0.02em;
-    margin-bottom: 8px;
-  }
-  .canvas-onboard-action .action-desc {
-    margin: 0;
-    font-size: 14px; line-height: 1.45;
-    color: #6B7280; font-weight: 500;
-  }
-  .canvas-onboard-action .action-arrow {
-    flex-shrink: 0;
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center; justify-content: center;
-    background: var(--brand-soft);
-    color: var(--brand);
-    transition: transform .18s, background .18s;
-  }
-  .canvas-onboard-action .action-arrow svg {
-    width: 16px; height: 16px;
-    stroke: currentColor; fill: none;
-    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-  }
-  .canvas-onboard-action:hover .action-arrow {
-    background: color-mix(in srgb, var(--brand) 14%, #fff);
-    transform: translateX(2px);
-  }
-  @media (max-width: 820px) {
-    .canvas-onboard-hero { flex-direction: column; text-align: center; }
-    .canvas-onboard-copy { text-align: center; }
-    .canvas-onboard-steps,
-    .canvas-onboard-actions { grid-template-columns: 1fr; }
-  }
-  .canvas-wrap.is-onboarding .toolbar,
-  .canvas-wrap.is-onboarding .view-controls {
-    display: none !important;
-  }
-  .lang-switch {
-    display: inline-flex; align-items: center;
-    border: 1px solid var(--border); border-radius: 999px;
-    overflow: hidden; background: #fff; margin-right: 8px;
-  }
-  .lang-switch button {
-    appearance: none; border: none; background: transparent;
-    font: inherit; font-size: 12px; font-weight: 700;
-    padding: 6px 10px; cursor: pointer; color: var(--muted);
-    min-width: 36px;
-  }
-  .lang-switch button.is-active {
-    background: var(--brand-soft); color: var(--brand-dark);
-  }
-  .lang-switch button:not(.is-active):hover { background: #F5F5F5; color: var(--text); }
-
 </style>
 </head>
 <body>
@@ -1885,10 +1895,10 @@
   <nav class="rail" id="rail">
     <div class="rail-head">
       <div class="rail-logo" aria-label="EBS AI 실습도구">
-        <div class="logo-placeholder" data-i18n="logo.placeholder">로고자리</div>
+        <img class="logo-full" src="assets/logo-ebs-full.png" alt="EBS AI 실습도구">
       </div>
-      <button class="rail-toggle" type="button" id="btnRailToggle" data-i18n-title="rail.toggle" title="메뉴 접기/펼치기">
-        <div class="logo-placeholder toggle-mark" aria-hidden="true" data-i18n="logo.mark">로</div>
+      <button class="rail-toggle" type="button" id="btnRailToggle" title="메뉴 접기/펼치기">
+        <img class="toggle-mark" src="assets/logo-ebs-mark.png" alt="">
         <svg class="toggle-ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
       </button>
     </div>
@@ -1904,13 +1914,13 @@
           <div class="auth-name" id="authName"></div>
           <div class="auth-email" id="authEmail"></div>
         </div>
-        <button class="auth-logout" type="button" id="btnLogout" data-i18n-title="auth.logout" data-i18n-aria="auth.logout" title="로그아웃" aria-label="로그아웃">
+        <button class="auth-logout" type="button" id="btnLogout" title="Logout" aria-label="Logout">
           <svg viewBox="0 0 24 24"><path d="M14 12H5"/><path d="M9 7l-5 5 5 5"/><path d="M11 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6"/></svg>
         </button>
       </div>
-      <button class="rail-item" type="button" id="btnLogin" data-i18n-title="auth.login" title="로그인">
+      <button class="rail-item" type="button" id="btnLogin" title="Login">
         <span class="ri-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 12h9"/><path d="M15 7l5 5-5 5"/><path d="M13 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h6"/></svg></span>
-        <span class="ri-label" data-i18n="auth.login">로그인</span>
+        <span class="ri-label">Login</span>
       </button>
     </div>
   </nav>
@@ -1922,35 +1932,31 @@
       <div class="tabs-list" id="tabsList">
         <button class="tab tab-blue active" type="button">
           <span class="tab-shade" aria-hidden="true"></span>
-          <span class="tab-label" data-i18n="tabs.blank">빈 탭</span>
-          <span class="tab-close" role="button" tabindex="0" data-i18n-title="tabs.close" data-i18n-aria="tabs.close" title="닫기" aria-label="닫기">
+          <span class="tab-label">빈 탭</span>
+          <span class="tab-close" role="button" tabindex="0" title="닫기" aria-label="닫기">
             <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
           </span>
         </button>
         <button class="tab tab-teal" type="button">
           <span class="tab-shade" aria-hidden="true"></span>
-          <span class="tab-label" data-tab-blank="2">빈 탭 2</span>
-          <span class="tab-close" role="button" tabindex="0" data-i18n-title="tabs.close" data-i18n-aria="tabs.close" title="닫기" aria-label="닫기">
+          <span class="tab-label">빈 탭 2</span>
+          <span class="tab-close" role="button" tabindex="0" title="닫기" aria-label="닫기">
             <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
           </span>
         </button>
         <button class="tab tab-orange" type="button">
           <span class="tab-shade" aria-hidden="true"></span>
-          <span class="tab-label" data-tab-blank="3">빈 탭 3</span>
-          <span class="tab-close" role="button" tabindex="0" data-i18n-title="tabs.close" data-i18n-aria="tabs.close" title="닫기" aria-label="닫기">
+          <span class="tab-label">빈 탭 3</span>
+          <span class="tab-close" role="button" tabindex="0" title="닫기" aria-label="닫기">
             <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
           </span>
         </button>
       </div>
-      <button class="tab-add" type="button" data-i18n-title="tabs.add" title="탭 추가">＋</button>
+      <button class="tab-add" type="button" title="탭 추가">＋</button>
       <div class="tabs-actions">
-        <div class="lang-switch" role="group" data-i18n-aria="lang.title" aria-label="언어">
-          <button type="button" data-lang="ko" class="is-active" aria-pressed="true" data-i18n="lang.ko">한</button>
-          <button type="button" data-lang="en" aria-pressed="false" data-i18n="lang.en">영</button>
-        </div>
-        <button class="btn-ghost" type="button" data-i18n="tabs.export">내보내기</button>
+        <button class="btn-ghost" type="button">Export</button>
         <button class="btn-run" type="button" id="btnRun">
-          <span data-i18n="tabs.run">실행</span>
+          Run
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l12-6.5L8 5.5Z"/></svg>
         </button>
       </div>
@@ -1964,45 +1970,48 @@
           <div id="nodesLayer"></div>
         </div>
 
-
         <div class="canvas-onboard" id="onboardOverlay" hidden>
-          <div class="canvas-onboard-inner" data-i18n-aria="onboard.aria" aria-label="실습 시작 가이드">
+          <div class="canvas-onboard-inner" aria-label="실습 시작 가이드">
             <div class="canvas-onboard-hero">
               <div class="canvas-onboard-copy">
-                <h2 data-i18n="onboard.title">데이터 분석을 함께 시작해볼까요?</h2>
-                <p data-i18n="onboard.sub">3단계 가이드를 따라 쉽고 빠르게 분석을 완성해 보세요.</p>
+                <h2>데이터 분석을 함께 시작해볼까요?</h2>
+                <p>3단계 가이드를 따라 쉽고 빠르게 분석을 완성해 보세요.</p>
+                <button class="canvas-onboard-start" type="button" id="btnOnboardStart">시작하기</button>
+              </div>
+              <div class="canvas-onboard-media">
+                <img src="assets/onboarding-characters.png" alt="">
               </div>
             </div>
-            <div class="canvas-onboard-steps" role="group" data-i18n-aria="onboard.stepsAria" aria-label="시작 단계 선택">
+            <div class="canvas-onboard-steps" role="group" aria-label="시작 단계 선택">
               <button class="canvas-onboard-step" type="button" data-onboard-step="add" aria-pressed="false">
                 <div class="step-head">
                   <span class="step-num">1</span>
-                  <span class="step-title" data-i18n="onboard.step1">위젯 추가</span>
+                  <span class="step-title">위젯추가</span>
                 </div>
-                <p class="step-desc" data-i18n="onboard.step1Desc">필요한 위젯을 선택하거나 캔버스로 드래그하여 배치하세요.</p>
+                <p class="step-desc">필요한 위젯을 선택하거나 캔버스로 드래그하여 배치하세요.</p>
               </button>
               <button class="canvas-onboard-step" type="button" data-onboard-step="connect" aria-pressed="false">
                 <div class="step-head">
                   <span class="step-num">2</span>
-                  <span class="step-title" data-i18n="onboard.step2">위젯 연결</span>
+                  <span class="step-title">위젯연결</span>
                 </div>
-                <p class="step-desc" data-i18n="onboard.step2Desc">위젯과 위젯을 선으로 연결해서 분석 흐름을 구성하세요.</p>
+                <p class="step-desc">위젯과 위젯을 선으로 연결해서 분석 흐름을 구성하세요.</p>
               </button>
               <button class="canvas-onboard-step" type="button" data-onboard-step="run" aria-pressed="false">
                 <div class="step-head">
                   <span class="step-num">3</span>
-                  <span class="step-title" data-i18n="onboard.step3">실행 후 결과 확인</span>
+                  <span class="step-title">실행 후 결과확인</span>
                 </div>
-                <p class="step-desc" data-i18n="onboard.step3Desc">‘실행’ 버튼을 눌러 분석 결과를 확인하세요.</p>
+                <p class="step-desc">‘실행’ 버튼을 눌러 분석 결과를 확인하세요.</p>
               </button>
             </div>
             <div class="canvas-onboard-quick">
-              <h3 class="canvas-onboard-quick-title" data-i18n="onboard.quick">빠르게 시작하기</h3>
+              <h3 class="canvas-onboard-quick-title">빠르게 시작하기</h3>
               <div class="canvas-onboard-actions">
                 <button class="canvas-onboard-action" type="button" id="btnOnboardLoad">
                   <span class="action-body">
-                    <span class="action-title" data-i18n="onboard.load">이전 작업 불러오기</span>
-                    <p class="action-desc" data-i18n="onboard.loadDesc">저장해 둔 워크플로 파일을 열어 이어서 작업하세요.</p>
+                    <span class="action-title">이전 작업 불러오기</span>
+                    <p class="action-desc">저장해 둔 워크플로 파일을 열어 이어서 작업하세요.</p>
                   </span>
                   <span class="action-arrow" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
@@ -2010,8 +2019,8 @@
                 </button>
                 <button class="canvas-onboard-action" type="button" id="btnOnboardTemplates">
                   <span class="action-body">
-                    <span class="action-title" data-i18n="onboard.templates">템플릿 둘러보기</span>
-                    <p class="action-desc" data-i18n="onboard.templatesDesc">준비된 분석 템플릿을 살펴보고 바로 시작해 보세요.</p>
+                    <span class="action-title">템플릿 둘러보기</span>
+                    <p class="action-desc">준비된 분석 템플릿을 살펴보고 바로 시작해 보세요.</p>
                   </span>
                   <span class="action-arrow" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
@@ -2025,98 +2034,98 @@
         <div class="hint-bar" id="hintBar"></div>
 
         <div class="toolbar" id="toolbar">
-          <button class="tool-icon" type="button" data-tool="pan" data-i18n-title="tool.pan" title="이동">
+          <button class="tool-icon" type="button" data-tool="pan" title="이동">
             <svg viewBox="0 0 24 24"><path d="M8.5 11.5V7.2a1.2 1.2 0 0 1 2.4 0V11"/><path d="M10.9 10.8V6.2a1.2 1.2 0 0 1 2.4 0V11"/><path d="M13.3 10.5V7a1.2 1.2 0 1 1 2.4 0v6.2"/><path d="M15.7 13.2V9.2a1.2 1.2 0 1 1 2.4 0v5.3c0 2.7-1.8 5-4.5 5.3-2.4.3-4.6-1.1-5.5-3.3L7.2 12a1.3 1.3 0 0 1 2.3-1.2l1.4 2.7"/></svg>
           </button>
-          <button class="tool-icon active" type="button" data-tool="select" data-i18n-title="tool.select" title="선택">
+          <button class="tool-icon active" type="button" data-tool="select" title="선택">
             <svg viewBox="0 0 24 24"><path d="M5 4.5 11.5 19l2-5.5L19 11.5 5 4.5Z"/><path d="M13.5 13.5 18.5 18.5"/></svg>
           </button>
 
           <div class="divider"></div>
 
           <div class="tool-group" data-group="shape">
-            <button class="tool-icon tool-main" type="button" data-tool="rect" data-i18n-title="tool.shape" title="도형">
+            <button class="tool-icon tool-main" type="button" data-tool="rect" title="도형">
               <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="1.5"/></svg>
             </button>
-            <button class="tool-more" type="button" data-i18n-title="tool.shapeMore" data-i18n-aria="tool.shapeMore" title="도형 더보기" aria-label="도형 더보기">
+            <button class="tool-more" type="button" title="도형 더보기" aria-label="도형 더보기">
               <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div class="tool-flyout">
               <button class="tool-flyout-item" type="button" data-tool="rect">
                 <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="1.5"/></svg>
-                <span data-i18n="tool.rect">사각형</span>
+                <span>사각형</span>
               </button>
               <button class="tool-flyout-item" type="button" data-tool="diamond">
                 <svg viewBox="0 0 24 24"><path d="M12 4.5 19.5 12 12 19.5 4.5 12 12 4.5Z"/></svg>
-                <span data-i18n="tool.diamond">마름모</span>
+                <span>마름모</span>
               </button>
               <button class="tool-flyout-item" type="button" data-tool="ellipse">
                 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5"/></svg>
-                <span data-i18n="tool.ellipse">원</span>
+                <span>원</span>
               </button>
             </div>
           </div>
 
           <div class="tool-group" data-group="draw">
-            <button class="tool-icon tool-main" type="button" data-tool="draw" data-i18n-title="tool.drawGroup" title="그리기">
+            <button class="tool-icon tool-main" type="button" data-tool="draw" title="그리기">
               <svg viewBox="0 0 24 24"><path d="M14.5 5.5 18.5 9.5"/><path d="M5 19.5 7.2 12.8 16.2 3.8a2 2 0 0 1 2.8 0l1.2 1.2a2 2 0 0 1 0 2.8L11.2 16.8 5 19.5Z"/></svg>
             </button>
-            <button class="tool-more" type="button" data-i18n-title="tool.drawMore" data-i18n-aria="tool.drawMore" title="그리기 더보기" aria-label="그리기 더보기">
+            <button class="tool-more" type="button" title="그리기 더보기" aria-label="그리기 더보기">
               <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div class="tool-flyout">
               <button class="tool-flyout-item" type="button" data-tool="draw">
                 <svg viewBox="0 0 24 24"><path d="M14.5 5.5 18.5 9.5"/><path d="M5 19.5 7.2 12.8 16.2 3.8a2 2 0 0 1 2.8 0l1.2 1.2a2 2 0 0 1 0 2.8L11.2 16.8 5 19.5Z"/></svg>
-                <span data-i18n="tool.draw">펜</span>
+                <span>펜</span>
               </button>
               <button class="tool-flyout-item" type="button" data-tool="arrow">
                 <svg viewBox="0 0 24 24"><path d="M4 12h14"/><path d="M14 7.5 18.5 12 14 16.5"/></svg>
-                <span data-i18n="tool.arrow">화살표</span>
+                <span>화살표</span>
               </button>
               <button class="tool-flyout-item" type="button" data-tool="line">
                 <svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
-                <span data-i18n="tool.line">선</span>
+                <span>선</span>
               </button>
             </div>
           </div>
 
           <div class="divider"></div>
 
-          <button class="tool-icon" type="button" data-tool="text" data-i18n-title="tool.text" title="텍스트">
+          <button class="tool-icon" type="button" data-tool="text" title="텍스트">
             <svg viewBox="0 0 24 24"><path d="M5 6.5h14"/><path d="M12 6.5v12"/><path d="M8.5 18.5h7"/></svg>
           </button>
-          <button class="tool-icon" type="button" data-tool="image" data-i18n-title="tool.image" title="이미지">
+          <button class="tool-icon" type="button" data-tool="image" title="이미지">
             <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.4"/><path d="M4.5 16.5 9 12.5l3 2.5 3.5-4 4 5.5"/></svg>
           </button>
-          <button class="tool-icon" type="button" data-tool="eraser" data-i18n-title="tool.eraser" title="지우개">
+          <button class="tool-icon" type="button" data-tool="eraser" title="지우개">
             <svg viewBox="0 0 24 24"><path d="M15.5 5.5 19 9l-8.5 8.5H7L4.5 15 15.5 5.5Z"/><path d="M6 19.5h13"/></svg>
           </button>
-          <button class="tool-icon" type="button" data-tool="connect" data-i18n-title="tool.connect" title="연결">
+          <button class="tool-icon" type="button" data-tool="connect" title="연결">
             <svg viewBox="0 0 24 24"><circle cx="6.5" cy="7" r="2"/><circle cx="17.5" cy="7" r="2"/><circle cx="12" cy="17" r="2"/><path d="M8.2 8.2 10.5 15.2M15.8 8.2 13.5 15.2"/></svg>
           </button>
 
           <div class="divider"></div>
 
-          <button class="tool-icon" type="button" id="btnUndo" data-i18n-title="tool.undo" title="실행 취소">
+          <button class="tool-icon" type="button" id="btnUndo" title="실행 취소">
             <svg viewBox="0 0 24 24"><path d="M9 14H4V9"/><path d="M4 14a8 8 0 1 1 2.3 5.7"/></svg>
           </button>
-          <button class="tool-icon" type="button" id="btnRedo" data-i18n-title="tool.redo" title="다시 실행">
+          <button class="tool-icon" type="button" id="btnRedo" title="다시 실행">
             <svg viewBox="0 0 24 24"><path d="M15 14h5V9"/><path d="M20 14a8 8 0 1 0-2.3 5.7"/></svg>
           </button>
         </div>
 
         <div class="view-controls">
           <div class="nav-panel" id="navPanel">
-            <div class="nav-map" id="minimap" data-i18n-title="nav.minimap" title="클릭/드래그로 이동"></div>
+            <div class="nav-map" id="minimap" title="클릭/드래그로 이동"></div>
             <div class="nav-bar">
-              <button class="nav-btn" type="button" id="btnZoomOut" data-i18n-title="nav.zoomOut" title="축소">
+              <button class="nav-btn" type="button" id="btnZoomOut" title="축소">
                 <svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg>
               </button>
               <div class="zoom-val" id="zoomVal">100%</div>
-              <button class="nav-btn" type="button" id="btnZoomIn" data-i18n-title="nav.zoomIn" title="확대">
+              <button class="nav-btn" type="button" id="btnZoomIn" title="확대">
                 <svg viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg>
               </button>
-              <button class="nav-btn" type="button" id="btnFit" data-i18n-title="nav.fit" title="맞춤">
+              <button class="nav-btn" type="button" id="btnFit" title="맞춤">
                 <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
               </button>
             </div>
@@ -2132,13 +2141,13 @@
         <div class="sidebar-inner">
           <div class="sidebar-header">
             <div class="sidebar-title">
-              <span data-i18n="sidebar.widgets">위젯</span>
-              <span class="hint" data-i18n="sidebar.hint">드래그해서 추가</span>
+              <span>위젯</span>
+              <span class="hint">드래그해서 추가</span>
             </div>
           </div>
           <div class="search">
-            <input id="searchInput" placeholder="위젯 검색..." data-i18n-placeholder="sidebar.search" autocomplete="off">
-            <button class="clear" id="searchClear" type="button" data-i18n-title="sidebar.clear" title="지우기">✕</button>
+            <input id="searchInput" placeholder="위젯 검색..." autocomplete="off">
+            <button class="clear" id="searchClear" type="button" title="지우기">✕</button>
           </div>
           <div class="categories" id="categories"></div>
         </div>
@@ -2146,7 +2155,7 @@
     </div>
   </div>
 
-<div class="splash" id="splash" aria-busy="true" data-i18n-aria="splash.loading" aria-label="로딩 중">
+<div class="splash" id="splash" aria-busy="true" aria-label="로딩 중">
   <div class="splash-bubbles" aria-hidden="true">
   <div class="splash-bubble b1 tone-orange"><img src="assets/splash/image-embedding.png" alt=""></div>
   <div class="splash-bubble b2 tone-purple"><img src="assets/splash/confusion-matrix.png" alt=""></div>
@@ -2160,8 +2169,11 @@
   <div class="splash-bubble b10 tone-green"><img src="assets/splash/test-score.png" alt=""></div>
 </div>
 <div class="splash-center">
-    <p class="splash-eyebrow" data-i18n="splash.eyebrow">처음 만나는 데이터 마이닝 플랫폼</p>
-    <h1 class="splash-title" data-i18n="splash.title">AI도 EBS와 함께하세요!</h1>
+    <div class="splash-hero">
+      <img src="assets/splash-orange-pengsu.png" alt="오렌지와 펭수">
+    </div>
+    <p class="splash-eyebrow">처음 만나는 데이터 마이닝 플랫폼</p>
+    <h1 class="splash-title"><span class="en">AI</span>도 <span class="en">EBS</span>와 함께하세요!</h1>
     <div class="splash-loader">
       <div class="splash-track"><div class="splash-bar" id="splashBar"></div></div>
       <div class="splash-pct" id="splashPct">0%</div>
@@ -2175,74 +2187,74 @@
       <div class="open-head">
         <div class="open-head-title" id="openDialogTitle">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15.5V18a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2.5"/><path d="M12 4v11"/><path d="M8 8.5 12 4.5 16 8.5"/></svg>
-          <span data-i18n="open.title">열기</span>
+          Open
         </div>
-        <div class="open-head-desc" data-i18n="open.desc">왼쪽에서 소스를 선택한 뒤 .ows 워크플로 또는 .json 캔버스 파일을 여세요.</div>
-        <button class="open-close" type="button" id="btnOpenClose" data-i18n-title="tabs.close" data-i18n-aria="tabs.close" title="닫기" aria-label="닫기">
+        <div class="open-head-desc">Choose a source on the left and open an .ows workflow or .json canvas file.</div>
+        <button class="open-close" type="button" id="btnOpenClose" title="닫기" aria-label="닫기">
           <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
         </button>
       </div>
       <div class="open-body">
-        <nav class="open-nav" data-i18n-aria="open.sources" aria-label="열기 소스">
+        <nav class="open-nav" aria-label="Open sources">
           <button class="open-nav-item" type="button" data-open-source="examples">
             <svg viewBox="0 0 24 24"><path d="M4 8.5V18a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 20 18V9.5"/><path d="M4 8.5 6.5 5h4L12 7h7.5v1.5"/></svg>
-            <span data-i18n="open.examples">예제 워크플로</span>
+            Example Workflow
           </button>
           <button class="open-nav-item" type="button" data-open-source="drive">
             <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-            <span data-i18n="open.drive">Google Drive</span>
+            Google Drive
           </button>
           <button class="open-nav-item active" type="button" data-open-source="local">
             <svg viewBox="0 0 24 24"><path d="M4 15.5V18a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2.5"/><path d="M12 4v11"/><path d="M8 8.5 12 4.5 16 8.5"/></svg>
-            <span data-i18n="open.local">내 컴퓨터</span>
+            Local File
           </button>
         </nav>
         <div class="open-main">
           <div class="open-panel" data-open-panel="examples">
-            <h3 class="open-main-title" data-i18n="open.examples">예제 워크플로</h3>
+            <h3 class="open-main-title">Example Workflow</h3>
             <div class="open-example-list" id="openExampleList">
               <button class="open-example-item" type="button" data-example="iris">
                 <span class="ex-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5 14.2 9H20l-4.5 3.4L17.4 18 12 14.6 6.6 18l1.9-5.6L4 9h5.8L12 3.5Z"/></svg></span>
                 <span class="ex-meta">
-                  <p class="ex-name" data-i18n="open.iris">Iris 분류</p>
-                  <p class="ex-desc" data-i18n="open.irisDesc">입문 · 분류 파이프라인</p>
+                  <p class="ex-name">Iris Classification</p>
+                  <p class="ex-desc">입문 · 분류 파이프라인</p>
                 </span>
               </button>
               <button class="open-example-item" type="button" data-example="cluster">
                 <span class="ex-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="2.5"/><circle cx="16" cy="8" r="2.5"/><circle cx="12" cy="15.5" r="2.5"/></svg></span>
                 <span class="ex-meta">
-                  <p class="ex-name" data-i18n="open.cluster">클러스터링 데모</p>
-                  <p class="ex-desc" data-i18n="open.clusterDesc">클러스터링 · 시각화</p>
+                  <p class="ex-name">Clustering Demo</p>
+                  <p class="ex-desc">클러스터링 · 시각화</p>
                 </span>
               </button>
               <button class="open-example-item" type="button" data-example="regress">
                 <span class="ex-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19V10l3-3 3 5 3-7 3 5v9"/><path d="M5 19h14"/></svg></span>
                 <span class="ex-meta">
-                  <p class="ex-name" data-i18n="open.regress">선형 회귀</p>
-                  <p class="ex-desc" data-i18n="open.regressDesc">회귀 · 예측 모델</p>
+                  <p class="ex-name">Linear Regression</p>
+                  <p class="ex-desc">회귀 · 예측 모델</p>
                 </span>
               </button>
             </div>
           </div>
           <div class="open-panel" data-open-panel="drive">
-            <h3 class="open-main-title" data-i18n="open.drive">Google Drive</h3>
+            <h3 class="open-main-title">Google Drive</h3>
             <div class="open-drive">
-              <p data-i18n="open.driveBody">Google Drive를 연결해 공유된 .ows / .json 워크플로 파일을 찾아 엽니다.</p>
-              <button class="open-drive-btn" type="button" id="btnConnectDrive" data-i18n="open.connectDrive">Drive 연결</button>
+              <p>Connect Google Drive to browse and open shared .ows / .json workflow files.</p>
+              <button class="open-drive-btn" type="button" id="btnConnectDrive">Connect Drive</button>
             </div>
           </div>
           <div class="open-panel active" data-open-panel="local">
-            <h3 class="open-main-title" data-i18n="open.local">내 컴퓨터</h3>
-            <div class="open-drop" id="openDrop" role="button" tabindex="0" data-i18n-aria="open.dropAria" aria-label="로컬 파일 선택">
+            <h3 class="open-main-title">Local File</h3>
+            <div class="open-drop" id="openDrop" role="button" tabindex="0" aria-label="Choose a local file">
               <div class="open-drop-text">
-                <span data-i18n="open.drop">여기에 .ows/.json 파일을 끌어오거나,</span>
-                <span class="open-drop-link" id="openChooseLink" data-i18n="open.choose">클릭하여 선택</span>.
+                Drag an .ows/.json file here, or
+                <span class="open-drop-link" id="openChooseLink">click to choose</span>.
               </div>
             </div>
             <input type="file" id="openFileInput" accept=".ows,.json,application/json" hidden>
           </div>
           <div class="open-foot">
-            <button class="open-cancel" type="button" id="btnOpenCancel" data-i18n="open.cancel">취소</button>
+            <button class="open-cancel" type="button" id="btnOpenCancel">Cancel</button>
           </div>
         </div>
       </div>
@@ -2252,532 +2264,26 @@
   <div class="auth-overlay" id="authOverlay" hidden>
     <form class="auth-card" id="authForm" autocomplete="on">
       <div class="auth-brand">
-        <div class="logo-placeholder" data-i18n="logo.placeholder">로고자리</div>
+        <img class="auth-logo" src="assets/logo-auth.png" alt="EBS AI 실습도구">
       </div>
-      <h2 class="auth-title" data-i18n="auth.title">로그인</h2>
-      <p class="auth-desc" data-i18n="auth.desc">워크플로 에디터를 사용하려면 로그인하세요</p>
+      <h2 class="auth-title">로그인</h2>
+      <p class="auth-desc">워크플로 에디터를 사용하려면 로그인하세요</p>
       <div class="auth-field">
-        <label for="authEmailInput" data-i18n="auth.email">이메일</label>
+        <label for="authEmailInput">이메일</label>
         <input id="authEmailInput" name="email" type="email" placeholder="you@example.com" required>
       </div>
       <div class="auth-field">
-        <label for="authPasswordInput" data-i18n="auth.password">비밀번호</label>
-        <input id="authPasswordInput" name="password" type="password" placeholder="4자 이상" data-i18n-placeholder="auth.passwordPh" required minlength="4">
+        <label for="authPasswordInput">비밀번호</label>
+        <input id="authPasswordInput" name="password" type="password" placeholder="4자 이상" required minlength="4">
       </div>
       <div class="auth-error" id="authError" aria-live="polite"></div>
-      <button class="auth-submit" type="submit"><span data-i18n="auth.submit">로그인</span></button>
+      <button class="auth-submit" type="submit">로그인</button>
       <p class="auth-hint">데모: 아무 이메일 + 비밀번호 4자 이상</p>
     </form>
   </div>
 
 <script>
 (() => {
-
-  /* ========== i18n (KO / EN) ========== */
-  const LANG_KEY = 'orange3-lang';
-  let lang = localStorage.getItem(LANG_KEY) === 'en' ? 'en' : 'ko';
-  const I18N = {
-    ko: {
-      'doc.title': '워크플로 에디터',
-      'auth.login': '로그인',
-      'auth.logout': '로그아웃',
-      'auth.title': '로그인',
-      'auth.desc': '워크플로 에디터를 사용하려면 로그인하세요',
-      'auth.email': '이메일',
-      'auth.password': '비밀번호',
-      'auth.passwordPh': '4자 이상',
-      'auth.submit': '로그인',
-      'auth.errEmail': '올바른 이메일을 입력하세요',
-      'auth.errPassword': '비밀번호는 4자 이상이어야 합니다',
-      'auth.logoutHint': '로그아웃되었습니다',
-      'tabs.blank': '빈 탭',
-      'tabs.blankN': '빈 탭 {n}',
-      'tabs.add': '탭 추가',
-      'tabs.close': '닫기',
-      'tabs.closed': '{label} 닫힘',
-      'tabs.export': '내보내기',
-      'tabs.run': '실행',
-      'run.running': '워크플로 실행 중…',
-      'run.done': '실행 완료',
-      'sidebar.widgets': '위젯',
-      'sidebar.hint': '드래그해서 추가',
-      'sidebar.search': '위젯 검색...',
-      'sidebar.clear': '지우기',
-      'splash.loading': '로딩 중',
-      'splash.eyebrow': '처음 만나는 데이터 마이닝 플랫폼',
-      'splash.title': 'AI도 EBS와 함께하세요!',
-      'logo.placeholder': '로고자리',
-      'logo.mark': '로',
-      'open.title': '열기',
-      'open.desc': '왼쪽에서 소스를 선택한 뒤 .ows 워크플로 또는 .json 캔버스 파일을 여세요.',
-      'open.sources': '열기 소스',
-      'open.examples': '예제 워크플로',
-      'open.drive': 'Google Drive',
-      'open.local': '내 컴퓨터',
-      'open.iris': 'Iris 분류',
-      'open.irisDesc': '입문 · 분류 파이프라인',
-      'open.cluster': '클러스터링 데모',
-      'open.clusterDesc': '클러스터링 · 시각화',
-      'open.regress': '선형 회귀',
-      'open.regressDesc': '회귀 · 예측 모델',
-      'open.driveBody': 'Google Drive를 연결해 공유된 .ows / .json 워크플로 파일을 찾아 엽니다.',
-      'open.connectDrive': 'Drive 연결',
-      'open.dropAria': '로컬 파일 선택',
-      'open.drop': '여기에 .ows/.json 파일을 끌어오거나,',
-      'open.choose': '클릭하여 선택',
-      'open.cancel': '취소',
-      'open.opened': '{name} 열림',
-      'open.openedWorkflow': '열린 워크플로',
-      'open.exampleWorkflow': '예제 워크플로',
-      'open.driveSoon': 'Google Drive 연결은 데모에서 준비 중입니다',
-      'onboard.aria': '실습 시작 가이드',
-      'onboard.title': '데이터 분석을 함께 시작해볼까요?',
-      'onboard.sub': '3단계 가이드를 따라 쉽고 빠르게 분석을 완성해 보세요.',
-      'onboard.start': '시작하기',
-      'onboard.stepsAria': '시작 단계 선택',
-      'onboard.step1': '위젯 추가',
-      'onboard.step1Desc': '필요한 위젯을 선택하거나 캔버스로 드래그하여 배치하세요.',
-      'onboard.step2': '위젯 연결',
-      'onboard.step2Desc': '위젯과 위젯을 선으로 연결해서 분석 흐름을 구성하세요.',
-      'onboard.step3': '실행 후 결과 확인',
-      'onboard.step3Desc': '‘실행’ 버튼을 눌러 분석 결과를 확인하세요.',
-      'onboard.quick': '빠르게 시작하기',
-      'onboard.load': '이전 작업 불러오기',
-      'onboard.loadDesc': '저장해 둔 워크플로 파일을 열어 이어서 작업하세요.',
-      'onboard.templates': '템플릿 둘러보기',
-      'onboard.templatesDesc': '준비된 분석 템플릿을 살펴보고 바로 시작해 보세요.',
-      'onboard.hintAdd': '왼쪽 위젯 패널에서 위젯을 선택하거나 캔버스로 드래그해 배치하세요',
-      'onboard.hintConnect': '위젯 포트에서 드래그해 다른 위젯과 연결하세요',
-      'onboard.hintRun': '상단 실행 버튼을 눌러 분석 결과를 확인하세요',
-      'onboard.welcome': '{name}님, 환영합니다 · 위젯을 드래그해 분석을 시작해 보세요',
-      'onboard.welcomeAnon': '위젯을 드래그해 분석을 시작해 보세요',
-      'onboard.templatesHint': '템플릿 메뉴에서 원하는 분석을 골라 보세요',
-      'onboard.loadHint': '이전 작업 불러옴 · 파일 → 샘플러 → 선형 회귀 / 산점도 → 예측',
-      'hint.dropWidget': '{label}을(를) 캔버스에 놓으세요',
-      'hint.added': '{label} 추가됨',
-      'hint.link': '입력 포트에 놓아 연결하세요 · Esc로 취소',
-      'hint.undo': '실행 취소',
-      'hint.redo': '다시 실행',
-      'conn.label': '데이터 → 데이터',
-      'conn.title': '연결',
-      'conn.flow': '데이터 흐름',
-      'conn.from': '출발',
-      'conn.to': '도착',
-      'conn.labelField': '라벨',
-      'conn.delete': '연결 삭제',
-      'props.in': '입력',
-      'props.out': '출력',
-      'props.name': '이름',
-      'props.desc': '설명',
-      'props.sample': '샘플 비율 (%)',
-      'props.notes': '메모',
-      'props.dup': '복제',
-      'props.del': '삭제',
-      'props.copySuffix': ' 복사',
-      'tool.pan': '이동',
-      'tool.select': '선택',
-      'tool.rect': '사각형',
-      'tool.diamond': '마름모',
-      'tool.ellipse': '원',
-      'tool.arrow': '화살표',
-      'tool.line': '선',
-      'tool.draw': '펜',
-      'tool.text': '텍스트',
-      'tool.eraser': '지우개',
-      'tool.image': '이미지',
-      'tool.connect': '연결',
-      'tool.shape': '도형',
-      'tool.shapeMore': '도형 더보기',
-      'tool.drawMore': '그리기 더보기',
-      'tool.drawGroup': '그리기',
-      'tool.undo': '실행 취소',
-      'tool.redo': '다시 실행',
-      'nav.minimap': '클릭/드래그로 이동',
-      'nav.zoomOut': '축소',
-      'nav.zoomIn': '확대',
-      'nav.fit': '맞춤',
-      'rail.toggle': '메뉴 접기/펼치기',
-      'lang.ko': '한',
-      'lang.en': '영',
-      'lang.title': '언어',
-      'menu.new': '새로 만들기',
-      'menu.newBlank': '빈 워크플로',
-      'menu.newTemplate': '템플릿에서',
-      'menu.newExample': '예제에서',
-      'menu.open': '열기',
-      'menu.openFile': '파일 열기',
-      'menu.openRecent': '최근 파일',
-      'menu.unsaved': '저장되지 않은 워크플로',
-      'menu.recentMain': '현재 버전',
-      'menu.recentBackup': '백업 (3월)',
-      'menu.recentDraft': '임시 저장',
-      'menu.menu': '메뉴',
-      'menu.workspaces': '워크스페이스',
-      'menu.wsMine': '내 워크스페이스',
-      'menu.wsShared': '공유됨',
-      'menu.wsArchive': '아카이브',
-      'menu.widgets': '위젯',
-      'menu.datasets': '분석 데이터셋',
-      'menu.dsMine': '내 데이터셋',
-      'menu.dsEbs': 'EBS 샘플',
-      'menu.dsEdu': '교육 통계',
-      'menu.dsElem': '초등 학습 데이터',
-      'menu.dsMid': '중등 성취 데이터',
-      'menu.dsHigh': '고등 진로 데이터',
-      'menu.dsImport': '가져오기',
-      'menu.templates': '템플릿',
-      'menu.tplClassify': '분류',
-      'menu.tplBinary': '이진 분류',
-      'menu.tplMulti': '다중 분류',
-      'menu.tplImbalanced': '불균형 데이터',
-      'menu.tplRegress': '회귀',
-      'menu.tplCluster': '클러스터링',
-      'menu.examples': '예제',
-      'menu.exBeginner': '입문',
-      'menu.exIris': 'Iris 분류',
-      'menu.exIrisBasic': '기본 파이프라인',
-      'menu.exIrisKnn': 'KNN 분류',
-      'menu.exIrisTree': '결정 트리',
-      'menu.exTitanic': 'Titanic 생존 예측',
-      'menu.exAdvanced': '고급',
-      'menu.exText': '텍스트 마이닝',
-      'menu.exTfidf': 'TF-IDF 분석',
-      'menu.exLda': 'LDA 토픽 모델',
-      'menu.exSentiment': '감성 분류',
-      'menu.exTs': '시계열 분석',
-      'menu.datasetDes': '데이터셋 설명',
-      'menu.help': '도움말',
-      'menu.helpStart': '시작하기',
-      'menu.helpDocs': '문서',
-      'menu.helpGuide': '가이드',
-      'menu.helpQuick': '빠른 시작',
-      'menu.helpWidget': '위젯 참조',
-      'menu.helpApi': 'API 문서',
-      'menu.helpCommunity': '커뮤니티',
-      'menu.settings': '설정',
-      'menu.setGeneral': '일반',
-      'menu.setShortcuts': '단축키',
-      'menu.setAppearance': '화면',
-      'menu.setTheme': '테마',
-      'menu.themeLight': '라이트',
-      'menu.themeDark': '다크',
-      'menu.themeAuto': '시스템 설정',
-      'cat.data': '데이터',
-      'cat.transform': '변환',
-      'cat.visualize': '시각화',
-      'cat.model': '모델',
-      'cat.evaluate': '평가',
-      'cat.unsupervised': '비지도 학습',
-      'w.file': '파일',
-      'w.data-table': '데이터 테이블',
-      'w.sampler': '데이터 샘플러',
-      'w.linear-regression': '선형 회귀',
-      'w.logistic-regression': '로지스틱 회귀',
-      'w.kmeans': 'k-Means',
-      'w.predictions': '예측',
-      'w.scatter': '산점도',
-      'wd.file': '파일을 불러옵니다.',
-      'wd.data-table': '데이터를 테이블로 봅니다.',
-      'wd.sampler': '데이터를 무작위로 샘플링합니다.',
-      'wd.linear-regression': '선형 회귀 모델을 학습합니다.',
-      'wd.logistic-regression': '로지스틱 회귀 모델을 학습합니다.',
-      'wd.kmeans': 'k-Means 군집화를 수행합니다.',
-      'wd.predictions': '예측 결과를 확인합니다.',
-      'wd.scatter': '산점도를 그립니다.'
-    },
-    en: {
-      'doc.title': 'Workflow Editor',
-      'auth.login': 'Login',
-      'auth.logout': 'Logout',
-      'auth.title': 'Sign in',
-      'auth.desc': 'Sign in to use the workflow editor',
-      'auth.email': 'Email',
-      'auth.password': 'Password',
-      'auth.passwordPh': 'At least 4 characters',
-      'auth.submit': 'Sign in',
-      'auth.errEmail': 'Enter a valid email address',
-      'auth.errPassword': 'Password must be at least 4 characters',
-      'auth.logoutHint': 'Signed out',
-      'tabs.blank': 'Untitled',
-      'tabs.blankN': 'Untitled {n}',
-      'tabs.add': 'New tab',
-      'tabs.close': 'Close',
-      'tabs.closed': 'Closed {label}',
-      'tabs.export': 'Export',
-      'tabs.run': 'Run',
-      'run.running': 'Running workflow…',
-      'run.done': 'Run complete',
-      'sidebar.widgets': 'Widgets',
-      'sidebar.hint': 'Drag to add',
-      'sidebar.search': 'Search widgets...',
-      'sidebar.clear': 'Clear',
-      'splash.loading': 'Loading',
-      'splash.eyebrow': 'Your first data mining platform',
-      'splash.title': 'Do AI with EBS!',
-      'logo.placeholder': 'Logo',
-      'logo.mark': 'L',
-      'open.title': 'Open',
-      'open.desc': 'Choose a source on the left and open an .ows workflow or .json canvas file.',
-      'open.sources': 'Open sources',
-      'open.examples': 'Example Workflow',
-      'open.drive': 'Google Drive',
-      'open.local': 'Local File',
-      'open.iris': 'Iris Classification',
-      'open.irisDesc': 'Beginner · classification pipeline',
-      'open.cluster': 'Clustering Demo',
-      'open.clusterDesc': 'Clustering · visualization',
-      'open.regress': 'Linear Regression',
-      'open.regressDesc': 'Regression · prediction model',
-      'open.driveBody': 'Connect Google Drive to browse and open shared .ows / .json workflow files.',
-      'open.connectDrive': 'Connect Drive',
-      'open.dropAria': 'Choose a local file',
-      'open.drop': 'Drag an .ows/.json file here, or',
-      'open.choose': 'click to choose',
-      'open.cancel': 'Cancel',
-      'open.opened': 'Opened {name}',
-      'open.openedWorkflow': 'Opened Workflow',
-      'open.exampleWorkflow': 'Example Workflow',
-      'open.driveSoon': 'Google Drive is not available in this demo yet',
-      'onboard.aria': 'Getting started guide',
-      'onboard.title': 'Shall we start analyzing data together?',
-      'onboard.sub': 'Follow the 3-step guide to finish your analysis quickly.',
-      'onboard.start': 'Get started',
-      'onboard.stepsAria': 'Choose a starting step',
-      'onboard.step1': 'Add widgets',
-      'onboard.step1Desc': 'Select widgets or drag them onto the canvas.',
-      'onboard.step2': 'Connect widgets',
-      'onboard.step2Desc': 'Connect widgets with lines to build your analysis flow.',
-      'onboard.step3': 'Run and check results',
-      'onboard.step3Desc': 'Press Run to see your analysis results.',
-      'onboard.quick': 'Quick start',
-      'onboard.load': 'Open previous work',
-      'onboard.loadDesc': 'Open a saved workflow and continue where you left off.',
-      'onboard.templates': 'Browse templates',
-      'onboard.templatesDesc': 'Explore ready-made analysis templates and start right away.',
-      'onboard.hintAdd': 'Pick a widget from the left panel or drag it onto the canvas',
-      'onboard.hintConnect': 'Drag from a widget port to connect another widget',
-      'onboard.hintRun': 'Press Run at the top to check analysis results',
-      'onboard.welcome': 'Welcome, {name} · Drag widgets to start analyzing',
-      'onboard.welcomeAnon': 'Drag widgets to start analyzing',
-      'onboard.templatesHint': 'Pick an analysis from the Templates menu',
-      'onboard.loadHint': 'Loaded previous work · File → Sampler → Linear Regression / Scatter → Predictions',
-      'hint.dropWidget': 'Drop {label} onto the canvas',
-      'hint.added': 'Added {label}',
-      'hint.link': 'Drop on an input port to connect · Esc to cancel',
-      'hint.undo': 'Undo',
-      'hint.redo': 'Redo',
-      'conn.label': 'Data → Data',
-      'conn.title': 'Connection',
-      'conn.flow': 'Data flow',
-      'conn.from': 'From',
-      'conn.to': 'To',
-      'conn.labelField': 'Label',
-      'conn.delete': 'Delete connection',
-      'props.in': 'Inputs',
-      'props.out': 'Outputs',
-      'props.name': 'Name',
-      'props.desc': 'Description',
-      'props.sample': 'Sample rate (%)',
-      'props.notes': 'Notes',
-      'props.dup': 'Duplicate',
-      'props.del': 'Delete',
-      'props.copySuffix': ' copy',
-      'tool.pan': 'Pan',
-      'tool.select': 'Select',
-      'tool.rect': 'Rectangle',
-      'tool.diamond': 'Diamond',
-      'tool.ellipse': 'Ellipse',
-      'tool.arrow': 'Arrow',
-      'tool.line': 'Line',
-      'tool.draw': 'Pen',
-      'tool.text': 'Text',
-      'tool.eraser': 'Eraser',
-      'tool.image': 'Image',
-      'tool.connect': 'Connect',
-      'tool.shape': 'Shape',
-      'tool.shapeMore': 'More shapes',
-      'tool.drawMore': 'More drawing tools',
-      'tool.drawGroup': 'Draw',
-      'tool.undo': 'Undo',
-      'tool.redo': 'Redo',
-      'nav.minimap': 'Click or drag to move',
-      'nav.zoomOut': 'Zoom out',
-      'nav.zoomIn': 'Zoom in',
-      'nav.fit': 'Fit',
-      'rail.toggle': 'Collapse / expand menu',
-      'lang.ko': 'KO',
-      'lang.en': 'EN',
-      'lang.title': 'Language',
-      'menu.new': 'New',
-      'menu.newBlank': 'Blank workflow',
-      'menu.newTemplate': 'From template',
-      'menu.newExample': 'From example',
-      'menu.open': 'Open',
-      'menu.openFile': 'Open file',
-      'menu.openRecent': 'Recent files',
-      'menu.unsaved': 'Unsaved Workflow',
-      'menu.recentMain': 'Current version',
-      'menu.recentBackup': 'Backup (Mar)',
-      'menu.recentDraft': 'Draft save',
-      'menu.menu': 'Menu',
-      'menu.workspaces': 'Workspaces',
-      'menu.wsMine': 'My workspaces',
-      'menu.wsShared': 'Shared',
-      'menu.wsArchive': 'Archive',
-      'menu.widgets': 'Widgets',
-      'menu.datasets': 'Analysis datasets',
-      'menu.dsMine': 'My datasets',
-      'menu.dsEbs': 'EBS samples',
-      'menu.dsEdu': 'Education stats',
-      'menu.dsElem': 'Elementary learning data',
-      'menu.dsMid': 'Middle school achievement',
-      'menu.dsHigh': 'High school career data',
-      'menu.dsImport': 'Import',
-      'menu.templates': 'Templates',
-      'menu.tplClassify': 'Classification',
-      'menu.tplBinary': 'Binary classification',
-      'menu.tplMulti': 'Multiclass',
-      'menu.tplImbalanced': 'Imbalanced data',
-      'menu.tplRegress': 'Regression',
-      'menu.tplCluster': 'Clustering',
-      'menu.examples': 'Examples',
-      'menu.exBeginner': 'Beginner',
-      'menu.exIris': 'Iris classification',
-      'menu.exIrisBasic': 'Basic pipeline',
-      'menu.exIrisKnn': 'KNN classification',
-      'menu.exIrisTree': 'Decision tree',
-      'menu.exTitanic': 'Titanic survival',
-      'menu.exAdvanced': 'Advanced',
-      'menu.exText': 'Text mining',
-      'menu.exTfidf': 'TF-IDF analysis',
-      'menu.exLda': 'LDA topic model',
-      'menu.exSentiment': 'Sentiment classification',
-      'menu.exTs': 'Time series analysis',
-      'menu.datasetDes': 'Dataset description',
-      'menu.help': 'Help',
-      'menu.helpStart': 'Getting started',
-      'menu.helpDocs': 'Docs',
-      'menu.helpGuide': 'Guides',
-      'menu.helpQuick': 'Quick start',
-      'menu.helpWidget': 'Widget reference',
-      'menu.helpApi': 'API docs',
-      'menu.helpCommunity': 'Community',
-      'menu.settings': 'Settings',
-      'menu.setGeneral': 'General',
-      'menu.setShortcuts': 'Shortcuts',
-      'menu.setAppearance': 'Appearance',
-      'menu.setTheme': 'Theme',
-      'menu.themeLight': 'Light',
-      'menu.themeDark': 'Dark',
-      'menu.themeAuto': 'System',
-      'cat.data': 'Data',
-      'cat.transform': 'Transform',
-      'cat.visualize': 'Visualize',
-      'cat.model': 'Model',
-      'cat.evaluate': 'Evaluate',
-      'cat.unsupervised': 'Unsupervised Learning',
-      'w.file': 'File',
-      'w.data-table': 'Data Table',
-      'w.sampler': 'Data Sampler',
-      'w.linear-regression': 'Linear Regression',
-      'w.logistic-regression': 'Logistic Regression',
-      'w.kmeans': 'k-Means',
-      'w.predictions': 'Predictions',
-      'w.scatter': 'Scatter Plot',
-      'wd.file': 'Load a file.',
-      'wd.data-table': 'View data in a table.',
-      'wd.sampler': 'Sample data randomly.',
-      'wd.linear-regression': 'Train a linear regression model.',
-      'wd.logistic-regression': 'Train a logistic regression model.',
-      'wd.kmeans': 'Run k-Means clustering.',
-      'wd.predictions': 'Review predictions.',
-      'wd.scatter': 'Draw a scatter plot.'
-    },
-  };
-
-  function t(key, vars = {}) {
-    const table = I18N[lang] || I18N.ko;
-    let s = table[key] ?? I18N.ko[key] ?? key;
-    Object.entries(vars).forEach(([k, v]) => {
-      s = s.replaceAll(`{${k}}`, String(v ?? ''));
-    });
-    return s;
-  }
-
-  function widgetLabel(id) { return t(`w.${id}`); }
-  function widgetDesc(id) { return t(`wd.${id}`); }
-  function catName(id) { return t(`cat.${id}`); }
-
-  function applyI18n(root = document) {
-    root.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (!key) return;
-      if (el.childElementCount && el.dataset.i18nKeepChildren === '1') {
-        const textNode = [...el.childNodes].find(n => n.nodeType === 3 && n.textContent.trim());
-        if (textNode) textNode.textContent = ` ${t(key)} `;
-        else el.append(` ${t(key)}`);
-      } else {
-        el.textContent = t(key);
-      }
-    });
-    root.querySelectorAll('[data-i18n-html]').forEach(el => {
-      el.innerHTML = t(el.getAttribute('data-i18n-html'));
-    });
-    root.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-      el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
-    });
-    root.querySelectorAll('[data-i18n-title]').forEach(el => {
-      el.title = t(el.getAttribute('data-i18n-title'));
-    });
-    root.querySelectorAll('[data-i18n-aria]').forEach(el => {
-      el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria')));
-    });
-    root.querySelectorAll('[data-i18n-alt]').forEach(el => {
-      el.alt = t(el.getAttribute('data-i18n-alt'));
-    });
-    document.title = t('doc.title');
-    document.documentElement.lang = lang;
-    document.querySelectorAll('[data-lang]').forEach(btn => {
-      btn.classList.toggle('is-active', btn.dataset.lang === lang);
-      btn.setAttribute('aria-pressed', btn.dataset.lang === lang ? 'true' : 'false');
-    });
-  }
-
-  function refreshLocalizedUI() {
-    if (typeof rebuildItemMap === 'function') rebuildItemMap();
-    applyI18n(document);
-    document.querySelectorAll('[data-tab-blank]').forEach(el => {
-      el.textContent = t('tabs.blankN', { n: el.dataset.tabBlank });
-    });
-    const search = document.getElementById('searchInput');
-    if (typeof renderCatalog === 'function') renderCatalog(search?.value || '');
-    if (typeof renderMenuSections === 'function' && railMenu && railBottom) {
-      renderMenuSections(MENU_SECTIONS, railMenu);
-      renderMenuSections([{ items: MENU_BOTTOM }], railBottom);
-      if (typeof bindMenuClicks === 'function') {
-        bindMenuClicks(rail);
-        bindMenuClicks(railBottom);
-      }
-      if (typeof syncWidgetSidebar === 'function') syncWidgetSidebar();
-    }
-    // Keep node display names in sync with widget catalog language
-    if (Array.isArray(nodes)) {
-      nodes.forEach(n => {
-        if (ITEM_MAP[n.type] && !n.nameLocked) n.name = widgetLabel(n.type);
-      });
-      if (typeof renderNodes === 'function') renderNodes();
-    }
-    if (typeof renderProps === 'function') renderProps();
-    if (typeof syncToolUI === 'function') syncToolUI();
-    if (typeof renderAuthUI === 'function') renderAuthUI();
-  }
-
-  function setLang(next) {
-    lang = next === 'en' ? 'en' : 'ko';
-    localStorage.setItem(LANG_KEY, lang);
-    refreshLocalizedUI();
-  }
-
   const svg = (paths) =>
     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
 
@@ -2787,7 +2293,7 @@
     <svg class="ico-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
   </span>`;
 
-  /* ========== SVG icon library ========== */
+  /* ========== SVG icon library (glass squircle) ========== */
   const ICONS = {
     sampler: svg(`<rect x="2.5" y="5" width="9" height="9" rx="1.6"/><path d="M2.5 9.5h9M7 5v9"/><rect x="12.5" y="10.5" width="9" height="9" rx="1.8"/><circle cx="15.2" cy="13.2" r=".55" fill="currentColor" stroke="none"/><circle cx="18.8" cy="16.8" r=".55" fill="currentColor" stroke="none"/><circle cx="15.2" cy="16.8" r=".55" fill="currentColor" stroke="none"/><circle cx="18.8" cy="13.2" r=".55" fill="currentColor" stroke="none"/>`),
     'sel-cols': svg(`<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M10 4v16M14 4v16"/><rect x="10" y="4" width="4" height="16" fill="currentColor" opacity=".22" stroke="none"/>`),
@@ -2828,85 +2334,110 @@
   }
 
   const W = (name) => `assets/widgets/${name}.png`;
-  const CATS_DEF = [
+  const CATS = [
     {
-      id: 'data', tone: 'red', color: '#E86A4A', soft: '#FBF1EE', tile: 'icon-red',
+      id: 'data', name: 'Data', tone: 'red', color: '#E86A4A', soft: '#FBF1EE', tile: 'icon-red',
       img: W('data-table'),
       items: [
-        { id: 'file', icon: 'file', img: W('file') },
-        { id: 'data-table', icon: 'data-table', img: W('data-table') },
-      ],
+        { id: 'file', label: 'File', icon: 'file', img: W('file'), desc: '파일을 불러옵니다.' },
+        { id: 'csv', label: 'CSV', icon: 'csv', img: W('csv'), desc: 'CSV 파일을 불러옵니다.' },
+        { id: 'datasets', label: 'Datasets', icon: 'datasets', img: W('datasets'), desc: '예제 데이터셋을 불러옵니다.' },
+        { id: 'data-table', label: 'Data Table', icon: 'data-table', img: W('data-table'), desc: '데이터를 테이블로 봅니다.' },
+        { id: 'rank', label: 'Rank', icon: 'rank', img: W('rank'), desc: '특성 순위를 매깁니다.' },
+        { id: 'feat-stats', label: 'Feature Statistics', icon: 'feat-stats', img: W('feature-statistics'), desc: '특성 통계를 봅니다.' },
+        { id: 'domain', label: 'Edit Domain', icon: 'domain', img: W('edit-domain'), desc: '도메인을 편집합니다.' },
+        { id: 'save-data', label: 'Save Data', icon: 'save-data', img: W('save-data'), desc: '데이터를 저장합니다.' },
+      ]
     },
     {
-      id: 'transform', tone: 'orange', color: '#E8A04A', soft: '#FBF6EE', tile: 'icon-orange',
-      img: W('data-sampler'),
+      id: 'transform', name: 'Transform', tone: 'orange', color: '#E8A04A', soft: '#FBF6EE', tile: 'icon-orange',
+      img: W('select-columns'),
       items: [
-        { id: 'sampler', icon: 'sampler', img: W('data-sampler') },
-      ],
+        { id: 'sampler', label: 'Data Sampler', icon: 'sampler', img: W('data-sampler'), desc: '데이터를 무작위로 샘플링합니다.' },
+        { id: 'sel-cols', label: 'Select Columns', icon: 'sel-cols', img: W('select-columns'), desc: '사용할 열을 선택합니다.' },
+        { id: 'sel-rows', label: 'Select Rows', icon: 'sel-rows', img: W('select-rows'), desc: '조건에 맞는 행을 선택합니다.' },
+        { id: 'merge', label: 'Merge Data', icon: 'merge', img: W('merge-data'), desc: '데이터셋을 병합합니다.' },
+        { id: 'concat', label: 'Concatenate', icon: 'concat', img: W('concatenate'), desc: '데이터를 이어 붙입니다.' },
+        { id: 'groupby', label: 'Group by', icon: 'groupby', img: W('group-by'), desc: '그룹별로 묶습니다.' },
+        { id: 'impute', label: 'Impute', icon: 'impute', img: W('impute'), desc: '결측값을 채웁니다.' },
+        { id: 'discretize', label: 'Discretize', icon: 'discretize', img: W('discretize'), desc: '이산형으로 변환합니다.' },
+      ]
     },
     {
-      id: 'visualize', tone: 'green', color: '#3DB85C', soft: '#F0F8F2', tile: 'icon-green',
+      id: 'visualize', name: 'Visualize', tone: 'green', color: '#3DB85C', soft: '#F0F8F2', tile: 'icon-green',
       img: W('scatter-plot'),
       items: [
-        { id: 'scatter', icon: 'scatter', img: W('scatter-plot') },
-      ],
+        { id: 'scatter', label: 'Scatter Plot', icon: 'scatter', img: W('scatter-plot'), desc: '산점도를 그립니다.' },
+        { id: 'bar-plot', label: 'Bar Plot', icon: 'bar-plot', img: W('bar-plot'), desc: '막대 그래프를 그립니다.' },
+        { id: 'box-plot', label: 'Box Plot', icon: 'box-plot', img: W('box-plot'), desc: '상자 그림을 그립니다.' },
+        { id: 'line-plot', label: 'Line Plot', icon: 'line-plot', img: W('line-plot'), desc: '선 그래프를 그립니다.' },
+        { id: 'violin', label: 'Violin Plot', icon: 'violin', img: W('violin-plot'), desc: '바이올린 플롯을 그립니다.' },
+        { id: 'distributions', label: 'Distributions', icon: 'distributions', img: W('distributions'), desc: '분포를 확인합니다.' },
+      ]
     },
     {
-      id: 'model', tone: 'blue', color: '#3D8AD4', soft: '#EEF4FB', tile: 'icon-blue',
-      img: W('linear-regression'),
+      id: 'evaluate', name: 'Evaluate', tone: 'cyan', color: '#4AABB8', soft: '#EFF7F8', tile: 'icon-cyan',
+      img: W('confusion-matrix'),
       items: [
-        { id: 'linear-regression', icon: 'linear-regression', img: W('linear-regression') },
-        { id: 'logistic-regression', icon: 'logistic-regression', img: W('logistic-regression') },
-      ],
+        { id: 'predictions', label: 'Predictions', icon: 'predictions', img: W('predictions'), desc: '예측 결과를 확인합니다.' },
+        { id: 'test-score', label: 'Test & Score', icon: 'test-score', img: W('test-score'), desc: '모델을 평가합니다.' },
+        { id: 'roc', label: 'ROC Analysis', icon: 'roc', img: W('roc-analysis'), desc: 'ROC 곡선을 분석합니다.' },
+        { id: 'confusion', label: 'Confusion Matrix', icon: 'confusion', img: W('confusion-matrix'), desc: '혼동 행렬을 확인합니다.' },
+      ]
     },
     {
-      id: 'evaluate', tone: 'cyan', color: '#4AABB8', soft: '#EFF7F8', tile: 'icon-cyan',
-      img: W('predictions'),
-      items: [
-        { id: 'predictions', icon: 'predictions', img: W('predictions') },
-      ],
-    },
-    {
-      id: 'unsupervised', tone: 'blue', color: '#5BB0D8', soft: '#EFF6FB', tile: 'icon-blue',
+      id: 'unsupervised', name: 'Unsupervised', tone: 'blue', color: '#5BB0D8', soft: '#EFF6FB', tile: 'icon-blue',
       img: W('k-means'),
       items: [
-        { id: 'kmeans', icon: 'kmeans', img: W('k-means') },
-      ],
+        { id: 'kmeans', label: 'k-Means', icon: 'kmeans', img: W('k-means'), desc: 'k-Means 군집화를 수행합니다.' },
+        { id: 'dbscan', label: 'DBSCAN', icon: 'dbscan', img: W('dbscan'), desc: 'DBSCAN 군집화를 수행합니다.' },
+        { id: 'hierarchical', label: 'Hierarchical Clustering', icon: 'hierarchical', img: W('hierarchical-clustering'), desc: '계층적 군집화를 수행합니다.' },
+      ]
+    },
+    {
+      id: 'image', name: 'Image Analytics', tone: 'blue', color: '#3D8AD4', soft: '#EEF4FB', tile: 'icon-blue',
+      img: W('image-viewer'),
+      items: [
+        { id: 'import-images', label: 'Import Images', icon: 'import-images', img: W('import-images'), desc: '이미지를 불러옵니다.' },
+        { id: 'image-viewer', label: 'Image Viewer', icon: 'image-viewer', img: W('image-viewer'), desc: '이미지를 봅니다.' },
+        { id: 'image-embedding', label: 'Image Embedding', icon: 'image-embedding', img: W('image-embedding'), desc: '이미지 임베딩을 만듭니다.' },
+      ]
+    },
+    {
+      id: 'timeseries', name: 'Time Series', tone: 'purple', color: '#6B69B8', soft: '#F3F3F9', tile: 'icon-purple',
+      img: W('time-slice'),
+      items: [
+        { id: 'time-slice', label: 'Time Slice', icon: 'time-slice', img: W('time-slice'), desc: '시간 구간을 자릅니다.' },
+      ]
+    },
+    {
+      id: 'text', name: 'Text Mining', tone: 'purple', color: '#A066B8', soft: '#F7F2FA', tile: 'icon-purple',
+      img: W('word-cloud'),
+      items: [
+        { id: 'corpus', label: 'Corpus', icon: 'corpus', img: W('corpus'), desc: '텍스트 말뭉치를 만듭니다.' },
+        { id: 'corpus-viewer', label: 'Corpus Viewer', icon: 'corpus-viewer', img: W('corpus-viewer'), desc: '말뭉치를 탐색합니다.' },
+        { id: 'bag-of-words', label: 'Bag of Words', icon: 'bag-of-words', img: W('bag-of-words'), desc: '단어 가방을 만듭니다.' },
+        { id: 'preprocess-text', label: 'Preprocess Text', icon: 'preprocess-text', img: W('preprocess-text'), desc: '텍스트를 전처리합니다.' },
+        { id: 'sentiment', label: 'Sentiment Analysis', icon: 'sentiment', img: W('sentiment-analysis'), desc: '감성 분석을 수행합니다.' },
+        { id: 'word-cloud', label: 'Word Cloud', icon: 'word-cloud', img: W('word-cloud'), desc: '워드 클라우드를 그립니다.' },
+      ]
+    },
+    {
+      id: 'geo', name: 'Geo', tone: 'purple', color: '#9680C0', soft: '#F5F2FA', tile: 'icon-purple',
+      img: W('geo-map'),
+      items: [
+        { id: 'geo-map', label: 'Geo Map', icon: 'geo-map', img: W('geo-map'), desc: '지도에 표시합니다.' },
+        { id: 'geocoding', label: 'Geocoding', icon: 'geocoding', img: W('geocoding'), desc: '주소를 좌표로 변환합니다.' },
+        { id: 'choropleth', label: 'Choropleth Map', icon: 'choropleth', img: W('choropleth-map'), desc: '단계구분도를 그립니다.' },
+      ]
     },
   ];
-  function buildCats() {
-    return CATS_DEF.map(c => ({
-      ...c,
-      get name() { return catName(c.id); },
-      items: c.items.map(it => ({
-        ...it,
-        get label() { return widgetLabel(it.id); },
-        get desc() { return widgetDesc(it.id); },
-      })),
-    }));
-  }
-  let CATS = buildCats();
+
 
   const ITEM_MAP = {};
-  function rebuildItemMap() {
-    Object.keys(ITEM_MAP).forEach(k => delete ITEM_MAP[k]);
-    CATS = buildCats();
-    CATS.forEach(c => c.items.forEach(it => {
-      Object.defineProperty(ITEM_MAP, it.id, {
-        configurable: true, enumerable: true,
-        get() {
-          return {
-            ...it,
-            label: widgetLabel(it.id),
-            desc: widgetDesc(it.id),
-            catId: c.id, tone: c.tone, color: c.color,
-            catName: catName(c.id), tile: c.tile, img: it.img || c.img,
-          };
-        },
-      });
-    }));
-  }
-  rebuildItemMap();
+  CATS.forEach(c => c.items.forEach(it => {
+    ITEM_MAP[it.id] = { ...it, catId: c.id, tone: c.tone, color: c.color, catName: c.name, tile: c.tile, img: it.img || c.img };
+  }));
 
   /* ========== State ========== */
   let nodes = [];
@@ -2941,17 +2472,17 @@
     const q = filter.trim().toLowerCase();
     catBox.innerHTML = '';
     CATS.forEach(cat => {
-      const items = cat.items.filter(it => !q || widgetLabel(it.id).toLowerCase().includes(q));
+      const items = cat.items.filter(it => !q || it.label.toLowerCase().includes(q));
       if (!items.length) return;
       const wrap = document.createElement('div');
-      const collapsed = false;
+      const collapsed = !q && cat.id !== 'data';
       wrap.className = `cat ${cat.tone}${collapsed ? ' collapsed' : ''}`;
       wrap.style.setProperty('--cat-soft', cat.soft);
       wrap.style.setProperty('--accent', cat.color);
       wrap.innerHTML = `
         <div class="cat-header">
           <span class="left">
-            ${catName(cat.id)}<span class="cat-count">(${items.length})</span>
+            ${cat.name}<span class="cat-count">(${items.length})</span>
           </span>
           ${CAT_TOGGLE}
         </div>`;
@@ -2965,7 +2496,7 @@
         w.appendChild(makeIco(it.icon, '', cat.tile, it.img || cat.img));
         const lab = document.createElement('div');
         lab.className = 'label';
-        lab.textContent = widgetLabel(it.id);
+        lab.textContent = it.label;
         w.appendChild(lab);
         w.addEventListener('dragstart', e => {
           dropType = it.id;
@@ -2977,7 +2508,7 @@
           document.body.appendChild(ghost);
           e.dataTransfer.setDragImage(ghost, 32, 32);
           setTimeout(() => ghost.remove(), 0);
-          showHint(t('hint.dropWidget', { label: widgetLabel(it.id) }));
+          showHint(`${it.label}을(를) 캔버스에 놓으세요`);
         });
         w.addEventListener('dragend', () => { dropType = null; hideHint(); });
         grid.appendChild(w);
@@ -3094,13 +2625,6 @@
         selectNode(n.id);
         startNodeDrag(n, e);
       });
-      const onOpenProps = e => {
-        e.stopPropagation();
-        e.preventDefault();
-        openNodeProps(n.id);
-      };
-      ico.addEventListener('dblclick', onOpenProps);
-      title.addEventListener('dblclick', onOpenProps);
 
       portOut.addEventListener('mousedown', e => {
         e.stopPropagation();
@@ -3129,32 +2653,21 @@
     };
   }
 
-  let propsOpen = false;
-
   function selectNode(id) {
     selectedNodeId = id;
     selectedConnId = null;
     renderNodes();
   }
 
-  function openNodeProps(id) {
-    selectedNodeId = id;
-    selectedConnId = null;
-    propsOpen = true;
-    renderNodes();
-  }
-
   function selectConn(id) {
     selectedConnId = id;
     selectedNodeId = null;
-    propsOpen = true;
     renderNodes();
   }
 
   function clearSelection() {
     selectedNodeId = null;
     selectedConnId = null;
-    propsOpen = false;
     renderNodes();
   }
 
@@ -3269,7 +2782,7 @@
     const w = screenToWorld(e.clientX, e.clientY);
     linking = { fromId, x: w.x, y: w.y };
     canvasWrap.classList.add('connecting');
-    showHint(t('hint.link'));
+    showHint('입력 포트에 놓아 연결하세요 · Esc로 취소');
     drawConnections();
   }
 
@@ -3281,7 +2794,7 @@
         id: uid('c'),
         from: linking.fromId,
         to: toId,
-        label: t('conn.label'),
+        label: 'Data → Data',
       });
     }
     linking = null;
@@ -3300,7 +2813,6 @@
   /* ========== Properties ========== */
   function renderProps() {
     if (selectedNodeId) {
-      if (!propsOpen) { propsEl.classList.add('empty'); return; }
       const n = nodeById(selectedNodeId);
       if (!n) { propsEl.classList.add('empty'); return; }
       const meta = metaOf(n);
@@ -3312,42 +2824,39 @@
           <div class="icon-tile xl icon-tile--img ${meta.tile}"><img src="${meta.img}" alt=""></div>
           <div class="meta">
             <div class="name">${n.name}</div>
-            <span class="cat-pill"><i style="background:${meta.color}"></i>${catName(meta.catId)}</span>
+            <span class="cat-pill"><i style="background:${meta.color}"></i>${meta.catName}</span>
           </div>
           <button class="props-close" type="button" id="propsClose">✕</button>
         </div>
         <div class="props-body">
           <div class="stat-grid">
-            <div class="stat"><div class="k">${t('props.in')}</div><div class="v">${inC}</div></div>
-            <div class="stat"><div class="k">${t('props.out')}</div><div class="v">${outC}</div></div>
+            <div class="stat"><div class="k">입력</div><div class="v">${inC}</div></div>
+            <div class="stat"><div class="k">출력</div><div class="v">${outC}</div></div>
           </div>
           <div class="field">
-            <label>${t('props.name')}</label>
+            <label>이름</label>
             <input id="propName" value="${escapeAttr(n.name)}">
           </div>
           <div class="field">
-            <label>${t('props.desc')}</label>
-            <div style="color:var(--muted);font-size:12.5px;line-height:1.45">${widgetDesc(n.type)}</div>
+            <label>설명</label>
+            <div style="color:var(--muted);font-size:12.5px;line-height:1.45">${meta.desc}</div>
           </div>
           <div class="field">
-            <label>${t('props.sample')}</label>
+            <label>샘플 비율 (%)</label>
             <input id="propSample" type="number" min="1" max="100" value="${n.sample}">
           </div>
           <div class="field">
-            <label>${t('props.notes')}</label>
+            <label>메모</label>
             <textarea id="propNotes">${escapeHtml(n.notes || '')}</textarea>
           </div>
           <div class="props-actions">
-            <button class="btn-secondary" type="button" id="propDup">${t('props.dup')}</button>
-            <button class="btn-danger" type="button" id="propDel">${t('props.del')}</button>
+            <button class="btn-secondary" type="button" id="propDup">복제</button>
+            <button class="btn-danger" type="button" id="propDel">삭제</button>
           </div>
         </div>`;
-      document.getElementById('propsClose').onclick = () => {
-        propsOpen = false;
-        renderProps();
-      };
+      document.getElementById('propsClose').onclick = clearSelection;
       document.getElementById('propName').oninput = e => {
-        n.name = e.target.value; n.nameLocked = true;
+        n.name = e.target.value;
         const title = nodesLayer.querySelector(`[data-id="${n.id}"] .title`);
         if (title) {
           const ins = connections.filter(c => c.to === n.id).length;
@@ -3371,24 +2880,20 @@
         <div class="props-head">
           <div style="width:56px;height:56px;border-radius:14px;background:var(--brand-soft);display:flex;align-items:center;justify-content:center;color:var(--brand);font-size:22px;font-weight:800">→</div>
           <div class="meta">
-            <div class="name">${t('conn.title')}</div>
-            <span class="cat-pill">${t('conn.flow')}</span>
+            <div class="name">연결</div>
+            <span class="cat-pill">데이터 흐름</span>
           </div>
           <button class="props-close" type="button" id="propsClose">✕</button>
         </div>
         <div class="props-body">
-          <div class="field"><label>${t('conn.from')}</label><input value="${escapeAttr(from?.name || '')}" readonly></div>
-          <div class="field"><label>${t('conn.to')}</label><input value="${escapeAttr(to?.name || '')}" readonly></div>
-          <div class="field"><label>${t('conn.labelField')}</label><input id="connLabel" value="${escapeAttr(c.label || '')}"></div>
+          <div class="field"><label>From</label><input value="${escapeAttr(from?.name || '')}" readonly></div>
+          <div class="field"><label>To</label><input value="${escapeAttr(to?.name || '')}" readonly></div>
+          <div class="field"><label>라벨</label><input id="connLabel" value="${escapeAttr(c.label || '')}"></div>
           <div class="props-actions">
-            <button class="btn-danger" type="button" id="propDel">${t('conn.delete')}</button>
+            <button class="btn-danger" type="button" id="propDel">연결 삭제</button>
           </div>
         </div>`;
-      document.getElementById('propsClose').onclick = () => {
-        propsOpen = false;
-        selectedConnId = null;
-        renderNodes();
-      };
+      document.getElementById('propsClose').onclick = clearSelection;
       document.getElementById('connLabel').oninput = e => {
         c.label = e.target.value;
         drawConnections();
@@ -3423,7 +2928,7 @@
   function duplicateNode(id) {
     const n = nodeById(id);
     if (!n) return;
-    const copy = { ...n, id: uid('n'), x: n.x + 36, y: n.y + 36, name: n.name + t('props.copySuffix'), nameLocked: true };
+    const copy = { ...n, id: uid('n'), x: n.x + 36, y: n.y + 36, name: n.name + ' 복사' };
     nodes.push(copy);
     selectNode(copy.id);
   }
@@ -3606,14 +3111,14 @@
       type,
       x: w.x - 54,
       y: w.y - 42,
-      name: widgetLabel(type),
+      name: meta.label,
       notes: '',
       sample: 100,
     };
     nodes.push(n);
     selectNode(n.id);
     closeOnboard();
-    showHint(t('hint.added', { label: widgetLabel(type) }));
+    showHint(`${meta.label} 추가됨`);
   });
 
   // minimap drag
@@ -3669,27 +3174,27 @@
     {
       items: [
         {
-          id: 'new', labelKey: 'menu.new', icon: 'new',
+          id: 'new', label: 'New', icon: 'new',
           children: [
-            { id: 'new-blank', labelKey: 'menu.newBlank' },
-            { id: 'new-template', labelKey: 'menu.newTemplate' },
-            { id: 'new-example', labelKey: 'menu.newExample' },
+            { id: 'new-blank', label: '빈 워크플로' },
+            { id: 'new-template', label: '템플릿에서' },
+            { id: 'new-example', label: '예제에서' },
           ],
         },
         {
-          id: 'open', labelKey: 'menu.open', icon: 'open',
+          id: 'open', label: 'Open', icon: 'open',
           children: [
-            { id: 'open-file', labelKey: 'menu.openFile' },
+            { id: 'open-file', label: '파일 열기' },
             {
-              id: 'open-recent', labelKey: 'menu.openRecent',
+              id: 'open-recent', label: '최근 파일',
               children: [
-                { id: 'recent-1', labelKey: 'menu.unsaved' },
+                { id: 'recent-1', label: 'Unsaved Workflow' },
                 {
                   id: 'recent-2', label: 'classification.ows',
                   children: [
-                    { id: 'recent-2-main', labelKey: 'menu.recentMain' },
-                    { id: 'recent-2-backup', labelKey: 'menu.recentBackup' },
-                    { id: 'recent-2-draft', labelKey: 'menu.recentDraft' },
+                    { id: 'recent-2-main', label: '현재 버전' },
+                    { id: 'recent-2-backup', label: '백업 (3월)' },
+                    { id: 'recent-2-draft', label: '임시 저장' },
                   ],
                 },
                 { id: 'recent-3', label: 'clustering-demo.ows' },
@@ -3697,52 +3202,52 @@
             },
           ],
         },
-        { id: 'menu', labelKey: 'menu.menu', icon: 'menu' },
+        { id: 'menu', label: 'Menu', icon: 'menu' },
         {
-          id: 'workspaces', labelKey: 'menu.workspaces', icon: 'workspaces',
+          id: 'workspaces', label: 'WorkSpaces', icon: 'workspaces',
           children: [
-            { id: 'ws-mine', labelKey: 'menu.wsMine' },
-            { id: 'ws-shared', labelKey: 'menu.wsShared' },
-            { id: 'ws-archive', labelKey: 'menu.wsArchive' },
+            { id: 'ws-mine', label: '내 워크스페이스' },
+            { id: 'ws-shared', label: '공유됨' },
+            { id: 'ws-archive', label: '아카이브' },
           ],
         },
-        { id: 'widgets', labelKey: 'menu.widgets', icon: 'widgets' },
+        { id: 'widgets', label: 'Widget', icon: 'widgets' },
       ],
     },
     {
       items: [
         {
-          id: 'datasets', labelKey: 'menu.datasets', icon: 'datasets',
+          id: 'datasets', label: 'Analysis-Datasets', icon: 'datasets',
           children: [
-            { id: 'ds-mine', labelKey: 'menu.dsMine' },
+            { id: 'ds-mine', label: '내 데이터셋' },
             {
-              id: 'ds-ebs', labelKey: 'menu.dsEbs',
+              id: 'ds-ebs', label: 'EBS 샘플',
               children: [
                 {
-                  id: 'ds-ebs-edu', labelKey: 'menu.dsEdu',
+                  id: 'ds-ebs-edu', label: '교육 통계',
                   children: [
-                    { id: 'ds-ebs-elem', labelKey: 'menu.dsElem' },
-                    { id: 'ds-ebs-mid', labelKey: 'menu.dsMid' },
-                    { id: 'ds-ebs-high', labelKey: 'menu.dsHigh' },
+                    { id: 'ds-ebs-elem', label: '초등 학습 데이터' },
+                    { id: 'ds-ebs-mid', label: '중등 성취 데이터' },
+                    { id: 'ds-ebs-high', label: '고등 진로 데이터' },
                   ],
                 },
               ],
             },
-            { id: 'ds-import', labelKey: 'menu.dsImport' },
+            { id: 'ds-import', label: '가져오기' },
           ],
         },
         {
-          id: 'templates', labelKey: 'menu.templates', icon: 'templates',
+          id: 'templates', label: 'Templates', icon: 'templates',
           children: [
-            { id: 'tpl-classify', labelKey: 'menu.tplClassify',
+            { id: 'tpl-classify', label: '분류',
               children: [
-                { id: 'tpl-clf-binary', labelKey: 'menu.tplBinary' },
-                { id: 'tpl-clf-multi', labelKey: 'menu.tplMulti' },
-                { id: 'tpl-clf-imbalanced', labelKey: 'menu.tplImbalanced' },
+                { id: 'tpl-clf-binary', label: '이진 분류' },
+                { id: 'tpl-clf-multi', label: '다중 분류' },
+                { id: 'tpl-clf-imbalanced', label: '불균형 데이터' },
               ],
             },
-            { id: 'tpl-regress', labelKey: 'menu.tplRegress' },
-            { id: 'tpl-cluster', labelKey: 'menu.tplCluster' },
+            { id: 'tpl-regress', label: '회귀' },
+            { id: 'tpl-cluster', label: '클러스터링' },
           ],
         },
       ],
@@ -3750,78 +3255,78 @@
     {
       items: [
         {
-          id: 'examples', labelKey: 'menu.examples', icon: 'examples',
+          id: 'examples', label: 'Examples', icon: 'examples',
           children: [
             {
-              id: 'ex-beginner', labelKey: 'menu.exBeginner',
+              id: 'ex-beginner', label: '입문',
               children: [
                 {
-                  id: 'ex-iris', labelKey: 'menu.exIris',
+                  id: 'ex-iris', label: 'Iris 분류',
                   children: [
-                    { id: 'ex-iris-basic', labelKey: 'menu.exIrisBasic' },
-                    { id: 'ex-iris-knn', labelKey: 'menu.exIrisKnn' },
-                    { id: 'ex-iris-tree', labelKey: 'menu.exIrisTree' },
+                    { id: 'ex-iris-basic', label: '기본 파이프라인' },
+                    { id: 'ex-iris-knn', label: 'KNN 분류' },
+                    { id: 'ex-iris-tree', label: '결정 트리' },
                   ],
                 },
-                { id: 'ex-titanic', labelKey: 'menu.exTitanic' },
+                { id: 'ex-titanic', label: 'Titanic 생존 예측' },
               ],
             },
             {
-              id: 'ex-advanced', labelKey: 'menu.exAdvanced',
+              id: 'ex-advanced', label: '고급',
               children: [
                 {
-                  id: 'ex-text', labelKey: 'menu.exText',
+                  id: 'ex-text', label: '텍스트 마이닝',
                   children: [
-                    { id: 'ex-text-tfidf', labelKey: 'menu.exTfidf' },
-                    { id: 'ex-text-lda', labelKey: 'menu.exLda' },
-                    { id: 'ex-text-sentiment', labelKey: 'menu.exSentiment' },
+                    { id: 'ex-text-tfidf', label: 'TF-IDF 분석' },
+                    { id: 'ex-text-lda', label: 'LDA 토픽 모델' },
+                    { id: 'ex-text-sentiment', label: '감성 분류' },
                   ],
                 },
-                { id: 'ex-ts', labelKey: 'menu.exTs' },
+                { id: 'ex-ts', label: '시계열 분석' },
               ],
             },
           ],
         },
-        { id: 'dataset-des', labelKey: 'menu.datasetDes', icon: 'datasetDes' },
+        { id: 'dataset-des', label: 'DataSet Des', icon: 'datasetDes' },
       ],
     },
   ];
 
   const MENU_BOTTOM = [
     {
-      id: 'help', labelKey: 'menu.help', icon: 'help',
+      id: 'help', label: 'Help', icon: 'help',
       children: [
-        { id: 'help-start', labelKey: 'menu.helpStart' },
+        { id: 'help-start', label: '시작하기' },
         {
-          id: 'help-docs', labelKey: 'menu.helpDocs',
+          id: 'help-docs', label: '문서',
           children: [
             {
-              id: 'help-docs-guide', labelKey: 'menu.helpGuide',
+              id: 'help-docs-guide', label: '가이드',
               children: [
-                { id: 'help-docs-quickstart', labelKey: 'menu.helpQuick' },
-                { id: 'help-docs-widget', labelKey: 'menu.helpWidget' },
-                { id: 'help-docs-api', labelKey: 'menu.helpApi' },
+                { id: 'help-docs-quickstart', label: '빠른 시작' },
+                { id: 'help-docs-widget', label: '위젯 참조' },
+                { id: 'help-docs-api', label: 'API 문서' },
               ],
             },
           ],
         },
-        { id: 'help-community', labelKey: 'menu.helpCommunity' },
+        { id: 'help-community', label: '커뮤니티' },
       ],
     },
     {
-      id: 'settings', labelKey: 'menu.settings', icon: 'settings',
+      id: 'settings', label: 'Settings', icon: 'settings',
       children: [
-        { id: 'set-general', labelKey: 'menu.setGeneral' },
-        { id: 'set-shortcuts', labelKey: 'menu.setShortcuts' },
+        { id: 'set-general', label: '일반' },
+        { id: 'set-shortcuts', label: '단축키' },
         {
-          id: 'set-appearance', labelKey: 'menu.setAppearance',
+          id: 'set-appearance', label: '화면',
           children: [
             {
-              id: 'set-theme', labelKey: 'menu.setTheme',
+              id: 'set-theme', label: '테마',
               children: [
-                { id: 'set-theme-light', labelKey: 'menu.themeLight' },
-                { id: 'set-theme-dark', labelKey: 'menu.themeDark' },
-                { id: 'set-theme-auto', labelKey: 'menu.themeAuto' },
+                { id: 'set-theme-light', label: '라이트' },
+                { id: 'set-theme-dark', label: '다크' },
+                { id: 'set-theme-auto', label: '시스템 설정' },
               ],
             },
           ],
@@ -3829,11 +3334,6 @@
       ],
     },
   ];
-
-  function menuLabel(item) {
-    if (item.labelKey) return t(item.labelKey);
-    return item.label || item.id;
-  }
 
   const MENU_ICONS = {
     new: '<path d="M12 5v14M5 12h14"/>',
@@ -3869,13 +3369,13 @@
 
     if (depth === 1) {
       if (!expandable) {
-        return `<button class="rail-item${active}" type="button" data-menu="${item.id}" data-depth="1" title="${menuLabel(item)}">
-          ${menuIcon(item.icon)}<span class="ri-label">${menuLabel(item)}</span>
+        return `<button class="rail-item${active}" type="button" data-menu="${item.id}" data-depth="1" title="${item.label}">
+          ${menuIcon(item.icon)}<span class="ri-label">${item.label}</span>
         </button>`;
       }
       return `<div class="rail-group${open}" data-group="${item.id}">
-        <button class="rail-item has-children${active}" type="button" data-menu="${item.id}" data-depth="1" title="${menuLabel(item)}">
-          ${menuIcon(item.icon)}<span class="ri-label">${menuLabel(item)}</span>${CHEVRON}
+        <button class="rail-item has-children${active}" type="button" data-menu="${item.id}" data-depth="1" title="${item.label}">
+          ${menuIcon(item.icon)}<span class="ri-label">${item.label}</span>${CHEVRON}
         </button>
         <div class="rail-children"><div class="rail-children-inner">
           ${renderMenuNodes(item.children, 2)}
@@ -3886,7 +3386,7 @@
     if (expandable) {
       return `<div class="rail-sub-wrap${open}" data-wrap="${item.id}">
         <button class="rail-sub has-children${active}" type="button" data-menu="${item.id}" data-depth="${depth}">
-          <span>${menuLabel(item)}</span>${CHEVRON}
+          <span>${item.label}</span>${CHEVRON}
         </button>
         <div class="rail-sub-children"><div class="rail-sub-children-inner">
           ${renderMenuNodes(item.children, depth + 1)}
@@ -3896,7 +3396,7 @@
 
     const btnClass = depth >= 3 ? 'rail-leaf' : 'rail-sub';
     return `<button class="${btnClass}${active}" type="button" data-menu="${item.id}" data-depth="${depth}">
-      <span>${menuLabel(item)}</span>
+      <span>${item.label}</span>
     </button>`;
   }
 
@@ -3928,7 +3428,7 @@
       openOpenDialog('examples');
       return;
     }
-    showHint(label || (findMenuItem(id) ? menuLabel(findMenuItem(id)) : id));
+    showHint(label || id);
   }
 
   function toggleWrap(wrap, singleOpen) {
@@ -3952,7 +3452,7 @@
     const rect = anchor.getBoundingClientRect();
     railFlyout.hidden = false;
     railFlyout.innerHTML = `
-      <div class="rail-flyout-title">${menuLabel(item)}</div>
+      <div class="rail-flyout-title">${item.label}</div>
       <div class="rail-children" style="display:block">
         <div class="rail-children-inner">${renderMenuNodes(item.children, 2)}</div>
       </div>`;
@@ -4041,16 +3541,11 @@
     arrow: '<svg viewBox="0 0 24 24"><path d="M4 12h14"/><path d="M14 7.5 18.5 12 14 16.5"/></svg>',
     line: '<svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>',
   };
-  const TOOL_LABELS = new Proxy({}, {
-    get(_t, prop) {
-      const map = {
-        pan: 'tool.pan', select: 'tool.select', rect: 'tool.rect', diamond: 'tool.diamond',
-        ellipse: 'tool.ellipse', arrow: 'tool.arrow', line: 'tool.line', draw: 'tool.draw',
-        text: 'tool.text', eraser: 'tool.eraser', image: 'tool.image', connect: 'tool.connect',
-      };
-      return map[prop] ? t(map[prop]) : undefined;
-    }
-  });
+  const TOOL_LABELS = {
+    pan: '이동', select: '선택', rect: '사각형', diamond: '마름모',
+    ellipse: '원', arrow: '화살표', line: '선', draw: '펜', text: '텍스트',
+    eraser: '지우개', image: '이미지', connect: '연결',
+  };
   const groupLastTool = { shape: 'rect', draw: 'draw' };
 
   function findToolGroup(tool) {
@@ -4143,14 +3638,14 @@ const TAB_COLORS = ['tab-blue', 'tab-teal', 'tab-orange', 'tab-green', 'tab-purp
 let tabSeq = 1;
 
 function tabCloseHtml() {
-  return `<span class="tab-close" role="button" tabindex="0" data-i18n-title="tabs.close" data-i18n-aria="tabs.close" title="닫기" aria-label="닫기">
+  return `<span class="tab-close" role="button" tabindex="0" title="닫기" aria-label="닫기">
     <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
   </span>`;
 }
 
 function blankTabLabel() {
   const n = tabSeq++;
-  return n === 1 ? t('tabs.blank') : t('tabs.blankN', { n });
+  return n === 1 ? '빈 탭' : `빈 탭 ${n}`;
 }
 
 function createBlankTab(activate = true) {
@@ -4169,20 +3664,20 @@ function activateTab(tab) {
   if (!tab || !tabsList) return;
   tabsList.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   tab.classList.add('active');
-  showHint(tab.querySelector('.tab-label')?.textContent.trim() || t('tabs.blank'));
+  showHint(tab.querySelector('.tab-label')?.textContent.trim() || '빈 탭');
 }
 
 function closeTab(tab) {
   if (!tab || !tabsList) return;
   const wasActive = tab.classList.contains('active');
-  const label = tab.querySelector('.tab-label')?.textContent.trim() || t('tabs.blank');
+  const label = tab.querySelector('.tab-label')?.textContent.trim() || '빈 탭';
   const next = tab.nextElementSibling?.classList.contains('tab')
     ? tab.nextElementSibling
     : tab.previousElementSibling;
   tab.remove();
   if (!tabsList.querySelector('.tab')) {
     createBlankTab(true);
-    showHint(t('tabs.blank'));
+    showHint('빈 탭');
     return;
   }
   if (wasActive && next) activateTab(next);
@@ -4190,7 +3685,7 @@ function closeTab(tab) {
     const first = tabsList.querySelector('.tab');
     if (first) activateTab(first);
   }
-  showHint(t('tabs.closed', { label }));
+  showHint(`${label} 닫힘`);
 }
 
 tabsList?.addEventListener('click', e => {
@@ -4213,13 +3708,13 @@ document.querySelector('.tab-add')?.addEventListener('click', () => {
 tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   document.getElementById('btnRun').onclick = () => {
-    showHint(t('run.running'));
+    showHint('워크플로 실행 중…');
     connSvg.classList.add('is-running');
     drawConnections();
     setTimeout(() => {
       connSvg.classList.remove('is-running');
       drawConnections();
-      showHint(t('run.done'));
+      showHint('실행 완료');
     }, 900);
   };
 
@@ -4278,7 +3773,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   function handleOpenedFile(file) {
     if (!file) return;
-    const name = file.name.replace(/\.(ows|json)$/i, '') || t('open.openedWorkflow');
+    const name = file.name.replace(/\.(ows|json)$/i, '') || 'Opened Workflow';
     closeOpenDialog();
     closeOnboard();
     if (tabsList) {
@@ -4291,7 +3786,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       activateTab(btn);
       tabSeq++;
     }
-    showHint(t('open.opened', { name: file.name }));
+    showHint(`${file.name} 열림`);
   }
 
   document.querySelectorAll('.open-nav-item').forEach(btn => {
@@ -4344,11 +3839,11 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     const item = e.target.closest('.open-example-item');
     if (!item) return;
     const names = {
-      iris: t('open.iris'),
-      cluster: t('open.cluster'),
-      regress: t('open.regress'),
+      iris: 'Iris Classification',
+      cluster: 'Clustering Demo',
+      regress: 'Linear Regression',
     };
-    const label = names[item.dataset.example] || t('open.exampleWorkflow');
+    const label = names[item.dataset.example] || 'Example Workflow';
     closeOpenDialog();
     if (tabsList) {
       const color = TAB_COLORS[(tabSeq - 1) % TAB_COLORS.length];
@@ -4360,11 +3855,11 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       activateTab(btn);
       tabSeq++;
     }
-    showHint(t('open.opened', { name: label }));
+    showHint(`${label} 열림`);
   });
 
   document.getElementById('btnConnectDrive')?.addEventListener('click', () => {
-    showHint(t('open.driveSoon'));
+    showHint('Google Drive 연결은 데모에서 준비 중입니다');
   });
 
   const AUTH_KEY = 'orange3-auth-user';
@@ -4377,9 +3872,9 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   const onboardOverlay = document.getElementById('onboardOverlay');
   const onboardSteps = [...document.querySelectorAll('[data-onboard-step]')];
   const ONBOARD_HINTS = {
-    get add() { return t('onboard.hintAdd'); },
-    get connect() { return t('onboard.hintConnect'); },
-    get run() { return t('onboard.hintRun'); },
+    add: '왼쪽 위젯 패널에서 위젯을 선택하거나 캔버스로 드래그해 배치하세요',
+    connect: '위젯 포트에서 드래그해 다른 위젯과 연결하세요',
+    run: '상단 Run 버튼을 눌러 분석 결과를 확인하세요',
   };
 
   function getUser() {
@@ -4426,7 +3921,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       btn.classList.toggle('is-selected', on);
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
-    showHint(ONBOARD_HINTS[step] || t('onboard.welcomeAnon'));
+    showHint(ONBOARD_HINTS[step] || '위젯을 드래그해 분석을 시작해 보세요');
   }
 
   function maybeShowOnboard() {
@@ -4466,11 +3961,11 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     const email = document.getElementById('authEmailInput').value.trim();
     const password = document.getElementById('authPasswordInput').value;
     if (!email || !email.includes('@')) {
-      authError.textContent = t('auth.errEmail');
+      authError.textContent = '올바른 이메일을 입력하세요';
       return;
     }
     if (password.length < 4) {
-      authError.textContent = t('auth.errPassword');
+      authError.textContent = '비밀번호는 4자 이상이어야 합니다';
       return;
     }
     const name = email.split('@')[0];
@@ -4483,7 +3978,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     setUser(null);
     closeOnboard();
     renderAuth({ deferOnboard: true });
-    showHint(t('auth.logoutHint'));
+    showHint('로그아웃되었습니다');
   });
 
   onboardSteps.forEach(btn => {
@@ -4492,46 +3987,48 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     });
   });
 
+  document.getElementById('btnOnboardStart')?.addEventListener('click', () => {
+    closeOnboard();
+    setActiveMenu('widgets', 'Widget');
+    const user = getUser();
+    const name = user?.name || user?.email?.split('@')[0];
+    showHint(name
+      ? `${name}님, 환영합니다 · 위젯을 드래그해 분석을 시작해 보세요`
+      : '위젯을 드래그해 분석을 시작해 보세요');
+  });
+
   document.getElementById('btnOnboardLoad')?.addEventListener('click', () => {
     loadPreviousWorkflow();
   });
 
   document.getElementById('btnOnboardTemplates')?.addEventListener('click', () => {
     closeOnboard();
-    setActiveMenu('templates', t('menu.templates'));
-    showHint(t('onboard.templatesHint'));
+    setActiveMenu('templates', 'Templates');
+    showHint('템플릿 메뉴에서 원하는 분석을 골라 보세요');
   });
 
   function loadPreviousWorkflow() {
     closeOnboard();
     nodes = [
-      { id: 'n1', type: 'file', x: 60, y: 200, name: widgetLabel('file'), notes: '', sample: 100 },
-      { id: 'n2', type: 'sampler', x: 280, y: 200, name: widgetLabel('sampler'), notes: '', sample: 50 },
-      { id: 'n3', type: 'linear-regression', x: 500, y: 100, name: widgetLabel('linear-regression'), notes: '', sample: 100 },
-      { id: 'n4', type: 'scatter', x: 500, y: 300, name: widgetLabel('scatter'), notes: '', sample: 100 },
-      { id: 'n5', type: 'predictions', x: 740, y: 200, name: widgetLabel('predictions'), notes: '', sample: 100 },
+      { id: 'n1', type: 'file', x: 60, y: 200, name: 'File', notes: '', sample: 100 },
+      { id: 'n2', type: 'sampler', x: 280, y: 200, name: 'Data Sampler', notes: '', sample: 50 },
+      { id: 'n3', type: 'test-score', x: 500, y: 100, name: 'Test & Score', notes: '', sample: 100 },
+      { id: 'n4', type: 'scatter', x: 500, y: 300, name: 'Scatter Plot', notes: '', sample: 100 },
+      { id: 'n5', type: 'time-slice', x: 740, y: 200, name: 'Time Slice', notes: '', sample: 100 },
     ];
     connections = [
-      { id: 'c1', from: 'n1', to: 'n2', label: t('conn.label') },
-      { id: 'c2', from: 'n2', to: 'n3', label: t('conn.label') },
-      { id: 'c3', from: 'n2', to: 'n4', label: t('conn.label') },
-      { id: 'c4', from: 'n3', to: 'n5', label: t('conn.label') },
-      { id: 'c5', from: 'n4', to: 'n5', label: t('conn.label') },
+      { id: 'c1', from: 'n1', to: 'n2', label: 'Data → Data' },
+      { id: 'c2', from: 'n2', to: 'n3', label: 'Data → Data' },
+      { id: 'c3', from: 'n2', to: 'n4', label: 'Data → Data' },
+      { id: 'c4', from: 'n3', to: 'n5', label: 'Data → Data' },
+      { id: 'c5', from: 'n4', to: 'n5', label: 'Data → Data' },
     ];
     selectedNodeId = null;
     selectedConnId = null;
     renderNodes();
     fitView();
-    showHint(t('onboard.loadHint'));
+    showHint('이전 작업 불러옴 · File → Sampler → Test & Score / Scatter → Time Slice');
   }
-
-  document.querySelectorAll('[data-lang]').forEach(btn => {
-    btn.addEventListener('click', () => setLang(btn.dataset.lang));
-  });
-  applyI18n(document);
-  document.querySelectorAll('[data-tab-blank]').forEach(el => {
-    el.textContent = t('tabs.blankN', { n: el.dataset.tabBlank });
-  });
 
   /* ========== Splash loading ========== */
   const splash = document.getElementById('splash');
@@ -4567,6 +4064,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   runSplash();
 })();
+
 </script>
 </body>
 </html>
