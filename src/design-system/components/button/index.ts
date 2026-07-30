@@ -6,3 +6,4 @@ export {
   type ButtonIconPlacement,
   type ButtonWidth,
 } from "./Button";
+export { buttonAiMetadata } from "./button.meta";

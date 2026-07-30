@@ -30,3 +30,12 @@ export {
   type SortDirection,
   type PaginationProps,
 } from "./components";
+export {
+  listComponents,
+  getComponent,
+  exportComponentCatalog,
+  exportComponentCatalogJson,
+  searchComponentsByAlias,
+  matchComponentRules,
+  buttonAiMetadata,
+} from "./registry";

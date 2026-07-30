@@ -54,6 +54,12 @@ export default function HomePage() {
         >
           Generator
         </Link>
+        <Link
+          href="/preview/ai-metadata"
+          className="rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-900"
+        >
+          AI Metadata
+        </Link>
       </div>
     </main>
   );
