@@ -1,1 +1,2 @@
-// Placeholder — implemented in later MVP steps
+export * from "./tokens";
+export { DensityProvider, useDensity } from "./DensityProvider";
