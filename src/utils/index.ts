@@ -1,1 +1,1 @@
-// Placeholder — implemented in later MVP steps
+export { cn } from "./cn";

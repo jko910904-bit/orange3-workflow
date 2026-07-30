@@ -10,9 +10,17 @@ export const spacingTokens: TokenEntry[] = [
     description: "Button horizontal gap / cell padding",
     usage: ["button.gap.x", "table.cell.padding"],
   }),
+  defineToken("spacing.12", "spacing", "12px", {
+    description: "Button Xsmall horizontal padding (COMPONENTS_01)",
+    usage: ["button.xsmall.padX", "input.padX"],
+  }),
   defineToken("spacing.16", "spacing", "16px", {
     description: "Kit spacing.md = 16px",
-    usage: ["section.gap.compact", "gutter.portal"],
+    usage: ["section.gap.compact", "gutter.portal", "button.small.padX"],
+  }),
+  defineToken("spacing.18", "spacing", "18px", {
+    description: "Button Medium horizontal padding / vertical button stack gap",
+    usage: ["button.medium.padX", "button.gap.y"],
   }),
   defineToken("spacing.20", "spacing", "20px", {
     usage: ["popup.padding", "button.large.padX"],

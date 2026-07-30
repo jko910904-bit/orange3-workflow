@@ -12,11 +12,11 @@ export default function HomePage() {
         AI Screen Generator
       </p>
       <h1 className="text-center text-3xl font-semibold tracking-tight">
-        Kit Token Registry Ready
+        Button Ready
       </h1>
       <p className="max-w-md text-center text-zinc-600">
-        Prompt → Pattern → Layout → React Screen. Tokens are queryable via
-        registry for the generator.
+        Tokens include Elevation + Motion. Kit Button is token-based. Grid
+        deferred until Template stage.
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3">
         <Link
@@ -24,6 +24,12 @@ export default function HomePage() {
           className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white"
         >
           Token preview
+        </Link>
+        <Link
+          href="/preview/components/button"
+          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white"
+        >
+          Button preview
         </Link>
         <Link
           href="/preview/generator"

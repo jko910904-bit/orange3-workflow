@@ -1,0 +1,117 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+  box-sizing: border-box;
+  margin: 0;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: var(--radius-4);
+  font-family: var(--typography-fontFamily-sans);
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: var(--elevation-0);
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: var(--motion-duration-fast);
+  transition-timing-function: var(--motion-easing-standard);
+}
+
+.root:disabled {
+  cursor: not-allowed;
+}
+
+/* —— Types (COMPONENTS_01) —— */
+
+.primary {
+  background: var(--color-primary-500);
+  border-color: var(--color-primary-500);
+  color: var(--color-grey-0);
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--color-primary-700);
+  border-color: var(--color-primary-700);
+}
+
+.secondary {
+  background: var(--color-secondary-500);
+  border-color: var(--color-secondary-500);
+  color: var(--color-grey-0);
+}
+
+.secondary:hover:not(:disabled) {
+  background: var(--color-secondary-700);
+  border-color: var(--color-secondary-700);
+}
+
+.tertiary {
+  background: var(--color-primary-100);
+  border-color: var(--color-primary-500);
+  color: var(--color-primary-500);
+}
+
+.tertiary:hover:not(:disabled) {
+  background: var(--color-primary-100);
+  border-color: var(--color-primary-700);
+  color: var(--color-primary-700);
+}
+
+.ghost {
+  background: transparent;
+  border-color: var(--color-grey-400);
+  color: var(--color-grey-700);
+}
+
+.ghost:hover:not(:disabled) {
+  background: var(--color-grey-100);
+  border-color: var(--color-grey-600);
+  color: var(--color-grey-900);
+}
+
+.primary:disabled,
+.secondary:disabled,
+.tertiary:disabled,
+.ghost:disabled {
+  background: var(--color-grey-200);
+  border-color: var(--color-grey-300);
+  color: var(--color-grey-700);
+}
+
+/* —— Sizes (kit fixed; not density-scaled) —— */
+
+.xsmall {
+  min-width: 32px;
+  height: 22px;
+  padding: 0 var(--spacing-12);
+  font-size: var(--typography-caption1-fontSize);
+  line-height: var(--typography-caption1-lineHeight);
+  font-weight: var(--typography-fontWeight-medium);
+}
+
+.small {
+  min-width: 60px;
+  height: 32px;
+  padding: 0 var(--spacing-16);
+  font-size: var(--typography-caption1-fontSize);
+  line-height: var(--typography-caption1-lineHeight);
+  font-weight: var(--typography-fontWeight-semibold);
+}
+
+.medium {
+  min-width: 80px;
+  height: 40px;
+  padding: 0 var(--spacing-18);
+  font-size: var(--typography-body3-fontSize);
+  line-height: var(--typography-body3-lineHeight);
+  font-weight: var(--typography-fontWeight-semibold);
+}
+
+.large {
+  min-width: 100px;
+  height: 48px;
+  padding: 0 var(--spacing-20);
+  font-size: var(--typography-body2-fontSize);
+  line-height: var(--typography-body2-lineHeight);
+  font-weight: var(--typography-fontWeight-semibold);
+}

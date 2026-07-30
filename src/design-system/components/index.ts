@@ -1,1 +1,6 @@
-// Placeholder — implemented in later MVP steps
+export {
+  Button,
+  type ButtonProps,
+  type ButtonSize,
+  type ButtonVariant,
+} from "./button";
