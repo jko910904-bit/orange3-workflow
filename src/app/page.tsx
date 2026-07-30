@@ -12,36 +12,41 @@ export default function HomePage() {
         AI Screen Generator
       </p>
       <h1 className="text-center text-3xl font-semibold tracking-tight">
-        Button Ready
+        Components Ready
       </h1>
       <p className="max-w-md text-center text-zinc-600">
-        Tokens include Elevation + Motion. Kit Button is token-based. Grid
-        deferred until Template stage.
+        Button · Input · Card — token-based. Next: Table → Pattern.
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3">
         <Link
           href="/preview/tokens"
           className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white"
         >
-          Token preview
+          Tokens
         </Link>
         <Link
           href="/preview/components/button"
           className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white"
         >
-          Button preview
+          Button
         </Link>
         <Link
           href="/preview/components/input"
           className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white"
         >
-          Input preview
+          Input
+        </Link>
+        <Link
+          href="/preview/components/card"
+          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white"
+        >
+          Card
         </Link>
         <Link
           href="/preview/generator"
           className="rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-900"
         >
-          Generator preview
+          Generator
         </Link>
       </div>
     </main>
