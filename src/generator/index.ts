@@ -1,3 +1,5 @@
-export { parsePrompt, parsePromptToComposition } from "./parser";
+export { parsePrompt } from "./parser";
+export { parsePromptToComposition } from "./parser";
 export { getPattern, listPatterns, patternRegistry } from "./registry";
-export { ScreenRenderer, CompositionRenderer } from "./renderer";
+export { ScreenRenderer } from "./renderer/ScreenRenderer";
+export { CompositionRenderer } from "./renderer/CompositionRenderer";
