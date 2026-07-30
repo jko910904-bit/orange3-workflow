@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI PENG · Workflow Editor</title>
-<link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="apple-touch-icon" href="assets/favicon.png">
 <style>
   :root {
     --brand: #227DE2;
@@ -137,8 +135,6 @@
     width: 32px;
     height: 32px;
   }
-  .rail.collapsed .rail-toggle .toggle-ico { display: none; }
-  .rail.collapsed .rail-toggle .toggle-mark { display: block; }
   .rail-toggle:hover { background: #F3F3F3; color: var(--text); }
 
   .rail-section {
@@ -1894,11 +1890,8 @@
 
   <nav class="rail" id="rail">
     <div class="rail-head">
-      <div class="rail-logo" aria-label="AI PENG">
-        <img class="logo-full" src="assets/logo-ai-peng.png" alt="AI PENG">
-      </div>
+      <div class="rail-logo" aria-label="AI PENG"></div>
       <button class="rail-toggle" type="button" id="btnRailToggle" title="메뉴 접기/펼치기">
-        <img class="toggle-mark" src="assets/favicon.png" alt="">
         <svg class="toggle-ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
       </button>
     </div>
@@ -2261,9 +2254,7 @@
 
   <div class="auth-overlay" id="authOverlay" hidden>
     <form class="auth-card" id="authForm" autocomplete="on">
-      <div class="auth-brand">
-        <img class="auth-logo" src="assets/logo-ai-peng.png" alt="AI PENG">
-      </div>
+      <div class="auth-brand"></div>
       <h2 class="auth-title">로그인</h2>
       <p class="auth-desc">워크플로 에디터를 사용하려면 로그인하세요</p>
       <div class="auth-field">
