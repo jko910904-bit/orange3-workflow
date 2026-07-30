@@ -18,12 +18,20 @@ export default function HomePage() {
         Prompt → Pattern → Layout → React Screen. Token density preview is
         available.
       </p>
-      <Link
-        href="/preview/tokens"
-        className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white"
-      >
-        Open token preview
-      </Link>
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <Link
+          href="/preview/tokens"
+          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white"
+        >
+          Token preview
+        </Link>
+        <Link
+          href="/preview/generator"
+          className="rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-900"
+        >
+          Generator preview
+        </Link>
+      </div>
     </main>
   );
 }

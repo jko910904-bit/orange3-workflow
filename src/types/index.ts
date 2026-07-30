@@ -1,1 +1,6 @@
-// Placeholder — implemented in later MVP steps
+export type {
+  PatternDefinition,
+  PatternId,
+  PatternRef,
+  ParseResult,
+} from "./pattern";
