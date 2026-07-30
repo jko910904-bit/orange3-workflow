@@ -13,6 +13,8 @@ export {
   type InputKind,
   type InputSize,
   type InputState,
+  Checkbox,
+  type CheckboxProps,
   Card,
   CardHeader,
   CardBody,

@@ -5,3 +5,4 @@ export {
   type InputSize,
   type InputState,
 } from "./Input";
+export { inputAiMetadata } from "./input.meta";

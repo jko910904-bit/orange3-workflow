@@ -5,15 +5,19 @@ import type {
 } from "@/types/ai-metadata";
 import { toCatalogJson } from "@/types/ai-metadata";
 import { buttonAiMetadata } from "@/design-system/components/button/button.meta";
+import { inputAiMetadata } from "@/design-system/components/input/input.meta";
+import { checkboxAiMetadata } from "@/design-system/components/checkbox/checkbox.meta";
 
 /**
  * Component Registry — AI Metadata layer between Tokens and Renderer.
  *
  * Design Tokens → AI Metadata → Component Registry → Prompt Parser → Renderer
- *
- * Extensible: add `*.meta.ts` per component and register in COMPONENT_REGISTRY.
  */
-const COMPONENT_REGISTRY: ComponentAiMetadata[] = [buttonAiMetadata];
+const COMPONENT_REGISTRY: ComponentAiMetadata[] = [
+  buttonAiMetadata,
+  inputAiMetadata,
+  checkboxAiMetadata,
+];
 
 const componentMap = new Map(
   COMPONENT_REGISTRY.map((entry) => [entry.component, entry]),
@@ -81,7 +85,6 @@ export type AiRuleMatchResult = {
   metadata: ComponentAiMetadata;
 };
 
-/** Evaluate AI Rules across the registry for a natural-language prompt */
 export function matchComponentRules(prompt: string): AiRuleMatchResult[] {
   const hits: AiRuleMatchResult[] = [];
   for (const meta of COMPONENT_REGISTRY) {
@@ -91,9 +94,7 @@ export function matchComponentRules(prompt: string): AiRuleMatchResult[] {
       }
     }
   }
-  return hits.sort(
-    (a, b) => b.metadata.priority - a.metadata.priority,
-  );
+  return hits.sort((a, b) => b.metadata.priority - a.metadata.priority);
 }
 
-export { buttonAiMetadata };
+export { buttonAiMetadata, inputAiMetadata, checkboxAiMetadata };

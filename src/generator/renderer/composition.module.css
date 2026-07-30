@@ -1,0 +1,59 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+  width: 100%;
+  font-family: var(--typography-fontFamily-sans);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: var(--typography-caption2-fontSize);
+  font-weight: var(--typography-fontWeight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-grey-600);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--typography-h4-fontSize);
+  line-height: var(--typography-h4-lineHeight);
+  font-weight: var(--typography-h4-fontWeight);
+  color: var(--color-grey-900);
+}
+
+.recipe {
+  margin: 0;
+  font-family: ui-monospace, monospace;
+  font-size: var(--typography-caption1-fontSize);
+  color: var(--color-primary-500);
+  word-break: break-word;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+  width: 100%;
+}
+
+.loginCard {
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.unknown {
+  padding: var(--spacing-12);
+  border: 1px dashed var(--color-semantic-danger);
+  border-radius: var(--radius-4);
+  color: var(--color-semantic-danger);
+  font-size: var(--typography-caption1-fontSize);
+}

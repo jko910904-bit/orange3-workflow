@@ -10,7 +10,7 @@ import {
 import { cn } from "@/utils/cn";
 import styles from "./input.module.css";
 
-export type InputKind = "text" | "password" | "search" | "number";
+export type InputKind = "text" | "password" | "search" | "number" | "email";
 export type InputSize = "s" | "m" | "l";
 export type InputState = "default" | "error";
 
@@ -98,7 +98,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 
   const isError = state === "error";
   const htmlType =
-    kind === "password" ? (revealed ? "text" : "password") : kind;
+    kind === "password"
+      ? revealed
+        ? "text"
+        : "password"
+      : kind === "email"
+        ? "email"
+        : kind === "search"
+          ? "search"
+          : kind === "number"
+            ? "number"
+            : "text";
 
   const leading =
     startIcon ?? (kind === "search" ? <SearchIcon /> : undefined);

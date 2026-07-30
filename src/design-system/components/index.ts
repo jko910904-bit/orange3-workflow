@@ -14,6 +14,10 @@ export {
   type InputState,
 } from "./input";
 export {
+  Checkbox,
+  type CheckboxProps,
+} from "./checkbox";
+export {
   Card,
   CardHeader,
   CardBody,

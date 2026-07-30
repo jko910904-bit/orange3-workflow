@@ -13,3 +13,7 @@ export type {
   ComponentCatalogJson,
 } from "./ai-metadata";
 export { toCatalogJson } from "./ai-metadata";
+export type {
+  CompositionNode,
+  ScreenComposition,
+} from "./screen-composition";

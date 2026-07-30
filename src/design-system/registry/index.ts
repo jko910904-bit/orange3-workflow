@@ -6,5 +6,7 @@ export {
   searchComponentsByAlias,
   matchComponentRules,
   buttonAiMetadata,
+  inputAiMetadata,
+  checkboxAiMetadata,
   type AiRuleMatchResult,
 } from "./components";
