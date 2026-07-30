@@ -1,14 +1,18 @@
 export type PatternId =
-  | "SearchTable"
+  | "SearchFilterTable"
+  | "ChartKpi"
+  | "Login"
   | "Dashboard"
-  | "CardGrid"
-  | "DetailPage"
-  | "Login";
+  | "Detail"
+  | "Form"
+  | "Wizard";
 
 export type PatternDefinition = {
   id: PatternId;
   name: string;
   description: string;
+  /** Soft hints for mock/AI parser */
+  keywords?: string[];
 };
 
 export type PatternRef = {

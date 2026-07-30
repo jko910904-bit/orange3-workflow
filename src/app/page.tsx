@@ -15,7 +15,7 @@ export default function HomePage() {
         Components Ready
       </h1>
       <p className="max-w-md text-center text-zinc-600">
-        Button · Input · Card · Table — token-based. Next: Pattern.
+        Button · Input · Card · Table · Patterns — Prompt → Screen MVP.
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3">
         <Link

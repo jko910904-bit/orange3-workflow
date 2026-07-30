@@ -1,11 +1,39 @@
+"use client";
+
+import type { ComponentType } from "react";
+import {
+  ChartKpiPattern,
+  DashboardPattern,
+  DetailPattern,
+  FormPattern,
+  LoginPattern,
+  SearchFilterTablePattern,
+  WizardPattern,
+} from "@/design-system/patterns";
 import { getPattern } from "@/generator/registry";
-import type { PatternRef } from "@/types";
+import type { PatternId, PatternRef } from "@/types";
+import { DensityProvider } from "@/design-system/DensityProvider";
+
+const PATTERN_VIEWS: Record<PatternId, ComponentType> = {
+  SearchFilterTable: SearchFilterTablePattern,
+  ChartKpi: ChartKpiPattern,
+  Login: LoginPattern,
+  Dashboard: DashboardPattern,
+  Detail: DetailPattern,
+  Form: FormPattern,
+  Wizard: WizardPattern,
+};
 
 type ScreenRendererProps = {
   patterns: PatternRef[];
+  /** admin → dense, portal → comfortable */
+  surface?: "admin" | "portal";
 };
 
-export function ScreenRenderer({ patterns }: ScreenRendererProps) {
+export function ScreenRenderer({
+  patterns,
+  surface = "admin",
+}: ScreenRendererProps) {
   if (patterns.length === 0) {
     return (
       <div className="rounded-md border border-dashed border-zinc-300 p-6 text-zinc-500">
@@ -15,36 +43,33 @@ export function ScreenRenderer({ patterns }: ScreenRendererProps) {
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      {patterns.map((ref) => {
-        const pattern = getPattern(ref.id);
-        if (!pattern) {
+    <DensityProvider defaultSurface={surface}>
+      <div className="flex flex-col gap-8">
+        {patterns.map((ref) => {
+          const meta = getPattern(ref.id);
+          const View = PATTERN_VIEWS[ref.id];
+
+          if (!meta || !View) {
+            return (
+              <div
+                key={ref.id}
+                className="rounded-md border border-red-200 bg-red-50 p-4 text-red-700"
+              >
+                Unknown pattern: {ref.id}
+              </div>
+            );
+          }
+
           return (
-            <div
-              key={ref.id}
-              className="rounded-md border border-red-200 bg-red-50 p-4 text-red-700"
-            >
-              Unknown pattern: {ref.id}
+            <div key={ref.id} className="ds-panel">
+              <p className="mb-4 text-xs font-medium tracking-wide text-zinc-500 uppercase">
+                Pattern · {meta.id}
+              </p>
+              <View />
             </div>
           );
-        }
-
-        return (
-          <div
-            key={pattern.id}
-            className="rounded-md border border-zinc-200 bg-white p-4 shadow-sm"
-          >
-            <p className="text-xs font-medium tracking-wide text-zinc-500 uppercase">
-              Pattern
-            </p>
-            <h2 className="mt-1 text-lg font-semibold text-zinc-900">
-              {pattern.name}
-            </h2>
-            <p className="mt-1 text-sm text-zinc-600">{pattern.description}</p>
-            <p className="mt-3 font-mono text-xs text-zinc-400">id: {pattern.id}</p>
-          </div>
-        );
-      })}
-    </div>
+        })}
+      </div>
+    </DensityProvider>
   );
 }
