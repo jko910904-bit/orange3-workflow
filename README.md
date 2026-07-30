@@ -1,10 +1,16 @@
-# Design Kit
+# AI Screen Generator (Design Kit)
 
-AI-powered Design System screen generator.
+Natural-language prompts compose a Design System into production screens.
+
+## Pipeline
+
+```
+Prompt → Pattern selection → Layout generation → React Screen
+```
 
 ## Stack
 
-- Next.js (App Router)
+- Next.js (App Router, `src/`)
 - TypeScript
 - Tailwind CSS
 
@@ -20,13 +26,22 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Project structure
 
 ```
-app/             # Next.js App Router
-components/      # App-level UI
-design-system/   # Tokens, components, variants
-templates/       # Dashboard, List, Detail, Form
-catalog/         # JSON catalogs for AI
-ai/              # Generation pipeline
-lib/             # Shared utilities
+src/
+  app/                 # Next.js App Router
+  design-system/
+    tokens/
+    components/
+    patterns/
+    templates/
+  generator/
+    parser/
+    layout-engine/
+    renderer/
+  ai/
+    prompts/
+    schemas/
+  types/
+  utils/
 ```
 
 Legacy static site files are preserved under `_archive/legacy-static/`.
