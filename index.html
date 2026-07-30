@@ -4137,11 +4137,11 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function loadPreviousWorkflow() {
     closeOnboard();
     nodes = [
-      { id: 'n1', type: 'file', x: 60, y: 200, name: 'File', notes: '', sample: 100 },
-      { id: 'n2', type: 'sampler', x: 280, y: 200, name: 'Data Sampler', notes: '', sample: 50 },
-      { id: 'n3', type: 'test-score', x: 500, y: 100, name: 'Test & Score', notes: '', sample: 100 },
-      { id: 'n4', type: 'scatter', x: 500, y: 300, name: 'Scatter Plot', notes: '', sample: 100 },
-      { id: 'n5', type: 'time-slice', x: 740, y: 200, name: 'Time Slice', notes: '', sample: 100 },
+      { id: 'n1', type: 'file', x: 60, y: 200, name: ITEM_MAP.file.label, notes: '', sample: 100 },
+      { id: 'n2', type: 'sampler', x: 280, y: 200, name: ITEM_MAP.sampler.label, notes: '', sample: 50 },
+      { id: 'n3', type: 'test-score', x: 500, y: 100, name: ITEM_MAP['test-score'].label, notes: '', sample: 100 },
+      { id: 'n4', type: 'scatter', x: 500, y: 300, name: ITEM_MAP.scatter.label, notes: '', sample: 100 },
+      { id: 'n5', type: 'time-slice', x: 740, y: 200, name: ITEM_MAP['time-slice'].label, notes: '', sample: 100 },
     ];
     connections = [
       { id: 'c1', from: 'n1', to: 'n2', label: '데이터 → 데이터' },
@@ -4154,7 +4154,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     selectedConnId = null;
     renderNodes();
     fitView();
-    showHint('이전 작업 불러옴 · File → Sampler → Test & Score / Scatter → Time Slice');
+    showHint('이전 작업 불러옴 · 파일 → 샘플러 → 테스트 및 점수 / 산점도 → 시간 구간');
   }
 
   /* ========== Splash loading ========== */
