@@ -1,0 +1,27 @@
+{
+  "component": "Checkbox",
+  "purpose": "Binary Choice",
+  "aliases": ["Check", "Remember me", "약관 동의", "로그인 유지", "체크박스"],
+  "usage": ["Remember me", "Agree to terms", "Multi-select"],
+  "avoid": ["Single exclusive choice"],
+  "dependencies": ["Color", "Typography", "Spacing", "Motion"],
+  "variants": ["Default"],
+  "sizes": ["S", "M"],
+  "states": ["Default", "Hover", "Focus", "Checked", "Disabled"],
+  "accessibility": ["Keyboard Navigation", "Label association", "ARIA checked"],
+  "aiRules": [
+    {
+      "id": "checkbox.remember",
+      "when": { "anyOf": ["remember", "로그인 유지", "약관", "동의"] },
+      "then": { "component": "Checkbox" }
+    }
+  ],
+  "figmaMapping": ["Checkbox/Default", "Checkbox/Checked"],
+  "promptExamples": ["로그인 유지 체크박스", "약관 동의"],
+  "confidence": 0.9,
+  "priority": 70,
+  "category": "input",
+  "compatibleWith": ["Input", "Button", "Form"],
+  "generatedByAI": false,
+  "version": "1.0.0"
+}

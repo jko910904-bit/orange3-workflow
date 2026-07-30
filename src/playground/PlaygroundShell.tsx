@@ -2,20 +2,30 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { PLAYGROUND_NAV } from "@/playground/catalog";
+import { COMPONENT_DOCS, PLAYGROUND_NAV } from "@/playground/catalog";
+import { listRecipes } from "@/catalog";
 import styles from "./PlaygroundShell.module.css";
+
+function breadcrumbFromPath(pathname: string) {
+  if (pathname === "/") return ["Home"];
+  const parts = pathname.split("/").filter(Boolean);
+  return ["Home", ...parts.map((p) => decodeURIComponent(p))];
+}
 
 export function PlaygroundShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const crumbs = breadcrumbFromPath(pathname);
+  const componentCount = COMPONENT_DOCS.length;
+  const recipeCount = listRecipes().length;
 
   return (
     <div className={styles.shell}>
       <aside className={styles.sidebar}>
         <div className={styles.brand}>
-          <p className={styles.brandEyebrow}>Design Kit</p>
+          <p className={styles.brandEyebrow}>AI Screen Generator</p>
           <h1 className={styles.brandTitle}>Playground</h1>
           <p className={styles.brandSub}>
-            Humans inspect · AI learns Metadata
+            {componentCount} components · {recipeCount} recipes
           </p>
         </div>
         <nav className={styles.nav} aria-label="Playground">
@@ -40,8 +50,18 @@ export function PlaygroundShell({ children }: { children: React.ReactNode }) {
       </aside>
       <div className={styles.main}>
         <header className={styles.topbar}>
+          <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+            {crumbs.map((c, i) => (
+              <span key={`${c}-${i}`} className={styles.crumb}>
+                {i === 0 ? <Link href="/">{c}</Link> : c}
+                {i < crumbs.length - 1 ? (
+                  <span className={styles.sep}>/</span>
+                ) : null}
+              </span>
+            ))}
+          </nav>
           <p className={styles.pipeline}>
-            Tokens → Components → Patterns → Templates → Generator
+            Prompt → Parser → Recipe → Pattern → Registry → Renderer
           </p>
         </header>
         <div className={styles.content}>{children}</div>

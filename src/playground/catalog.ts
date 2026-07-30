@@ -8,7 +8,7 @@ export const PLAYGROUND_NAV: PlaygroundNavItem[] = [
   {
     href: "/",
     label: "Home",
-    description: "Design System × AI Screen Generator overview",
+    description: "Progress · Ready status · Recent components",
   },
   {
     href: "/foundations",
@@ -21,29 +21,34 @@ export const PLAYGROUND_NAV: PlaygroundNavItem[] = [
     description: "Variant · Size · State · Code · AI Metadata",
   },
   {
+    href: "/recipes",
+    label: "Recipes",
+    description: "Reusable multi-component UI blocks",
+  },
+  {
     href: "/patterns",
     label: "Patterns",
-    description: "SearchFilterTable · ChartKpi · Login · …",
+    description: "CRUD · Login · Dashboard · Wizard",
   },
   {
     href: "/templates",
     label: "Templates",
-    description: "Dashboard · List · Detail · Form (roadmap)",
+    description: "Dashboard · List · Detail · Form",
   },
   {
     href: "/ai-metadata",
     label: "AI Metadata",
-    description: "Purpose · Aliases · Rules · Figma mapping",
+    description: "Purpose · Aliases · Rules · Prompt examples",
   },
   {
     href: "/prompt",
     label: "Prompt Playground",
-    description: "Natural language → component recipe simulation",
+    description: "Natural language → React screen MVP",
   },
   {
     href: "/registry",
     label: "Registry Viewer",
-    description: "JSON export for MCP / RAG / Agents",
+    description: "button.json · recipes · tokens",
   },
 ];
 
@@ -90,5 +95,71 @@ export const COMPONENT_DOCS: ComponentDocEntry[] = [
     registryName: "Table",
     summary: "Dense/Comfortable data table with sort and pagination.",
     status: "partial",
+  },
+];
+
+export const PATTERN_DOCS = [
+  {
+    id: "CRUD",
+    registryId: "SearchFilterTable",
+    name: "CRUD",
+    description: "Member/admin management: header, filter, table, pagination.",
+    components: ["Header", "Search", "Filter", "Table", "Pagination", "Button"],
+    recipes: ["PageHeader", "FilterBar", "CrudToolbar"],
+    status: "ready" as const,
+  },
+  {
+    id: "Login",
+    registryId: "Login",
+    name: "Login",
+    description: "Authentication form with credentials and submit.",
+    components: ["Input.Email", "Input.Password", "Checkbox", "Button.Primary"],
+    recipes: ["LoginForm"],
+    status: "ready" as const,
+  },
+  {
+    id: "Dashboard",
+    registryId: "Dashboard",
+    name: "Dashboard",
+    description: "KPI tiles and summary widgets.",
+    components: ["Card", "Button"],
+    recipes: ["ProfileCard"],
+    status: "ready" as const,
+  },
+  {
+    id: "Search",
+    registryId: "SearchFilterTable",
+    name: "Search",
+    description: "Search-first list pattern.",
+    components: ["Input.Search", "Table", "Pagination"],
+    recipes: ["SearchBar", "FilterBar"],
+    status: "ready" as const,
+  },
+  {
+    id: "Wizard",
+    registryId: "Wizard",
+    name: "Wizard",
+    description: "Step-by-step process UI.",
+    components: ["Card", "Button"],
+    recipes: [],
+    status: "ready" as const,
+  },
+  {
+    id: "Detail",
+    registryId: "Detail",
+    name: "Detail",
+    description: "Entity detail with sections and CTA.",
+    components: ["Card", "Table", "Button"],
+    recipes: ["PageHeader"],
+    status: "partial" as const,
+  },
+  {
+    id: "Form",
+    registryId: "Form",
+    name: "Form",
+    description: "Multi-section application form.",
+    components: ["Input", "Button", "Card"],
+    recipes: [],
+    status: "partial" as const,
   },
 ];

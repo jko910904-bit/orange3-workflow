@@ -17,3 +17,9 @@ export type {
   CompositionNode,
   ScreenComposition,
 } from "./screen-composition";
+export type {
+  RecipeId,
+  RecipeDefinition,
+  PatternSelection,
+  GenerateResult,
+} from "./recipe";

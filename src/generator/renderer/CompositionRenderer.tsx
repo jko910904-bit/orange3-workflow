@@ -3,6 +3,7 @@
 import { Button, Checkbox, Input } from "@/design-system/components";
 import { Card } from "@/design-system/components";
 import { DensityProvider } from "@/design-system/DensityProvider";
+import { SearchFilterTablePattern } from "@/design-system/patterns";
 import type {
   CompositionNode,
   ScreenComposition,
@@ -80,18 +81,23 @@ export function CompositionRenderer({
   composition,
 }: CompositionRendererProps) {
   const isLogin = composition.intent === "login";
+  const isCrud = composition.intent === "crud";
 
   return (
     <DensityProvider defaultSurface={composition.surface}>
       <div className={styles.root}>
         <div className={styles.meta}>
-          <p className={styles.eyebrow}>Prompt → Composition → React</p>
-          <h2 className={styles.title}>
-            {isLogin ? "Login Screen" : composition.intent}
-          </h2>
-          <p className={styles.recipe}>
-            {composition.recipe.join(" → ")}
+          <p className={styles.eyebrow}>
+            Prompt → Parser → Recipe → Pattern → React
           </p>
+          <h2 className={styles.title}>
+            {isLogin
+              ? "Login Screen"
+              : isCrud
+                ? "Member CRUD Screen"
+                : composition.intent}
+          </h2>
+          <p className={styles.recipe}>{composition.recipe.join(" → ")}</p>
         </div>
 
         {isLogin ? (
@@ -105,6 +111,13 @@ export function CompositionRenderer({
               </form>
             </Card.Body>
           </Card>
+        ) : isCrud ? (
+          <div className={styles.stack}>
+            <div className={styles.toolbar}>
+              {composition.nodes.map(renderNode)}
+            </div>
+            <SearchFilterTablePattern />
+          </div>
         ) : (
           <div className={styles.stack}>
             {composition.nodes.map(renderNode)}

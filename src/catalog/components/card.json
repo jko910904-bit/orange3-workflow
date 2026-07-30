@@ -1,0 +1,27 @@
+{
+  "component": "Card",
+  "purpose": "Information Display",
+  "aliases": ["Surface Card", "Panel", "카드"],
+  "usage": ["Highlight content", "Profile", "KPI tile"],
+  "avoid": ["Dense data grids"],
+  "dependencies": ["Color", "Spacing", "Radius", "Elevation", "Shadow"],
+  "variants": ["Default", "Selected"],
+  "sizes": ["Padding S", "Padding M", "Padding L"],
+  "states": ["Default", "Hover", "Selected"],
+  "accessibility": ["Focus ring when interactive", "Semantic sections"],
+  "aiRules": [
+    {
+      "id": "card.surface",
+      "when": { "anyOf": ["card", "카드", "profile", "highlight"] },
+      "then": { "component": "Card" }
+    }
+  ],
+  "figmaMapping": ["Card/Default", "Card/Selected"],
+  "promptExamples": ["프로필 카드", "하이라이트 카드"],
+  "confidence": 0.85,
+  "priority": 75,
+  "category": "display",
+  "compatibleWith": ["Button", "Input", "Badge"],
+  "generatedByAI": false,
+  "version": "1.0.0"
+}

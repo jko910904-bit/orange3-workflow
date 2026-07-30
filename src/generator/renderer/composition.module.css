@@ -50,6 +50,13 @@
   margin: 0 auto;
 }
 
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--spacing-8);
+}
+
 .unknown {
   padding: var(--spacing-12);
   border: 1px dashed var(--color-semantic-danger);
