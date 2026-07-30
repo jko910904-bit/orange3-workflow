@@ -77,7 +77,15 @@ export const colorTokens: TokenEntry[] = [
   // Semantic
   defineToken("color.semantic.danger", "color", "#EB5D5D", {
     description: "Error / danger / delete / required",
-    usage: ["input.error", "badge.hot"],
+    usage: ["button.danger.bg", "input.error", "badge.hot"],
+  }),
+  defineToken("color.semantic.dangerHover", "color", "#D14545", {
+    description: "Danger hover / pressed",
+    usage: ["button.danger.hover", "button.danger.pressed"],
+  }),
+  defineToken("color.semantic.dangerSoft", "color", "#FFECEC", {
+    description: "Danger soft surface",
+    usage: ["button.danger.tertiary-like", "table.row.error"],
   }),
   defineToken("color.semantic.warning", "color", "#F9A825", {
     description: "Caution / warning",
