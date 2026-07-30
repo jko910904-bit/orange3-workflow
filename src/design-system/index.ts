@@ -22,4 +22,11 @@ export {
   type CardShadow,
   type CardRadius,
   type CardPadding,
+  Table,
+  TableCheckbox,
+  Pagination,
+  type TableProps,
+  type TableDensity,
+  type SortDirection,
+  type PaginationProps,
 } from "./components";

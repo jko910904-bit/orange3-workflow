@@ -15,7 +15,7 @@ export default function HomePage() {
         Components Ready
       </h1>
       <p className="max-w-md text-center text-zinc-600">
-        Button · Input · Card — token-based. Next: Table → Pattern.
+        Button · Input · Card · Table — token-based. Next: Pattern.
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3">
         <Link
@@ -41,6 +41,12 @@ export default function HomePage() {
           className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white"
         >
           Card
+        </Link>
+        <Link
+          href="/preview/components/table"
+          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white"
+        >
+          Table
         </Link>
         <Link
           href="/preview/generator"

@@ -1,0 +1,200 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+  width: 100%;
+  font-family: var(--typography-fontFamily-sans);
+}
+
+/* When Table sets its own density, override active table CSS vars */
+.root[data-table-density="dense"] {
+  --table-row-height: var(--density-dense-tableRowHeight, 40px);
+  --table-header-font-size: var(--density-dense-tableHeaderFontSize, 14px);
+  --table-header-font-weight: var(--density-dense-tableHeaderFontWeight, 500);
+  --table-body-font-size: var(--density-dense-tableBodyFontSize, 14px);
+  --table-body-font-weight: var(--density-dense-tableBodyFontWeight, 500);
+}
+
+.root[data-table-density="comfortable"] {
+  --table-row-height: var(--density-comfortable-tableRowHeight, 48px);
+  --table-header-font-size: var(
+    --density-comfortable-tableHeaderFontSize,
+    16px
+  );
+  --table-header-font-weight: var(
+    --density-comfortable-tableHeaderFontWeight,
+    600
+  );
+  --table-body-font-size: var(--density-comfortable-tableBodyFontSize, 16px);
+  --table-body-font-weight: var(
+    --density-comfortable-tableBodyFontWeight,
+    400
+  );
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--spacing-8);
+}
+
+.scroll {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-4);
+  background: var(--color-grey-0);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.thead {
+  background: var(--color-grey-50);
+}
+
+.tbody .row {
+  background: var(--color-grey-0);
+}
+
+.row {
+  height: var(--table-row-height);
+  transition-property: background-color;
+  transition-duration: var(--motion-duration-fast);
+  transition-timing-function: var(--motion-easing-standard);
+}
+
+.tbody .row:hover {
+  background: var(--color-surface-rowHover);
+}
+
+.rowSelected {
+  background: var(--color-surface-rowHover);
+}
+
+.rowError {
+  background: var(--color-surface-rowError);
+}
+
+.cell {
+  padding: var(--cell-padding-y, var(--spacing-8))
+    var(--cell-padding-x, var(--spacing-8));
+  border-bottom: 1px solid var(--color-grey-300);
+  vertical-align: middle;
+  color: var(--color-grey-700);
+  font-size: var(--table-body-font-size);
+  font-weight: var(--table-body-font-weight);
+  line-height: 1.4;
+}
+
+.head {
+  color: var(--color-grey-900);
+  font-size: var(--table-header-font-size);
+  font-weight: var(--table-header-font-weight);
+  white-space: nowrap;
+}
+
+.alignLeft {
+  text-align: left;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.alignRight {
+  text-align: right;
+}
+
+.sortable {
+  padding: 0;
+}
+
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  width: 100%;
+  height: var(--table-row-height);
+  margin: 0;
+  padding: var(--cell-padding-y, var(--spacing-8))
+    var(--cell-padding-x, var(--spacing-8));
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.sortButton:hover {
+  color: var(--color-primary-500);
+}
+
+.headLabel {
+  display: inline-flex;
+}
+
+.sortIcon {
+  color: var(--color-grey-500);
+  font-size: 0.75em;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--color-primary-500);
+  cursor: pointer;
+}
+
+.checkbox:disabled {
+  cursor: not-allowed;
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+}
+
+.pageButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 var(--spacing-8);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-grey-900);
+  font-family: inherit;
+  font-size: var(--typography-caption1-fontSize);
+  font-weight: var(--typography-fontWeight-medium);
+  cursor: pointer;
+  transition-property: background-color, color, border-color;
+  transition-duration: var(--motion-duration-fast);
+  transition-timing-function: var(--motion-easing-standard);
+}
+
+.pageButton:hover:not(:disabled):not(.pageActive) {
+  background: var(--color-primary-100);
+  color: var(--color-primary-700);
+}
+
+.pageButton:disabled {
+  color: var(--color-grey-400);
+  cursor: not-allowed;
+}
+
+.pageActive {
+  background: var(--color-primary-500);
+  color: var(--color-grey-0);
+}
