@@ -60,9 +60,11 @@ export default function ComposePreviewPage() {
 
       <section className="ds-panel ds-stack">
         <h2 className="text-sm font-medium text-zinc-500">Recipe</h2>
-        <ol className="list-decimal space-y-1 pl-5 font-mono text-sm text-primary-600 text-blue-600">
-          {composition.recipe.map((item) => (
-            <li key={item}>{item}</li>
+        <ol className="list-decimal space-y-1 pl-5 font-mono text-sm text-blue-600">
+          {composition.nodes.map((node, index) => (
+            <li key={node.id}>
+              {index + 1}. {node.component}.{node.variant ?? "Default"}
+            </li>
           ))}
         </ol>
         <pre className="overflow-auto rounded-md bg-zinc-900 p-3 text-xs text-zinc-100">
