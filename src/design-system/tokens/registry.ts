@@ -1,7 +1,8 @@
 import { colorTokens } from "./color";
 import { densityTokens } from "./density";
+import { motionTokens } from "./motion";
 import { radiusTokens } from "./radius";
-import { shadowTokens } from "./shadow";
+import { elevationTokens, shadowTokens } from "./shadow";
 import { spacingAliasTokens, spacingTokens } from "./spacing";
 import { typographyTokens } from "./typography";
 import type { TokenCategory, TokenEntry } from "./types";
@@ -12,8 +13,10 @@ const ALL_TOKENS: TokenEntry[] = [
   ...spacingTokens,
   ...spacingAliasTokens,
   ...radiusTokens,
+  ...elevationTokens,
   ...shadowTokens,
   ...densityTokens,
+  ...motionTokens,
 ];
 
 const tokenMap = new Map<string, TokenEntry>(
@@ -25,7 +28,16 @@ export function listTokens(): TokenEntry[] {
 }
 
 export function listCategories(): TokenCategory[] {
-  return ["color", "typography", "spacing", "radius", "shadow", "density"];
+  return [
+    "color",
+    "typography",
+    "spacing",
+    "radius",
+    "elevation",
+    "shadow",
+    "density",
+    "motion",
+  ];
 }
 
 export function getToken(id: string): TokenEntry | undefined {
@@ -60,30 +72,33 @@ export function tokenVar(id: string): string {
 export function getTokenCatalog(): {
   version: "1.0";
   categories: TokenCategory[];
-  tokens: Array<Pick<TokenEntry, "id" | "category" | "value" | "cssVar" | "description" | "usage">>;
+  tokens: Array<
+    Pick<TokenEntry, "id" | "category" | "value" | "cssVar" | "description" | "usage">
+  >;
 } {
   return {
     version: "1.0",
     categories: listCategories(),
-    tokens: ALL_TOKENS.map(({ id, category, value, cssVar, description, usage }) => ({
-      id,
-      category,
-      value,
-      cssVar,
-      description,
-      usage,
-    })),
+    tokens: ALL_TOKENS.map(
+      ({ id, category, value, cssVar, description, usage }) => ({
+        id,
+        category,
+        value,
+        cssVar,
+        description,
+        usage,
+      }),
+    ),
   };
 }
 
-/** Build :root CSS custom properties from the registry (shared colors/type/space/etc.) */
+/** Build :root CSS custom properties from the registry */
 export function buildRootCssVariables(): Record<string, string> {
   const vars: Record<string, string> = {};
   for (const token of ALL_TOKENS) {
     if (token.category === "density") continue;
     vars[token.cssVar] = token.value;
   }
-  // Semantic aliases used by preview / future components
   vars["--color-background"] = requireToken("color.grey.100").value;
   vars["--color-foreground"] = requireToken("color.grey.900").value;
   vars["--color-muted-foreground"] = requireToken("color.grey.600").value;
@@ -95,6 +110,6 @@ export function buildRootCssVariables(): Record<string, string> {
   vars["--color-success"] = requireToken("color.semantic.success").value;
   vars["--color-warning"] = requireToken("color.semantic.warning").value;
   vars["--radius-md"] = requireToken("radius.8").value;
-  vars["--shadow-sm"] = requireToken("shadow.1").value;
+  vars["--shadow-sm"] = requireToken("elevation.1").value;
   return vars;
 }

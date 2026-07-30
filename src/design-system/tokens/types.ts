@@ -3,8 +3,10 @@ export type TokenCategory =
   | "typography"
   | "spacing"
   | "radius"
+  | "elevation"
   | "shadow"
-  | "density";
+  | "density"
+  | "motion";
 
 /**
  * Generator-friendly token entry.

@@ -5,7 +5,8 @@ export { colorTokens, colorValues } from "./color";
 export { typographyTokens } from "./typography";
 export { spacingTokens, spacingAliasTokens } from "./spacing";
 export { radiusTokens } from "./radius";
-export { shadowTokens } from "./shadow";
+export { elevationTokens, shadowTokens } from "./shadow";
+export { motionTokens } from "./motion";
 export {
   densityTokens,
   densityProfiles,
