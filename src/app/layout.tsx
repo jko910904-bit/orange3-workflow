@@ -14,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Design Kit",
-  description: "AI-powered Design System screen generator",
+  title: "Design System Playground",
+  description:
+    "Human-inspectable Design Kit with AI Metadata and Prompt Playground",
 };
 
 export default function RootLayout({

@@ -1,0 +1,124 @@
+.shell {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  min-height: 100vh;
+  background: var(--color-grey-100);
+  color: var(--color-grey-900);
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+  padding: var(--spacing-20) var(--spacing-16);
+  border-right: 1px solid var(--color-grey-300);
+  background: var(--color-grey-0);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.brandEyebrow {
+  margin: 0;
+  font-size: var(--typography-caption2-fontSize);
+  font-weight: var(--typography-fontWeight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-primary-500);
+}
+
+.brandTitle {
+  margin: 4px 0 0;
+  font-size: var(--typography-h3-fontSize);
+  line-height: var(--typography-h3-lineHeight);
+  font-weight: var(--typography-fontWeight-bold);
+}
+
+.brandSub {
+  margin: 6px 0 0;
+  font-size: var(--typography-caption1-fontSize);
+  color: var(--color-grey-600);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.navLink,
+.navActive {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--spacing-8) var(--spacing-12);
+  border-radius: var(--radius-8);
+  text-decoration: none;
+  color: inherit;
+  transition: background-color var(--motion-duration-fast)
+    var(--motion-easing-standard);
+}
+
+.navLink:hover {
+  background: var(--color-grey-100);
+}
+
+.navActive {
+  background: var(--color-primary-100);
+  color: var(--color-primary-900);
+}
+
+.navLabel {
+  font-size: var(--typography-caption1-fontSize);
+  font-weight: var(--typography-fontWeight-semibold);
+}
+
+.navDesc {
+  font-size: var(--typography-caption2-fontSize);
+  color: var(--color-grey-600);
+  line-height: 1.35;
+}
+
+.navActive .navDesc {
+  color: var(--color-primary-700);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbar {
+  padding: var(--spacing-12) var(--spacing-20);
+  border-bottom: 1px solid var(--color-grey-300);
+  background: var(--color-grey-0);
+}
+
+.pipeline {
+  margin: 0;
+  font-size: var(--typography-caption2-fontSize);
+  font-weight: var(--typography-fontWeight-medium);
+  color: var(--color-grey-600);
+  letter-spacing: 0.02em;
+}
+
+.content {
+  padding: var(--spacing-20) var(--spacing-20) var(--spacing-40);
+  max-width: 1100px;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: relative;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-grey-300);
+  }
+}

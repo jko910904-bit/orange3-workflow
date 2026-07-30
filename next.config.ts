@@ -6,6 +6,18 @@ import type { NextConfig } from "next";
  */
 const nextConfig: NextConfig = {
   distDir: process.env.NEXT_DIST_DIR || ".next",
+  async redirects() {
+    return [
+      { source: "/preview/tokens", destination: "/foundations", permanent: false },
+      { source: "/preview/components/button", destination: "/components/button", permanent: false },
+      { source: "/preview/components/input", destination: "/components/input", permanent: false },
+      { source: "/preview/components/card", destination: "/components/card", permanent: false },
+      { source: "/preview/components/table", destination: "/components/table", permanent: false },
+      { source: "/preview/ai-metadata", destination: "/ai-metadata", permanent: false },
+      { source: "/preview/compose", destination: "/prompt", permanent: false },
+      { source: "/preview/generator", destination: "/prompt", permanent: false },
+    ];
+  },
 };
 
 export default nextConfig;
