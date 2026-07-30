@@ -1891,7 +1891,7 @@
   <nav class="rail" id="rail">
     <div class="rail-head">
       <div class="rail-logo" aria-label="AI PENG"></div>
-      <button class="rail-toggle" type="button" id="btnRailToggle" title="메뉴 접기/펼치기">
+      <button class="rail-toggle" type="button" id="btnRailToggle" data-i18n-title="ui.railToggle" title="메뉴 접기/펼치기">
         <svg class="toggle-ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
       </button>
     </div>
@@ -1947,7 +1947,7 @@
       </div>
       <button class="tab-add" type="button" title="탭 추가">＋</button>
       <div class="tabs-actions">
-        <div class="lang-switch" role="group" aria-label="Language">
+        <div class="lang-switch" role="group" data-i18n-title="ui.lang" aria-label="언어">
           <button type="button" data-lang="ko" class="is-active" aria-pressed="true">한</button>
           <button type="button" data-lang="en" aria-pressed="false">영</button>
         </div>
@@ -1979,21 +1979,21 @@
               <button class="canvas-onboard-step" type="button" data-onboard-step="add" aria-pressed="false">
                 <div class="step-head">
                   <span class="step-num">1</span>
-                  <span class="step-title" data-i18n="onboard.step1">위젯추가</span>
+                  <span class="step-title" data-i18n="onboard.step1">위젯 추가</span>
                 </div>
                 <p class="step-desc" data-i18n="onboard.step1Desc">필요한 위젯을 선택하거나 캔버스로 드래그하여 배치하세요.</p>
               </button>
               <button class="canvas-onboard-step" type="button" data-onboard-step="connect" aria-pressed="false">
                 <div class="step-head">
                   <span class="step-num">2</span>
-                  <span class="step-title" data-i18n="onboard.step2">위젯연결</span>
+                  <span class="step-title" data-i18n="onboard.step2">위젯 연결</span>
                 </div>
                 <p class="step-desc" data-i18n="onboard.step2Desc">위젯과 위젯을 선으로 연결해서 분석 흐름을 구성하세요.</p>
               </button>
               <button class="canvas-onboard-step" type="button" data-onboard-step="run" aria-pressed="false">
                 <div class="step-head">
                   <span class="step-num">3</span>
-                  <span class="step-title" data-i18n="onboard.step3">실행 후 결과확인</span>
+                  <span class="step-title" data-i18n="onboard.step3">실행 후 결과 확인</span>
                 </div>
                 <p class="step-desc" data-i18n="onboard.step3Desc">‘실행’ 버튼을 눌러 분석 결과를 확인하세요.</p>
               </button>
@@ -2028,98 +2028,98 @@
   <div class="widget-ctx" id="widgetCtx" hidden role="menu"></div>
 
         <div class="toolbar" id="toolbar">
-          <button class="tool-icon" type="button" data-tool="pan" title="이동">
+          <button class="tool-icon" type="button" data-tool="pan" data-i18n-title="tool.pan" title="이동">
             <svg viewBox="0 0 24 24"><path d="M8.5 11.5V7.2a1.2 1.2 0 0 1 2.4 0V11"/><path d="M10.9 10.8V6.2a1.2 1.2 0 0 1 2.4 0V11"/><path d="M13.3 10.5V7a1.2 1.2 0 1 1 2.4 0v6.2"/><path d="M15.7 13.2V9.2a1.2 1.2 0 1 1 2.4 0v5.3c0 2.7-1.8 5-4.5 5.3-2.4.3-4.6-1.1-5.5-3.3L7.2 12a1.3 1.3 0 0 1 2.3-1.2l1.4 2.7"/></svg>
           </button>
-          <button class="tool-icon active" type="button" data-tool="select" title="선택">
+          <button class="tool-icon active" type="button" data-tool="select" data-i18n-title="tool.select" title="선택">
             <svg viewBox="0 0 24 24"><path d="M5 4.5 11.5 19l2-5.5L19 11.5 5 4.5Z"/><path d="M13.5 13.5 18.5 18.5"/></svg>
           </button>
 
           <div class="divider"></div>
 
           <div class="tool-group" data-group="shape">
-            <button class="tool-icon tool-main" type="button" data-tool="rect" title="도형">
+            <button class="tool-icon tool-main" type="button" data-tool="rect" data-i18n-title="tool.shape" title="도형">
               <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="1.5"/></svg>
             </button>
-            <button class="tool-more" type="button" title="도형 더보기" aria-label="도형 더보기">
+            <button class="tool-more" type="button" data-i18n-title="tool.shapeMore" title="도형 더보기" aria-label="도형 더보기">
               <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div class="tool-flyout">
               <button class="tool-flyout-item" type="button" data-tool="rect">
                 <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="1.5"/></svg>
-                <span>사각형</span>
+                <span data-i18n="tool.rect">사각형</span>
               </button>
               <button class="tool-flyout-item" type="button" data-tool="diamond">
                 <svg viewBox="0 0 24 24"><path d="M12 4.5 19.5 12 12 19.5 4.5 12 12 4.5Z"/></svg>
-                <span>마름모</span>
+                <span data-i18n="tool.diamond">마름모</span>
               </button>
               <button class="tool-flyout-item" type="button" data-tool="ellipse">
                 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5"/></svg>
-                <span>원</span>
+                <span data-i18n="tool.ellipse">원</span>
               </button>
             </div>
           </div>
 
           <div class="tool-group" data-group="draw">
-            <button class="tool-icon tool-main" type="button" data-tool="draw" title="그리기">
+            <button class="tool-icon tool-main" type="button" data-tool="draw" data-i18n-title="tool.draw" title="그리기">
               <svg viewBox="0 0 24 24"><path d="M14.5 5.5 18.5 9.5"/><path d="M5 19.5 7.2 12.8 16.2 3.8a2 2 0 0 1 2.8 0l1.2 1.2a2 2 0 0 1 0 2.8L11.2 16.8 5 19.5Z"/></svg>
             </button>
-            <button class="tool-more" type="button" title="그리기 더보기" aria-label="그리기 더보기">
+            <button class="tool-more" type="button" data-i18n-title="tool.drawMore" title="그리기 더보기" aria-label="그리기 더보기">
               <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div class="tool-flyout">
               <button class="tool-flyout-item" type="button" data-tool="draw">
                 <svg viewBox="0 0 24 24"><path d="M14.5 5.5 18.5 9.5"/><path d="M5 19.5 7.2 12.8 16.2 3.8a2 2 0 0 1 2.8 0l1.2 1.2a2 2 0 0 1 0 2.8L11.2 16.8 5 19.5Z"/></svg>
-                <span>펜</span>
+                <span data-i18n="tool.pen">펜</span>
               </button>
               <button class="tool-flyout-item" type="button" data-tool="arrow">
                 <svg viewBox="0 0 24 24"><path d="M4 12h14"/><path d="M14 7.5 18.5 12 14 16.5"/></svg>
-                <span>화살표</span>
+                <span data-i18n="tool.arrow">화살표</span>
               </button>
               <button class="tool-flyout-item" type="button" data-tool="line">
                 <svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
-                <span>선</span>
+                <span data-i18n="tool.line">선</span>
               </button>
             </div>
           </div>
 
           <div class="divider"></div>
 
-          <button class="tool-icon" type="button" data-tool="text" title="텍스트">
+          <button class="tool-icon" type="button" data-tool="text" data-i18n-title="tool.text" title="텍스트">
             <svg viewBox="0 0 24 24"><path d="M5 6.5h14"/><path d="M12 6.5v12"/><path d="M8.5 18.5h7"/></svg>
           </button>
-          <button class="tool-icon" type="button" data-tool="image" title="이미지">
+          <button class="tool-icon" type="button" data-tool="image" data-i18n-title="tool.image" title="이미지">
             <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.4"/><path d="M4.5 16.5 9 12.5l3 2.5 3.5-4 4 5.5"/></svg>
           </button>
-          <button class="tool-icon" type="button" data-tool="eraser" title="지우개">
+          <button class="tool-icon" type="button" data-tool="eraser" data-i18n-title="tool.eraser" title="지우개">
             <svg viewBox="0 0 24 24"><path d="M15.5 5.5 19 9l-8.5 8.5H7L4.5 15 15.5 5.5Z"/><path d="M6 19.5h13"/></svg>
           </button>
-          <button class="tool-icon" type="button" data-tool="connect" title="연결">
+          <button class="tool-icon" type="button" data-tool="connect" data-i18n-title="tool.connect" title="연결">
             <svg viewBox="0 0 24 24"><circle cx="6.5" cy="7" r="2"/><circle cx="17.5" cy="7" r="2"/><circle cx="12" cy="17" r="2"/><path d="M8.2 8.2 10.5 15.2M15.8 8.2 13.5 15.2"/></svg>
           </button>
 
           <div class="divider"></div>
 
-          <button class="tool-icon" type="button" id="btnUndo" title="실행 취소">
+          <button class="tool-icon" type="button" id="btnUndo" data-i18n-title="tool.undo" title="실행 취소">
             <svg viewBox="0 0 24 24"><path d="M9 14H4V9"/><path d="M4 14a8 8 0 1 1 2.3 5.7"/></svg>
           </button>
-          <button class="tool-icon" type="button" id="btnRedo" title="다시 실행">
+          <button class="tool-icon" type="button" id="btnRedo" data-i18n-title="tool.redo" title="다시 실행">
             <svg viewBox="0 0 24 24"><path d="M15 14h5V9"/><path d="M20 14a8 8 0 1 0-2.3 5.7"/></svg>
           </button>
         </div>
 
         <div class="view-controls">
           <div class="nav-panel" id="navPanel">
-            <div class="nav-map" id="minimap" title="클릭/드래그로 이동"></div>
+            <div class="nav-map" id="minimap" data-i18n-title="tool.minimap" title="클릭/드래그로 이동"></div>
             <div class="nav-bar">
-              <button class="nav-btn" type="button" id="btnZoomOut" title="축소">
+              <button class="nav-btn" type="button" id="btnZoomOut" data-i18n-title="tool.zoomOut" title="축소">
                 <svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg>
               </button>
               <div class="zoom-val" id="zoomVal">100%</div>
-              <button class="nav-btn" type="button" id="btnZoomIn" title="확대">
+              <button class="nav-btn" type="button" id="btnZoomIn" data-i18n-title="tool.zoomIn" title="확대">
                 <svg viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg>
               </button>
-              <button class="nav-btn" type="button" id="btnFit" title="맞춤">
+              <button class="nav-btn" type="button" id="btnFit" data-i18n-title="tool.fit" title="맞춤">
                 <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
               </button>
             </div>
@@ -2207,7 +2207,7 @@
               <button class="open-example-item" type="button" data-example="iris">
                 <span class="ex-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5 14.2 9H20l-4.5 3.4L17.4 18 12 14.6 6.6 18l1.9-5.6L4 9h5.8L12 3.5Z"/></svg></span>
                 <span class="ex-meta">
-                  <p class="ex-name" data-i18n="open.ex.iris">Iris 분류</p>
+                  <p class="ex-name" data-i18n="open.ex.iris">아이리스 분류</p>
                   <p class="ex-desc">입문 · 분류 파이프라인</p>
                 </span>
               </button>
@@ -2255,19 +2255,19 @@
   <div class="auth-overlay" id="authOverlay" hidden>
     <form class="auth-card" id="authForm" autocomplete="on">
       <div class="auth-brand"></div>
-      <h2 class="auth-title">로그인</h2>
-      <p class="auth-desc">워크플로 에디터를 사용하려면 로그인하세요</p>
+      <h2 class="auth-title" data-i18n="auth.title">로그인</h2>
+      <p class="auth-desc" data-i18n="auth.desc">워크플로 에디터를 사용하려면 로그인하세요</p>
       <div class="auth-field">
-        <label for="authEmailInput">이메일</label>
+        <label for="authEmailInput" data-i18n="auth.email">이메일</label>
         <input id="authEmailInput" name="email" type="email" placeholder="you@example.com" required>
       </div>
       <div class="auth-field">
-        <label for="authPasswordInput">비밀번호</label>
-        <input id="authPasswordInput" name="password" type="password" placeholder="4자 이상" required minlength="4">
+        <label for="authPasswordInput" data-i18n="auth.password">비밀번호</label>
+        <input id="authPasswordInput" name="password" type="password" data-i18n-placeholder="auth.pwPlaceholder" placeholder="4자 이상" required minlength="4">
       </div>
       <div class="auth-error" id="authError" aria-live="polite"></div>
-      <button class="auth-submit" type="submit">로그인</button>
-      <p class="auth-hint">데모: 아무 이메일 + 비밀번호 4자 이상</p>
+      <button class="auth-submit" type="submit" data-i18n="auth.submit">로그인</button>
+      <p class="auth-hint" data-i18n="auth.hint">데모: 아무 이메일 + 비밀번호 4자 이상</p>
     </form>
   </div>
 
@@ -2346,11 +2346,11 @@
       'auth.logoutHint': '로그아웃되었습니다',
       'onboard.title': '데이터 분석을 함께<br>시작해볼까요?',
       'onboard.sub': '3단계 가이드를 따라 쉽고 빠르게 분석을 완성해 보세요.',
-      'onboard.step1': '위젯추가',
+      'onboard.step1': '위젯 추가',
       'onboard.step1Desc': '필요한 위젯을 선택하거나 캔버스로 드래그하여 배치하세요.',
-      'onboard.step2': '위젯연결',
+      'onboard.step2': '위젯 연결',
       'onboard.step2Desc': '위젯과 위젯을 선으로 연결해서 분석 흐름을 구성하세요.',
-      'onboard.step3': '실행 후 결과확인',
+      'onboard.step3': '실행 후 결과 확인',
       'onboard.step3Desc': '‘실행’ 버튼을 눌러 분석 결과를 확인하세요.',
       'onboard.quick': '빠르게 시작하기',
       'onboard.load': '이전 작업 불러오기',
@@ -2399,6 +2399,91 @@
       'menu.datasetDes': '데이터셋 설명',
       'menu.help': '도움말',
       'menu.settings': '설정',
+
+      'menu.newBlank': '빈 워크플로',
+      'menu.newTemplate': '템플릿에서',
+      'menu.newExample': '예제에서',
+      'menu.openFile': '파일 열기',
+      'menu.openRecent': '최근 파일',
+      'menu.recentUnsaved': '저장 안 된 워크플로',
+      'menu.recentCurrent': '현재 버전',
+      'menu.recentBackup': '백업 (3월)',
+      'menu.recentDraft': '임시 저장',
+      'menu.wsMine': '내 워크스페이스',
+      'menu.wsShared': '공유됨',
+      'menu.wsArchive': '아카이브',
+      'menu.dsMine': '내 데이터셋',
+      'menu.dsEbs': 'EBS 샘플',
+      'menu.dsEdu': '교육 통계',
+      'menu.dsElem': '초등 학습 데이터',
+      'menu.dsMid': '중등 성취 데이터',
+      'menu.dsHigh': '고등 진로 데이터',
+      'menu.dsImport': '가져오기',
+      'menu.tplClassify': '분류',
+      'menu.tplBinary': '이진 분류',
+      'menu.tplMulti': '다중 분류',
+      'menu.tplImbalanced': '불균형 데이터',
+      'menu.tplRegress': '회귀',
+      'menu.tplCluster': '클러스터링',
+      'menu.exBeginner': '입문',
+      'menu.exIris': '아이리스 분류',
+      'menu.exIrisBasic': '기본 파이프라인',
+      'menu.exIrisKnn': 'KNN 분류',
+      'menu.exIrisTree': '결정 트리',
+      'menu.exTitanic': '타이타닉 생존 예측',
+      'menu.exAdvanced': '고급',
+      'menu.exText': '텍스트 마이닝',
+      'menu.exTfidf': 'TF-IDF 분석',
+      'menu.exLda': 'LDA 토픽 모델',
+      'menu.exSentiment': '감성 분류',
+      'menu.exTs': '시계열 분석',
+      'menu.helpStart': '시작하기',
+      'menu.helpDocs': '문서',
+      'menu.helpGuide': '가이드',
+      'menu.helpQuickstart': '빠른 시작',
+      'menu.helpWidget': '위젯 참조',
+      'menu.helpApi': 'API 문서',
+      'menu.helpCommunity': '커뮤니티',
+      'menu.setGeneral': '일반',
+      'menu.setShortcuts': '단축키',
+      'menu.setAppearance': '화면',
+      'menu.setTheme': '테마',
+      'menu.setThemeLight': '라이트',
+      'menu.setThemeDark': '다크',
+      'menu.setThemeAuto': '시스템 설정',
+      'auth.title': '로그인',
+      'auth.desc': '워크플로 에디터를 사용하려면 로그인하세요',
+      'auth.email': '이메일',
+      'auth.password': '비밀번호',
+      'auth.pwPlaceholder': '4자 이상',
+      'auth.submit': '로그인',
+      'auth.hint': '데모: 아무 이메일 + 비밀번호 4자 이상',
+      'auth.emailError': '올바른 이메일을 입력하세요',
+      'auth.pwError': '비밀번호는 4자 이상이어야 합니다',
+      'tool.pan': '이동',
+      'tool.select': '선택',
+      'tool.shape': '도형',
+      'tool.shapeMore': '도형 더보기',
+      'tool.rect': '사각형',
+      'tool.diamond': '마름모',
+      'tool.ellipse': '원',
+      'tool.draw': '그리기',
+      'tool.drawMore': '그리기 더보기',
+      'tool.pen': '펜',
+      'tool.arrow': '화살표',
+      'tool.line': '선',
+      'tool.text': '텍스트',
+      'tool.image': '이미지',
+      'tool.eraser': '지우개',
+      'tool.connect': '연결',
+      'tool.undo': '실행 취소',
+      'tool.redo': '다시 실행',
+      'tool.zoomOut': '축소',
+      'tool.zoomIn': '확대',
+      'tool.fit': '맞춤',
+      'tool.minimap': '클릭/드래그로 이동',
+      'ui.railToggle': '메뉴 접기/펼치기',
+      'ui.lang': '언어',
       'open.title': '열기',
       'open.desc': '왼쪽에서 출처를 고른 뒤 .ows 워크플로 또는 .json 캔버스 파일을 여세요.',
       'open.examples': '예제 워크플로',
@@ -2409,7 +2494,7 @@
       'open.drop': '여기에 .ows/.json 파일을 끌어오거나',
       'open.choose': '파일을 선택하세요',
       'open.cancel': '취소',
-      'open.ex.iris': 'Iris 분류',
+      'open.ex.iris': '아이리스 분류',
       'open.ex.cluster': '클러스터링 데모',
       'open.ex.regress': '선형 회귀',
       'cat.file': '파일',
@@ -2509,6 +2594,91 @@
       'menu.datasetDes': 'Dataset Description',
       'menu.help': 'Help',
       'menu.settings': 'Settings',
+
+      'menu.newBlank': 'Blank workflow',
+      'menu.newTemplate': 'From template',
+      'menu.newExample': 'From example',
+      'menu.openFile': 'Open file',
+      'menu.openRecent': 'Recent files',
+      'menu.recentUnsaved': 'Unsaved workflow',
+      'menu.recentCurrent': 'Current version',
+      'menu.recentBackup': 'Backup (Mar)',
+      'menu.recentDraft': 'Draft save',
+      'menu.wsMine': 'My workspaces',
+      'menu.wsShared': 'Shared',
+      'menu.wsArchive': 'Archive',
+      'menu.dsMine': 'My datasets',
+      'menu.dsEbs': 'EBS samples',
+      'menu.dsEdu': 'Education stats',
+      'menu.dsElem': 'Elementary learning data',
+      'menu.dsMid': 'Middle school achievement',
+      'menu.dsHigh': 'High school career data',
+      'menu.dsImport': 'Import',
+      'menu.tplClassify': 'Classification',
+      'menu.tplBinary': 'Binary classification',
+      'menu.tplMulti': 'Multiclass classification',
+      'menu.tplImbalanced': 'Imbalanced data',
+      'menu.tplRegress': 'Regression',
+      'menu.tplCluster': 'Clustering',
+      'menu.exBeginner': 'Beginner',
+      'menu.exIris': 'Iris classification',
+      'menu.exIrisBasic': 'Basic pipeline',
+      'menu.exIrisKnn': 'KNN classification',
+      'menu.exIrisTree': 'Decision tree',
+      'menu.exTitanic': 'Titanic survival',
+      'menu.exAdvanced': 'Advanced',
+      'menu.exText': 'Text mining',
+      'menu.exTfidf': 'TF-IDF analysis',
+      'menu.exLda': 'LDA topic model',
+      'menu.exSentiment': 'Sentiment classification',
+      'menu.exTs': 'Time series analysis',
+      'menu.helpStart': 'Getting started',
+      'menu.helpDocs': 'Docs',
+      'menu.helpGuide': 'Guide',
+      'menu.helpQuickstart': 'Quick start',
+      'menu.helpWidget': 'Widget reference',
+      'menu.helpApi': 'API docs',
+      'menu.helpCommunity': 'Community',
+      'menu.setGeneral': 'General',
+      'menu.setShortcuts': 'Shortcuts',
+      'menu.setAppearance': 'Appearance',
+      'menu.setTheme': 'Theme',
+      'menu.setThemeLight': 'Light',
+      'menu.setThemeDark': 'Dark',
+      'menu.setThemeAuto': 'System',
+      'auth.title': 'Login',
+      'auth.desc': 'Sign in to use the workflow editor',
+      'auth.email': 'Email',
+      'auth.password': 'Password',
+      'auth.pwPlaceholder': 'At least 4 characters',
+      'auth.submit': 'Login',
+      'auth.hint': 'Demo: any email + password (4+ chars)',
+      'auth.emailError': 'Enter a valid email',
+      'auth.pwError': 'Password must be at least 4 characters',
+      'tool.pan': 'Pan',
+      'tool.select': 'Select',
+      'tool.shape': 'Shape',
+      'tool.shapeMore': 'More shapes',
+      'tool.rect': 'Rectangle',
+      'tool.diamond': 'Diamond',
+      'tool.ellipse': 'Ellipse',
+      'tool.draw': 'Draw',
+      'tool.drawMore': 'More drawing tools',
+      'tool.pen': 'Pen',
+      'tool.arrow': 'Arrow',
+      'tool.line': 'Line',
+      'tool.text': 'Text',
+      'tool.image': 'Image',
+      'tool.eraser': 'Eraser',
+      'tool.connect': 'Connect',
+      'tool.undo': 'Undo',
+      'tool.redo': 'Redo',
+      'tool.zoomOut': 'Zoom out',
+      'tool.zoomIn': 'Zoom in',
+      'tool.fit': 'Fit',
+      'tool.minimap': 'Click or drag to pan',
+      'ui.railToggle': 'Collapse / expand menu',
+      'ui.lang': 'Language',
       'open.title': 'Open',
       'open.desc': 'Choose a source on the left and open an .ows workflow or .json canvas file.',
       'open.examples': 'Example Workflow',
@@ -2571,7 +2741,10 @@
       el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
     });
     root.querySelectorAll('[data-i18n-title]').forEach(el => {
-      el.title = t(el.getAttribute('data-i18n-title'));
+      const key = el.getAttribute('data-i18n-title');
+      if (!key) return;
+      el.title = t(key);
+      if (el.hasAttribute('aria-label')) el.setAttribute('aria-label', t(key));
     });
     document.documentElement.lang = lang;
     document.querySelectorAll('[data-lang]').forEach(btn => {
@@ -2591,12 +2764,33 @@
       const search = document.getElementById('searchInput');
       renderCatalog(search?.value || '');
     }
+    if (typeof nodes !== 'undefined') {
+      nodes.forEach(n => {
+        if (!n.nameLocked) n.name = widgetLabel(n.type);
+      });
+    }
+    if (typeof renderNodes === 'function') renderNodes();
+    if (typeof drawConnections === 'function') {
+      if (typeof conns !== 'undefined') {
+        conns.forEach(c => {
+          if (!c.labelLocked) c.label = t('conn.label');
+        });
+      }
+      drawConnections();
+    }
     if (typeof renderProps === 'function') renderProps();
     if (typeof renderMenuLocales === 'function') renderMenuLocales();
     document.querySelectorAll('#tabsList .tab-label').forEach((el, i) => {
       const text = el.textContent.trim();
       if (/^(빈 탭|Untitled)( \d+)?$/.test(text) || el.hasAttribute('data-tab-blank')) {
         el.textContent = i === 0 ? t('tabs.blank') : t('tabs.blankN', { n: i + 1 });
+      }
+    });
+    document.querySelectorAll('[data-i18n-title]').forEach(el => {
+      const key = el.getAttribute('data-i18n-title');
+      if (key) {
+        el.title = t(key);
+        if (el.hasAttribute('aria-label')) el.setAttribute('aria-label', t(key));
       }
     });
   }
@@ -3550,27 +3744,27 @@
     {
       items: [
         {
-          id: 'new', label: '새로 만들기', labelKey: 'menu.new', icon: 'new',
+          id: 'new', labelKey: 'menu.new', icon: 'new',
           children: [
-            { id: 'new-blank', label: '빈 워크플로' },
-            { id: 'new-template', label: '템플릿에서' },
-            { id: 'new-example', label: '예제에서' },
+            { id: 'new-blank', labelKey: 'menu.newBlank' },
+            { id: 'new-template', labelKey: 'menu.newTemplate' },
+            { id: 'new-example', labelKey: 'menu.newExample' },
           ],
         },
         {
-          id: 'open', label: '열기', labelKey: 'menu.open', icon: 'open',
+          id: 'open', labelKey: 'menu.open', icon: 'open',
           children: [
-            { id: 'open-file', label: '파일 열기' },
+            { id: 'open-file', labelKey: 'menu.openFile' },
             {
-              id: 'open-recent', label: '최근 파일',
+              id: 'open-recent', labelKey: 'menu.openRecent',
               children: [
-                { id: 'recent-1', label: '저장 안 된 워크플로' },
+                { id: 'recent-1', labelKey: 'menu.recentUnsaved' },
                 {
                   id: 'recent-2', label: 'classification.ows',
                   children: [
-                    { id: 'recent-2-main', label: '현재 버전' },
-                    { id: 'recent-2-backup', label: '백업 (3월)' },
-                    { id: 'recent-2-draft', label: '임시 저장' },
+                    { id: 'recent-2-main', labelKey: 'menu.recentCurrent' },
+                    { id: 'recent-2-backup', labelKey: 'menu.recentBackup' },
+                    { id: 'recent-2-draft', labelKey: 'menu.recentDraft' },
                   ],
                 },
                 { id: 'recent-3', label: 'clustering-demo.ows' },
@@ -3578,52 +3772,52 @@
             },
           ],
         },
-        { id: 'menu', label: '메뉴', labelKey: 'menu.menu', icon: 'menu' },
+        { id: 'menu', labelKey: 'menu.menu', icon: 'menu' },
         {
-          id: 'workspaces', label: '워크스페이스', labelKey: 'menu.workspaces', icon: 'workspaces',
+          id: 'workspaces', labelKey: 'menu.workspaces', icon: 'workspaces',
           children: [
-            { id: 'ws-mine', label: '내 워크스페이스' },
-            { id: 'ws-shared', label: '공유됨' },
-            { id: 'ws-archive', label: '아카이브' },
+            { id: 'ws-mine', labelKey: 'menu.wsMine' },
+            { id: 'ws-shared', labelKey: 'menu.wsShared' },
+            { id: 'ws-archive', labelKey: 'menu.wsArchive' },
           ],
         },
-        { id: 'widgets', label: '위젯', labelKey: 'menu.widgets', icon: 'widgets' },
+        { id: 'widgets', labelKey: 'menu.widgets', icon: 'widgets' },
       ],
     },
     {
       items: [
         {
-          id: 'datasets', label: '분석 데이터셋', labelKey: 'menu.datasets', icon: 'datasets',
+          id: 'datasets', labelKey: 'menu.datasets', icon: 'datasets',
           children: [
-            { id: 'ds-mine', label: '내 데이터셋' },
+            { id: 'ds-mine', labelKey: 'menu.dsMine' },
             {
-              id: 'ds-ebs', label: 'EBS 샘플',
+              id: 'ds-ebs', labelKey: 'menu.dsEbs',
               children: [
                 {
-                  id: 'ds-ebs-edu', label: '교육 통계',
+                  id: 'ds-ebs-edu', labelKey: 'menu.dsEdu',
                   children: [
-                    { id: 'ds-ebs-elem', label: '초등 학습 데이터' },
-                    { id: 'ds-ebs-mid', label: '중등 성취 데이터' },
-                    { id: 'ds-ebs-high', label: '고등 진로 데이터' },
+                    { id: 'ds-ebs-elem', labelKey: 'menu.dsElem' },
+                    { id: 'ds-ebs-mid', labelKey: 'menu.dsMid' },
+                    { id: 'ds-ebs-high', labelKey: 'menu.dsHigh' },
                   ],
                 },
               ],
             },
-            { id: 'ds-import', label: '가져오기' },
+            { id: 'ds-import', labelKey: 'menu.dsImport' },
           ],
         },
         {
-          id: 'templates', label: '템플릿', labelKey: 'menu.templates', icon: 'templates',
+          id: 'templates', labelKey: 'menu.templates', icon: 'templates',
           children: [
-            { id: 'tpl-classify', label: '분류',
+            { id: 'tpl-classify', labelKey: 'menu.tplClassify',
               children: [
-                { id: 'tpl-clf-binary', label: '이진 분류' },
-                { id: 'tpl-clf-multi', label: '다중 분류' },
-                { id: 'tpl-clf-imbalanced', label: '불균형 데이터' },
+                { id: 'tpl-clf-binary', labelKey: 'menu.tplBinary' },
+                { id: 'tpl-clf-multi', labelKey: 'menu.tplMulti' },
+                { id: 'tpl-clf-imbalanced', labelKey: 'menu.tplImbalanced' },
               ],
             },
-            { id: 'tpl-regress', label: '회귀' },
-            { id: 'tpl-cluster', label: '클러스터링' },
+            { id: 'tpl-regress', labelKey: 'menu.tplRegress' },
+            { id: 'tpl-cluster', labelKey: 'menu.tplCluster' },
           ],
         },
       ],
@@ -3631,78 +3825,78 @@
     {
       items: [
         {
-          id: 'examples', label: '예제', labelKey: 'menu.examples', icon: 'examples',
+          id: 'examples', labelKey: 'menu.examples', icon: 'examples',
           children: [
             {
-              id: 'ex-beginner', label: '입문',
+              id: 'ex-beginner', labelKey: 'menu.exBeginner',
               children: [
                 {
-                  id: 'ex-iris', label: 'Iris 분류',
+                  id: 'ex-iris', labelKey: 'menu.exIris',
                   children: [
-                    { id: 'ex-iris-basic', label: '기본 파이프라인' },
-                    { id: 'ex-iris-knn', label: 'KNN 분류' },
-                    { id: 'ex-iris-tree', label: '결정 트리' },
+                    { id: 'ex-iris-basic', labelKey: 'menu.exIrisBasic' },
+                    { id: 'ex-iris-knn', labelKey: 'menu.exIrisKnn' },
+                    { id: 'ex-iris-tree', labelKey: 'menu.exIrisTree' },
                   ],
                 },
-                { id: 'ex-titanic', label: '타이타닉 생존 예측' },
+                { id: 'ex-titanic', labelKey: 'menu.exTitanic' },
               ],
             },
             {
-              id: 'ex-advanced', label: '고급',
+              id: 'ex-advanced', labelKey: 'menu.exAdvanced',
               children: [
                 {
-                  id: 'ex-text', label: '텍스트 마이닝',
+                  id: 'ex-text', labelKey: 'menu.exText',
                   children: [
-                    { id: 'ex-text-tfidf', label: 'TF-IDF 분석' },
-                    { id: 'ex-text-lda', label: 'LDA 토픽 모델' },
-                    { id: 'ex-text-sentiment', label: '감성 분류' },
+                    { id: 'ex-text-tfidf', labelKey: 'menu.exTfidf' },
+                    { id: 'ex-text-lda', labelKey: 'menu.exLda' },
+                    { id: 'ex-text-sentiment', labelKey: 'menu.exSentiment' },
                   ],
                 },
-                { id: 'ex-ts', label: '시계열 분석' },
+                { id: 'ex-ts', labelKey: 'menu.exTs' },
               ],
             },
           ],
         },
-        { id: 'dataset-des', label: '데이터셋 설명', labelKey: 'menu.datasetDes', icon: 'datasetDes' },
+        { id: 'dataset-des', labelKey: 'menu.datasetDes', icon: 'datasetDes' },
       ],
     },
   ];
 
   const MENU_BOTTOM = [
     {
-      id: 'help', label: '도움말', labelKey: 'menu.help', icon: 'help',
+      id: 'help', labelKey: 'menu.help', icon: 'help',
       children: [
-        { id: 'help-start', label: '시작하기' },
+        { id: 'help-start', labelKey: 'menu.helpStart' },
         {
-          id: 'help-docs', label: '문서',
+          id: 'help-docs', labelKey: 'menu.helpDocs',
           children: [
             {
-              id: 'help-docs-guide', label: '가이드',
+              id: 'help-docs-guide', labelKey: 'menu.helpGuide',
               children: [
-                { id: 'help-docs-quickstart', label: '빠른 시작' },
-                { id: 'help-docs-widget', label: '위젯 참조' },
-                { id: 'help-docs-api', label: 'API 문서' },
+                { id: 'help-docs-quickstart', labelKey: 'menu.helpQuickstart' },
+                { id: 'help-docs-widget', labelKey: 'menu.helpWidget' },
+                { id: 'help-docs-api', labelKey: 'menu.helpApi' },
               ],
             },
           ],
         },
-        { id: 'help-community', label: '커뮤니티' },
+        { id: 'help-community', labelKey: 'menu.helpCommunity' },
       ],
     },
     {
-      id: 'settings', label: '설정', labelKey: 'menu.settings', icon: 'settings',
+      id: 'settings', labelKey: 'menu.settings', icon: 'settings',
       children: [
-        { id: 'set-general', label: '일반' },
-        { id: 'set-shortcuts', label: '단축키' },
+        { id: 'set-general', labelKey: 'menu.setGeneral' },
+        { id: 'set-shortcuts', labelKey: 'menu.setShortcuts' },
         {
-          id: 'set-appearance', label: '화면',
+          id: 'set-appearance', labelKey: 'menu.setAppearance',
           children: [
             {
-              id: 'set-theme', label: '테마',
+              id: 'set-theme', labelKey: 'menu.setTheme',
               children: [
-                { id: 'set-theme-light', label: '라이트' },
-                { id: 'set-theme-dark', label: '다크' },
-                { id: 'set-theme-auto', label: '시스템 설정' },
+                { id: 'set-theme-light', labelKey: 'menu.setThemeLight' },
+                { id: 'set-theme-dark', labelKey: 'menu.setThemeDark' },
+                { id: 'set-theme-auto', labelKey: 'menu.setThemeAuto' },
               ],
             },
           ],
@@ -3710,6 +3904,7 @@
       ],
     },
   ];
+
 
   const MENU_ICONS = {
     new: '<path d="M12 5v14M5 12h14"/>',
@@ -4351,11 +4546,11 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     const email = document.getElementById('authEmailInput').value.trim();
     const password = document.getElementById('authPasswordInput').value;
     if (!email || !email.includes('@')) {
-      authError.textContent = '올바른 이메일을 입력하세요';
+      authError.textContent = t('auth.emailError');
       return;
     }
     if (password.length < 4) {
-      authError.textContent = '비밀번호는 4자 이상이어야 합니다';
+      authError.textContent = t('auth.pwError');
       return;
     }
     const name = email.split('@')[0];
