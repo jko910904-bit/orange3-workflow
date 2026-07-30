@@ -101,6 +101,12 @@
     max-width: 100%;
     object-fit: contain;
   }
+  .rail-logo .logo-placeholder {
+    display: inline-flex; align-items: center;
+    height: 36px; padding: 0 4px;
+    font-size: 15px; font-weight: 800; letter-spacing: -0.02em;
+    color: #9CA3AF; line-height: 1;
+  }
   .rail.collapsed .rail-logo { display: none; }
   .rail-toggle {
     margin-left: auto; flex-shrink: 0;
@@ -1263,17 +1269,6 @@
     color: #6B7280;
     font-weight: 500;
   }
-  .canvas-onboard-start {
-    min-width: 180px; height: 52px; padding: 0 32px;
-    border: none; border-radius: 14px;
-    background: linear-gradient(145deg, #4A96E8, var(--brand));
-    color: #fff; font: inherit; font-size: 17px; font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 8px 20px rgba(34,125,226,0.30);
-    transition: transform .15s, filter .15s;
-  }
-  .canvas-onboard-start:hover { filter: brightness(1.03); transform: translateY(-1px); }
-  .canvas-onboard-start:active { transform: scale(0.98); }
   .canvas-onboard-media {
     flex: 0 0 auto;
     width: min(280px, 34vw);
@@ -1906,7 +1901,7 @@
 
   <nav class="rail" id="rail">
     <div class="rail-head">
-      <div class="rail-logo" aria-label="AI PENG"></div>
+      <div class="rail-logo" aria-label="로고자리"><span class="logo-placeholder">로고자리</span></div>
       <button class="rail-toggle" type="button" id="btnRailToggle" title="메뉴 접기/펼치기">
         <svg class="toggle-ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
       </button>
@@ -1989,7 +1984,6 @@
               <div class="canvas-onboard-copy">
                 <h2>데이터 분석을 함께 시작해볼까요?</h2>
                 <p>3단계 가이드를 따라 쉽고 빠르게 분석을 완성해 보세요.</p>
-                <button class="canvas-onboard-start" type="button" id="btnOnboardStart">시작하기</button>
               </div>
 </div>
             <div class="canvas-onboard-steps" role="group" aria-label="시작 단계 선택">
@@ -2341,102 +2335,103 @@
   const W = (name) => `assets/widgets/${name}.png`;
   const CATS = [
     {
-      id: 'data', name: 'Data', tone: 'red', color: '#E86A4A', soft: '#FBF1EE', tile: 'icon-red',
+      id: 'data', name: '데이터', tone: 'red', color: '#E86A4A', soft: '#FBF1EE', tile: 'icon-red',
       img: W('data-table'),
       items: [
-        { id: 'file', label: 'File', icon: 'file', img: W('file'), desc: '파일을 불러옵니다.' },
+        { id: 'file', label: '파일', icon: 'file', img: W('file'), desc: '파일을 불러옵니다.' },
         { id: 'csv', label: 'CSV', icon: 'csv', img: W('csv'), desc: 'CSV 파일을 불러옵니다.' },
-        { id: 'datasets', label: 'Datasets', icon: 'datasets', img: W('datasets'), desc: '예제 데이터셋을 불러옵니다.' },
-        { id: 'data-table', label: 'Data Table', icon: 'data-table', img: W('data-table'), desc: '데이터를 테이블로 봅니다.' },
-        { id: 'rank', label: 'Rank', icon: 'rank', img: W('rank'), desc: '특성 순위를 매깁니다.' },
-        { id: 'feat-stats', label: 'Feature Statistics', icon: 'feat-stats', img: W('feature-statistics'), desc: '특성 통계를 봅니다.' },
-        { id: 'domain', label: 'Edit Domain', icon: 'domain', img: W('edit-domain'), desc: '도메인을 편집합니다.' },
-        { id: 'save-data', label: 'Save Data', icon: 'save-data', img: W('save-data'), desc: '데이터를 저장합니다.' },
+        { id: 'datasets', label: '데이터셋', icon: 'datasets', img: W('datasets'), desc: '예제 데이터셋을 불러옵니다.' },
+        { id: 'data-table', label: '데이터 테이블', icon: 'data-table', img: W('data-table'), desc: '데이터를 테이블로 봅니다.' },
+        { id: 'rank', label: '순위', icon: 'rank', img: W('rank'), desc: '특성 순위를 매깁니다.' },
+        { id: 'feat-stats', label: '특성 통계', icon: 'feat-stats', img: W('feature-statistics'), desc: '특성 통계를 봅니다.' },
+        { id: 'domain', label: '도메인 편집', icon: 'domain', img: W('edit-domain'), desc: '도메인을 편집합니다.' },
+        { id: 'save-data', label: '데이터 저장', icon: 'save-data', img: W('save-data'), desc: '데이터를 저장합니다.' },
       ]
     },
     {
-      id: 'transform', name: 'Transform', tone: 'orange', color: '#E8A04A', soft: '#FBF6EE', tile: 'icon-orange',
+      id: 'transform', name: '변환', tone: 'orange', color: '#E8A04A', soft: '#FBF6EE', tile: 'icon-orange',
       img: W('select-columns'),
       items: [
-        { id: 'sampler', label: 'Data Sampler', icon: 'sampler', img: W('data-sampler'), desc: '데이터를 무작위로 샘플링합니다.' },
-        { id: 'sel-cols', label: 'Select Columns', icon: 'sel-cols', img: W('select-columns'), desc: '사용할 열을 선택합니다.' },
-        { id: 'sel-rows', label: 'Select Rows', icon: 'sel-rows', img: W('select-rows'), desc: '조건에 맞는 행을 선택합니다.' },
-        { id: 'merge', label: 'Merge Data', icon: 'merge', img: W('merge-data'), desc: '데이터셋을 병합합니다.' },
-        { id: 'concat', label: 'Concatenate', icon: 'concat', img: W('concatenate'), desc: '데이터를 이어 붙입니다.' },
-        { id: 'groupby', label: 'Group by', icon: 'groupby', img: W('group-by'), desc: '그룹별로 묶습니다.' },
-        { id: 'impute', label: 'Impute', icon: 'impute', img: W('impute'), desc: '결측값을 채웁니다.' },
-        { id: 'discretize', label: 'Discretize', icon: 'discretize', img: W('discretize'), desc: '이산형으로 변환합니다.' },
+        { id: 'sampler', label: '데이터 샘플러', icon: 'sampler', img: W('data-sampler'), desc: '데이터를 무작위로 샘플링합니다.' },
+        { id: 'sel-cols', label: '열 선택', icon: 'sel-cols', img: W('select-columns'), desc: '사용할 열을 선택합니다.' },
+        { id: 'sel-rows', label: '행 선택', icon: 'sel-rows', img: W('select-rows'), desc: '조건에 맞는 행을 선택합니다.' },
+        { id: 'merge', label: '데이터 병합', icon: 'merge', img: W('merge-data'), desc: '데이터셋을 병합합니다.' },
+        { id: 'concat', label: '이어 붙이기', icon: 'concat', img: W('concatenate'), desc: '데이터를 이어 붙입니다.' },
+        { id: 'groupby', label: '그룹별 묶기', icon: 'groupby', img: W('group-by'), desc: '그룹별로 묶습니다.' },
+        { id: 'impute', label: '결측값 채우기', icon: 'impute', img: W('impute'), desc: '결측값을 채웁니다.' },
+        { id: 'discretize', label: '이산화', icon: 'discretize', img: W('discretize'), desc: '이산형으로 변환합니다.' },
       ]
     },
     {
-      id: 'visualize', name: 'Visualize', tone: 'green', color: '#3DB85C', soft: '#F0F8F2', tile: 'icon-green',
+      id: 'visualize', name: '시각화', tone: 'green', color: '#3DB85C', soft: '#F0F8F2', tile: 'icon-green',
       img: W('scatter-plot'),
       items: [
-        { id: 'scatter', label: 'Scatter Plot', icon: 'scatter', img: W('scatter-plot'), desc: '산점도를 그립니다.' },
-        { id: 'bar-plot', label: 'Bar Plot', icon: 'bar-plot', img: W('bar-plot'), desc: '막대 그래프를 그립니다.' },
-        { id: 'box-plot', label: 'Box Plot', icon: 'box-plot', img: W('box-plot'), desc: '상자 그림을 그립니다.' },
-        { id: 'line-plot', label: 'Line Plot', icon: 'line-plot', img: W('line-plot'), desc: '선 그래프를 그립니다.' },
-        { id: 'violin', label: 'Violin Plot', icon: 'violin', img: W('violin-plot'), desc: '바이올린 플롯을 그립니다.' },
-        { id: 'distributions', label: 'Distributions', icon: 'distributions', img: W('distributions'), desc: '분포를 확인합니다.' },
+        { id: 'scatter', label: '산점도', icon: 'scatter', img: W('scatter-plot'), desc: '산점도를 그립니다.' },
+        { id: 'bar-plot', label: '막대 그래프', icon: 'bar-plot', img: W('bar-plot'), desc: '막대 그래프를 그립니다.' },
+        { id: 'box-plot', label: '상자 그림', icon: 'box-plot', img: W('box-plot'), desc: '상자 그림을 그립니다.' },
+        { id: 'line-plot', label: '선 그래프', icon: 'line-plot', img: W('line-plot'), desc: '선 그래프를 그립니다.' },
+        { id: 'violin', label: '바이올린 플롯', icon: 'violin', img: W('violin-plot'), desc: '바이올린 플롯을 그립니다.' },
+        { id: 'distributions', label: '분포', icon: 'distributions', img: W('distributions'), desc: '분포를 확인합니다.' },
       ]
     },
     {
-      id: 'evaluate', name: 'Evaluate', tone: 'cyan', color: '#4AABB8', soft: '#EFF7F8', tile: 'icon-cyan',
+      id: 'evaluate', name: '평가', tone: 'cyan', color: '#4AABB8', soft: '#EFF7F8', tile: 'icon-cyan',
       img: W('confusion-matrix'),
       items: [
-        { id: 'predictions', label: 'Predictions', icon: 'predictions', img: W('predictions'), desc: '예측 결과를 확인합니다.' },
-        { id: 'test-score', label: 'Test & Score', icon: 'test-score', img: W('test-score'), desc: '모델을 평가합니다.' },
-        { id: 'roc', label: 'ROC Analysis', icon: 'roc', img: W('roc-analysis'), desc: 'ROC 곡선을 분석합니다.' },
-        { id: 'confusion', label: 'Confusion Matrix', icon: 'confusion', img: W('confusion-matrix'), desc: '혼동 행렬을 확인합니다.' },
+        { id: 'predictions', label: '예측', icon: 'predictions', img: W('predictions'), desc: '예측 결과를 확인합니다.' },
+        { id: 'test-score', label: '테스트 및 점수', icon: 'test-score', img: W('test-score'), desc: '모델을 평가합니다.' },
+        { id: 'roc', label: 'ROC 분석', icon: 'roc', img: W('roc-analysis'), desc: 'ROC 곡선을 분석합니다.' },
+        { id: 'confusion', label: '혼동 행렬', icon: 'confusion', img: W('confusion-matrix'), desc: '혼동 행렬을 확인합니다.' },
       ]
     },
     {
-      id: 'unsupervised', name: 'Unsupervised', tone: 'blue', color: '#5BB0D8', soft: '#EFF6FB', tile: 'icon-blue',
+      id: 'unsupervised', name: '비지도 학습', tone: 'blue', color: '#5BB0D8', soft: '#EFF6FB', tile: 'icon-blue',
       img: W('k-means'),
       items: [
-        { id: 'kmeans', label: 'k-Means', icon: 'kmeans', img: W('k-means'), desc: 'k-Means 군집화를 수행합니다.' },
+        { id: 'kmeans', label: 'k-평균', icon: 'kmeans', img: W('k-means'), desc: 'k-평균 군집화를 수행합니다.' },
         { id: 'dbscan', label: 'DBSCAN', icon: 'dbscan', img: W('dbscan'), desc: 'DBSCAN 군집화를 수행합니다.' },
-        { id: 'hierarchical', label: 'Hierarchical Clustering', icon: 'hierarchical', img: W('hierarchical-clustering'), desc: '계층적 군집화를 수행합니다.' },
+        { id: 'hierarchical', label: '계층적 군집화', icon: 'hierarchical', img: W('hierarchical-clustering'), desc: '계층적 군집화를 수행합니다.' },
       ]
     },
     {
-      id: 'image', name: 'Image Analytics', tone: 'blue', color: '#3D8AD4', soft: '#EEF4FB', tile: 'icon-blue',
+      id: 'image', name: '이미지 분석', tone: 'blue', color: '#3D8AD4', soft: '#EEF4FB', tile: 'icon-blue',
       img: W('image-viewer'),
       items: [
-        { id: 'import-images', label: 'Import Images', icon: 'import-images', img: W('import-images'), desc: '이미지를 불러옵니다.' },
-        { id: 'image-viewer', label: 'Image Viewer', icon: 'image-viewer', img: W('image-viewer'), desc: '이미지를 봅니다.' },
-        { id: 'image-embedding', label: 'Image Embedding', icon: 'image-embedding', img: W('image-embedding'), desc: '이미지 임베딩을 만듭니다.' },
+        { id: 'import-images', label: '이미지 불러오기', icon: 'import-images', img: W('import-images'), desc: '이미지를 불러옵니다.' },
+        { id: 'image-viewer', label: '이미지 보기', icon: 'image-viewer', img: W('image-viewer'), desc: '이미지를 봅니다.' },
+        { id: 'image-embedding', label: '이미지 임베딩', icon: 'image-embedding', img: W('image-embedding'), desc: '이미지 임베딩을 만듭니다.' },
       ]
     },
     {
-      id: 'timeseries', name: 'Time Series', tone: 'purple', color: '#6B69B8', soft: '#F3F3F9', tile: 'icon-purple',
+      id: 'timeseries', name: '시계열', tone: 'purple', color: '#6B69B8', soft: '#F3F3F9', tile: 'icon-purple',
       img: W('time-slice'),
       items: [
-        { id: 'time-slice', label: 'Time Slice', icon: 'time-slice', img: W('time-slice'), desc: '시간 구간을 자릅니다.' },
+        { id: 'time-slice', label: '시간 구간', icon: 'time-slice', img: W('time-slice'), desc: '시간 구간을 자릅니다.' },
       ]
     },
     {
-      id: 'text', name: 'Text Mining', tone: 'purple', color: '#A066B8', soft: '#F7F2FA', tile: 'icon-purple',
+      id: 'text', name: '텍스트 마이닝', tone: 'purple', color: '#A066B8', soft: '#F7F2FA', tile: 'icon-purple',
       img: W('word-cloud'),
       items: [
-        { id: 'corpus', label: 'Corpus', icon: 'corpus', img: W('corpus'), desc: '텍스트 말뭉치를 만듭니다.' },
-        { id: 'corpus-viewer', label: 'Corpus Viewer', icon: 'corpus-viewer', img: W('corpus-viewer'), desc: '말뭉치를 탐색합니다.' },
-        { id: 'bag-of-words', label: 'Bag of Words', icon: 'bag-of-words', img: W('bag-of-words'), desc: '단어 가방을 만듭니다.' },
-        { id: 'preprocess-text', label: 'Preprocess Text', icon: 'preprocess-text', img: W('preprocess-text'), desc: '텍스트를 전처리합니다.' },
-        { id: 'sentiment', label: 'Sentiment Analysis', icon: 'sentiment', img: W('sentiment-analysis'), desc: '감성 분석을 수행합니다.' },
-        { id: 'word-cloud', label: 'Word Cloud', icon: 'word-cloud', img: W('word-cloud'), desc: '워드 클라우드를 그립니다.' },
+        { id: 'corpus', label: '말뭉치', icon: 'corpus', img: W('corpus'), desc: '텍스트 말뭉치를 만듭니다.' },
+        { id: 'corpus-viewer', label: '말뭉치 보기', icon: 'corpus-viewer', img: W('corpus-viewer'), desc: '말뭉치를 탐색합니다.' },
+        { id: 'bag-of-words', label: '단어 가방', icon: 'bag-of-words', img: W('bag-of-words'), desc: '단어 가방을 만듭니다.' },
+        { id: 'preprocess-text', label: '텍스트 전처리', icon: 'preprocess-text', img: W('preprocess-text'), desc: '텍스트를 전처리합니다.' },
+        { id: 'sentiment', label: '감성 분석', icon: 'sentiment', img: W('sentiment-analysis'), desc: '감성 분석을 수행합니다.' },
+        { id: 'word-cloud', label: '워드 클라우드', icon: 'word-cloud', img: W('word-cloud'), desc: '워드 클라우드를 그립니다.' },
       ]
     },
     {
-      id: 'geo', name: 'Geo', tone: 'purple', color: '#9680C0', soft: '#F5F2FA', tile: 'icon-purple',
+      id: 'geo', name: '지리', tone: 'purple', color: '#9680C0', soft: '#F5F2FA', tile: 'icon-purple',
       img: W('geo-map'),
       items: [
-        { id: 'geo-map', label: 'Geo Map', icon: 'geo-map', img: W('geo-map'), desc: '지도에 표시합니다.' },
-        { id: 'geocoding', label: 'Geocoding', icon: 'geocoding', img: W('geocoding'), desc: '주소를 좌표로 변환합니다.' },
-        { id: 'choropleth', label: 'Choropleth Map', icon: 'choropleth', img: W('choropleth-map'), desc: '단계구분도를 그립니다.' },
+        { id: 'geo-map', label: '지도', icon: 'geo-map', img: W('geo-map'), desc: '지도에 표시합니다.' },
+        { id: 'geocoding', label: '지오코딩', icon: 'geocoding', img: W('geocoding'), desc: '주소를 좌표로 변환합니다.' },
+        { id: 'choropleth', label: '단계구분도', icon: 'choropleth', img: W('choropleth-map'), desc: '단계구분도를 그립니다.' },
       ]
     },
   ];
+
 
 
   const ITEM_MAP = {};
@@ -2799,7 +2794,7 @@
         id: uid('c'),
         from: linking.fromId,
         to: toId,
-        label: 'Data → Data',
+        label: '데이터 → 데이터',
       });
     }
     linking = null;
@@ -4128,15 +4123,6 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     });
   });
 
-  document.getElementById('btnOnboardStart')?.addEventListener('click', () => {
-    closeOnboard();
-    setActiveMenu('widgets', 'Widget');
-    const user = getUser();
-    const name = user?.name || user?.email?.split('@')[0];
-    showHint(name
-      ? `${name}님, 환영합니다 · 위젯을 드래그해 분석을 시작해 보세요`
-      : '위젯을 드래그해 분석을 시작해 보세요');
-  });
 
   document.getElementById('btnOnboardLoad')?.addEventListener('click', () => {
     loadPreviousWorkflow();
@@ -4158,11 +4144,11 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       { id: 'n5', type: 'time-slice', x: 740, y: 200, name: 'Time Slice', notes: '', sample: 100 },
     ];
     connections = [
-      { id: 'c1', from: 'n1', to: 'n2', label: 'Data → Data' },
-      { id: 'c2', from: 'n2', to: 'n3', label: 'Data → Data' },
-      { id: 'c3', from: 'n2', to: 'n4', label: 'Data → Data' },
-      { id: 'c4', from: 'n3', to: 'n5', label: 'Data → Data' },
-      { id: 'c5', from: 'n4', to: 'n5', label: 'Data → Data' },
+      { id: 'c1', from: 'n1', to: 'n2', label: '데이터 → 데이터' },
+      { id: 'c2', from: 'n2', to: 'n3', label: '데이터 → 데이터' },
+      { id: 'c3', from: 'n2', to: 'n4', label: '데이터 → 데이터' },
+      { id: 'c4', from: 'n3', to: 'n5', label: '데이터 → 데이터' },
+      { id: 'c5', from: 'n4', to: 'n5', label: '데이터 → 데이터' },
     ];
     selectedNodeId = null;
     selectedConnId = null;
