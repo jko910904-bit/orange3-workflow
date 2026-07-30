@@ -6,3 +6,10 @@ export {
   type ButtonIconPlacement,
   type ButtonWidth,
 } from "./button";
+export {
+  Input,
+  type InputProps,
+  type InputKind,
+  type InputSize,
+  type InputState,
+} from "./input";

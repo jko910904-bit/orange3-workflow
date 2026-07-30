@@ -32,6 +32,12 @@ export default function HomePage() {
           Button preview
         </Link>
         <Link
+          href="/preview/components/input"
+          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white"
+        >
+          Input preview
+        </Link>
+        <Link
           href="/preview/generator"
           className="rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-900"
         >
