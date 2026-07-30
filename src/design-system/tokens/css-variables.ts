@@ -1,53 +1,36 @@
-import { colors, semanticColors } from "./colors";
-import { densityTokens, type Density } from "./density";
-import { radius } from "./radius";
-import { shadow } from "./shadow";
-import { spacingScale } from "./spacing";
-import { fontFamilies, fontWeights, lineHeights } from "./typography";
+import {
+  densityProfiles,
+  type Density,
+} from "./density";
+import { buildRootCssVariables, requireToken } from "./registry";
 
-/** CSS custom properties applied under [data-density] */
+/** CSS custom properties applied under [data-density] from density profile tokens */
 export function densityCssVariables(density: Density): Record<string, string> {
-  const d = densityTokens[density];
+  const profile = densityProfiles[density];
   return {
-    "--font-size-base": d.fontSizeBase,
-    "--control-height": d.controlHeight,
-    "--space-unit": d.spaceUnit,
-    "--section-gap": d.sectionGap,
-    "--cell-padding-y": d.cellPaddingY,
-    "--cell-padding-x": d.cellPaddingX,
+    "--font-size-base": profile.values.fontSizeBase,
+    "--control-height": profile.values.controlHeight,
+    "--section-gap": profile.values.sectionGap,
+    "--table-row-height": profile.values.tableRowHeight,
+    "--table-header-font-size": profile.values.tableHeaderFontSize,
+    "--table-header-font-weight": profile.values.tableHeaderFontWeight,
+    "--table-body-font-size": profile.values.tableBodyFontSize,
+    "--table-body-font-weight": profile.values.tableBodyFontWeight,
+    "--popup-body-font-size": profile.values.popupBodyFontSize,
+    "--cell-padding-y": requireToken("spacing.8").value,
+    "--cell-padding-x": requireToken("spacing.8").value,
+    "--radius-control": requireToken("radius.4").value,
   };
 }
 
 export function rootCssVariables(): Record<string, string> {
-  return {
-    "--color-background": semanticColors.background,
-    "--color-foreground": semanticColors.foreground,
-    "--color-muted": semanticColors.muted,
-    "--color-muted-foreground": semanticColors.mutedForeground,
-    "--color-border": semanticColors.border,
-    "--color-card": semanticColors.card,
-    "--color-primary": semanticColors.primary,
-    "--color-primary-foreground": semanticColors.primaryForeground,
-    "--color-danger": semanticColors.danger,
-    "--color-success": semanticColors.success,
-    "--color-warning": semanticColors.warning,
-    "--color-zinc-900": colors.zinc[900],
-    "--font-sans": fontFamilies.sans,
-    "--font-mono": fontFamilies.mono,
-    "--font-weight-regular": fontWeights.regular,
-    "--font-weight-medium": fontWeights.medium,
-    "--font-weight-semibold": fontWeights.semibold,
-    "--line-height-normal": lineHeights.normal,
-    "--radius-sm": radius.sm,
-    "--radius-md": radius.md,
-    "--radius-lg": radius.lg,
-    "--shadow-sm": shadow.sm,
-    "--shadow-md": shadow.md,
-    "--space-1": spacingScale[1],
-    "--space-2": spacingScale[2],
-    "--space-3": spacingScale[3],
-    "--space-4": spacingScale[4],
-    "--space-6": spacingScale[6],
-    "--space-8": spacingScale[8],
-  };
+  return buildRootCssVariables();
+}
+
+/** Serialize registry CSS vars as a CSS string for :root (and optional injection) */
+export function rootCssVariablesAsString(): string {
+  const vars = buildRootCssVariables();
+  return Object.entries(vars)
+    .map(([key, value]) => `  ${key}: ${value};`)
+    .join("\n");
 }

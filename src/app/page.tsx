@@ -12,11 +12,11 @@ export default function HomePage() {
         AI Screen Generator
       </p>
       <h1 className="text-center text-3xl font-semibold tracking-tight">
-        Design Tokens Ready
+        Kit Token Registry Ready
       </h1>
       <p className="max-w-md text-center text-zinc-600">
-        Prompt → Pattern → Layout → React Screen. Token density preview is
-        available.
+        Prompt → Pattern → Layout → React Screen. Tokens are queryable via
+        registry for the generator.
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3">
         <Link

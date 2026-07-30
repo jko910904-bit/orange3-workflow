@@ -1,24 +1,37 @@
 "use client";
 
 import { DensityProvider, useDensity } from "@/design-system/DensityProvider";
-import { densityTokens } from "@/design-system/tokens";
+import {
+  getToken,
+  getTokenCatalog,
+  getTokensByCategory,
+  listCategories,
+} from "@/design-system/tokens";
 
 function TokenPreview() {
-  const { surface, density, setSurface } = useDensity();
-  const meta = densityTokens[density];
+  const { surface, density, kitName, label, setSurface } = useDensity();
+  const catalog = getTokenCatalog();
+  const primary = getToken("color.primary.500");
+  const colors = getTokensByCategory("color").filter((t) =>
+    t.id.startsWith("color.primary") ||
+    t.id.startsWith("color.semantic") ||
+    t.id === "color.grey.900" ||
+    t.id === "color.grey.400" ||
+    t.id === "color.grey.100",
+  );
 
   return (
-    <div className="ds-stack mx-auto max-w-2xl px-6 py-12">
+    <div className="ds-stack mx-auto max-w-3xl px-6 py-12">
       <header className="ds-stack" style={{ gap: "0.5rem" }}>
         <p className="ds-muted text-sm font-medium tracking-wide uppercase">
-          Design Tokens Preview
+          Token Registry Preview
         </p>
         <h1 className="text-2xl font-semibold tracking-tight">
-          Admin vs Portal Density
+          Kit tokens + Generator catalog
         </h1>
         <p className="ds-muted">
-          Same components — density only. Current: {meta.label} (base{" "}
-          {meta.fontSizeBase}).
+          {label} · kitName={kitName} · density={density} · catalog{" "}
+          {catalog.tokens.length} tokens / {listCategories().length} categories
         </p>
       </header>
 
@@ -28,26 +41,51 @@ function TokenPreview() {
           className={`ds-control ${surface === "admin" ? "ds-control-primary" : ""}`}
           onClick={() => setSurface("admin")}
         >
-          Admin (dense)
+          Admin / Compact
         </button>
         <button
           type="button"
           className={`ds-control ${surface === "portal" ? "ds-control-primary" : ""}`}
           onClick={() => setSurface("portal")}
         >
-          Portal (comfortable)
+          Portal / Comfortable
         </button>
       </div>
 
       <section className="ds-panel ds-stack">
-        <h2 className="text-lg font-semibold">Sample panel</h2>
-        <p>
-          Typography and spacing follow CSS variables driven by{" "}
-          <code>data-density=&quot;{density}&quot;</code>.
+        <h2 className="text-lg font-semibold">Primary & semantic (registry)</h2>
+        <div className="ds-row">
+          {colors.map((token) => (
+            <div key={token.id} className="flex flex-col items-center gap-1">
+              <div
+                className="ds-swatch"
+                style={{ background: `var(${token.cssVar})` }}
+                title={token.id}
+              />
+              <span className="font-mono text-[10px] text-zinc-500">
+                {token.id.replace("color.", "")}
+              </span>
+            </div>
+          ))}
+        </div>
+        <p className="text-sm">
+          Lookup:{" "}
+          <code className="rounded bg-zinc-100 px-1">
+            getToken(&quot;color.primary.500&quot;)
+          </code>{" "}
+          → {primary?.value}
+        </p>
+      </section>
+
+      <section className="ds-panel ds-stack">
+        <h2 className="text-lg font-semibold">Density-driven sample</h2>
+        <p style={{ fontSize: "var(--font-size-base)" }}>
+          Body text uses --font-size-base (
+          {surface === "admin" ? "14px Compact" : "16px Comfortable"}).
         </p>
         <div className="ds-row">
           <button type="button" className="ds-control ds-control-primary">
-            Primary action
+            Primary ({primary?.value})
           </button>
           <button type="button" className="ds-control">
             Secondary
@@ -55,20 +93,35 @@ function TokenPreview() {
         </div>
         <dl
           className="ds-muted grid gap-2 text-sm"
-          style={{
-            gridTemplateColumns: "auto 1fr",
-            columnGap: "1rem",
-          }}
+          style={{ gridTemplateColumns: "auto 1fr", columnGap: "1rem" }}
         >
-          <dt>font-size-base</dt>
-          <dd>{meta.fontSizeBase}</dd>
-          <dt>control-height</dt>
-          <dd>{meta.controlHeight}</dd>
-          <dt>section-gap</dt>
-          <dd>{meta.sectionGap}</dd>
-          <dt>space-unit</dt>
-          <dd>{meta.spaceUnit}</dd>
+          <dt>table-row-height</dt>
+          <dd style={{ fontFamily: "var(--typography-fontFamily-mono)" }}>
+            var(--table-row-height)
+          </dd>
+          <dt>radius.4</dt>
+          <dd>{getToken("radius.4")?.value}</dd>
+          <dt>spacing.md</dt>
+          <dd>{getToken("spacing.md")?.value}</dd>
+          <dt>shadow.1</dt>
+          <dd className="truncate">{getToken("shadow.1")?.value}</dd>
         </dl>
+      </section>
+
+      <section className="ds-panel ds-stack">
+        <h2 className="text-lg font-semibold">Catalog digest (AI-ready)</h2>
+        <pre className="max-h-64 overflow-auto rounded bg-zinc-900 p-3 text-xs text-zinc-100">
+          {JSON.stringify(
+            {
+              version: catalog.version,
+              categories: catalog.categories,
+              sample: catalog.tokens.slice(0, 6),
+              total: catalog.tokens.length,
+            },
+            null,
+            2,
+          )}
+        </pre>
       </section>
     </div>
   );

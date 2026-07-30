@@ -1,17 +1,34 @@
-export { colors, semanticColors } from "./colors";
+export type { TokenCategory, TokenEntry } from "./types";
+export { defineToken, idToCssVar } from "./types";
+
+export { colorTokens, colorValues } from "./color";
+export { typographyTokens } from "./typography";
+export { spacingTokens, spacingAliasTokens } from "./spacing";
+export { radiusTokens } from "./radius";
+export { shadowTokens } from "./shadow";
 export {
   densityTokens,
+  densityProfiles,
+  densityToKitName,
   surfaceToDensity,
   type Density,
   type Surface,
 } from "./density";
-export { radius } from "./radius";
-export { shadow } from "./shadow";
-export { spacingScale, type SpacingKey } from "./spacing";
+
 export {
-  fontFamilies,
-  fontSizeScale,
-  fontWeights,
-  lineHeights,
-} from "./typography";
-export { densityCssVariables, rootCssVariables } from "./css-variables";
+  listTokens,
+  listCategories,
+  getToken,
+  requireToken,
+  getTokensByCategory,
+  getTokenValue,
+  tokenVar,
+  getTokenCatalog,
+  buildRootCssVariables,
+} from "./registry";
+
+export {
+  densityCssVariables,
+  rootCssVariables,
+  rootCssVariablesAsString,
+} from "./css-variables";

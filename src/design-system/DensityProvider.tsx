@@ -11,6 +11,8 @@ import {
 } from "react";
 import {
   densityCssVariables,
+  densityProfiles,
+  densityToKitName,
   surfaceToDensity,
   type Density,
   type Surface,
@@ -19,6 +21,8 @@ import {
 type DensityContextValue = {
   density: Density;
   surface: Surface;
+  kitName: "Compact" | "Comfortable";
+  label: string;
   setSurface: (surface: Surface) => void;
 };
 
@@ -35,14 +39,21 @@ export function DensityProvider({
 }: DensityProviderProps) {
   const [surface, setSurfaceState] = useState<Surface>(defaultSurface);
   const density = surfaceToDensity[surface];
+  const profile = densityProfiles[density];
 
   const setSurface = useCallback((next: Surface) => {
     setSurfaceState(next);
   }, []);
 
   const value = useMemo(
-    () => ({ density, surface, setSurface }),
-    [density, surface, setSurface],
+    () => ({
+      density,
+      surface,
+      kitName: densityToKitName[density],
+      label: profile.label,
+      setSurface,
+    }),
+    [density, surface, profile.label, setSurface],
   );
 
   const style = densityCssVariables(density) as CSSProperties;
