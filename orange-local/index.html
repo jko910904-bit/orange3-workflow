@@ -1282,6 +1282,38 @@
     margin-left: auto;
     filter: drop-shadow(0 8px 18px rgba(20,24,40,.12));
   }
+  #charPreview {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    background: rgba(20, 24, 40, 0.28);
+    backdrop-filter: blur(4px);
+  }
+  #charPreview[hidden] { display: none !important; }
+  .char-preview-card {
+    width: min(280px, 72vw);
+    padding: 22px 20px 18px;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 20px 50px rgba(20,24,40,.22);
+    text-align: center;
+  }
+  .char-preview-card img {
+    width: min(180px, 50vw);
+    height: auto;
+    display: block;
+    margin: 0 auto 12px;
+  }
+  .char-preview-label {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
   .canvas-onboard-copy p {
     margin: 0 0 18px;
     font-size: 15px;
@@ -3470,6 +3502,13 @@
         { id: 'set-general', label: '일반' },
         { id: 'set-shortcuts', label: '단축키' },
         {
+          id: 'set-character', label: '캐릭터 모드',
+          children: [
+            { id: 'set-char-pengsu', label: '펭수' },
+            { id: 'set-char-rabbit', label: '토끼' },
+          ],
+        },
+        {
           id: 'set-appearance', label: '화면',
           children: [
             {
@@ -3478,13 +3517,6 @@
                 { id: 'set-theme-light', label: '라이트' },
                 { id: 'set-theme-dark', label: '다크' },
                 { id: 'set-theme-auto', label: '시스템 설정' },
-              ],
-            },
-            {
-              id: 'set-character', label: '캐릭터 모드',
-              children: [
-                { id: 'set-char-pengsu', label: '펭수' },
-                { id: 'set-char-rabbit', label: '토끼' },
               ],
             },
           ],
@@ -3580,12 +3612,10 @@
     syncWidgetSidebar();
     if (id === 'set-char-pengsu') {
       setCharacterMode('pengsu');
-      showHint(label || '펭수');
       return;
     }
     if (id === 'set-char-rabbit') {
       setCharacterMode('rabbit');
-      showHint(label || '토끼');
       return;
     }
     if (id === 'open' || id === 'open-file' || id.startsWith('recent-') || id === 'open-recent') {
@@ -4253,6 +4283,32 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   };
   let characterMode = localStorage.getItem(CHAR_KEY) === 'rabbit' ? 'rabbit' : 'pengsu';
 
+  function ensureCharacterPreview() {
+    let el = document.getElementById('charPreview');
+    if (el) return el;
+    el = document.createElement('div');
+    el.id = 'charPreview';
+    el.setAttribute('hidden', '');
+    el.innerHTML = `
+      <div class="char-preview-card">
+        <img alt="">
+        <p class="char-preview-label"></p>
+      </div>`;
+    document.body.appendChild(el);
+    return el;
+  }
+
+  function showCharacterPreview(conf) {
+    const el = ensureCharacterPreview();
+    const img = el.querySelector('img');
+    const label = el.querySelector('.char-preview-label');
+    if (img) img.src = conf.onboard;
+    if (label) label.textContent = `캐릭터 모드 · ${conf.label}`;
+    el.removeAttribute('hidden');
+    clearTimeout(showCharacterPreview._timer);
+    showCharacterPreview._timer = setTimeout(() => el.setAttribute('hidden', ''), 1800);
+  }
+
   function applyCharacterMode() {
     const conf = CHAR_ASSETS[characterMode] || CHAR_ASSETS.pengsu;
     const splashImg = document.getElementById('splashMascot');
@@ -4270,13 +4326,19 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
         || (el.dataset.menu === 'set-char-rabbit' && characterMode === 'rabbit');
       el.classList.toggle('active', on);
     });
+    return conf;
   }
 
   function setCharacterMode(mode) {
-    if (!CHAR_ASSETS[mode]) return;
+    if (!CHAR_ASSETS[mode] || mode === characterMode) {
+      const conf = applyCharacterMode();
+      if (mode === characterMode) showCharacterPreview(conf);
+      return;
+    }
     characterMode = mode;
     localStorage.setItem(CHAR_KEY, mode);
-    applyCharacterMode();
+    const conf = applyCharacterMode();
+    showCharacterPreview(conf);
   }
 
   applyCharacterMode();
