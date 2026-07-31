@@ -3,17 +3,3 @@
 node_modules
 .DS_Store
 .vercel
-.next
-.next-dev
-src
-docs
-knowledge
-references
-_archive
-.cursor
-*.md
-eslint.config.mjs
-next.config.ts
-postcss.config.mjs
-tsconfig.json
-package-lock.json
