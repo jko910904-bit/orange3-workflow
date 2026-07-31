@@ -1,0 +1,29 @@
+{
+  "id": "badge",
+  "name": "Badge",
+  "component": "Badge",
+  "category": "display",
+  "purpose": "Status Label",
+  "aliases": ["Tag", "Chip", "Status Badge", "배지", "태그"],
+  "usage": ["Status", "Count", "Category label"],
+  "avoid": ["Long sentences"],
+  "dependencies": ["Color", "Typography", "Spacing", "Radius"],
+  "variants": ["Default", "Success", "Warning", "Danger", "Info"],
+  "sizes": ["S", "M"],
+  "states": ["Default"],
+  "accessibility": ["Text contrast AA", "Do not convey meaning by color alone"],
+  "aiRules": [
+    {
+      "id": "badge.status",
+      "when": { "anyOf": ["badge", "status", "태그", "배지", "상태"] },
+      "then": { "component": "Badge", "variant": "Default" }
+    }
+  ],
+  "figmaMapping": ["Badge/Default", "Badge/Success", "Badge/Danger"],
+  "promptExamples": ["상태 배지", "성공 태그"],
+  "confidence": 0.8,
+  "priority": 60,
+  "compatibleWith": ["Table", "Card", "Button"],
+  "generatedByAI": false,
+  "version": "1.0.0"
+}

@@ -1,0 +1,29 @@
+{
+  "id": "pagination",
+  "name": "Pagination",
+  "component": "Pagination",
+  "category": "navigation",
+  "purpose": "Page Navigation",
+  "aliases": ["Pager", "Page Control", "페이지네이션", "페이지"],
+  "usage": ["Table footer", "Search results"],
+  "avoid": ["Single-page content"],
+  "dependencies": ["Color", "Typography", "Spacing", "Radius"],
+  "variants": ["Default"],
+  "sizes": ["S", "M"],
+  "states": ["Default", "Disabled", "Active"],
+  "accessibility": ["ARIA label Pagination", "Keyboard Navigation"],
+  "aiRules": [
+    {
+      "id": "pagination.list",
+      "when": { "anyOf": ["pagination", "page", "페이지", "목록"] },
+      "then": { "component": "Pagination" }
+    }
+  ],
+  "figmaMapping": ["Pagination/Default"],
+  "promptExamples": ["테이블 페이지네이션"],
+  "confidence": 0.86,
+  "priority": 65,
+  "compatibleWith": ["Table", "Button"],
+  "generatedByAI": false,
+  "version": "1.0.0"
+}

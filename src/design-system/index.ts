@@ -2,6 +2,13 @@ export * from "./tokens";
 export { DensityProvider, useDensity } from "./DensityProvider";
 export { TokenStyles } from "./TokenStyles";
 export {
+  AntdProvider,
+  antdTheme,
+  applePreviewAntdTheme,
+  OWN_DS_COMPONENTS,
+  ANTD_SUPPLEMENTS,
+} from "./antd";
+export {
   Button,
   type ButtonProps,
   type ButtonSize,

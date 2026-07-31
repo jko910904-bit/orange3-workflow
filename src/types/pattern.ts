@@ -2,6 +2,7 @@ export type PatternId =
   | "SearchFilterTable"
   | "ChartKpi"
   | "Login"
+  | "CRUD"
   | "Dashboard"
   | "Detail"
   | "Form"

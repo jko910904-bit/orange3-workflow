@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
   distDir: process.env.NEXT_DIST_DIR || ".next",
   async redirects() {
     return [
+      { source: "/templates", destination: "/screens", permanent: false },
+      { source: "/templates/:id", destination: "/screens/:id", permanent: false },
+      {
+        source: "/screens/member",
+        destination: "/screens/member-management",
+        permanent: false,
+      },
       { source: "/preview/tokens", destination: "/foundations", permanent: false },
       { source: "/preview/components/button", destination: "/components/button", permanent: false },
       { source: "/preview/components/input", destination: "/components/input", permanent: false },

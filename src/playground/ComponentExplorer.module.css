@@ -66,6 +66,11 @@
   color: #9a6700;
 }
 
+.status[data-status="planned"] {
+  background: var(--color-grey-200);
+  color: var(--color-grey-700);
+}
+
 .tabs {
   display: flex;
   flex-wrap: wrap;

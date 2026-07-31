@@ -6,7 +6,8 @@ export type TokenCategory =
   | "elevation"
   | "shadow"
   | "density"
-  | "motion";
+  | "motion"
+  | "layout";
 
 /**
  * Generator-friendly token entry.

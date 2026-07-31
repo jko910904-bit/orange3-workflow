@@ -1,0 +1,15 @@
+{
+  "id": "FAQ",
+  "name": "Portal FAQ",
+  "description": "Portal 자주하는 질문 (Real Example): GNB + Banner + Category tabs + Accordion + Footer.",
+  "recipes": ["search-bar", "data-table"],
+  "keywords": [
+    "자주하는 질문",
+    "자주 하는 질문",
+    "faq",
+    "FAQ"
+  ],
+  "surface": "portal",
+  "intent": "faq",
+  "status": "ready"
+}

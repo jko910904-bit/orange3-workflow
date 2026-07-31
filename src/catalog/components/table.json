@@ -1,5 +1,8 @@
 {
+  "id": "table",
+  "name": "Table",
   "component": "Table",
+  "category": "display",
   "purpose": "Information Display",
   "aliases": ["Data Table", "Grid", "목록 테이블", "테이블"],
   "usage": ["Member list", "Admin CRUD", "Search results"],
@@ -8,7 +11,11 @@
   "variants": ["Dense", "Comfortable"],
   "sizes": ["Row 40", "Row 48"],
   "states": ["Default", "Hover", "Selected", "Error"],
-  "accessibility": ["Column headers", "Sortable announcements", "Keyboard focus"],
+  "accessibility": [
+    "Column headers",
+    "Sortable announcements",
+    "Keyboard focus"
+  ],
   "aiRules": [
     {
       "id": "table.list",
@@ -20,7 +27,6 @@
   "promptExamples": ["회원 목록 테이블", "검색 결과 테이블"],
   "confidence": 0.88,
   "priority": 85,
-  "category": "display",
   "compatibleWith": ["Input", "Button", "Pagination", "Checkbox"],
   "generatedByAI": false,
   "version": "1.0.0"

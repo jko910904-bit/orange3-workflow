@@ -1,0 +1,86 @@
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-8);
+}
+
+.weekday {
+  text-align: center;
+  font-size: var(--typography-caption2-fontSize);
+  font-weight: var(--typography-fontWeight-semibold);
+  color: var(--color-grey-600);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--spacing-4);
+}
+
+.pad {
+  min-height: 72px;
+}
+
+.cell {
+  min-height: 72px;
+  padding: var(--spacing-4);
+  border: 1px solid var(--color-grey-200);
+  border-radius: var(--radius-4);
+  background: var(--color-grey-0);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.dayNum {
+  font-size: var(--typography-caption2-fontSize);
+  font-weight: var(--typography-fontWeight-semibold);
+  color: var(--color-grey-700);
+  font-variant-numeric: tabular-nums;
+}
+
+.eventList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.event {
+  margin: 0;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: var(--radius-4);
+  background: color-mix(in srgb, var(--color-primary-500) 14%, transparent);
+  color: var(--color-primary-500);
+  font: inherit;
+  font-size: var(--typography-caption2-fontSize);
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.event[data-status="임시"] {
+  background: color-mix(in srgb, var(--color-warning-500, #b54708) 14%, transparent);
+  color: var(--color-warning-500, #b54708);
+}
+
+.event[data-status="취소"] {
+  background: var(--color-grey-100);
+  color: var(--color-grey-500);
+  text-decoration: line-through;
+}
+
+.event:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 1px;
+}
+
+@media (max-width: 900px) {
+  .cell {
+    min-height: 56px;
+  }
+}

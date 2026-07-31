@@ -36,7 +36,11 @@ export type AiRule = {
 };
 
 export type ComponentAiMetadata = {
-  /** Registry id, e.g. "Button" */
+  /** Registry file id, e.g. "button" */
+  id?: string;
+  /** Registry display name, e.g. "Button" */
+  name?: string;
+  /** Registry id, e.g. "Button" (legacy alias of name) */
   component: string;
   purpose: string;
   usage: string[];
@@ -65,6 +69,8 @@ export type ComponentAiMetadata = {
 
 /** JSON-serializable catalog entry for export / RAG ingest */
 export type ComponentCatalogJson = {
+  id?: string;
+  name?: string;
   component: string;
   purpose: string;
   aliases: string[];
@@ -89,6 +95,8 @@ export function toCatalogJson(
   meta: ComponentAiMetadata,
 ): ComponentCatalogJson {
   return {
+    id: meta.id,
+    name: meta.name ?? meta.component,
     component: meta.component,
     purpose: meta.purpose,
     aliases: meta.aliases,

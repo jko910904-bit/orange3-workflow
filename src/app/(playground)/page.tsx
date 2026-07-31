@@ -1,99 +1,84 @@
 import Link from "next/link";
-import { COMPONENT_DOCS, PATTERN_DOCS, PLAYGROUND_NAV } from "@/playground/catalog";
-import { listRecipes } from "@/catalog";
-import { listCatalogComponents } from "@/catalog";
 import styles from "./home.module.css";
 
-export default function PlaygroundHomePage() {
-  const recipes = listRecipes();
-  const registryCount = listCatalogComponents().length;
-  const ready = COMPONENT_DOCS.filter((c) => c.status === "ready").length;
-  const partial = COMPONENT_DOCS.filter((c) => c.status === "partial").length;
-  const recent = [...COMPONENT_DOCS].reverse().slice(0, 4);
+const EXPLORE = [
+  {
+    href: "/recipes",
+    label: "Recipes · 업무 화면",
+    description:
+      "회원관리 · Dashboard · AI Chat… — Preview로 보고 Pattern chain으로 Compose합니다.",
+  },
+  {
+    href: "/screens",
+    label: "Screens",
+    description: "Live compose 화면. Recipe에서 고른 업무 화면을 바로 확인합니다.",
+  },
+  {
+    href: "/components",
+    label: "Components",
+    description:
+      "Live Preview · Variants · States — Button · Input · Select · Table 등 Kit만.",
+  },
+  {
+    href: "/patterns",
+    label: "UX Patterns",
+    description:
+      "Pattern Preview · UX Flow · Layout — Search · Data Table · Dashboard …",
+  },
+  {
+    href: "/foundations",
+    label: "Foundation",
+    description: "토큰 참조. AI는 Color · Type · Radius를 발명하지 않습니다.",
+  },
+  {
+    href: "/principles",
+    label: "Principles",
+    description: "JKO UX Rules — 필요할 때 펼칩니다.",
+  },
+  {
+    href: "/playground",
+    label: "Playground",
+    description: "AI 실험 전용. Design Kit을 변경하지 않습니다.",
+  },
+  {
+    href: "/settings",
+    label: "Settings",
+    description: "Design Kit 관리 · Knowledge(dev) 링크.",
+  },
+] as const;
 
-  const progress = [
-    { label: "Components", value: COMPONENT_DOCS.length, href: "/components" },
-    { label: "Recipes", value: recipes.length, href: "/recipes" },
-    { label: "Patterns", value: PATTERN_DOCS.length, href: "/patterns" },
-    { label: "Templates", value: 5, href: "/templates" },
-    { label: "Registry", value: registryCount, href: "/registry" },
-    { label: "AI Metadata", value: registryCount, href: "/ai-metadata" },
-  ];
-
+export default function DesignSystemHomePage() {
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        <p className={styles.eyebrow}>Home · AI Screen Generator</p>
-        <h1 className={styles.title}>Design System Playground</h1>
-        <p className={styles.sub}>
-          자연어 Prompt → Pattern/Recipe/Component 선택 → React UI. 사람과 AI가
-          같은 Registry를 봅니다.
+        <p className={styles.eyebrow}>JKO v2.0 · Design System Platform</p>
+        <h1 className={styles.title}>See · Explore · Compose</h1>
+        <p className={styles.mission}>
+          Preview-first · Compose ≠ Generate
+        </p>
+        <p className={styles.sub} style={{ marginTop: 0 }}>
+          문서를 읽기 전에 화면을 봅니다. Recipes · Screens · Components ·
+          Patterns로 탐색하고 Kit만 Compose합니다.
         </p>
         <div className={styles.ctaRow}>
-          <Link href="/prompt" className={styles.ctaPrimary}>
-            Open Prompt Playground
+          <Link href="/recipes" className={styles.ctaPrimary}>
+            업무 화면 탐색
           </Link>
           <Link href="/components/button" className={styles.ctaGhost}>
-            Button docs
+            Component Preview
           </Link>
         </div>
       </header>
 
       <section className={styles.progressSection}>
-        <div className={styles.progressHeader}>
-          <h2 className={styles.sectionTitle}>Progress</h2>
-          <p className={styles.badge}>
-            Components {ready} ready · {partial} partial
-          </p>
-        </div>
-        <div className={styles.progressBar}>
-          <div
-            className={styles.progressFill}
-            style={{
-              width: `${Math.round(
-                (ready / Math.max(COMPONENT_DOCS.length, 1)) * 100,
-              )}%`,
-            }}
-          />
-        </div>
-        <div className={styles.statGrid}>
-          {progress.map((p) => (
-            <Link key={p.label} href={p.href} className={styles.statCard}>
-              <span className={styles.statValue}>{p.value}</span>
-              <span className={styles.statLabel}>{p.label}</span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <h2 className={styles.sectionTitle}>Recent components</h2>
-        <div className={styles.cardGrid}>
-          {recent.map((c) => (
-            <Link
-              key={c.slug}
-              href={`/components/${c.slug}`}
-              className={styles.card}
-            >
-              <div className={styles.cardTop}>
-                <h3>{c.name}</h3>
-                <span className={styles.status} data-status={c.status}>
-                  {c.status}
-                </span>
-              </div>
-              <p>{c.summary}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section>
         <h2 className={styles.sectionTitle}>Explore</h2>
         <div className={styles.cardGrid}>
-          {PLAYGROUND_NAV.filter((n) => n.href !== "/").map((item) => (
-            <Link key={item.href} href={item.href} className={styles.card}>
-              <h3>{item.label}</h3>
-              <p>{item.description}</p>
+          {EXPLORE.map((area) => (
+            <Link key={area.href} href={area.href} className={styles.card}>
+              <div className={styles.cardTop}>
+                <h3>{area.label}</h3>
+              </div>
+              <p>{area.description}</p>
             </Link>
           ))}
         </div>

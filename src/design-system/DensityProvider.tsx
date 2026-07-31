@@ -31,14 +31,20 @@ const DensityContext = createContext<DensityContextValue | null>(null);
 type DensityProviderProps = {
   children: ReactNode;
   defaultSurface?: Surface;
+  /** Override surface→density mapping (e.g. design contract). */
+  density?: Density;
+  /** Extra CSS vars merged after density profile (preview contract). */
+  cssVariableOverrides?: Record<string, string>;
 };
 
 export function DensityProvider({
   children,
   defaultSurface = "admin",
+  density: densityProp,
+  cssVariableOverrides,
 }: DensityProviderProps) {
   const [surface, setSurfaceState] = useState<Surface>(defaultSurface);
-  const density = surfaceToDensity[surface];
+  const density = densityProp ?? surfaceToDensity[surface];
   const profile = densityProfiles[density];
 
   const setSurface = useCallback((next: Surface) => {
@@ -56,7 +62,10 @@ export function DensityProvider({
     [density, surface, profile.label, setSurface],
   );
 
-  const style = densityCssVariables(density) as CSSProperties;
+  const style = {
+    ...densityCssVariables(density),
+    ...cssVariableOverrides,
+  } as CSSProperties;
 
   return (
     <DensityContext.Provider value={value}>

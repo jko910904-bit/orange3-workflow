@@ -108,6 +108,10 @@
   background: var(--color-primary-100);
 }
 
+.chip .muted {
+  font-size: var(--typography-caption2-fontSize);
+}
+
 .muted {
   color: var(--color-grey-600);
   font-size: var(--typography-caption1-fontSize);

@@ -7,6 +7,7 @@ import {
   DetailPattern,
   FormPattern,
   LoginPattern,
+  AdminListPattern,
   SearchFilterTablePattern,
   WizardPattern,
 } from "@/design-system/patterns";
@@ -18,6 +19,7 @@ const PATTERN_VIEWS: Record<PatternId, ComponentType> = {
   SearchFilterTable: SearchFilterTablePattern,
   ChartKpi: ChartKpiPattern,
   Login: LoginPattern,
+  CRUD: AdminListPattern,
   Dashboard: DashboardPattern,
   Detail: DetailPattern,
   Form: FormPattern,

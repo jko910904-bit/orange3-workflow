@@ -23,3 +23,12 @@ export type {
   PatternSelection,
   GenerateResult,
 } from "./recipe";
+export type {
+  ComponentId,
+  ComponentRegistryEntry,
+  RecipeComponentRef,
+  RecipeRegistryEntry,
+  RegistryPatternId,
+  PatternRegistryEntry,
+  ResolvedScreen,
+} from "./registry";

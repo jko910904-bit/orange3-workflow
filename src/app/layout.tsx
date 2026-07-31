@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { AntdProvider } from "@/design-system/antd";
 import { TokenStyles } from "@/design-system/TokenStyles";
 import "./globals.css";
 
@@ -14,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Design System Playground",
+  title: "JKO Design System",
   description:
-    "Human-inspectable Design Kit with AI Metadata and Prompt Playground",
+    "JKO v2.0 Design System Platform — Compose ≠ Generate. Foundation → Components → UX Patterns → Screens.",
 };
 
 export default function RootLayout({
@@ -30,7 +31,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <TokenStyles />
-        {children}
+        <AntdProvider>{children}</AntdProvider>
       </body>
     </html>
   );

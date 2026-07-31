@@ -1,5 +1,6 @@
 import { colorTokens } from "./color";
 import { densityTokens } from "./density";
+import { layoutTokens } from "./layout";
 import { motionTokens } from "./motion";
 import { radiusTokens } from "./radius";
 import { elevationTokens, shadowTokens } from "./shadow";
@@ -17,6 +18,7 @@ const ALL_TOKENS: TokenEntry[] = [
   ...shadowTokens,
   ...densityTokens,
   ...motionTokens,
+  ...layoutTokens,
 ];
 
 const tokenMap = new Map<string, TokenEntry>(
@@ -37,6 +39,7 @@ export function listCategories(): TokenCategory[] {
     "shadow",
     "density",
     "motion",
+    "layout",
   ];
 }
 

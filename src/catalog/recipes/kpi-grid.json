@@ -1,0 +1,16 @@
+{
+  "id": "kpi-grid",
+  "name": "KPI Grid",
+  "description": "KPI metric cards for dashboard overview.",
+  "components": [
+    {
+      "componentId": "card",
+      "variant": "Kpi",
+      "displayName": "KPI Card",
+      "preview": { "component": "KpiCards" },
+      "props": {}
+    }
+  ],
+  "keywords": ["kpi", "지표", "metric", "dashboard", "대시보드"],
+  "status": "ready"
+}

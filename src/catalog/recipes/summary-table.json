@@ -1,0 +1,15 @@
+{
+  "id": "summary-table",
+  "name": "Summary Table",
+  "description": "Comfortable table without pagination for dashboard panels.",
+  "components": [
+    {
+      "componentId": "table",
+      "variant": "Comfortable",
+      "displayName": "Table",
+      "props": {}
+    }
+  ],
+  "keywords": ["table", "summary", "dashboard", "대시보드"],
+  "status": "ready"
+}

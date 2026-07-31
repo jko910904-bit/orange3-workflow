@@ -1,14 +1,36 @@
 {
+  "id": "input",
+  "name": "Input",
   "component": "Input",
+  "category": "input",
   "purpose": "Data Input",
-  "aliases": ["Text Field", "Email Input", "Password Input", "Search Input", "입력창", "이메일"],
+  "aliases": [
+    "Text Field",
+    "Email Input",
+    "Password Input",
+    "Search Input",
+    "입력창",
+    "이메일"
+  ],
   "usage": ["Login", "Search", "Form Field", "Email", "Password"],
   "avoid": ["Long-form rich text"],
-  "dependencies": ["Color", "Typography", "Spacing", "Radius", "Motion", "Density"],
+  "dependencies": [
+    "Color",
+    "Typography",
+    "Spacing",
+    "Radius",
+    "Motion",
+    "Density"
+  ],
   "variants": ["Text", "Email", "Password", "Search", "Number"],
   "sizes": ["S", "M", "L"],
   "states": ["Default", "Focus", "Error", "Disabled"],
-  "accessibility": ["Label association", "Keyboard Navigation", "Focus Ring", "ARIA invalid"],
+  "accessibility": [
+    "Label association",
+    "Keyboard Navigation",
+    "Focus Ring",
+    "ARIA invalid"
+  ],
   "aiRules": [
     {
       "id": "input.email.login",
@@ -26,11 +48,14 @@
       "then": { "component": "Input", "variant": "Search" }
     }
   ],
-  "figmaMapping": ["Input/Email/M/Default", "Input/Password/M/Default", "Input/Search/M/Focus"],
+  "figmaMapping": [
+    "Input/Email/M/Default",
+    "Input/Password/M/Default",
+    "Input/Search/M/Focus"
+  ],
   "promptExamples": ["이메일 입력 필드", "검색창 추가", "비밀번호 필드"],
   "confidence": 0.92,
   "priority": 90,
-  "category": "input",
   "compatibleWith": ["Button", "Form", "Checkbox"],
   "generatedByAI": false,
   "version": "1.0.0"

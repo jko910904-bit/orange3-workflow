@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { COMPONENT_DOCS } from "@/playground/catalog";
+import { COMPONENT_DOCS, statusLabel } from "@/playground/catalog";
 
 export default function ComponentsIndexPage() {
   return (
@@ -11,9 +11,11 @@ export default function ComponentsIndexPage() {
         <h1 className="text-3xl font-semibold tracking-tight">
           Component library
         </h1>
-        <p className="ds-muted text-sm">
-          각 컴포넌트에서 Variant · Size · State · Code · AI Metadata를
-          확인하세요.
+        <p className="ds-muted text-sm" style={{ maxWidth: "40rem" }}>
+          키트에 정의된 컴포넌트만 사용합니다.{" "}
+          <strong>AI는 새 컴포넌트를 만들지 않습니다</strong> — Compose ≠
+          Generate. Pattern Before Screen; 미구현 항목은 목록에 포함되며 상세는
+          준비 중입니다.
         </p>
       </header>
 
@@ -27,7 +29,7 @@ export default function ComponentsIndexPage() {
             <div className="flex items-center justify-between gap-2">
               <h2 className="text-lg font-semibold text-zinc-900">{c.name}</h2>
               <span className="text-xs uppercase tracking-wide text-zinc-400">
-                {c.status}
+                {statusLabel(c.status)}
               </span>
             </div>
             <p className="mt-2 text-sm text-zinc-600">{c.summary}</p>

@@ -1,7 +1,14 @@
 /**
  * Screen composition — Prompt Parser output consumed by Renderer.
  * Nodes reference Component Registry ids + variants (e.g. Button.Primary).
+ * Composed mode carries sections built from DesignContract materials.
  */
+
+import type { DesignContract } from "../generator/designContract";
+import type {
+  ComposedSection,
+  LayoutArchetype,
+} from "../generator/compose/types";
 
 export type CompositionNode = {
   /** Stable React key */
@@ -23,4 +30,14 @@ export type ScreenComposition = {
   /** Human-readable recipe e.g. Button.Primary, Input.Email */
   recipe: string[];
   nodes: CompositionNode[];
+  /** Setup snapshot — shown in 소스 보기 Composition tab when present */
+  designContract?: DesignContract;
+  /**
+   * composed = materials-driven new layout (default generate path)
+   * reference = optional Real Example short-circuit
+   */
+  mode?: "composed" | "reference";
+  archetype?: LayoutArchetype;
+  title?: string;
+  sections?: ComposedSection[];
 };

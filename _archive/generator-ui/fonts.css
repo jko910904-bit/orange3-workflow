@@ -1,0 +1,5 @@
+/**
+ * Pretendard via CDN (jsDelivr) — OFL-licensed; not bundled as binary files.
+ * Noto Sans KR + Nanum Gothic load via next/font/google in layout.tsx.
+ */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css");

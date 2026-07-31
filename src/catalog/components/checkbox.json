@@ -1,5 +1,8 @@
 {
+  "id": "checkbox",
+  "name": "Checkbox",
   "component": "Checkbox",
+  "category": "input",
   "purpose": "Binary Choice",
   "aliases": ["Check", "Remember me", "약관 동의", "로그인 유지", "체크박스"],
   "usage": ["Remember me", "Agree to terms", "Multi-select"],
@@ -20,7 +23,6 @@
   "promptExamples": ["로그인 유지 체크박스", "약관 동의"],
   "confidence": 0.9,
   "priority": 70,
-  "category": "input",
   "compatibleWith": ["Input", "Button", "Form"],
   "generatedByAI": false,
   "version": "1.0.0"

@@ -41,16 +41,28 @@
 
 .scroll {
   width: 100%;
-  overflow-x: auto;
+  /* Non-visible overflow clips to outer radius; auto keeps wide-table scroll */
+  overflow: auto;
   border: 1px solid var(--color-grey-300);
-  border-radius: var(--radius-4);
+  /* Outer table chrome only — never round individual rows */
+  border-radius: var(--preview-radius-control, 4px);
   background: var(--color-grey-0);
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
+  border-spacing: 0;
   table-layout: auto;
+  border-radius: 0;
+}
+
+.thead,
+.tbody,
+.row,
+.cell,
+.head {
+  border-radius: 0;
 }
 
 .thead {
@@ -132,7 +144,7 @@
 }
 
 .sortButton:hover {
-  color: var(--color-primary-500);
+  color: var(--preview-primary, var(--color-primary-500));
 }
 
 .headLabel {
@@ -148,7 +160,7 @@
   width: 16px;
   height: 16px;
   margin: 0;
-  accent-color: var(--color-primary-500);
+  accent-color: var(--preview-primary, var(--color-primary-500));
   cursor: pointer;
 }
 
@@ -172,7 +184,7 @@
   height: 32px;
   padding: 0 var(--spacing-8);
   border: 1px solid transparent;
-  border-radius: 999px;
+  border-radius: var(--preview-radius-control, 4px);
   background: transparent;
   color: var(--color-grey-900);
   font-family: inherit;
@@ -185,8 +197,12 @@
 }
 
 .pageButton:hover:not(:disabled):not(.pageActive) {
-  background: var(--color-primary-100);
-  color: var(--color-primary-700);
+  background: color-mix(
+    in srgb,
+    var(--preview-primary, var(--admin-blue, var(--color-primary-500))) 14%,
+    transparent
+  );
+  color: var(--preview-primary, var(--admin-blue, var(--color-primary-700)));
 }
 
 .pageButton:disabled {
@@ -195,6 +211,9 @@
 }
 
 .pageActive {
-  background: var(--color-primary-500);
+  background: var(
+    --preview-primary,
+    var(--admin-blue, var(--color-primary-500))
+  );
   color: var(--color-grey-0);
 }

@@ -2,50 +2,77 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { COMPONENT_DOCS, PLAYGROUND_NAV } from "@/playground/catalog";
-import { listRecipes } from "@/catalog";
+import { NAV_GROUPS } from "@/playground/catalog";
+import { getScreenRecipe } from "@/playground/recipe-catalog";
 import styles from "./PlaygroundShell.module.css";
 
 function breadcrumbFromPath(pathname: string) {
-  if (pathname === "/") return ["Home"];
+  if (pathname === "/") return ["JKO"];
   const parts = pathname.split("/").filter(Boolean);
-  return ["Home", ...parts.map((p) => decodeURIComponent(p))];
+  const pretty: Record<string, string> = {
+    recipes: "Recipes",
+    foundations: "Foundation",
+    components: "Components",
+    patterns: "UX Patterns",
+    knowledge: "Knowledge",
+    principles: "Principles",
+    screens: "Screens",
+    templates: "Screens",
+    playground: "Playground",
+    settings: "Settings",
+  };
+  return [
+    "JKO",
+    ...parts.map((p, i) => {
+      if (pretty[p]) return pretty[p];
+      if (parts[0] === "recipes" && i === 1) {
+        return getScreenRecipe(p)?.title ?? decodeURIComponent(p);
+      }
+      return decodeURIComponent(p);
+    }),
+  ];
 }
 
 export function PlaygroundShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const crumbs = breadcrumbFromPath(pathname);
-  const componentCount = COMPONENT_DOCS.length;
-  const recipeCount = listRecipes().length;
 
   return (
     <div className={styles.shell}>
       <aside className={styles.sidebar}>
         <div className={styles.brand}>
-          <p className={styles.brandEyebrow}>AI Screen Generator</p>
-          <h1 className={styles.brandTitle}>Playground</h1>
-          <p className={styles.brandSub}>
-            {componentCount} components · {recipeCount} recipes
-          </p>
+          <p className={styles.brandEyebrow}>Design System</p>
+          <Link href="/" className={styles.brandTitleLink}>
+            <h1 className={styles.brandTitle}>JKO</h1>
+          </Link>
+          <p className={styles.brandSub}>Design System Platform</p>
         </div>
-        <nav className={styles.nav} aria-label="Playground">
-          {PLAYGROUND_NAV.map((item) => {
-            const active =
-              item.href === "/"
-                ? pathname === "/"
-                : pathname === item.href ||
+        <nav className={styles.nav} aria-label="JKO Design System">
+          {NAV_GROUPS.map((group, groupIndex) => (
+            <div key={group.id} className={styles.navGroup}>
+              {groupIndex > 0 ? (
+                <div className={styles.navDivider} role="separator" />
+              ) : null}
+              {group.label ? (
+                <p className={styles.navGroupLabel}>{group.label}</p>
+              ) : null}
+              {group.items.map((item) => {
+                const active =
+                  pathname === item.href ||
                   pathname.startsWith(`${item.href}/`);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={active ? styles.navActive : styles.navLink}
-              >
-                <span className={styles.navLabel}>{item.label}</span>
-                <span className={styles.navDesc}>{item.description}</span>
-              </Link>
-            );
-          })}
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={active ? styles.navActive : styles.navLink}
+                  >
+                    <span className={styles.navLabel}>{item.label}</span>
+                    <span className={styles.navDesc}>{item.description}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
         </nav>
       </aside>
       <div className={styles.main}>
@@ -60,9 +87,7 @@ export function PlaygroundShell({ children }: { children: React.ReactNode }) {
               </span>
             ))}
           </nav>
-          <p className={styles.pipeline}>
-            Prompt → Parser → Recipe → Pattern → Registry → Renderer
-          </p>
+          <p className={styles.pipeline}>Compose ≠ Generate</p>
         </header>
         <div className={styles.content}>{children}</div>
       </div>

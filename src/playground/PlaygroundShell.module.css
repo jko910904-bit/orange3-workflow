@@ -28,6 +28,11 @@
   color: var(--color-primary-500);
 }
 
+.brandTitleLink {
+  text-decoration: none;
+  color: inherit;
+}
+
 .brandTitle {
   margin: 4px 0 0;
   font-size: var(--typography-h3-fontSize);
@@ -44,7 +49,29 @@
 .nav {
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-12);
+}
+
+.navGroup {
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-4);
+}
+
+.navGroupLabel {
+  margin: 0 0 var(--spacing-4);
+  padding: 0 var(--spacing-12);
+  font-size: var(--typography-caption2-fontSize);
+  font-weight: var(--typography-fontWeight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-grey-500);
+}
+
+.navDivider {
+  height: 1px;
+  margin: var(--spacing-4) var(--spacing-12);
+  background: var(--color-grey-300);
 }
 
 .navLink,

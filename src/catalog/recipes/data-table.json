@@ -1,0 +1,22 @@
+{
+  "id": "data-table",
+  "name": "Data Table",
+  "description": "Rich member/admin table with status, actions, and pagination.",
+  "components": [
+    {
+      "componentId": "table",
+      "variant": "Dense",
+      "displayName": "Table",
+      "preview": { "component": "MemberTable", "variant": "Dense" },
+      "props": { "context": "members" }
+    },
+    {
+      "componentId": "pagination",
+      "variant": "Default",
+      "displayName": "Pagination",
+      "props": { "page": 1, "pageCount": 8 }
+    }
+  ],
+  "keywords": ["table", "테이블", "목록", "pagination", "페이지", "회원"],
+  "status": "ready"
+}

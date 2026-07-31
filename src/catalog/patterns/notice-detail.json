@@ -1,0 +1,16 @@
+{
+  "id": "NoticeDetail",
+  "name": "Portal Notice Detail",
+  "description": "Portal 공지사항 상세 (Real Example): GNB + Banner + Article + Prev/Next + Footer.",
+  "recipes": ["page-header"],
+  "keywords": [
+    "공지사항 상세",
+    "공지 상세",
+    "notice detail",
+    "notice-detail",
+    "공지사항상세"
+  ],
+  "surface": "portal",
+  "intent": "notice-detail",
+  "status": "ready"
+}

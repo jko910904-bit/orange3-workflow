@@ -1,0 +1,30 @@
+{
+  "id": "toolbar",
+  "name": "Toolbar",
+  "description": "Create / secondary / danger actions for management screens.",
+  "components": [
+    {
+      "componentId": "button",
+      "variant": "Primary",
+      "size": "S",
+      "displayName": "Primary Button",
+      "props": { "children": "등록" }
+    },
+    {
+      "componentId": "button",
+      "variant": "Secondary",
+      "size": "S",
+      "displayName": "Secondary Button",
+      "props": { "children": "내보내기" }
+    },
+    {
+      "componentId": "button",
+      "variant": "Danger",
+      "size": "S",
+      "displayName": "Danger Button",
+      "props": { "children": "삭제" }
+    }
+  ],
+  "keywords": ["toolbar", "crud", "등록", "create", "관리"],
+  "status": "ready"
+}

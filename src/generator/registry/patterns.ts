@@ -1,29 +1,22 @@
+import { listPatternRegistry } from "@/catalog";
 import type { PatternDefinition, PatternId } from "@/types";
 
-export const patternRegistry: PatternDefinition[] = [
+/**
+ * Pattern Registry bridge — JSON catalog is the source of truth.
+ * Extra design-system demo patterns remain for ScreenRenderer previews.
+ */
+const EXTRA_PATTERNS: PatternDefinition[] = [
   {
     id: "SearchFilterTable",
     name: "Search + Filter + Table",
     description: "Filter bar composed with data table, checkbox, and pagination.",
-    keywords: ["search", "filter", "table", "list", "목록", "검색", "회원"],
+    keywords: ["search", "filter", "table", "list", "목록", "검색"],
   },
   {
     id: "ChartKpi",
     name: "Chart + KPI",
     description: "KPI metric cards with summary charts.",
     keywords: ["chart", "kpi", "통계", "차트", "지표"],
-  },
-  {
-    id: "Login",
-    name: "Login",
-    description: "Authentication form with credentials fields.",
-    keywords: ["login", "로그인", "auth", "signin"],
-  },
-  {
-    id: "Dashboard",
-    name: "Dashboard",
-    description: "Overview layout with KPI widgets and list panels.",
-    keywords: ["dashboard", "대시보드", "마이페이지", "overview"],
   },
   {
     id: "Detail",
@@ -43,6 +36,20 @@ export const patternRegistry: PatternDefinition[] = [
     description: "Step-by-step process flow with navigation actions.",
     keywords: ["wizard", "step", "절차", "온보딩", "프로세스"],
   },
+];
+
+function fromCatalog(): PatternDefinition[] {
+  return listPatternRegistry().map((p) => ({
+    id: p.id as PatternId,
+    name: p.name,
+    description: p.description,
+    keywords: p.keywords,
+  }));
+}
+
+export const patternRegistry: PatternDefinition[] = [
+  ...fromCatalog(),
+  ...EXTRA_PATTERNS,
 ];
 
 const patternMap = Object.fromEntries(

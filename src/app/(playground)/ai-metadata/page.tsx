@@ -10,7 +10,7 @@ import styles from "./ai-metadata.module.css";
 
 export default function AiMetadataPage() {
   const all = listCatalogComponents();
-  const [selected, setSelected] = useState(all[0]?.component ?? "Button");
+  const [selected, setSelected] = useState(all[0]?.id ?? "button");
   const data = getCatalogComponent(selected);
   const json = useMemo(
     () => (data ? JSON.stringify(data, null, 2) : "{}"),
@@ -30,12 +30,12 @@ export default function AiMetadataPage() {
       <div className={styles.row}>
         {all.map((c) => (
           <Button
-            key={c.component}
+            key={c.id}
             size="s"
-            variant={selected === c.component ? "primary" : "ghost"}
-            onClick={() => setSelected(c.component)}
+            variant={selected === c.id ? "primary" : "ghost"}
+            onClick={() => setSelected(c.id)}
           >
-            {c.component}
+            {c.name}
           </Button>
         ))}
       </div>
@@ -84,7 +84,7 @@ export default function AiMetadataPage() {
           <article className={`${styles.card} ${styles.wide}`}>
             <h2>Prompt Examples</h2>
             <ul>
-              {data.promptExamples.map((p) => (
+              {(data.promptExamples ?? []).map((p) => (
                 <li key={p}>{p}</li>
               ))}
             </ul>

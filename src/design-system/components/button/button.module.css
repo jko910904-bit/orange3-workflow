@@ -49,14 +49,14 @@
 /* —— Variants —— */
 
 .primary {
-  background: var(--color-primary-500);
-  border-color: var(--color-primary-500);
+  background: var(--preview-primary, var(--color-primary-500));
+  border-color: var(--preview-primary, var(--color-primary-500));
   color: var(--color-grey-0);
 }
 
 .primary:hover:not(:disabled) {
-  background: var(--color-primary-700);
-  border-color: var(--color-primary-700);
+  background: var(--preview-secondary, var(--color-primary-700));
+  border-color: var(--preview-secondary, var(--color-primary-700));
 }
 
 .primary:active:not(:disabled) {

@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Button, Input, Table } from "@/design-system/components";
 import styles from "./pattern.module.css";
+import searchStyles from "./DataTable.module.css";
 
 const ROWS = [
   { id: "1", name: "홍길동", email: "hong@example.com", status: "활성" },
@@ -14,21 +15,33 @@ const ROWS = [
 
 export function SearchFilterTablePattern() {
   const [q, setQ] = useState("");
+  const [applied, setApplied] = useState("");
   const [page, setPage] = useState(1);
   const filtered = useMemo(
     () =>
       ROWS.filter(
         (r) =>
-          !q ||
-          r.name.includes(q) ||
-          r.email.includes(q) ||
-          r.status.includes(q),
+          !applied ||
+          r.name.includes(applied) ||
+          r.email.includes(applied) ||
+          r.status.includes(applied),
       ),
-    [q],
+    [applied],
   );
   const pageSize = 3;
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const rows = filtered.slice((page - 1) * pageSize, page * pageSize);
+
+  function runSearch() {
+    setApplied(q.trim());
+    setPage(1);
+  }
+
+  function reset() {
+    setQ("");
+    setApplied("");
+    setPage(1);
+  }
 
   return (
     <section className={styles.pattern}>
@@ -36,28 +49,30 @@ export function SearchFilterTablePattern() {
         <h2 className={styles.title}>Search + Filter + Table</h2>
         <p className={styles.subtitle}>회원 / 목록 검색 패턴</p>
       </div>
-      <Table density="dense">
-        <Table.Toolbar>
-          <div style={{ flex: 1 }}>
-            <Input
-              kind="search"
-              size="s"
-              label="검색"
-              placeholder="이름 / 이메일 / 상태"
-              value={q}
-              onChange={(e) => {
-                setQ(e.target.value);
-                setPage(1);
-              }}
-            />
-          </div>
-          <Button variant="primary" size="s">
+      <div className={searchStyles.searchBar} role="search">
+        <div className={searchStyles.searchField}>
+          <Input
+            kind="search"
+            size="s"
+            label="검색"
+            placeholder="이름 / 이메일 / 상태"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") runSearch();
+            }}
+          />
+        </div>
+        <div className={searchStyles.searchActions}>
+          <Button variant="primary" size="s" onClick={runSearch}>
             조회
           </Button>
-          <Button variant="ghost" size="s">
+          <Button variant="ghost" size="s" onClick={reset}>
             초기화
           </Button>
-        </Table.Toolbar>
+        </div>
+      </div>
+      <Table density="dense">
         <Table.Scroll>
           <Table.Header>
             <Table.Row>

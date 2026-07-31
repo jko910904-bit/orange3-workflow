@@ -1,5 +1,8 @@
 {
+  "id": "button",
+  "name": "Button",
   "component": "Button",
+  "category": "action",
   "purpose": "Primary Action",
   "aliases": [
     "Primary Button",
@@ -9,13 +12,24 @@
     "Save Button",
     "Continue Button",
     "Confirm Button",
+    "Submit",
+    "Save",
+    "CTA",
     "버튼",
     "저장 버튼",
     "제출 버튼"
   ],
   "usage": ["Submit Form", "Login", "Save", "Create", "Search", "Confirm"],
   "avoid": ["Cancel as Primary", "Delete Confirmation as Primary"],
-  "dependencies": ["Color", "Typography", "Spacing", "Radius", "Elevation", "Motion", "Density"],
+  "dependencies": [
+    "Color",
+    "Typography",
+    "Spacing",
+    "Radius",
+    "Elevation",
+    "Motion",
+    "Density"
+  ],
   "variants": ["Primary", "Secondary", "Tertiary", "Ghost", "Danger"],
   "sizes": ["S", "M", "L"],
   "states": ["Default", "Hover", "Pressed", "Focus", "Disabled", "Loading"],
@@ -61,7 +75,6 @@
   ],
   "confidence": 0.95,
   "priority": 100,
-  "category": "action",
   "compatibleWith": ["Input", "Card", "Form", "Table"],
   "generatedByAI": false,
   "version": "1.0.0"
