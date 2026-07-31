@@ -3253,9 +3253,9 @@
       'menu.exTs': '시계열 분석', 'menu.helpStart': '시작하기', 'menu.helpDocs': '문서',
       'menu.helpGuide': '가이드', 'menu.helpQuickstart': '빠른 시작', 'menu.helpWidget': '위젯 참조',
       'menu.helpApi': 'API 문서', 'menu.helpCommunity': '커뮤니티', 'menu.setGeneral': '일반',
-      'menu.setShortcuts': '단축키', 'menu.setAppearance': '화면', 'menu.setTheme': '테마',
-      'menu.setThemeLight': '라이트', 'menu.setThemeDark': '다크', 'menu.setThemeAuto': '시스템 설정',
-      'menu.setCharacter': '캐릭터 모드', 'menu.setCharPengsu': '펭수', 'menu.setCharRabbit': '토끼',
+      'menu.setShortcuts': '단축키', 'menu.setAppearance': '화면',
+      'menu.setAppearanceLight': '라이트', 'menu.setAppearanceDark': '다크', 'menu.setAppearanceAuto': '시스템 설정',
+      'menu.theme': '테마', 'menu.themeOrangePengsu': '오렌지와 펭수', 'menu.themePengsu': '펭수', 'menu.themeRabbit': '토끼',
       'onboard.step1': '위젯 추가', 'onboard.step2': '위젯 연결', 'onboard.step3': '실행 후 결과 확인',
     },
     en: {
@@ -3278,9 +3278,9 @@
       'menu.exTs': 'Time series analysis', 'menu.helpStart': 'Getting started', 'menu.helpDocs': 'Docs',
       'menu.helpGuide': 'Guide', 'menu.helpQuickstart': 'Quick start', 'menu.helpWidget': 'Widget reference',
       'menu.helpApi': 'API docs', 'menu.helpCommunity': 'Community', 'menu.setGeneral': 'General',
-      'menu.setShortcuts': 'Shortcuts', 'menu.setAppearance': 'Appearance', 'menu.setTheme': 'Theme',
-      'menu.setThemeLight': 'Light', 'menu.setThemeDark': 'Dark', 'menu.setThemeAuto': 'System',
-      'menu.setCharacter': 'Character mode', 'menu.setCharPengsu': 'Pengsu', 'menu.setCharRabbit': 'Rabbit',
+      'menu.setShortcuts': 'Shortcuts', 'menu.setAppearance': 'Appearance',
+      'menu.setAppearanceLight': 'Light', 'menu.setAppearanceDark': 'Dark', 'menu.setAppearanceAuto': 'System',
+      'menu.theme': 'Theme', 'menu.themeOrangePengsu': 'Orange & Pengsu', 'menu.themePengsu': 'Pengsu', 'menu.themeRabbit': 'Rabbit',
       'onboard.step1': 'Add widgets', 'onboard.step2': 'Connect widgets', 'onboard.step3': 'Run and check results',
     },
   };
@@ -3303,9 +3303,9 @@
     'help-start':'menu.helpStart', 'help-docs':'menu.helpDocs', 'help-docs-guide':'menu.helpGuide',
     'help-docs-quickstart':'menu.helpQuickstart', 'help-docs-widget':'menu.helpWidget', 'help-docs-api':'menu.helpApi',
     'help-community':'menu.helpCommunity', 'set-general':'menu.setGeneral', 'set-shortcuts':'menu.setShortcuts',
-    'set-appearance':'menu.setAppearance', 'set-theme':'menu.setTheme', 'set-theme-light':'menu.setThemeLight',
-    'set-theme-dark':'menu.setThemeDark', 'set-theme-auto':'menu.setThemeAuto',
-    'set-character':'menu.setCharacter', 'set-char-pengsu':'menu.setCharPengsu', 'set-char-rabbit':'menu.setCharRabbit',
+    'set-appearance':'menu.setAppearance',
+    'set-appearance-light':'menu.setAppearanceLight', 'set-appearance-dark':'menu.setAppearanceDark', 'set-appearance-auto':'menu.setAppearanceAuto',
+    theme:'menu.theme', 'theme-orange-pengsu':'menu.themeOrangePengsu', 'theme-pengsu':'menu.themePengsu', 'theme-rabbit':'menu.themeRabbit',
   };
   function t(key) {
     return (I18N[lang] && I18N[lang][key]) || (I18N.ko && I18N.ko[key]) || key;
@@ -3502,25 +3502,21 @@
         { id: 'set-general', label: '일반' },
         { id: 'set-shortcuts', label: '단축키' },
         {
-          id: 'set-character', label: '캐릭터 모드',
-          children: [
-            { id: 'set-char-pengsu', label: '펭수' },
-            { id: 'set-char-rabbit', label: '토끼' },
-          ],
-        },
-        {
           id: 'set-appearance', label: '화면',
           children: [
-            {
-              id: 'set-theme', label: '테마',
-              children: [
-                { id: 'set-theme-light', label: '라이트' },
-                { id: 'set-theme-dark', label: '다크' },
-                { id: 'set-theme-auto', label: '시스템 설정' },
-              ],
-            },
+            { id: 'set-appearance-light', label: '라이트' },
+            { id: 'set-appearance-dark', label: '다크' },
+            { id: 'set-appearance-auto', label: '시스템 설정' },
           ],
         },
+      ],
+    },
+    {
+      id: 'theme', label: '테마', icon: 'theme',
+      children: [
+        { id: 'theme-orange-pengsu', label: '오렌지와 펭수' },
+        { id: 'theme-pengsu', label: '펭수' },
+        { id: 'theme-rabbit', label: '토끼' },
       ],
     },
   ];
@@ -3537,6 +3533,7 @@
     datasetDes: '<path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14 3.5V8h4"/><circle cx="11" cy="14" r="2.5"/><path d="M13 16.2 15.5 18.7"/>',
     help: '<circle cx="12" cy="12" r="8.5"/><path d="M9.8 9.5a2.4 2.4 0 1 1 3.4 2.2c-.8.4-1.2.9-1.2 1.8"/><circle cx="12" cy="16.5" r=".7" fill="currentColor" stroke="none"/>',
     settings: '<circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>',
+    theme: '<circle cx="12" cy="12" r="4.5"/><path d="M12 3.2v1.6M12 19.2v1.6M3.2 12h1.6M19.2 12h1.6M5.7 5.7l1.1 1.1M17.2 17.2l1.1 1.1M5.7 18.3l1.1-1.1M17.2 6.8l1.1-1.1"/>',
   };
 
   function menuIcon(key) {
@@ -3610,11 +3607,15 @@
       el.classList.toggle('active', el.dataset.menu === id);
     });
     syncWidgetSidebar();
-    if (id === 'set-char-pengsu') {
+    if (id === 'theme-orange-pengsu') {
+      setCharacterMode('orange-pengsu');
+      return;
+    }
+    if (id === 'theme-pengsu') {
       setCharacterMode('pengsu');
       return;
     }
-    if (id === 'set-char-rabbit') {
+    if (id === 'theme-rabbit') {
       setCharacterMode('rabbit');
       return;
     }
@@ -4268,6 +4269,12 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   /* ========== Character mode (pengsu / rabbit) ========== */
   const CHAR_KEY = 'orange3-character-mode';
   const CHAR_ASSETS = {
+    'orange-pengsu': {
+      splash: 'assets/splash-orange-pengsu.png',
+      onboard: 'assets/onboarding-characters.png',
+      splashAlt: '오렌지와 펭수',
+      label: '오렌지와 펭수',
+    },
     pengsu: {
       splash: 'assets/splash-pengsu-ai.png',
       onboard: 'assets/onboarding-pengsu-ai.png',
@@ -4281,7 +4288,17 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       label: '토끼',
     },
   };
-  let characterMode = localStorage.getItem(CHAR_KEY) === 'rabbit' ? 'rabbit' : 'pengsu';
+  const CHAR_MENU_IDS = {
+    'orange-pengsu': 'theme-orange-pengsu',
+    pengsu: 'theme-pengsu',
+    rabbit: 'theme-rabbit',
+  };
+  let characterMode = (() => {
+    const saved = localStorage.getItem(CHAR_KEY);
+    if (saved === 'rabbit' || saved === 'pengsu' || saved === 'orange-pengsu') return saved;
+    if (saved === 'orange') return 'orange-pengsu';
+    return 'pengsu';
+  })();
 
   function ensureCharacterPreview() {
     let el = document.getElementById('charPreview');
@@ -4303,7 +4320,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     const img = el.querySelector('img');
     const label = el.querySelector('.char-preview-label');
     if (img) img.src = conf.onboard;
-    if (label) label.textContent = `캐릭터 모드 · ${conf.label}`;
+    if (label) label.textContent = `테마 · ${conf.label}`;
     el.removeAttribute('hidden');
     clearTimeout(showCharacterPreview._timer);
     showCharacterPreview._timer = setTimeout(() => el.setAttribute('hidden', ''), 1800);
@@ -4321,24 +4338,23 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       onboardImg.src = conf.onboard;
       onboardImg.alt = conf.label;
     }
-    document.querySelectorAll('[data-menu="set-char-pengsu"], [data-menu="set-char-rabbit"]').forEach(el => {
-      const on = (el.dataset.menu === 'set-char-pengsu' && characterMode === 'pengsu')
-        || (el.dataset.menu === 'set-char-rabbit' && characterMode === 'rabbit');
-      el.classList.toggle('active', on);
+    Object.entries(CHAR_MENU_IDS).forEach(([mode, menuId]) => {
+      document.querySelectorAll(`[data-menu="${menuId}"]`).forEach(el => {
+        el.classList.toggle('active', mode === characterMode);
+      });
     });
     return conf;
   }
 
   function setCharacterMode(mode) {
-    if (!CHAR_ASSETS[mode] || mode === characterMode) {
-      const conf = applyCharacterMode();
-      if (mode === characterMode) showCharacterPreview(conf);
+    if (!CHAR_ASSETS[mode]) return;
+    if (mode === characterMode) {
+      showCharacterPreview(applyCharacterMode());
       return;
     }
     characterMode = mode;
     localStorage.setItem(CHAR_KEY, mode);
-    const conf = applyCharacterMode();
-    showCharacterPreview(conf);
+    showCharacterPreview(applyCharacterMode());
   }
 
   applyCharacterMode();
