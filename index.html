@@ -1274,7 +1274,7 @@
     min-width: 0;
   }
   .canvas-onboard-copy h2 .onboard-title-mascot {
-    width: clamp(192px, 24vw, 264px);
+    width: clamp(154px, 19.2vw, 211px);
     height: auto;
     flex: 0 0 auto;
     display: block;
@@ -2004,7 +2004,7 @@
               <div class="canvas-onboard-copy">
                 <h2>
                   <span class="onboard-title-text">데이터 분석을 함께 시작해볼까요?</span>
-                  <img class="onboard-title-mascot" src="assets/onboarding-pengsu-ai.png" alt="">
+                  <img class="onboard-title-mascot" id="onboardMascot" src="assets/onboarding-pengsu-ai.png" alt="">
                 </h2>
                 <p>3단계 가이드를 따라 쉽고 빠르게 분석을 완성해 보세요.</p>
               </div>
@@ -2197,7 +2197,7 @@
 </div>
 <div class="splash-center">
     <div class="splash-hero">
-      <img src="assets/splash-pengsu-ai.png" alt="AI 펭수">
+      <img id="splashMascot" src="assets/splash-pengsu-ai.png" alt="AI 펭수">
     </div>
     <p class="splash-eyebrow">처음 만나는 데이터 마이닝 플랫폼</p>
     <h1 class="splash-title"><span class="en">AI</span>도 <span class="en">EBS</span>와 함께하세요!</h1>
@@ -3223,6 +3223,7 @@
       'menu.helpApi': 'API 문서', 'menu.helpCommunity': '커뮤니티', 'menu.setGeneral': '일반',
       'menu.setShortcuts': '단축키', 'menu.setAppearance': '화면', 'menu.setTheme': '테마',
       'menu.setThemeLight': '라이트', 'menu.setThemeDark': '다크', 'menu.setThemeAuto': '시스템 설정',
+      'menu.setCharacter': '캐릭터 모드', 'menu.setCharPengsu': '펭수', 'menu.setCharRabbit': '토끼',
       'onboard.step1': '위젯 추가', 'onboard.step2': '위젯 연결', 'onboard.step3': '실행 후 결과 확인',
     },
     en: {
@@ -3247,6 +3248,7 @@
       'menu.helpApi': 'API docs', 'menu.helpCommunity': 'Community', 'menu.setGeneral': 'General',
       'menu.setShortcuts': 'Shortcuts', 'menu.setAppearance': 'Appearance', 'menu.setTheme': 'Theme',
       'menu.setThemeLight': 'Light', 'menu.setThemeDark': 'Dark', 'menu.setThemeAuto': 'System',
+      'menu.setCharacter': 'Character mode', 'menu.setCharPengsu': 'Pengsu', 'menu.setCharRabbit': 'Rabbit',
       'onboard.step1': 'Add widgets', 'onboard.step2': 'Connect widgets', 'onboard.step3': 'Run and check results',
     },
   };
@@ -3271,6 +3273,7 @@
     'help-community':'menu.helpCommunity', 'set-general':'menu.setGeneral', 'set-shortcuts':'menu.setShortcuts',
     'set-appearance':'menu.setAppearance', 'set-theme':'menu.setTheme', 'set-theme-light':'menu.setThemeLight',
     'set-theme-dark':'menu.setThemeDark', 'set-theme-auto':'menu.setThemeAuto',
+    'set-character':'menu.setCharacter', 'set-char-pengsu':'menu.setCharPengsu', 'set-char-rabbit':'menu.setCharRabbit',
   };
   function t(key) {
     return (I18N[lang] && I18N[lang][key]) || (I18N.ko && I18N.ko[key]) || key;
@@ -3477,6 +3480,13 @@
                 { id: 'set-theme-auto', label: '시스템 설정' },
               ],
             },
+            {
+              id: 'set-character', label: '캐릭터 모드',
+              children: [
+                { id: 'set-char-pengsu', label: '펭수' },
+                { id: 'set-char-rabbit', label: '토끼' },
+              ],
+            },
           ],
         },
       ],
@@ -3568,6 +3578,16 @@
       el.classList.toggle('active', el.dataset.menu === id);
     });
     syncWidgetSidebar();
+    if (id === 'set-char-pengsu') {
+      setCharacterMode('pengsu');
+      showHint(label || '펭수');
+      return;
+    }
+    if (id === 'set-char-rabbit') {
+      setCharacterMode('rabbit');
+      showHint(label || '토끼');
+      return;
+    }
     if (id === 'open' || id === 'open-file' || id.startsWith('recent-') || id === 'open-recent') {
       openOpenDialog('local');
       return;
@@ -4214,6 +4234,52 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     };
     setTimeout(tick, 180);
   }
+
+  /* ========== Character mode (pengsu / rabbit) ========== */
+  const CHAR_KEY = 'orange3-character-mode';
+  const CHAR_ASSETS = {
+    pengsu: {
+      splash: 'assets/splash-pengsu-ai.png',
+      onboard: 'assets/onboarding-pengsu-ai.png',
+      splashAlt: 'AI 펭수',
+      label: '펭수',
+    },
+    rabbit: {
+      splash: 'assets/splash-character.png',
+      onboard: 'assets/onboarding-character.png',
+      splashAlt: 'AI 토끼',
+      label: '토끼',
+    },
+  };
+  let characterMode = localStorage.getItem(CHAR_KEY) === 'rabbit' ? 'rabbit' : 'pengsu';
+
+  function applyCharacterMode() {
+    const conf = CHAR_ASSETS[characterMode] || CHAR_ASSETS.pengsu;
+    const splashImg = document.getElementById('splashMascot');
+    const onboardImg = document.getElementById('onboardMascot');
+    if (splashImg) {
+      splashImg.src = conf.splash;
+      splashImg.alt = conf.splashAlt;
+    }
+    if (onboardImg) {
+      onboardImg.src = conf.onboard;
+      onboardImg.alt = conf.label;
+    }
+    document.querySelectorAll('[data-menu="set-char-pengsu"], [data-menu="set-char-rabbit"]').forEach(el => {
+      const on = (el.dataset.menu === 'set-char-pengsu' && characterMode === 'pengsu')
+        || (el.dataset.menu === 'set-char-rabbit' && characterMode === 'rabbit');
+      el.classList.toggle('active', on);
+    });
+  }
+
+  function setCharacterMode(mode) {
+    if (!CHAR_ASSETS[mode]) return;
+    characterMode = mode;
+    localStorage.setItem(CHAR_KEY, mode);
+    applyCharacterMode();
+  }
+
+  applyCharacterMode();
 
   runSplash();
 })();
