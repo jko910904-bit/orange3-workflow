@@ -1282,37 +1282,43 @@
     margin-left: auto;
     filter: drop-shadow(0 8px 18px rgba(20,24,40,.12));
   }
-  #charPreview {
-    position: fixed;
-    inset: 0;
-    z-index: 120;
+  .theme-tabs {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    background: rgba(20, 24, 40, 0.28);
-    backdrop-filter: blur(4px);
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 4px 4px 8px 10px;
+    margin: 0 0 2px 12px;
+    border-left: 1px dashed rgba(0,0,0,.08);
   }
-  #charPreview[hidden] { display: none !important; }
-  .char-preview-card {
-    width: min(280px, 72vw);
-    padding: 22px 20px 18px;
-    border-radius: 20px;
+  .theme-tab {
+    border: 1px solid var(--border);
     background: #fff;
-    box-shadow: 0 20px 50px rgba(20,24,40,.22);
-    text-align: center;
+    border-radius: 999px;
+    color: #5A5A5A;
+    cursor: pointer;
+    padding: 6px 11px;
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    transition: background .18s var(--ease), color .18s, border-color .18s, box-shadow .18s;
   }
-  .char-preview-card img {
-    width: min(180px, 50vw);
-    height: auto;
-    display: block;
-    margin: 0 auto 12px;
-  }
-  .char-preview-label {
-    margin: 0;
-    font-size: 15px;
-    font-weight: 700;
+  .theme-tab:hover {
+    background: #F5F5F5;
     color: var(--text);
+  }
+  .theme-tab.is-selected {
+    background: var(--brand-soft);
+    border-color: rgba(255, 122, 26, 0.4);
+    color: var(--brand-dark);
+    font-weight: 700;
+    box-shadow: inset 0 0 0 1px rgba(255, 122, 26, 0.16);
+  }
+  .rail-flyout .theme-tabs {
+    margin-left: 0;
+    border-left: none;
+    padding-left: 4px;
   }
   .canvas-onboard-copy p {
     margin: 0 0 18px;
@@ -3226,8 +3232,53 @@
   let activeMenuId = 'widgets';
   let openFlyoutId = null;
   const MENU_MAX_DEPTH = 4;
-  const MENU_DEFAULT_OPEN = new Set();
+  const MENU_DEFAULT_OPEN = new Set(['theme']);
 
+  /* Character theme (persisted) — declared early for menu tab rendering */
+  const CHAR_KEY = 'orange3-character-mode';
+  const CHAR_ASSETS = {
+    'orange-pengsu': {
+      splash: 'assets/splash-orange-pengsu.png',
+      onboard: 'assets/onboarding-characters.png',
+      splashAlt: '오렌지와 펭수',
+      label: '오렌지와 펭수',
+    },
+    pengsu: {
+      splash: 'assets/splash-pengsu-ai.png',
+      onboard: 'assets/onboarding-pengsu-ai.png',
+      splashAlt: 'AI 펭수',
+      label: '펭수',
+    },
+    rabbit: {
+      // wink + floating AI → splash hero; tablet AI → canvas title
+      splash: 'assets/splash-character.svg',
+      onboard: 'assets/onboarding-character.svg',
+      splashAlt: 'AI 토끼',
+      label: '토끼',
+    },
+  };
+  const CHAR_MENU_IDS = {
+    'orange-pengsu': 'theme-orange-pengsu',
+    pengsu: 'theme-pengsu',
+    rabbit: 'theme-rabbit',
+  };
+  const CHAR_MODE_BY_MENU = Object.fromEntries(
+    Object.entries(CHAR_MENU_IDS).map(([mode, menuId]) => [menuId, mode])
+  );
+  let characterMode = (() => {
+    const saved = localStorage.getItem(CHAR_KEY);
+    if (saved === 'rabbit' || saved === 'pengsu' || saved === 'orange-pengsu') return saved;
+    if (saved === 'orange') return 'orange-pengsu';
+    return 'pengsu';
+  })();
+
+  function renderThemeTabs(children) {
+    return `<div class="theme-tabs">${children.map(child => {
+      const mode = CHAR_MODE_BY_MENU[child.id];
+      const selected = mode && mode === characterMode ? ' is-selected' : '';
+      return `<button class="theme-tab${selected}" type="button" data-menu="${child.id}" data-depth="2" data-theme-tab="1"><span>${child.label}</span></button>`;
+    }).join('')}</div>`;
+  }
 
   /* ========== i18n (deploy baseline) ========== */
   const LANG_KEY = 'orange3-lang';
@@ -3560,12 +3611,15 @@
           ${menuIcon(item.icon)}<span class="ri-label">${item.label}</span>
         </button>`;
       }
+      const childrenHtml = item.id === 'theme'
+        ? renderThemeTabs(item.children)
+        : renderMenuNodes(item.children, 2);
       return `<div class="rail-group${open}" data-group="${item.id}">
         <button class="rail-item has-children${active}" type="button" data-menu="${item.id}" data-depth="1" title="${item.label}">
           ${menuIcon(item.icon)}<span class="ri-label">${item.label}</span>${CHEVRON}
         </button>
         <div class="rail-children"><div class="rail-children-inner">
-          ${renderMenuNodes(item.children, 2)}
+          ${childrenHtml}
         </div></div>
       </div>`;
     }
@@ -3604,21 +3658,29 @@
   function setActiveMenu(id, label) {
     activeMenuId = id;
     document.querySelectorAll('[data-menu]').forEach(el => {
+      if (el.classList.contains('theme-tab')) {
+        el.classList.toggle('active', false);
+        return;
+      }
       el.classList.toggle('active', el.dataset.menu === id);
     });
     syncWidgetSidebar();
     if (id === 'theme-orange-pengsu') {
+      document.querySelector('[data-group="theme"]')?.classList.add('open');
       setCharacterMode('orange-pengsu');
       return;
     }
     if (id === 'theme-pengsu') {
+      document.querySelector('[data-group="theme"]')?.classList.add('open');
       setCharacterMode('pengsu');
       return;
     }
     if (id === 'theme-rabbit') {
+      document.querySelector('[data-group="theme"]')?.classList.add('open');
       setCharacterMode('rabbit');
       return;
     }
+    syncThemeTabs();
     if (id === 'open' || id === 'open-file' || id.startsWith('recent-') || id === 'open-recent') {
       openOpenDialog('local');
       return;
@@ -3650,11 +3712,12 @@
   function showFlyout(anchor, item) {
     const rect = anchor.getBoundingClientRect();
     railFlyout.hidden = false;
+    const body = item.id === 'theme'
+      ? renderThemeTabs(item.children)
+      : `<div class="rail-children" style="display:block"><div class="rail-children-inner">${renderMenuNodes(item.children, 2)}</div></div>`;
     railFlyout.innerHTML = `
       <div class="rail-flyout-title">${item.label}</div>
-      <div class="rail-children" style="display:block">
-        <div class="rail-children-inner">${renderMenuNodes(item.children, 2)}</div>
-      </div>`;
+      ${body}`;
     railFlyout.querySelectorAll('.rail-sub-wrap').forEach(w => w.classList.add('open'));
     requestAnimationFrame(() => {
       railFlyout.style.top = `${Math.min(rect.top, window.innerHeight - railFlyout.offsetHeight - 12)}px`;
@@ -4238,92 +4301,51 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   const splash = document.getElementById('splash');
   const splashBar = document.getElementById('splashBar');
   const splashPct = document.getElementById('splashPct');
+  let splashGen = 0;
 
-  function finishSplash() {
+  function finishSplash(gen) {
+    if (gen != null && gen !== splashGen) return;
     splash?.classList.add('is-done');
     splash?.setAttribute('aria-busy', 'false');
     renderAuth();
   }
 
-  function runSplash() {
+  function runSplash({ replay = false } = {}) {
+    const gen = ++splashGen;
     if (!splash || !splashBar) {
-      finishSplash();
+      finishSplash(gen);
       return;
     }
-    renderAuth({ deferLogin: true, deferOnboard: true });
+    splash.classList.remove('is-done');
+    splash.setAttribute('aria-busy', 'true');
+    splashBar.style.width = '0%';
+    if (splashPct) splashPct.textContent = '0%';
+    if (!replay) renderAuth({ deferLogin: true, deferOnboard: true });
     let p = 0;
     const tick = () => {
+      if (gen !== splashGen) return;
       const step = p < 60 ? 2.2 + Math.random() * 2.5 : p < 90 ? 1.1 + Math.random() * 1.4 : 0.6;
       p = Math.min(100, p + step);
       splashBar.style.width = `${p}%`;
-      splashPct.textContent = `${Math.round(p)}%`;
+      if (splashPct) splashPct.textContent = `${Math.round(p)}%`;
       if (p >= 100) {
-        setTimeout(finishSplash, 280);
+        setTimeout(() => finishSplash(gen), 280);
         return;
       }
       setTimeout(tick, 28 + Math.random() * 40);
     };
-    setTimeout(tick, 180);
+    setTimeout(tick, replay ? 60 : 180);
   }
 
   /* ========== Character mode (pengsu / rabbit) ========== */
-  const CHAR_KEY = 'orange3-character-mode';
-  const CHAR_ASSETS = {
-    'orange-pengsu': {
-      splash: 'assets/splash-orange-pengsu.png',
-      onboard: 'assets/onboarding-characters.png',
-      splashAlt: '오렌지와 펭수',
-      label: '오렌지와 펭수',
-    },
-    pengsu: {
-      splash: 'assets/splash-pengsu-ai.png',
-      onboard: 'assets/onboarding-pengsu-ai.png',
-      splashAlt: 'AI 펭수',
-      label: '펭수',
-    },
-    rabbit: {
-      splash: 'assets/splash-character.svg',
-      onboard: 'assets/onboarding-character.svg',
-      splashAlt: 'AI 토끼',
-      label: '토끼',
-    },
-  };
-  const CHAR_MENU_IDS = {
-    'orange-pengsu': 'theme-orange-pengsu',
-    pengsu: 'theme-pengsu',
-    rabbit: 'theme-rabbit',
-  };
-  let characterMode = (() => {
-    const saved = localStorage.getItem(CHAR_KEY);
-    if (saved === 'rabbit' || saved === 'pengsu' || saved === 'orange-pengsu') return saved;
-    if (saved === 'orange') return 'orange-pengsu';
-    return 'pengsu';
-  })();
-
-  function ensureCharacterPreview() {
-    let el = document.getElementById('charPreview');
-    if (el) return el;
-    el = document.createElement('div');
-    el.id = 'charPreview';
-    el.setAttribute('hidden', '');
-    el.innerHTML = `
-      <div class="char-preview-card">
-        <img alt="">
-        <p class="char-preview-label"></p>
-      </div>`;
-    document.body.appendChild(el);
-    return el;
-  }
-
-  function showCharacterPreview(conf) {
-    const el = ensureCharacterPreview();
-    const img = el.querySelector('img');
-    const label = el.querySelector('.char-preview-label');
-    if (img) img.src = conf.onboard;
-    if (label) label.textContent = `테마 · ${conf.label}`;
-    el.removeAttribute('hidden');
-    clearTimeout(showCharacterPreview._timer);
-    showCharacterPreview._timer = setTimeout(() => el.setAttribute('hidden', ''), 1800);
+  function syncThemeTabs() {
+    Object.entries(CHAR_MENU_IDS).forEach(([mode, menuId]) => {
+      document.querySelectorAll(`[data-menu="${menuId}"]`).forEach(el => {
+        const on = mode === characterMode;
+        el.classList.toggle('is-selected', on);
+        if (!el.classList.contains('theme-tab')) el.classList.toggle('active', on);
+      });
+    });
   }
 
   function applyCharacterMode() {
@@ -4338,27 +4360,19 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       onboardImg.src = conf.onboard;
       onboardImg.alt = conf.label;
     }
-    Object.entries(CHAR_MENU_IDS).forEach(([mode, menuId]) => {
-      document.querySelectorAll(`[data-menu="${menuId}"]`).forEach(el => {
-        el.classList.toggle('active', mode === characterMode);
-      });
-    });
+    syncThemeTabs();
     return conf;
   }
 
-  function setCharacterMode(mode) {
+  function setCharacterMode(mode, { replaySplash = true } = {}) {
     if (!CHAR_ASSETS[mode]) return;
-    if (mode === characterMode) {
-      showCharacterPreview(applyCharacterMode());
-      return;
-    }
     characterMode = mode;
     localStorage.setItem(CHAR_KEY, mode);
-    showCharacterPreview(applyCharacterMode());
+    applyCharacterMode();
+    if (replaySplash) runSplash({ replay: true });
   }
 
   applyCharacterMode();
-
   runSplash();
 })();
 
