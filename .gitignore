@@ -1,7 +1,5 @@
-.tools/
-.node-tmp/
-.vercel/
-.netlify/
-node_modules/
+.tools
+.tools/**
+node_modules
 .DS_Store
 .vercel
