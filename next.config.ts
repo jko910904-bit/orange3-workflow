@@ -25,6 +25,13 @@ const nextConfig: NextConfig = {
       { source: "/preview/generator", destination: "/prompt", permanent: false },
     ];
   },
+  async rewrites() {
+    return [
+      // Orange3 static workflow editor
+      { source: "/orange", destination: "/orange/index.html" },
+      { source: "/orange/", destination: "/orange/index.html" },
+    ];
+  },
 };
 
 export default nextConfig;
