@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npx --yes serve -l tcp://0.0.0.0:3000 --no-port-switching .",
-    "start": "npx --yes serve -l tcp://0.0.0.0:3000 --no-port-switching ."
+    "dev": "npx --yes serve -l tcp://0.0.0.0:5050 --no-port-switching .",
+    "start": "npx --yes serve -l tcp://0.0.0.0:5050 --no-port-switching ."
   }
 }
