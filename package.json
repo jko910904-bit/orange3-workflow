@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npx --yes serve -l tcp://0.0.0.0:5050 --no-port-switching .",
-    "start": "npx --yes serve -l tcp://0.0.0.0:5050 --no-port-switching ."
-  }
+    "dev": "npm --prefix orange-local run dev",
+    "start": "npm --prefix orange-local run start",
+    "dev:orange": "npm --prefix orange-local run start"
+  },
+  "description": "Orange branch: serve only via orange-local on port 5050. Do not bind port 3000 (JKO)."
 }
