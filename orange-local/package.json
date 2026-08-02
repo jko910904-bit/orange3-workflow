@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npx --yes serve -l tcp://0.0.0.0:5050 --no-port-switching .",
-    "start": "npx --yes serve -l tcp://0.0.0.0:5050 --no-port-switching ."
+    "dev": "npx --yes serve -l tcp://0.0.0.0:5177 --no-port-switching .",
+    "start": "npx --yes serve -l tcp://0.0.0.0:5177 --no-port-switching ."
   },
-  "description": "Orange3 workflow editor. Local preview: http://127.0.0.1:5050/ (port 3000 is reserved for JKO Design System — do not use)."
+  "description": "Orange3 workflow. Local: http://127.0.0.1:5177/ — port 3000 is JKO only."
 }
