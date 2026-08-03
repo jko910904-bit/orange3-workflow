@@ -122,7 +122,7 @@ button {
 
 /* ---------- Header ---------- */
 .header {
-  height: var(--header-height);
+  height: 56px;
   background: var(--color-grey-0);
   border-bottom: 1px solid var(--color-grey-300);
   display: flex;
