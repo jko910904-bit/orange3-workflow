@@ -2094,9 +2094,9 @@
       </div>
       <button class="tab-add" type="button" title="탭 추가">＋</button>
       <div class="tabs-actions">
-        <div class="run-mode-switch" role="group" aria-label="실행 모드">
-          <button type="button" data-run-mode="auto" class="is-active" aria-pressed="true" data-i18n="tabs.runAuto">자동</button>
-          <button type="button" data-run-mode="manual" aria-pressed="false" data-i18n="tabs.runManual">수동</button>
+        <div class="run-mode-switch" role="group" aria-label="실행 On/Off">
+          <button type="button" data-run-mode="on" class="is-active" aria-pressed="true" data-i18n="tabs.runOn">On</button>
+          <button type="button" data-run-mode="off" aria-pressed="false" data-i18n="tabs.runOff">Off</button>
         </div>
         <button class="tabs-logout" type="button" id="btnLogout" hidden title="Logout" aria-label="Logout">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 12H5"/><path d="M9 7l-5 5 5 5"/><path d="M11 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6"/></svg>
@@ -3281,7 +3281,7 @@
   let lang = localStorage.getItem(LANG_KEY) || 'ko';
   const I18N = {
     ko: {
-      'tabs.runAuto': '자동', 'tabs.runManual': '수동', 'auth.login': '로그인', 'auth.logout': '로그아웃',
+      'tabs.runOn': 'On', 'tabs.runOff': 'Off', 'auth.login': '로그인', 'auth.logout': '로그아웃',
       'menu.setLang': '언어', 'menu.setLangKo': '한국어', 'menu.setLangEn': 'English',
       'menu.new': '새로 만들기', 'menu.open': '열기', 'menu.menu': '메뉴', 'menu.workspaces': '워크스페이스',
       'menu.widgets': '위젯', 'menu.datasets': '분석 데이터셋', 'menu.templates': '템플릿',
@@ -3307,7 +3307,7 @@
       'onboard.step1': '위젯 추가', 'onboard.step2': '위젯 연결', 'onboard.step3': '실행 후 결과 확인',
     },
     en: {
-      'tabs.runAuto': 'Auto', 'tabs.runManual': 'Manual', 'auth.login': 'Login', 'auth.logout': 'Logout',
+      'tabs.runOn': 'On', 'tabs.runOff': 'Off', 'auth.login': 'Login', 'auth.logout': 'Logout',
       'menu.setLang': 'Language', 'menu.setLangKo': '한국어', 'menu.setLangEn': 'English',
       'menu.new': 'New', 'menu.open': 'Open', 'menu.menu': 'Menu', 'menu.workspaces': 'WorkSpaces',
       'menu.widgets': 'Widget', 'menu.datasets': 'Analysis Datasets', 'menu.templates': 'Templates',
@@ -4033,7 +4033,12 @@ document.querySelector('.tab-add')?.addEventListener('click', () => {
 tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   const RUN_MODE_KEY = 'orange3-run-mode';
-  let runMode = localStorage.getItem(RUN_MODE_KEY) === 'manual' ? 'manual' : 'auto';
+  function readRunMode() {
+    const raw = localStorage.getItem(RUN_MODE_KEY);
+    if (raw === 'off' || raw === 'manual') return 'off';
+    return 'on';
+  }
+  let runMode = readRunMode();
   function syncRunModeUI() {
     document.querySelectorAll('[data-run-mode]').forEach(btn => {
       const on = btn.dataset.runMode === runMode;
@@ -4042,12 +4047,12 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     });
   }
   function setRunMode(mode) {
-    if (mode !== 'auto' && mode !== 'manual') return;
+    if (mode !== 'on' && mode !== 'off') return;
     runMode = mode;
     localStorage.setItem(RUN_MODE_KEY, mode);
     syncRunModeUI();
-    showHint(mode === 'auto' ? t('tabs.runAuto') : t('tabs.runManual'));
-    if (mode === 'auto') {
+    showHint(mode === 'on' ? t('tabs.runOn') : t('tabs.runOff'));
+    if (mode === 'on') {
       connSvg.classList.add('is-running');
       drawConnections();
       setTimeout(() => {
@@ -4217,7 +4222,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   const ONBOARD_HINTS = {
     add: '왼쪽 위젯 패널에서 위젯을 선택하거나 캔버스로 드래그해 배치하세요',
     connect: '위젯 포트에서 드래그해 다른 위젯과 연결하세요',
-    run: '상단 자동/수동 모드로 분석 실행 방식을 선택하세요',
+    run: '상단 On/Off로 분석 실행을 켜거나 끄세요',
   };
 
   function getUser() {
