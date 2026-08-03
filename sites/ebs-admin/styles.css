@@ -76,6 +76,10 @@ body {
   min-height: 100%;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   background: var(--color-grey-100);
   color: var(--color-grey-900);
@@ -288,6 +292,8 @@ button {
 .shell {
   display: flex;
   align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .sidebar {
@@ -358,20 +364,38 @@ button {
 
 /* ---------- Main ---------- */
 .main {
-  flex: 1;
+  flex: 1 1 auto;
   min-width: 0;
-  padding: var(--spacing-32);
-  max-width: 1600px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 24px 32px 32px;
+  box-sizing: border-box;
 }
 
-.page-head {
+.view {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.view[hidden] {
+  display: none !important;
+}
+
+.page-head,
+.page-head-stack {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--spacing-16); /* half of previous 32px */
+  min-height: 36px;
+  margin: 0 0 16px;
   flex-wrap: wrap;
   gap: var(--spacing-16);
+  box-sizing: border-box;
+}
+
+.page-head-stack {
+  align-items: center;
 }
 
 .page-title {
@@ -380,6 +404,7 @@ button {
   font-weight: 700;
   color: var(--color-grey-900);
   letter-spacing: -0.01em;
+  line-height: 36px;
 }
 
 .page-desc {
@@ -392,6 +417,7 @@ button {
   display: flex;
   align-items: center;
   gap: var(--spacing-8);
+  min-height: 36px;
 }
 
 .select {
@@ -418,7 +444,7 @@ button {
 }
 
 .section {
-  margin-bottom: var(--spacing-16); /* half of previous 32px — vertical card-row gap */
+  margin: 0 0 16px;
 }
 
 .section:last-child {
@@ -941,7 +967,7 @@ button {
   }
 
   .main {
-    padding: var(--spacing-16);
+    padding: 20px 16px 24px;
   }
 }
 
@@ -970,7 +996,7 @@ button {
 }
 
 .page-head-stack {
-  align-items: flex-start;
+  align-items: center;
 }
 
 .btn-outlined {
@@ -993,7 +1019,8 @@ button {
   display: flex;
   align-items: center;
   gap: var(--spacing-8);
-  margin-bottom: var(--spacing-16);
+  margin: 0 0 16px;
+  min-height: 36px;
 }
 
 .search-field {
@@ -1032,7 +1059,7 @@ button {
   display: grid;
   grid-template-columns: minmax(240px, 0.9fr) minmax(0, 1.4fr);
   gap: 10px;
-  margin-bottom: 72px;
+  margin: 0 0 16px;
 }
 
 .widget-panel {
@@ -1300,7 +1327,7 @@ button {
   background: color-mix(in srgb, var(--color-primary-500) 88%, var(--color-primary-900));
   border-radius: var(--radius-8);
   overflow: hidden;
-  margin-bottom: var(--spacing-16);
+  margin: 0 0 16px;
 }
 
 .subtab {
@@ -1660,7 +1687,8 @@ button {
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  margin-bottom: var(--spacing-16);
+  margin: 0 0 16px;
+  min-height: 36px;
 }
 
 .date-range {

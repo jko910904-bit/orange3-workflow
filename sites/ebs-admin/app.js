@@ -89,6 +89,11 @@
     });
 
     document.title = titles[view] || titles.dashboard;
+
+    /* Keep viewport stable when switching LNB tabs */
+    window.scrollTo(0, 0);
+    var main = document.getElementById("main");
+    if (main) main.scrollTop = 0;
   }
 
   function bindNav() {
