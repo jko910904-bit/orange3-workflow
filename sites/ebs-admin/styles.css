@@ -5,28 +5,31 @@
  */
 
 :root {
-  /* Color — site primary violet (standalone theme; kit blue not used here) */
+  /* Color — violet primary scale (aligned with ebs-admin-dashboard.html) */
   --color-primary-100: #f4f1ff;
+  --color-primary-200: #ddd4ff;
+  --color-primary-300: #af9aff;
+  --color-primary-400: #8768ff;
   --color-primary-500: #6d4aff;
   --color-primary-700: #5b3fe0;
   --color-primary-900: #4b33c7;
-  --color-secondary-500: #2e4176;
-  --color-secondary-700: #202d52;
+  --color-secondary-500: #4b33c7;
+  --color-secondary-700: #3a28a3;
   --color-grey-0: #ffffff;
   --color-grey-50: #f8f8f8;
-  --color-grey-100: #f5f5f5;
+  --color-grey-100: #f7f8fc;
   --color-grey-200: #eeeeee;
-  --color-grey-300: #dddddd;
+  --color-grey-300: #e8ebf2;
   --color-grey-400: #bdbdbd;
-  --color-grey-500: #999999;
+  --color-grey-500: #8b90a0;
   --color-grey-600: #757575;
-  --color-grey-700: #666666;
+  --color-grey-700: #565c6e;
   --color-grey-800: #444444;
-  --color-grey-900: #222222;
-  --color-semantic-danger: #eb5d5d;
-  --color-semantic-success: #00c853;
-  --color-semantic-warning: #f9a825;
-  --color-semantic-dangerSoft: #ffecec;
+  --color-grey-900: #181a22;
+  --color-semantic-danger: #dc3b41;
+  --color-semantic-success: #0e9f6e;
+  --color-semantic-warning: #b36f00;
+  --color-semantic-dangerSoft: #fceaeb;
 
   /* Spacing */
   --spacing-4: 4px;
@@ -52,13 +55,13 @@
   --header-height: 56px;
   --control-height: 36px;
 
-  /* Heatmap scale: kit primary / grey only (color-mix, no new brand hues) */
-  --heat-0: var(--color-grey-100);
-  --heat-1: var(--color-primary-100);
-  --heat-2: color-mix(in srgb, var(--color-primary-500) 35%, var(--color-grey-0));
-  --heat-3: color-mix(in srgb, var(--color-primary-500) 65%, var(--color-grey-0));
-  --heat-4: var(--color-primary-500);
-  --heat-5: var(--color-primary-700);
+  /* Heatmap — violet series */
+  --heat-0: #f7f8fc;
+  --heat-1: #f4f1ff;
+  --heat-2: #ddd4ff;
+  --heat-3: #af9aff;
+  --heat-4: #8768ff;
+  --heat-5: #6d4aff;
 }
 
 *,
@@ -538,16 +541,16 @@ button {
 }
 
 .chart-grid {
-  stroke: var(--color-grey-200);
+  stroke: #eff1f6;
   stroke-width: 1;
 }
 
 .chart-line {
-  stroke: var(--color-primary-500);
+  stroke: #6d4aff;
 }
 
 .chart-dots {
-  fill: var(--color-primary-500);
+  fill: #6d4aff;
 }
 
 .chart-dot-end {

@@ -5,14 +5,14 @@
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
     21, 22, 23,
   ];
-  /* Kit primary scale (not source purple) */
+  /* Violet heatmap scale — same steps as ebs-admin-dashboard.html */
   var scale = [
-    "var(--heat-0)",
-    "var(--heat-1)",
-    "var(--heat-2)",
-    "var(--heat-3)",
-    "var(--heat-4)",
-    "var(--heat-5)",
+    "#F7F8FC",
+    "#F4F1FF",
+    "#DDD4FF",
+    "#AF9AFF",
+    "#8768FF",
+    "#6D4AFF",
   ];
   var seedData = [
     [0, 0, 0, 0, 0, 1, 2, 3, 2, 1, 0, 0, 1, 2, 3, 2, 1, 0, 0, 0, 1, 2, 1, 0],
