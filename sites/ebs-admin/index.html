@@ -43,7 +43,7 @@
     <div class="shell">
       <!-- LNB IA: MENU → 대시보드 / 위젯 관리 / 서비스 설정 / 운영 모니터링 -->
       <aside class="sidebar" aria-label="사이드 내비게이션">
-        <a class="nav-item is-active" href="#" aria-current="page">
+        <a class="nav-item is-active" href="#dashboard" data-view="dashboard" aria-current="page">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <rect x="3" y="3" width="7" height="9" rx="1.5" />
             <rect x="14" y="3" width="7" height="5" rx="1.5" />
@@ -52,7 +52,7 @@
           </svg>
           대시보드
         </a>
-        <a class="nav-item" href="#">
+        <a class="nav-item" href="#widgets" data-view="widgets">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <rect x="3" y="4" width="18" height="6" rx="1.5" />
             <rect x="3" y="14" width="8" height="6" rx="1.5" />
@@ -60,14 +60,14 @@
           </svg>
           위젯 관리
         </a>
-        <a class="nav-item" href="#">
+        <a class="nav-item" href="#settings" data-view="settings">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <circle cx="12" cy="12" r="3" />
             <path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 01-4 0v-.09A1.7 1.7 0 009 19.4a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.55-1H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001-1.55V3a2 2 0 014 0v.09a1.7 1.7 0 001 1.55 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.55 1H21a2 2 0 010 4h-.09a1.7 1.7 0 00-1.55 1z" />
           </svg>
           서비스 설정
         </a>
-        <a class="nav-item" href="#">
+        <a class="nav-item" href="#monitor" data-view="monitor">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <circle cx="12" cy="12" r="9" />
             <path d="M12 7v5l3 3" />
@@ -77,6 +77,7 @@
       </aside>
 
       <main id="main" class="main">
+        <div id="view-dashboard" class="view is-active" data-view-panel="dashboard">
         <!-- Page head -->
         <div class="page-head">
           <h1 class="page-title">대시보드</h1>
@@ -366,11 +367,372 @@
                 <span class="label">서비스 상태</span>
                 <span class="status-badge status-warning"><span class="dot" aria-hidden="true"></span>점검 예정</span>
               </div>
-              <!-- Single Primary는 헤더 CTA — 여기는 secondary -->
               <button type="button" class="btn btn-secondary btn-block">API 문서 열기</button>
             </article>
           </div>
         </section>
+        </div><!-- /view-dashboard -->
+
+        <!-- 위젯 관리 -->
+        <div id="view-widgets" class="view" data-view-panel="widgets" hidden>
+          <div class="page-head page-head-stack">
+            <div>
+              <h1 class="page-title">위젯 관리</h1>
+              <p class="page-desc">위젯 카테고리의 노출 여부를 한 번에 관리하세요.</p>
+            </div>
+          </div>
+
+          <section class="search-bar" aria-label="위젯 검색">
+            <label class="visually-hidden" for="widget-search">카테고리 또는 위젯 검색</label>
+            <div class="search-field">
+              <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path d="M20 20l-3-3" />
+              </svg>
+              <input id="widget-search" type="search" placeholder="카테고리 또는 위젯 검색" />
+            </div>
+            <button type="button" class="btn btn-outlined">검색</button>
+          </section>
+
+          <div class="widget-split">
+            <article class="card widget-panel">
+              <div class="card-head">
+                <h2 class="card-title">카테고리 구분</h2>
+                <button type="button" class="icon-btn icon-btn-sm" aria-label="카테고리 설정">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 01-4 0v-.09A1.7 1.7 0 009 19.4a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.55-1H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001-1.55V3a2 2 0 014 0v.09a1.7 1.7 0 001 1.55 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.55 1H21a2 2 0 010 4h-.09a1.7 1.7 0 00-1.55 1z" />
+                  </svg>
+                </button>
+              </div>
+              <ul class="cat-tree" role="tree" aria-label="위젯 카테고리">
+                <li class="cat-item cat-root" role="treeitem" aria-expanded="true">
+                  <button type="button" class="cat-row" data-cat="all">
+                    <span class="cat-folder" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                    </span>
+                    <span class="cat-name">전체 카테고리</span>
+                    <span class="cat-count">87/162 노출</span>
+                  </button>
+                  <ul class="cat-children" role="group">
+                    <li role="treeitem">
+                      <button type="button" class="cat-row is-active" data-cat="data" data-exposed="10" data-total="11">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">데이터</span>
+                        <span class="cat-count">10/11 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="transform" data-exposed="20" data-total="20">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">변환</span>
+                        <span class="cat-count">20/20 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="viz" data-exposed="18" data-total="22">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">시각화</span>
+                        <span class="cat-count">18/22 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="model" data-exposed="12" data-total="15">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">모델</span>
+                        <span class="cat-count">12/15 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="eval" data-exposed="8" data-total="9">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">평가</span>
+                        <span class="cat-count">8/9 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="unsup" data-exposed="7" data-total="10">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">비지도</span>
+                        <span class="cat-count">7/10 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="image" data-exposed="5" data-total="8">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">이미지 분석</span>
+                        <span class="cat-count">5/8 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="network" data-exposed="4" data-total="6">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">네트워크</span>
+                        <span class="cat-count">4/6 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="ts" data-exposed="3" data-total="5">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">시계열</span>
+                        <span class="cat-count">3/5 노출</span>
+                      </button>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </article>
+
+            <article class="card widget-panel">
+              <div class="card-head">
+                <h2 class="card-title">
+                  위젯 구분
+                  <span class="card-title-meta" id="widget-panel-meta">10/11 노출</span>
+                </h2>
+                <button type="button" class="icon-btn icon-btn-sm" aria-label="위젯 목록 설정">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 01-4 0v-.09A1.7 1.7 0 009 19.4a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.55-1H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001-1.55V3a2 2 0 014 0v.09a1.7 1.7 0 001 1.55 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.55 1H21a2 2 0 010 4h-.09a1.7 1.7 0 00-1.55 1z" />
+                  </svg>
+                </button>
+              </div>
+              <div class="table-wrap">
+                <table class="widget-table">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="col-check">
+                        <input type="checkbox" id="check-all" aria-label="전체 선택" />
+                      </th>
+                      <th scope="col">위젯 이름</th>
+                      <th scope="col">설명</th>
+                      <th scope="col" class="col-status">노출 상태</th>
+                    </tr>
+                  </thead>
+                  <tbody id="widget-tbody">
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="파일 선택" /></td>
+                      <td>파일</td>
+                      <td>로컬 파일을 워크플로우에 불러옵니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="CSV파일 가져오기 선택" /></td>
+                      <td>CSV파일 가져오기</td>
+                      <td>CSV 데이터를 테이블로 가져옵니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="데이터셋 선택" /></td>
+                      <td>데이터셋</td>
+                      <td>내장·연결된 데이터셋을 선택합니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="데이터 테이블 선택" /></td>
+                      <td>데이터 테이블</td>
+                      <td>행·열 단위로 데이터를 편집합니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="SQL 테이블 선택" /></td>
+                      <td>SQL 테이블</td>
+                      <td>DB 쿼리 결과를 불러옵니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="샘플 데이터 선택" /></td>
+                      <td>샘플 데이터</td>
+                      <td>실습용 샘플 세트를 제공합니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="데이터 병합 선택" /></td>
+                      <td>데이터 병합</td>
+                      <td>여러 소스를 하나로 합칩니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="컬럼 선택 선택" /></td>
+                      <td>컬럼 선택</td>
+                      <td>분석에 사용할 컬럼을 고릅니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="행 필터 선택" /></td>
+                      <td>행 필터</td>
+                      <td>조건에 맞는 행만 남깁니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" aria-label="외부 URL 가져오기 선택" /></td>
+                      <td>외부 URL 가져오기</td>
+                      <td>원격 URL에서 데이터를 가져옵니다.</td>
+                      <td><span class="pill pill-off">비노출</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+
+          <footer class="sticky-footer" aria-label="위젯 관리 저장">
+            <p class="footer-note">
+              <span class="info-mark" aria-hidden="true">i</span>
+              변경 사항은 저장 전까지 적용되지 않습니다.
+            </p>
+            <div class="footer-actions">
+              <button type="button" class="btn btn-ghost">취소</button>
+              <button type="button" class="btn btn-primary" data-primary-cta="true">저장</button>
+            </div>
+          </footer>
+        </div><!-- /view-widgets -->
+
+        <!-- 서비스 설정 -->
+        <div id="view-settings" class="view" data-view-panel="settings" hidden>
+          <div class="page-head page-head-stack">
+            <h1 class="page-title">서비스 설정</h1>
+          </div>
+
+          <div class="subtab-bar" role="tablist" aria-label="서비스 설정 구분">
+            <button type="button" class="subtab is-active" role="tab" aria-selected="true" data-subtab="lang">언어설정</button>
+            <button type="button" class="subtab" role="tab" aria-selected="false" data-subtab="loading">로딩 이미지 설정</button>
+          </div>
+
+          <div id="subtab-lang" class="subtab-panel" role="tabpanel">
+            <div class="info-box">
+              <ul>
+                <li>학습자에게 노출할 언어를 선택하고 기본 언어를 지정할 수 있습니다.</li>
+                <li>기본 언어는 사용 중인 언어 중 하나만 선택할 수 있습니다.</li>
+                <li>비노출 언어는 실습 도구 UI에 표시되지 않습니다.</li>
+              </ul>
+            </div>
+
+            <div class="summary-row">
+              <article class="card summary-card">
+                <div class="summary-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>
+                </div>
+                <div>
+                  <p class="summary-label">사용 언어</p>
+                  <p class="summary-value">2개</p>
+                </div>
+              </article>
+              <article class="card summary-card">
+                <div class="summary-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"/></svg>
+                </div>
+                <div>
+                  <p class="summary-label">기본 언어</p>
+                  <p class="summary-value">한국어(KO)</p>
+                </div>
+              </article>
+              <article class="card summary-card summary-card-wide">
+                <div class="summary-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11v2a9 9 0 009 9h1"/><path d="M21 13V8a2 2 0 00-2-2h-4l-3-3H8a2 2 0 00-2 2v3"/><circle cx="18" cy="18" r="3"/></svg>
+                </div>
+                <p class="summary-help">
+                  신규 학습자는 기본 언어로 실습 도구에 진입합니다. 사용 여부 체크 후에만 기본 언어로 지정할 수 있습니다.
+                </p>
+              </article>
+            </div>
+
+            <article class="card">
+              <div class="table-wrap">
+                <table class="lang-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">언어</th>
+                      <th scope="col" class="col-center">사용 여부</th>
+                      <th scope="col" class="col-center">기본 언어</th>
+                      <th scope="col" class="col-status">상태</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span class="lang-cell">
+                          <span class="lang-flag" aria-hidden="true">KO</span>
+                          한국어 (KO)
+                        </span>
+                      </td>
+                      <td class="col-center"><input type="checkbox" checked aria-label="한국어 사용" /></td>
+                      <td class="col-center"><input type="radio" name="default-lang" checked aria-label="한국어를 기본 언어로" /></td>
+                      <td><span class="pill pill-danger">기본 언어</span></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="lang-cell">
+                          <span class="lang-flag" aria-hidden="true">EN</span>
+                          English (EN)
+                        </span>
+                      </td>
+                      <td class="col-center"><input type="checkbox" checked aria-label="English 사용" /></td>
+                      <td class="col-center"><input type="radio" name="default-lang" aria-label="English를 기본 언어로" /></td>
+                      <td><span class="pill pill-warn">사용 중</span></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="lang-cell">
+                          <span class="lang-flag" aria-hidden="true">SL</span>
+                          Slovenščina (SL)
+                        </span>
+                      </td>
+                      <td class="col-center"><input type="checkbox" aria-label="Slovenščina 사용" /></td>
+                      <td class="col-center"><input type="radio" name="default-lang" aria-label="Slovenščina를 기본 언어로" /></td>
+                      <td><span class="pill pill-off">비노출</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-ghost">취소</button>
+              <button type="button" class="btn btn-primary" data-primary-cta="true">저장</button>
+            </div>
+          </div>
+
+          <div id="subtab-loading" class="subtab-panel" role="tabpanel" hidden>
+            <div class="info-box">
+              <ul>
+                <li>실습 도구 로딩 화면에 표시할 이미지를 설정합니다.</li>
+                <li>권장 비율은 16:9이며, 용량은 2MB 이하를 권장합니다.</li>
+              </ul>
+            </div>
+            <article class="card">
+              <p class="page-desc" style="margin:0">로딩 이미지 업로드 UI는 이 화면에서 이어서 구성합니다.</p>
+            </article>
+            <div class="form-actions">
+              <button type="button" class="btn btn-ghost">취소</button>
+              <button type="button" class="btn btn-primary" data-primary-cta="true">저장</button>
+            </div>
+          </div>
+        </div><!-- /view-settings -->
+
+        <div id="view-placeholder" class="view" data-view-panel="placeholder" hidden>
+          <div class="page-head">
+            <h1 class="page-title" id="placeholder-title">준비 중</h1>
+          </div>
+          <p class="page-desc">이 메뉴 화면은 아직 구성되지 않았습니다.</p>
+        </div>
       </main>
     </div>
 
