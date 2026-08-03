@@ -990,15 +990,7 @@ button {
   }
 }
 
-/* ---------- Views ---------- */
-.view[hidden] {
-  display: none !important;
-}
-
-.page-head-stack {
-  align-items: center;
-}
-
+/* ---------- Views extras ---------- */
 .btn-outlined {
   background: var(--color-grey-0);
   border-color: var(--color-primary-500);
