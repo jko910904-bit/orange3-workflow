@@ -3,173 +3,383 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>교육 운영 현황 · Admin Dashboard</title>
+    <title>AI 실습 도구 관리 포털 — 대시보드</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body data-density="dense">
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
-    <div class="admin-shell" role="application" aria-label="교육 운영 Admin">
-      <header class="topbar">
-        <div class="logo" aria-label="제품명">EduOps Admin</div>
-        <nav class="top-nav" aria-label="주요 메뉴">
-          <a class="top-link is-active" href="#" aria-current="page">대시보드</a>
-          <a class="top-link" href="#">콘텐츠</a>
-          <a class="top-link" href="#">실습 도구</a>
-          <a class="top-link" href="#">학습자</a>
-          <a class="top-link" href="#">공지</a>
-          <a class="top-link" href="#">설정</a>
-        </nav>
-        <div class="top-right">
-          <span>운영자</span>
-          <button type="button" class="btn btn-ghost btn-xs">로그아웃</button>
+    <!-- Header chrome -->
+    <header class="header">
+      <div class="header-left">
+        <div class="logo-mark" aria-hidden="true">E</div>
+        <div class="header-title">
+          EBS <span class="header-sep" aria-hidden="true">|</span> AI 실습 도구 관리 포털
         </div>
-      </header>
+      </div>
+      <div class="header-right">
+        <button type="button" class="btn btn-primary" data-primary-cta="true">
+          AI 실습 도구 바로가기
+        </button>
+        <span class="divider-v" aria-hidden="true"></span>
+        <button type="button" class="icon-btn" aria-label="알림 (새 알림 있음)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 01-3.46 0" />
+          </svg>
+          <span class="dot" aria-hidden="true"></span>
+        </button>
+        <div class="admin-chip">
+          <span class="avatar" aria-hidden="true">김</span>
+          김교육(admin)
+        </div>
+        <button type="button" class="icon-btn" aria-label="로그아웃">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+            <path d="M16 17l5-5-5-5" />
+            <path d="M21 12H9" />
+          </svg>
+        </button>
+      </div>
+    </header>
 
-      <aside class="lnb" aria-label="사이드 내비게이션">
-        <p class="lnb-title">운영</p>
-        <button type="button" class="lnb-item is-active">운영 현황</button>
-        <button type="button" class="lnb-item">지표 리포트</button>
-        <button type="button" class="lnb-item">알림·활동</button>
-        <button type="button" class="lnb-item">콘텐츠 관리</button>
-        <button type="button" class="lnb-item">학습자 관리</button>
+    <div class="shell">
+      <!-- LNB IA: MENU → 대시보드 / 위젯 관리 / 서비스 설정 / 운영 모니터링 -->
+      <aside class="sidebar" aria-label="사이드 내비게이션">
+        <p class="nav-group-label">MENU</p>
+        <a class="nav-item is-active" href="#" aria-current="page">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="9" rx="1.5" />
+            <rect x="14" y="3" width="7" height="5" rx="1.5" />
+            <rect x="14" y="12" width="7" height="9" rx="1.5" />
+            <rect x="3" y="16" width="7" height="5" rx="1.5" />
+          </svg>
+          대시보드
+        </a>
+        <a class="nav-item" href="#">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="6" rx="1.5" />
+            <rect x="3" y="14" width="8" height="6" rx="1.5" />
+            <rect x="14" y="14" width="7" height="6" rx="1.5" />
+          </svg>
+          위젯 관리
+        </a>
+        <a class="nav-item" href="#">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 01-4 0v-.09A1.7 1.7 0 009 19.4a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.55-1H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001-1.55V3a2 2 0 014 0v.09a1.7 1.7 0 001 1.55 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.55 1H21a2 2 0 010 4h-.09a1.7 1.7 0 00-1.55 1z" />
+          </svg>
+          서비스 설정
+        </a>
+        <a class="nav-item" href="#">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 7v5l3 3" />
+          </svg>
+          운영 모니터링
+        </a>
       </aside>
 
       <main id="main" class="main">
-        <div class="content">
-          <p class="breadcrumb">Home / 운영 / 대시보드</p>
-          <h1 class="page-title">교육 운영 현황</h1>
+        <!-- Page head -->
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">대시보드</h1>
+            <p class="page-desc">AI 실습도구 서비스 운영 현황을 한눈에 확인하세요.</p>
+          </div>
+          <div class="page-actions">
+            <label class="visually-hidden" for="period">조회 기간</label>
+            <select id="period" class="select">
+              <option>오늘</option>
+              <option>최근 7일</option>
+              <option>최근 30일</option>
+            </select>
+            <button type="button" class="btn btn-ghost">새로고침</button>
+          </div>
+        </div>
 
-          <section class="stack" aria-label="Dashboard">
-            <!-- 1. KPI -->
-            <section class="kpi-row" aria-label="KPI">
-              <article class="card">
-                <p class="kpi-label">오늘 활성 학습자</p>
-                <p class="kpi-value">3,842</p>
-                <p class="kpi-hint">전일 대비 +6%</p>
-              </article>
-              <article class="card">
-                <p class="kpi-label">실습 완료율</p>
-                <p class="kpi-value">78%</p>
-                <p class="kpi-hint">목표 75% 이상</p>
-              </article>
-              <article class="card">
-                <p class="kpi-label">미발행 콘텐츠</p>
-                <p class="kpi-value">12</p>
-                <p class="kpi-hint">검수 대기 5</p>
-              </article>
-              <article class="card">
-                <p class="kpi-label">오류 알림</p>
-                <p class="kpi-value">3</p>
-                <p class="kpi-hint">심각 1 · 주의 2</p>
-              </article>
-            </section>
+        <!-- 1. KPI (5) -->
+        <section class="section" aria-label="KPI">
+          <div class="kpi-grid">
+            <article class="card kpi-card">
+              <p class="kpi-title">세션 수</p>
+              <p class="kpi-value">87</p>
+              <span class="chip chip-up">▲ 전일 대비 12.5%</span>
+            </article>
+            <article class="card kpi-card">
+              <p class="kpi-title">최대 동시접속</p>
+              <p class="kpi-value">29</p>
+              <span class="chip chip-up">▲ 전일 대비 7.4%</span>
+            </article>
+            <article class="card kpi-card">
+              <p class="kpi-title">평균 사용시간(분)</p>
+              <p class="kpi-value">08:26</p>
+              <span class="chip chip-down">▼ 전일 대비 8.2%</span>
+            </article>
+            <article class="card kpi-card">
+              <p class="kpi-title">종료(완료) 세션</p>
+              <p class="kpi-value">87</p>
+              <span class="chip chip-down">▼ 전일 대비 8.2%</span>
+            </article>
+            <article class="card kpi-card">
+              <p class="kpi-title">위젯 실행 수</p>
+              <p class="kpi-value">1,687</p>
+              <span class="chip chip-up">▲ 전일 대비 15.3%</span>
+            </article>
+          </div>
+        </section>
 
-            <!-- 2. Charts -->
-            <section aria-label="Charts">
-              <article class="card">
-                <header class="card-header">
-                  <h2 class="card-title">최근 6개월 실습 완료</h2>
-                </header>
-                <div class="card-body">
-                  <p class="chart-summary">
-                    6개월 실습 완료 요약: 최고 4월(90), 최저 1월(40). 단위: 상대 지수.
-                  </p>
-                  <div class="chart-block">
-                    <div
-                      class="bars"
-                      role="img"
-                      aria-label="1월 40, 2월 70, 3월 55, 4월 90, 5월 65, 6월 80"
-                    >
-                      <div class="bar-col">
-                        <div class="bar" style="height: 40%"></div>
-                        <span class="bar-label">1월</span>
-                      </div>
-                      <div class="bar-col">
-                        <div class="bar" style="height: 70%"></div>
-                        <span class="bar-label">2월</span>
-                      </div>
-                      <div class="bar-col">
-                        <div class="bar" style="height: 55%"></div>
-                        <span class="bar-label">3월</span>
-                      </div>
-                      <div class="bar-col">
-                        <div class="bar" style="height: 90%"></div>
-                        <span class="bar-label">4월</span>
-                      </div>
-                      <div class="bar-col">
-                        <div class="bar" style="height: 65%"></div>
-                        <span class="bar-label">5월</span>
-                      </div>
-                      <div class="bar-col">
-                        <div class="bar" style="height: 80%"></div>
-                        <span class="bar-label">6월</span>
-                      </div>
+        <!-- 2. Analytics: 세션 추이 + 이용 시간 분석 -->
+        <section class="section" aria-label="Analytics">
+          <div class="analytics-grid">
+            <article class="card">
+              <div class="card-head">
+                <h2 class="card-title">세션 추이</h2>
+                <div class="seg" role="group" aria-label="세션 추이 기간">
+                  <button type="button" class="is-active" aria-pressed="true">일간</button>
+                  <button type="button" aria-pressed="false">주간</button>
+                </div>
+              </div>
+              <p class="chart-summary">
+                일간 세션 추이: 07/16–07/22. 최저 07/18, 최고 07/22 부근.
+              </p>
+              <svg viewBox="0 0 560 200" width="100%" height="200" preserveAspectRatio="none" role="img" aria-label="세션 추이 라인 차트">
+                <line x1="0" y1="10" x2="560" y2="10" class="chart-grid" />
+                <line x1="0" y1="55" x2="560" y2="55" class="chart-grid" />
+                <line x1="0" y1="100" x2="560" y2="100" class="chart-grid" />
+                <line x1="0" y1="145" x2="560" y2="145" class="chart-grid" />
+                <line x1="0" y1="190" x2="560" y2="190" class="chart-grid" />
+                <polyline
+                  points="10,120 90,95 170,130 250,80 330,105 410,60 490,75 550,55"
+                  fill="none"
+                  class="chart-line"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <g class="chart-dots">
+                  <circle cx="10" cy="120" r="3.5" />
+                  <circle cx="90" cy="95" r="3.5" />
+                  <circle cx="170" cy="130" r="3.5" />
+                  <circle cx="250" cy="80" r="3.5" />
+                  <circle cx="330" cy="105" r="3.5" />
+                  <circle cx="410" cy="60" r="3.5" />
+                  <circle cx="490" cy="75" r="3.5" />
+                  <circle cx="550" cy="55" r="4.5" class="chart-dot-end" />
+                </g>
+              </svg>
+              <div class="chart-caption" aria-hidden="true">
+                <span>07/16</span><span>07/17</span><span>07/18</span><span>07/19</span>
+                <span>07/20</span><span>07/21</span><span>07/22</span>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head">
+                <h2 class="card-title">이용 시간 분석</h2>
+                <div class="seg" role="group" aria-label="이용 시간 분석 축">
+                  <button type="button" aria-pressed="false">시간대</button>
+                  <button type="button" class="is-active" aria-pressed="true">요일</button>
+                </div>
+              </div>
+              <p class="chart-summary">요일×시간대 이용 밀도. 색이 진할수록 이용이 많음.</p>
+              <div class="heatmap-wrap">
+                <table class="heatmap" id="heatTable" aria-label="요일별 시간대 이용 히트맵"></table>
+              </div>
+              <div class="heat-legend" aria-hidden="true">
+                적음
+                <span class="sw sw-0"></span>
+                <span class="sw sw-1"></span>
+                <span class="sw sw-2"></span>
+                <span class="sw sw-3"></span>
+                <span class="sw sw-4"></span>
+                많음
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 3. Statistics: 위젯 / 템플릿 / 개발자 도구 -->
+        <section class="section" aria-label="Statistics">
+          <div class="stats-grid">
+            <article class="card">
+              <div class="card-head">
+                <h2 class="card-title">위젯 사용 현황</h2>
+              </div>
+              <div class="kv-strip">
+                <div class="kv">
+                  <div class="kv-label">사용된 위젯 종류</div>
+                  <div class="kv-value">146<small> 종</small></div>
+                </div>
+                <div class="kv">
+                  <div class="kv-label">사용된 카테고리</div>
+                  <div class="kv-value">11<small> 개</small></div>
+                </div>
+              </div>
+              <div class="split-two">
+                <div class="stat-block">
+                  <h3 class="stat-block-title">최다 사용 위젯 TOP 5</h3>
+                  <div class="rank-row">
+                    <span class="badge top3">1</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Predictions</span>
+                      <div class="bar-track"><div class="bar-fill" style="width: 100%"></div></div>
                     </div>
+                    <span class="rank-value">157</span>
+                  </div>
+                  <div class="rank-row">
+                    <span class="badge top3">2</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Correlogram</span>
+                      <div class="bar-track"><div class="bar-fill" style="width: 94%"></div></div>
+                    </div>
+                    <span class="rank-value">147</span>
+                  </div>
+                  <div class="rank-row">
+                    <span class="badge top3">3</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Scatter Plot</span>
+                      <div class="bar-track"><div class="bar-fill" style="width: 93%"></div></div>
+                    </div>
+                    <span class="rank-value">146</span>
+                  </div>
+                  <div class="rank-row">
+                    <span class="badge">4</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">File</span>
+                      <div class="bar-track"><div class="bar-fill is-muted" style="width: 83%"></div></div>
+                    </div>
+                    <span class="rank-value">130</span>
+                  </div>
+                  <div class="rank-row">
+                    <span class="badge">5</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">k-Means</span>
+                      <div class="bar-track"><div class="bar-fill is-muted" style="width: 71%"></div></div>
+                    </div>
+                    <span class="rank-value">112</span>
                   </div>
                 </div>
-              </article>
-            </section>
-
-            <div class="lower-grid">
-              <!-- 3. Recent Activity -->
-              <section aria-label="Recent Activity">
-                <article class="card">
-                  <header class="card-header">
-                    <h2 class="card-title">Recent Activity</h2>
-                  </header>
-                  <div class="card-body">
-                    <ol class="activity-list">
-                      <li class="activity-item">
-                        <time class="activity-time">09:42</time>
-                        <span class="activity-text">실습 도구 “데이터 시각화” 검수 요청</span>
-                      </li>
-                      <li class="activity-item">
-                        <time class="activity-time">08:15</time>
-                        <span class="activity-text">주간 학습 안내 공지 게시</span>
-                      </li>
-                      <li class="activity-item">
-                        <time class="activity-time">어제</time>
-                        <span class="activity-text">신규 학습자 권한 일괄 부여 · 2학년</span>
-                      </li>
-                      <li class="activity-item">
-                        <time class="activity-time">어제</time>
-                        <span class="activity-text">오류율 알림 해제 — 퀴즈 제출 API</span>
-                      </li>
-                      <li class="activity-item">
-                        <time class="activity-time">2일 전</time>
-                        <span class="activity-text">월간 실습 리포트 생성</span>
-                      </li>
-                    </ol>
-                  </div>
-                </article>
-              </section>
-
-              <!-- 4. Quick Action -->
-              <section aria-label="Quick Action">
-                <article class="card">
-                  <header class="card-header">
-                    <h2 class="card-title">Quick Action</h2>
-                  </header>
-                  <div class="card-body">
-                    <div class="quick-actions">
-                      <button type="button" class="btn btn-primary btn-s" data-primary-cta="true">
-                        콘텐츠 등록
-                      </button>
-                      <button type="button" class="btn btn-secondary btn-s">
-                        리포트 내보내기
-                      </button>
-                      <button type="button" class="btn btn-ghost btn-s">
-                        알림 설정
-                      </button>
+                <div class="stat-block">
+                  <h3 class="stat-block-title">최다 사용 카테고리 TOP 5</h3>
+                  <div class="rank-row">
+                    <span class="badge top3">1</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Visualize</span>
+                      <div class="bar-track"><div class="bar-fill" style="width: 100%"></div></div>
                     </div>
+                    <span class="rank-value">261</span>
                   </div>
-                </article>
-              </section>
-            </div>
-          </section>
-        </div>
+                  <div class="rank-row">
+                    <span class="badge top3">2</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Time Series</span>
+                      <div class="bar-track"><div class="bar-fill" style="width: 95%"></div></div>
+                    </div>
+                    <span class="rank-value">249</span>
+                  </div>
+                  <div class="rank-row">
+                    <span class="badge top3">3</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Data</span>
+                      <div class="bar-track"><div class="bar-fill" style="width: 82%"></div></div>
+                    </div>
+                    <span class="rank-value">213</span>
+                  </div>
+                  <div class="rank-row">
+                    <span class="badge">4</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Unsupervised</span>
+                      <div class="bar-track"><div class="bar-fill is-muted" style="width: 82%"></div></div>
+                    </div>
+                    <span class="rank-value">213</span>
+                  </div>
+                  <div class="rank-row">
+                    <span class="badge">5</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Evaluate</span>
+                      <div class="bar-track"><div class="bar-fill is-muted" style="width: 48%"></div></div>
+                    </div>
+                    <span class="rank-value">126</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head">
+                <h2 class="card-title">워크플로우 템플릿 이용 현황</h2>
+              </div>
+              <div class="kv-strip">
+                <div class="kv">
+                  <div class="kv-label">템플릿 이용 수</div>
+                  <div class="kv-value">1,248<small> 회</small></div>
+                </div>
+                <div class="kv">
+                  <div class="kv-label">실행 완료율</div>
+                  <div class="kv-value is-success">72.4<small>%</small></div>
+                </div>
+              </div>
+              <div class="stat-block">
+                <h3 class="stat-block-title">최다 사용 템플릿 TOP 5</h3>
+                <div class="list-row">
+                  <div class="list-title-row">
+                    <span class="badge top3">1</span>
+                    <span class="list-title">Author Prediction on Tweets</span>
+                  </div>
+                </div>
+                <div class="list-row">
+                  <div class="list-title-row">
+                    <span class="badge top3">2</span>
+                    <span class="list-title">Feature Ranking</span>
+                  </div>
+                </div>
+                <div class="list-row">
+                  <div class="list-title-row">
+                    <span class="badge top3">3</span>
+                    <span class="list-title">Hierarchical Clustering on Text</span>
+                  </div>
+                </div>
+                <div class="list-row">
+                  <div class="list-title-row">
+                    <span class="badge">4</span>
+                    <span class="list-title">Visualization of Data Subsets</span>
+                  </div>
+                </div>
+                <div class="list-row">
+                  <div class="list-title-row">
+                    <span class="badge">5</span>
+                    <span class="list-title">Evaluate semantic neighbors</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head">
+                <h2 class="card-title">개발자 도구</h2>
+              </div>
+              <p class="page-desc card-intro">시스템 주요 구성 요소의 상태를 확인할 수 있습니다.</p>
+              <div class="devtool-item">
+                <span class="label">API 버전</span>
+                <span class="status-badge status-success"><span class="dot" aria-hidden="true"></span>0.1.0</span>
+              </div>
+              <div class="devtool-item">
+                <span class="label">등록된 엔드포인트</span>
+                <span class="val">26 개</span>
+              </div>
+              <div class="devtool-item">
+                <span class="label">서비스 상태</span>
+                <span class="status-badge status-warning"><span class="dot" aria-hidden="true"></span>점검 예정</span>
+              </div>
+              <!-- Single Primary는 헤더 CTA — 여기는 secondary -->
+              <button type="button" class="btn btn-secondary btn-block">API 문서 열기</button>
+            </article>
+          </div>
+        </section>
       </main>
     </div>
+
+    <script src="./app.js"></script>
   </body>
 </html>
