@@ -573,11 +573,21 @@ button {
   width: 100%;
 }
 
-/* Shared plot box — same height so top end-lines align across both charts */
+/* Uniform scale — match SVG viewBox 560×200 so lines/dots are not squashed */
+.line-chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 560 / 200;
+}
+
+/* Shared plot box — same aspect so both monitor charts stay aligned */
 .chart-plot {
   position: relative;
-  height: 200px;
   width: 100%;
+  height: auto;
+  aspect-ratio: 560 / 200;
+  min-height: 200px;
   box-sizing: border-box;
   border-top: 1px solid #dce0ea;
   border-bottom: 1px solid #dce0ea;
@@ -600,7 +610,8 @@ button {
 }
 
 .chart-svg {
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: 1;
   display: block;
   width: 100%;
