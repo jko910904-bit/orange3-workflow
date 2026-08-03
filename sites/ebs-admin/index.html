@@ -851,35 +851,34 @@
                   <div class="card-head">
                     <h2 class="card-title">세션 추이</h2>
                   </div>
-                  <p class="chart-summary">07/22–07/28 세션 추이. 단위: 건.</p>
-                  <svg viewBox="0 0 560 200" width="100%" height="200" preserveAspectRatio="none" role="img" aria-label="세션 추이 라인 차트">
-                    <line x1="0" y1="10" x2="560" y2="10" class="chart-grid" />
-                    <line x1="0" y1="55" x2="560" y2="55" class="chart-grid" />
-                    <line x1="0" y1="100" x2="560" y2="100" class="chart-grid" />
-                    <line x1="0" y1="145" x2="560" y2="145" class="chart-grid" />
-                    <line x1="0" y1="190" x2="560" y2="190" class="chart-grid" />
-                    <polyline
-                      points="10,150 90,120 170,135 250,90 330,100 410,70 490,55 550,40"
-                      fill="none"
-                      stroke="#6D4AFF"
-                      stroke-width="2.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <g fill="#6D4AFF">
-                      <circle cx="10" cy="150" r="3.5" />
-                      <circle cx="90" cy="120" r="3.5" />
-                      <circle cx="170" cy="135" r="3.5" />
-                      <circle cx="250" cy="90" r="3.5" />
-                      <circle cx="330" cy="100" r="3.5" />
-                      <circle cx="410" cy="70" r="3.5" />
-                      <circle cx="490" cy="55" r="3.5" />
-                      <circle cx="550" cy="40" r="4.5" stroke="#fff" stroke-width="2" />
-                    </g>
-                  </svg>
-                  <div class="chart-caption" aria-hidden="true">
-                    <span>07/22</span><span>07/23</span><span>07/24</span><span>07/25</span>
-                    <span>07/26</span><span>07/27</span><span>07/28</span>
+                  <div class="chart-frame">
+                    <div class="chart-plot">
+                      <div class="chart-grid-bg" aria-hidden="true"></div>
+                      <svg class="chart-svg" viewBox="0 0 560 200" preserveAspectRatio="none" role="img" aria-label="세션 추이 라인 차트">
+                        <polyline
+                          points="10,150 90,120 170,135 250,90 330,100 410,70 490,55 550,40"
+                          fill="none"
+                          stroke="#6D4AFF"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <g fill="#6D4AFF">
+                          <circle cx="10" cy="150" r="3.5" />
+                          <circle cx="90" cy="120" r="3.5" />
+                          <circle cx="170" cy="135" r="3.5" />
+                          <circle cx="250" cy="90" r="3.5" />
+                          <circle cx="330" cy="100" r="3.5" />
+                          <circle cx="410" cy="70" r="3.5" />
+                          <circle cx="490" cy="55" r="3.5" />
+                          <circle cx="550" cy="40" r="4.5" stroke="#fff" stroke-width="2" />
+                        </g>
+                      </svg>
+                    </div>
+                    <div class="chart-caption" aria-hidden="true">
+                      <span>07/22</span><span>07/23</span><span>07/24</span><span>07/25</span>
+                      <span>07/26</span><span>07/27</span><span>07/28</span>
+                    </div>
                   </div>
                 </article>
 
@@ -887,8 +886,13 @@
                   <div class="card-head">
                     <h2 class="card-title">시간대별 세션 시작</h2>
                   </div>
-                  <p class="chart-summary">시간대별 세션 시작 건수. 00–23시(1시간 단위).</p>
-                  <div class="hour-bars" id="hourBars" role="img" aria-label="시간대별 세션 시작 막대 차트 00시부터 23시까지"></div>
+                  <div class="chart-frame">
+                    <div class="chart-plot">
+                      <div class="chart-grid-bg" aria-hidden="true"></div>
+                      <div class="hour-bars" id="hourBars" role="img" aria-label="시간대별 세션 시작 막대 차트 00시부터 23시까지"></div>
+                    </div>
+                    <div class="hour-labels" id="hourLabels" aria-hidden="true"></div>
+                  </div>
                 </article>
               </div>
             </section>
