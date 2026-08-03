@@ -1,13 +1,17 @@
 {
   "remote.localPortHost": "allInterfaces",
   "remote.portsAttributes": {
-    "5177": {
+    "8080": {
       "label": "Orange workflow (local)",
       "onAutoForward": "openBrowser",
       "protocol": "http"
     },
     "3000": {
       "label": "JKO Design System",
+      "onAutoForward": "ignore"
+    },
+    "5177": {
+      "label": "unused",
       "onAutoForward": "ignore"
     }
   }
