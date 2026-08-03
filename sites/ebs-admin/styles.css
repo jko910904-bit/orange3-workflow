@@ -540,8 +540,49 @@ button {
   color: var(--color-grey-700);
 }
 
+.chart-frame {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+  width: 100%;
+}
+
+/* Shared plot box — same height so top end-lines align across both charts */
+.chart-plot {
+  position: relative;
+  height: 200px;
+  width: 100%;
+  box-sizing: border-box;
+  border-top: 1px solid #dce0ea;
+  border-bottom: 1px solid #dce0ea;
+  overflow: hidden;
+}
+
+/* 8 bands → 9 lines (incl. top/bottom) ≈ 2× denser than prior 4-band grid */
+.chart-grid-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(12.5% - 1px),
+    #e8ebf2 calc(12.5% - 1px),
+    #e8ebf2 12.5%
+  );
+}
+
+.chart-svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .chart-grid {
-  stroke: #eff1f6;
+  stroke: #e8ebf2;
   stroke-width: 1;
 }
 
@@ -563,7 +604,6 @@ button {
   justify-content: space-between;
   font-size: 11px;
   color: var(--color-grey-500);
-  margin-top: var(--spacing-8);
 }
 
 .heatmap-wrap {

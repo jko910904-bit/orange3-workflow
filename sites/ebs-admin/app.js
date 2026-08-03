@@ -204,27 +204,27 @@
 
   function renderHourBars() {
     var root = document.getElementById("hourBars");
+    var labels = document.getElementById("hourLabels");
     if (!root) return;
-    /* Relative session-start intensity by hour 00–23 */
     var heights = [
       12, 8, 6, 5, 7, 14, 28, 45, 62, 78, 85, 90, 95, 88, 80, 72, 65, 58, 48,
       40, 32, 25, 18, 14,
     ];
-    var html = "";
+    var barsHtml = "";
+    var labelsHtml = "";
     for (var h = 0; h < 24; h++) {
       var label = (h < 10 ? "0" : "") + h;
-      html +=
+      barsHtml +=
         '<div class="hour-col">' +
         '<div class="hour-bar" style="height:' +
         heights[h] +
         '%" title="' +
         label +
-        '시"></div>' +
-        "<span>" +
-        label +
-        "</span></div>";
+        '시"></div></div>';
+      labelsHtml += "<span>" + label + "</span>";
     }
-    root.innerHTML = html;
+    root.innerHTML = barsHtml;
+    if (labels) labels.innerHTML = labelsHtml;
   }
 
   renderHeatmap();
