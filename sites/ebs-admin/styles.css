@@ -549,13 +549,12 @@ button {
   margin-bottom: var(--spacing-12);
 }
 
-/* Shared plot height — midpoint between tall line chart & short heatmap */
+/* Shared plot — same aspect as SVG viewBox so line/dots stay round */
 .analytics-plot {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   width: 100%;
-  height: 200px;
-  min-height: 200px;
-  max-height: 200px;
+  height: auto;
+  aspect-ratio: 560 / 200;
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -583,7 +582,7 @@ button {
 }
 
 .analytics-plot .heatmap tbody tr {
-  height: calc((200px - 22px) / 7);
+  height: calc(100% / 7);
 }
 
 .analytics-plot .heatmap td:not(.row-label) {
@@ -594,6 +593,11 @@ button {
   flex: 0 0 auto;
   margin-top: var(--spacing-12);
   min-height: 20px;
+}
+
+.analytics-grid > .card .chart-footer.chart-caption {
+  padding: 0 5%;
+  box-sizing: border-box;
 }
 
 .analytics-grid > .card .chart-frame {
