@@ -1,0 +1,3005 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI 실습 도구 관리 포털 — 대시보드</title>
+    <style>
+/**
+ * AI 실습 도구 관리 포털 — Dashboard
+ * IA aligned with ebs-admin-dashboard.html
+ * Visual tokens: Design Kit Foundation only (no new color/radius/type)
+ */
+
+:root {
+  /* Color — violet primary scale (aligned with ebs-admin-dashboard.html) */
+  --color-primary-100: #f4f1ff;
+  --color-primary-200: #ddd4ff;
+  --color-primary-300: #af9aff;
+  --color-primary-400: #8768ff;
+  --color-primary-500: #6d4aff;
+  --color-primary-700: #5b3fe0;
+  --color-primary-900: #4b33c7;
+  --color-secondary-500: #4b33c7;
+  --color-secondary-700: #3a28a3;
+  --color-grey-0: #ffffff;
+  --color-grey-50: #f8f8f8;
+  --color-grey-100: #f7f8fc;
+  --color-grey-200: #eeeeee;
+  --color-grey-300: #e8ebf2;
+  --color-grey-400: #bdbdbd;
+  --color-grey-500: #8b90a0;
+  --color-grey-600: #757575;
+  --color-grey-700: #565c6e;
+  --color-grey-800: #444444;
+  --color-grey-900: #181a22;
+  --color-semantic-danger: #dc3b41;
+  --color-semantic-success: #0e9f6e;
+  --color-semantic-warning: #b36f00;
+  --color-semantic-dangerSoft: #fceaeb;
+
+  /* Spacing */
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+
+  /* Radius — kit R4 / R8 / R16 only */
+  --radius-4: 4px;
+  --radius-8: 8px;
+  --radius-16: 16px;
+
+  /* Typography */
+  --typography-fontFamily-sans: "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+  --typography-caption1-fontSize: 14px;
+  --typography-caption2-fontSize: 12px;
+
+  /* Layout */
+  --admin-sidebar: 240px;
+  --header-height: 56px;
+  --control-height: 36px;
+
+  /* Heatmap — violet series */
+  --heat-0: #f7f8fc;
+  --heat-1: #f4f1ff;
+  --heat-2: #ddd4ff;
+  --heat-3: #af9aff;
+  --heat-4: #8768ff;
+  --heat-5: #6d4aff;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  background: var(--color-grey-100);
+  color: var(--color-grey-900);
+  font-family: var(--typography-fontFamily-sans);
+  font-size: var(--typography-caption1-fontSize);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: var(--spacing-8) var(--spacing-12);
+  background: var(--color-primary-500);
+  color: var(--color-grey-0);
+  border-radius: var(--radius-4);
+}
+
+.skip-link:focus {
+  left: var(--spacing-8);
+  top: var(--spacing-8);
+}
+
+/* ---------- Header ---------- */
+.header {
+  height: 56px;
+  background: var(--color-grey-0);
+  border-bottom: 1px solid var(--color-grey-300);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-32);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+  min-width: 0;
+}
+
+.header-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-grey-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  flex-shrink: 0;
+}
+
+.divider-v {
+  width: 1px;
+  height: 20px;
+  background: var(--color-grey-300);
+  margin: 0 6px;
+}
+
+.admin-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  padding: 0 10px;
+  height: var(--control-height);
+  border-radius: var(--radius-8);
+  color: var(--color-grey-900);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-primary-100);
+  color: var(--color-primary-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.icon-btn {
+  width: var(--control-height);
+  height: var(--control-height);
+  border-radius: var(--radius-8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-grey-700);
+  position: relative;
+  background: transparent;
+  border: none;
+}
+
+.icon-btn:hover {
+  background: var(--color-primary-100);
+  color: var(--color-primary-500);
+}
+
+.icon-btn:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+.icon-btn .dot {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-semantic-danger);
+  border: 1.5px solid var(--color-grey-0);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  height: var(--control-height);
+  border-radius: var(--radius-8);
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  background: transparent;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: var(--color-primary-500);
+  border-color: var(--color-primary-500);
+  color: var(--color-grey-0);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-700);
+  border-color: var(--color-primary-700);
+}
+
+.btn-secondary {
+  background: var(--color-secondary-500);
+  border-color: var(--color-secondary-500);
+  color: var(--color-grey-0);
+}
+
+.btn-secondary:hover {
+  background: var(--color-secondary-700);
+  border-color: var(--color-secondary-700);
+}
+
+.btn-ghost {
+  background: var(--color-grey-0);
+  border-color: var(--color-grey-300);
+  color: var(--color-grey-700);
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-primary-500);
+  color: var(--color-primary-500);
+}
+
+.btn-block {
+  width: 100%;
+  margin-top: var(--spacing-16);
+}
+
+/* ---------- Shell / Sidebar ---------- */
+.shell {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sidebar {
+  width: var(--admin-sidebar);
+  min-width: var(--admin-sidebar);
+  background: var(--color-grey-0);
+  border-right: 1px solid var(--color-grey-300);
+  min-height: calc(100vh - var(--header-height));
+  padding: var(--spacing-20) var(--spacing-12);
+  position: sticky;
+  top: var(--header-height);
+}
+
+.nav-group-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-grey-500);
+  letter-spacing: 0.04em;
+  padding: 0 var(--spacing-12);
+  margin: var(--spacing-4) 0 var(--spacing-8);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 var(--spacing-12);
+  border-radius: var(--radius-8);
+  font-size: var(--typography-caption1-fontSize);
+  color: var(--color-grey-700);
+  font-weight: 500;
+  margin-bottom: 2px;
+  position: relative;
+}
+
+.nav-item svg {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.nav-item:hover {
+  background: var(--color-primary-100);
+  color: var(--color-primary-500);
+}
+
+.nav-item.is-active {
+  background: var(--color-primary-100);
+  color: var(--color-primary-500);
+  font-weight: 600;
+}
+
+.nav-item.is-active::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  background: var(--color-primary-500);
+  border-radius: 0 var(--radius-4) var(--radius-4) 0;
+}
+
+.nav-item:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+/* ---------- Main ---------- */
+.main {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 24px 32px 32px;
+  box-sizing: border-box;
+}
+
+.view {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.view[hidden] {
+  display: none !important;
+}
+
+.page-head,
+.page-head-stack {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 36px;
+  margin: 0 0 16px;
+  flex-wrap: wrap;
+  gap: var(--spacing-16);
+  box-sizing: border-box;
+}
+
+.page-head-stack {
+  align-items: center;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-grey-900);
+  letter-spacing: -0.01em;
+  line-height: 36px;
+}
+
+.page-desc {
+  margin: 6px 0 0;
+  font-size: var(--typography-caption1-fontSize);
+  color: var(--color-grey-700);
+}
+
+.page-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  min-height: 36px;
+}
+
+.select {
+  height: var(--control-height);
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-8);
+  /* Match .btn horizontal padding (14px); reserve equal room for chevron on the right */
+  padding: 0 14px;
+  padding-right: 34px; /* 14px + 12px icon + 8px gap */
+  font-size: 13px;
+  color: var(--color-grey-700);
+  background-color: var(--color-grey-0);
+  font-family: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23757575' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center; /* chevron inset matches left padding */
+}
+
+.select:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+.section {
+  margin: 0 0 16px;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- Card ---------- */
+.card {
+  background: var(--color-grey-0);
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-8);
+  padding: var(--spacing-20);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-20);
+  gap: var(--spacing-8);
+}
+
+.card-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-grey-900);
+}
+
+.card-intro {
+  margin: 0 0 var(--spacing-16);
+  font-size: 13px;
+}
+
+/* ---------- KPI ---------- */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px; /* half of previous 20px card gap */
+}
+
+.kpi-title {
+  margin: 0 0 var(--spacing-8);
+  font-size: 13px;
+  color: var(--color-grey-700);
+  font-weight: 500;
+}
+
+.kpi-value {
+  margin: 0 0 10px;
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--color-grey-900);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  font-size: var(--typography-caption2-fontSize);
+  font-weight: 600;
+  padding: 3px var(--spacing-8);
+  border-radius: var(--radius-4);
+}
+
+.chip-up {
+  color: var(--color-semantic-success);
+  background: color-mix(in srgb, var(--color-semantic-success) 14%, var(--color-grey-0));
+}
+
+.chip-down {
+  color: var(--color-semantic-danger);
+  background: var(--color-semantic-dangerSoft);
+}
+
+/* ---------- Analytics ---------- */
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 10px; /* half of previous 20px card gap */
+  align-items: stretch;
+}
+
+.seg {
+  display: flex;
+  background: var(--color-grey-100);
+  border-radius: var(--radius-8);
+  padding: 2px;
+  border: 1px solid var(--color-grey-300);
+}
+
+.seg button {
+  border: none;
+  background: transparent;
+  font-size: var(--typography-caption2-fontSize);
+  color: var(--color-grey-700);
+  padding: 5px 10px;
+  border-radius: var(--radius-4);
+  font-weight: 500;
+}
+
+.seg button.is-active {
+  background: var(--color-grey-0);
+  color: var(--color-primary-500);
+  box-shadow: 0 1px 2px rgba(34, 34, 34, 0.06);
+}
+
+.seg button:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 1px;
+}
+
+.chart-summary {
+  margin: 0 0 var(--spacing-12);
+  font-size: var(--typography-caption2-fontSize);
+  color: var(--color-grey-700);
+}
+
+.chart-frame {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+  width: 100%;
+}
+
+/* Shared plot box — same height so top end-lines align across both charts */
+.chart-plot {
+  position: relative;
+  height: 200px;
+  width: 100%;
+  box-sizing: border-box;
+  border-top: 1px solid #dce0ea;
+  border-bottom: 1px solid #dce0ea;
+  overflow: hidden;
+}
+
+/* 8 bands → 9 lines (incl. top/bottom) ≈ 2× denser than prior 4-band grid */
+.chart-grid-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(12.5% - 1px),
+    #e8ebf2 calc(12.5% - 1px),
+    #e8ebf2 12.5%
+  );
+}
+
+.chart-svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.chart-grid {
+  stroke: #e8ebf2;
+  stroke-width: 1;
+}
+
+.chart-line {
+  stroke: #6d4aff;
+}
+
+.chart-dots {
+  fill: #6d4aff;
+}
+
+.chart-dot-end {
+  stroke: var(--color-grey-0);
+  stroke-width: 2;
+}
+
+.chart-caption {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--color-grey-500);
+}
+
+.heatmap-wrap {
+  overflow-x: auto;
+}
+
+.heatmap {
+  border-collapse: separate;
+  border-spacing: 3px;
+  font-size: 11px;
+  width: 100%;
+}
+
+.heatmap th {
+  font-weight: 500;
+  color: var(--color-grey-500);
+  padding: 0 3px 4px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.heatmap td {
+  width: 22px;
+  height: 20px;
+  border-radius: var(--radius-4);
+}
+
+.heatmap .row-label {
+  color: var(--color-grey-500);
+  font-size: 11px;
+  padding-right: var(--spacing-8);
+  text-align: right;
+  width: 56px;
+}
+
+/* Monitor: date×hour distribution — equal L/R padding, full-width cells */
+#monitorHeatTable {
+  table-layout: fixed;
+  width: 100%;
+  border-spacing: 2px;
+}
+
+#monitorHeatTable .row-label {
+  width: 36px;
+  min-width: 36px;
+  padding: 0 6px 0 0;
+  box-sizing: border-box;
+}
+
+#monitorHeatTable th:not(.row-label),
+#monitorHeatTable td:not(.row-label) {
+  width: auto;
+  padding: 0;
+  height: 18px;
+}
+
+#monitorHeatTable th:not(.row-label) {
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+  padding-bottom: 4px;
+  overflow: hidden;
+}
+
+#monitorHeatTable td:not(.row-label) {
+  border-radius: 3px;
+}
+
+.monitor-heat-wrap {
+  padding: 0;
+  margin: 0;
+}
+
+.heat-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 14px;
+  font-size: 11px;
+  color: var(--color-grey-500);
+}
+
+.heat-legend .sw {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.sw-0 { background: var(--heat-0); }
+.sw-1 { background: var(--heat-1); }
+.sw-2 { background: var(--heat-2); }
+.sw-3 { background: var(--heat-3); }
+.sw-4 { background: var(--heat-4); }
+
+/* ---------- Stats ---------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 0.9fr;
+  gap: 10px; /* half of previous 20px card gap */
+  align-items: stretch;
+}
+
+.kv-strip {
+  display: flex;
+  gap: var(--spacing-20);
+  margin-bottom: 22px;
+}
+
+.kv {
+  flex: 1;
+}
+
+.kv-label {
+  font-size: var(--typography-caption2-fontSize);
+  color: var(--color-grey-700);
+  margin-bottom: var(--spacing-4);
+}
+
+.kv-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-grey-900);
+  font-variant-numeric: tabular-nums;
+}
+
+.kv-value small {
+  font-size: var(--typography-caption1-fontSize);
+  font-weight: 600;
+  color: var(--color-grey-700);
+}
+
+.kv-value.is-success {
+  color: var(--color-semantic-success);
+}
+
+.kv-value.is-success small {
+  color: var(--color-semantic-success);
+}
+
+.split-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.stat-block {
+  margin-bottom: 0;
+}
+
+.stat-block-title {
+  margin: 0 0 var(--spacing-12);
+  font-size: 13px;
+  color: var(--color-grey-700);
+  font-weight: 500;
+}
+
+.rank-row {
+  display: grid;
+  grid-template-columns: 20px 1fr 32px;
+  align-items: center;
+  gap: var(--spacing-8);
+  padding: var(--spacing-8) 0;
+  font-size: 13px;
+}
+
+.badge {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-4);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-grey-200);
+  color: var(--color-grey-500);
+}
+
+.badge.top3 {
+  background: var(--color-primary-500);
+  color: var(--color-grey-0);
+}
+
+.rank-name-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.rank-name {
+  color: var(--color-grey-900);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bar-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-grey-100);
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--color-primary-500);
+}
+
+.bar-fill.is-muted {
+  background: var(--color-grey-400);
+}
+
+.rank-value {
+  text-align: right;
+  font-weight: 600;
+  color: var(--color-grey-900);
+  font-size: var(--typography-caption2-fontSize);
+  font-variant-numeric: tabular-nums;
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-8) 0;
+  border-bottom: 1px solid var(--color-grey-300);
+  font-size: 13px;
+}
+
+.list-row:last-child {
+  border-bottom: none;
+}
+
+.list-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.list-title {
+  color: var(--color-grey-900);
+  font-weight: 500;
+}
+
+.devtool-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-8) 0;
+  border-bottom: 1px solid var(--color-grey-300);
+  font-size: 13px;
+}
+
+.devtool-item:last-of-type {
+  border-bottom: none;
+}
+
+.devtool-item .label {
+  color: var(--color-grey-700);
+}
+
+.devtool-item .val {
+  color: var(--color-grey-900);
+  font-weight: 600;
+}
+
+.status-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: var(--radius-16);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-badge .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.status-success {
+  background: color-mix(in srgb, var(--color-semantic-success) 14%, var(--color-grey-0));
+  color: var(--color-semantic-success);
+}
+
+.status-success .dot {
+  background: var(--color-semantic-success);
+}
+
+.status-warning {
+  background: color-mix(in srgb, var(--color-semantic-warning) 18%, var(--color-grey-0));
+  color: var(--color-grey-800);
+}
+
+.status-warning .dot {
+  background: var(--color-semantic-warning);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1200px) {
+  .kpi-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    display: none;
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .split-two {
+    grid-template-columns: 1fr;
+  }
+
+  .header {
+    padding: 0 var(--spacing-16);
+  }
+
+  .main {
+    padding: 20px 16px 24px;
+  }
+}
+
+@media (max-width: 560px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header-title {
+    font-size: 13px;
+  }
+
+  .header-right .admin-chip span:not(.avatar),
+  .admin-chip {
+    font-size: 0;
+  }
+
+  .admin-chip .avatar {
+    font-size: 11px;
+  }
+}
+
+/* ---------- Views extras ---------- */
+.btn-outlined {
+  background: var(--color-grey-0);
+  border-color: var(--color-primary-500);
+  color: var(--color-primary-500);
+}
+
+.btn-outlined:hover {
+  background: var(--color-primary-100);
+}
+
+.icon-btn-sm {
+  width: 32px;
+  height: 32px;
+}
+
+/* ---------- Widget management ---------- */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  margin: 0 0 16px;
+  min-height: 36px;
+}
+
+.search-field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-grey-500);
+  pointer-events: none;
+}
+
+.search-field input {
+  width: 100%;
+  height: var(--control-height);
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-8);
+  padding: 0 14px 0 36px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--color-grey-900);
+  background: var(--color-grey-0);
+}
+
+.search-field input:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+.widget-split {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.9fr) minmax(0, 1.4fr);
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
+.widget-panel {
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cat-tree,
+.cat-children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cat-root > .cat-row {
+  position: relative;
+  z-index: 1;
+}
+
+/* stub from parent folder down into the tree */
+.cat-root > .cat-row::after {
+  content: "";
+  position: absolute;
+  left: 19px; /* center of 10px pad + 20px icon col */
+  top: calc(50% + 10px);
+  bottom: -2px;
+  width: 1px;
+  background: var(--color-grey-400);
+}
+
+.cat-children {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.cat-children > li {
+  position: relative;
+  padding-left: 28px;
+}
+
+/* vertical spine */
+.cat-children > li::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--color-grey-400);
+}
+
+/* horizontal branch to folder */
+.cat-children > li::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  width: 12px;
+  height: 1px;
+  background: var(--color-grey-400);
+  transform: translateY(-50%);
+}
+
+/* last item: spine stops at the branch */
+.cat-children > li:last-child::before {
+  bottom: auto;
+  height: 50%;
+}
+
+.cat-row {
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  align-items: center;
+  gap: var(--spacing-8);
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: var(--radius-8);
+  font: inherit;
+  color: var(--color-grey-800);
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.cat-row:hover {
+  background: var(--color-primary-100);
+  color: var(--color-primary-500);
+}
+
+.cat-row.is-active {
+  background: var(--color-primary-100);
+  color: var(--color-primary-500);
+  font-weight: 600;
+}
+
+.cat-folder {
+  display: inline-flex;
+  color: inherit;
+}
+
+.cat-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cat-count {
+  font-size: 12px;
+  color: var(--color-grey-500);
+  white-space: nowrap;
+}
+
+.cat-row.is-active .cat-count {
+  color: var(--color-primary-700);
+}
+
+.card-title-meta {
+  margin-left: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-grey-500);
+}
+
+.table-wrap {
+  overflow: auto;
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-8);
+}
+
+.widget-table,
+.lang-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.widget-table th,
+.widget-table td,
+.lang-table th,
+.lang-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-grey-300);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.widget-table thead th,
+.lang-table thead th {
+  background: var(--color-grey-50);
+  font-weight: 650;
+  color: var(--color-grey-800);
+}
+
+.widget-table tbody tr:last-child td,
+.lang-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.col-check {
+  width: 40px;
+}
+
+.col-status {
+  width: 100px;
+}
+
+.col-center {
+  text-align: center;
+}
+
+.widget-table input[type="checkbox"],
+.lang-table input[type="checkbox"],
+.lang-table input[type="radio"] {
+  accent-color: var(--color-primary-500);
+  width: 16px;
+  height: 16px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 22px;
+  padding: 2px 10px;
+  border-radius: var(--radius-16);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.pill-on,
+.pill-danger {
+  background: color-mix(in srgb, var(--color-semantic-danger) 14%, var(--color-grey-0));
+  color: var(--color-semantic-danger);
+}
+
+.pill-warn {
+  background: color-mix(in srgb, var(--color-semantic-warning) 18%, var(--color-grey-0));
+  color: #8a5a00;
+}
+
+.pill-off {
+  background: var(--color-grey-100);
+  color: var(--color-grey-500);
+}
+
+.sticky-footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-16);
+  margin-top: var(--spacing-16);
+  padding: 12px 16px;
+  background: var(--color-grey-0);
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-8);
+  box-shadow: 0 -4px 16px rgba(24, 26, 34, 0.04);
+}
+
+.footer-note {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--color-grey-700);
+}
+
+.info-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--color-grey-400);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-grey-600);
+  flex-shrink: 0;
+}
+
+.footer-actions,
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-8);
+}
+
+.form-actions {
+  margin-top: var(--spacing-16);
+}
+
+/* ---------- Service settings ---------- */
+.subtab-bar {
+  display: flex;
+  gap: 0;
+  background: color-mix(in srgb, var(--color-primary-500) 88%, var(--color-primary-900));
+  border-radius: var(--radius-8);
+  overflow: hidden;
+  margin: 0 0 16px;
+}
+
+.subtab {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.78);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 20px;
+  cursor: pointer;
+  position: relative;
+}
+
+.subtab:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.subtab.is-active {
+  color: #fff;
+}
+
+.subtab.is-active::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--color-primary-200);
+}
+
+.subtab:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+}
+
+.info-box {
+  margin-bottom: var(--spacing-16);
+  padding: 14px 16px;
+  border: 1px dashed var(--color-grey-400);
+  border-radius: var(--radius-8);
+  background: var(--color-grey-50);
+}
+
+.info-box ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--color-grey-700);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.summary-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.6fr;
+  gap: 10px;
+  margin-bottom: var(--spacing-16);
+}
+
+.summary-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+}
+
+.summary-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary-100);
+  color: var(--color-primary-500);
+  flex-shrink: 0;
+}
+
+.summary-label {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-grey-700);
+}
+
+.summary-value {
+  margin: 4px 0 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-grey-900);
+}
+
+.summary-help {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-grey-700);
+}
+
+.lang-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lang-flag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-4);
+  background: var(--color-primary-100);
+  color: var(--color-primary-700);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+@media (max-width: 1100px) {
+  .widget-split,
+  .summary-row,
+  .loading-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .sticky-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .footer-actions {
+    justify-content: stretch;
+  }
+
+  .footer-actions .btn {
+    flex: 1;
+  }
+}
+
+/* ---------- Loading image settings ---------- */
+.loading-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: var(--spacing-16);
+}
+
+.loading-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+  min-width: 0;
+}
+
+.loading-card-head .page-desc {
+  margin-top: 6px;
+}
+
+.loading-card-body {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.9fr) minmax(0, 1.2fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.preview-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.preview-label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-grey-700);
+}
+
+.preview-frame {
+  aspect-ratio: 622 / 493;
+  width: 100%;
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-8);
+  background: var(--color-grey-50);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-empty {
+  font-size: 13px;
+  color: var(--color-grey-500);
+}
+
+.preview-file {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-grey-600);
+  word-break: break-all;
+}
+
+.preview-note {
+  margin: 0;
+  font-size: 12px;
+}
+
+.loading-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.check-row,
+.radio-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--color-grey-800);
+  cursor: pointer;
+}
+
+.check-row input,
+.radio-row input {
+  accent-color: var(--color-primary-500);
+  width: 16px;
+  height: 16px;
+}
+
+.radio-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.upload-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 140px;
+  padding: 16px;
+  border: 1px dashed var(--color-grey-400);
+  border-radius: var(--radius-8);
+  background: var(--color-grey-50);
+  color: var(--color-grey-600);
+  text-align: center;
+  cursor: pointer;
+}
+
+.upload-box:hover,
+.upload-box:focus-visible {
+  border-color: var(--color-primary-500);
+  color: var(--color-primary-500);
+  background: var(--color-primary-100);
+  outline: none;
+}
+
+.upload-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: inherit;
+}
+
+.upload-hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-grey-500);
+}
+
+.lang-seg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 3px;
+  background: var(--color-grey-100);
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-8);
+}
+
+.lang-seg-btn {
+  border: 0;
+  background: transparent;
+  color: var(--color-grey-700);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: var(--radius-4);
+  cursor: pointer;
+}
+
+.lang-seg-btn.is-active {
+  background: var(--color-grey-0);
+  color: var(--color-primary-500);
+  box-shadow: 0 1px 2px rgba(24, 26, 34, 0.06);
+}
+
+.lang-seg-btn:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 1px;
+}
+
+.textarea-wrap {
+  position: relative;
+}
+
+.textarea-wrap textarea {
+  width: 100%;
+  min-height: 140px;
+  resize: vertical;
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-8);
+  padding: 12px 14px 28px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--color-grey-900);
+  background: var(--color-grey-0);
+  line-height: 1.5;
+}
+
+.textarea-wrap textarea:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+.char-count {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  font-size: 11px;
+  color: var(--color-grey-500);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 900px) {
+  .loading-card-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Operational monitoring ---------- */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  min-height: 36px;
+}
+
+.date-range {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--control-height);
+  padding: 0 14px;
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-8);
+  background: var(--color-grey-0);
+  font-size: 13px;
+  color: var(--color-grey-800);
+}
+
+.date-ico {
+  display: inline-flex;
+  color: var(--color-grey-500);
+}
+
+.chip-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.chip-btn {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-8);
+  background: var(--color-grey-0);
+  color: var(--color-grey-700);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chip-btn.is-active {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-100);
+  color: var(--color-primary-500);
+}
+
+.chip-btn:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+.filter-refresh {
+  margin-left: auto;
+}
+
+.monitor-kpi {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.hour-bars {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.hour-col {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  min-width: 0;
+}
+
+.hour-bar {
+  width: 40%;
+  max-width: 8px;
+  min-width: 3px;
+  border-radius: var(--radius-4) var(--radius-4) 0 0;
+  /* dark at top → light at bottom (reversed brightness) */
+  background: linear-gradient(
+    180deg,
+    #6d4aff 0%,
+    #9b82ff 55%,
+    #d4cbff 100%
+  );
+  min-height: 4px;
+}
+
+.hour-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 2px;
+  font-size: 9px;
+  color: var(--color-grey-500);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.hour-labels span {
+  flex: 1 1 0;
+  text-align: center;
+  min-width: 0;
+}
+
+.monitor-panel[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 1100px) {
+  .monitor-kpi {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .monitor-kpi {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-refresh {
+    margin-left: 0;
+  }
+}
+
+</style>
+  </head>
+  <body data-density="dense">
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+    <!-- Header chrome -->
+    <header class="header">
+      <div class="header-left">
+        <div class="header-title">AI 실습 도구 관리 포털</div>
+      </div>
+      <div class="header-right">
+        <a
+          class="btn btn-primary"
+          data-primary-cta="true"
+          href="https://orange3-pengsu.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          AI 실습 도구 바로가기
+        </a>
+        <span class="divider-v" aria-hidden="true"></span>
+        <div class="admin-chip">
+          <span class="avatar" aria-hidden="true">김</span>
+          김교육(admin)
+        </div>
+        <button type="button" class="icon-btn" aria-label="로그아웃">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+            <path d="M16 17l5-5-5-5" />
+            <path d="M21 12H9" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="shell">
+      <!-- LNB IA: MENU → 대시보드 / 위젯 관리 / 서비스 설정 / 운영 모니터링 -->
+      <aside class="sidebar" aria-label="사이드 내비게이션">
+        <a class="nav-item is-active" href="#dashboard" data-view="dashboard" aria-current="page">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="9" rx="1.5" />
+            <rect x="14" y="3" width="7" height="5" rx="1.5" />
+            <rect x="14" y="12" width="7" height="9" rx="1.5" />
+            <rect x="3" y="16" width="7" height="5" rx="1.5" />
+          </svg>
+          대시보드
+        </a>
+        <a class="nav-item" href="#widgets" data-view="widgets">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="6" rx="1.5" />
+            <rect x="3" y="14" width="8" height="6" rx="1.5" />
+            <rect x="14" y="14" width="7" height="6" rx="1.5" />
+          </svg>
+          위젯 관리
+        </a>
+        <a class="nav-item" href="#settings" data-view="settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 01-4 0v-.09A1.7 1.7 0 009 19.4a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.55-1H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001-1.55V3a2 2 0 014 0v.09a1.7 1.7 0 001 1.55 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.55 1H21a2 2 0 010 4h-.09a1.7 1.7 0 00-1.55 1z" />
+          </svg>
+          서비스 설정
+        </a>
+        <a class="nav-item" href="#monitor" data-view="monitor">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 7v5l3 3" />
+          </svg>
+          운영 모니터링
+        </a>
+      </aside>
+
+      <main id="main" class="main">
+        <div id="view-dashboard" class="view is-active" data-view-panel="dashboard">
+        <!-- Page head -->
+        <div class="page-head">
+          <h1 class="page-title">대시보드</h1>
+          <div class="page-actions">
+            <label class="visually-hidden" for="period">조회 기간</label>
+            <select id="period" class="select">
+              <option>오늘</option>
+              <option>최근 7일</option>
+              <option>최근 30일</option>
+            </select>
+            <button type="button" class="btn btn-ghost">새로고침</button>
+          </div>
+        </div>
+
+        <!-- 1. KPI (5) -->
+        <section class="section" aria-label="KPI">
+          <div class="kpi-grid">
+            <article class="card kpi-card">
+              <p class="kpi-title">세션 수</p>
+              <p class="kpi-value">87</p>
+              <span class="chip chip-up">▲ 전일 대비 12.5%</span>
+            </article>
+            <article class="card kpi-card">
+              <p class="kpi-title">최대 동시접속</p>
+              <p class="kpi-value">29</p>
+              <span class="chip chip-up">▲ 전일 대비 7.4%</span>
+            </article>
+            <article class="card kpi-card">
+              <p class="kpi-title">평균 사용시간(분)</p>
+              <p class="kpi-value">08:26</p>
+              <span class="chip chip-down">▼ 전일 대비 8.2%</span>
+            </article>
+            <article class="card kpi-card">
+              <p class="kpi-title">종료(완료) 세션</p>
+              <p class="kpi-value">87</p>
+              <span class="chip chip-down">▼ 전일 대비 8.2%</span>
+            </article>
+            <article class="card kpi-card">
+              <p class="kpi-title">위젯 실행 수</p>
+              <p class="kpi-value">1,687</p>
+              <span class="chip chip-up">▲ 전일 대비 15.3%</span>
+            </article>
+          </div>
+        </section>
+
+        <!-- 2. Analytics: 세션 추이 + 이용 시간 분석 -->
+        <section class="section" aria-label="Analytics">
+          <div class="analytics-grid">
+            <article class="card">
+              <div class="card-head">
+                <h2 class="card-title">세션 추이</h2>
+                <div class="seg" role="group" aria-label="세션 추이 기간">
+                  <button type="button" class="is-active" aria-pressed="true">일간</button>
+                  <button type="button" aria-pressed="false">주간</button>
+                </div>
+              </div>
+              <p class="chart-summary">
+                일간 세션 추이: 07/16–07/22. 최저 07/18, 최고 07/22 부근.
+              </p>
+              <svg viewBox="0 0 560 200" width="100%" height="200" preserveAspectRatio="none" role="img" aria-label="세션 추이 라인 차트">
+                <line x1="0" y1="10" x2="560" y2="10" class="chart-grid" />
+                <line x1="0" y1="55" x2="560" y2="55" class="chart-grid" />
+                <line x1="0" y1="100" x2="560" y2="100" class="chart-grid" />
+                <line x1="0" y1="145" x2="560" y2="145" class="chart-grid" />
+                <line x1="0" y1="190" x2="560" y2="190" class="chart-grid" />
+                <polyline
+                  points="10,120 90,95 170,130 250,80 330,105 410,60 490,75 550,55"
+                  fill="none"
+                  stroke="#6D4AFF"
+                  class="chart-line"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <g fill="#6D4AFF" class="chart-dots">
+                  <circle cx="10" cy="120" r="3.5" />
+                  <circle cx="90" cy="95" r="3.5" />
+                  <circle cx="170" cy="130" r="3.5" />
+                  <circle cx="250" cy="80" r="3.5" />
+                  <circle cx="330" cy="105" r="3.5" />
+                  <circle cx="410" cy="60" r="3.5" />
+                  <circle cx="490" cy="75" r="3.5" />
+                  <circle cx="550" cy="55" r="4.5" class="chart-dot-end" stroke="#fff" stroke-width="2" />
+                </g>
+              </svg>
+              <div class="chart-caption" aria-hidden="true">
+                <span>07/16</span><span>07/17</span><span>07/18</span><span>07/19</span>
+                <span>07/20</span><span>07/21</span><span>07/22</span>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head">
+                <h2 class="card-title">이용 시간 분석</h2>
+                <div class="seg" role="group" aria-label="이용 시간 분석 축">
+                  <button type="button" aria-pressed="false">시간대</button>
+                  <button type="button" class="is-active" aria-pressed="true">요일</button>
+                </div>
+              </div>
+              <p class="chart-summary">요일×시간대 이용 밀도. 색이 진할수록 이용이 많음.</p>
+              <div class="heatmap-wrap">
+                <table class="heatmap" id="heatTable" aria-label="요일별 시간대 이용 히트맵"></table>
+              </div>
+              <div class="heat-legend" aria-hidden="true">
+                적음
+                <span class="sw sw-0"></span>
+                <span class="sw sw-1"></span>
+                <span class="sw sw-2"></span>
+                <span class="sw sw-3"></span>
+                <span class="sw sw-4"></span>
+                많음
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 3. Statistics: 위젯 / 템플릿 / 개발자 도구 -->
+        <section class="section" aria-label="Statistics">
+          <div class="stats-grid">
+            <article class="card">
+              <div class="card-head">
+                <h2 class="card-title">위젯 사용 현황</h2>
+              </div>
+              <div class="kv-strip">
+                <div class="kv">
+                  <div class="kv-label">사용된 위젯 종류</div>
+                  <div class="kv-value">146<small> 종</small></div>
+                </div>
+                <div class="kv">
+                  <div class="kv-label">사용된 카테고리</div>
+                  <div class="kv-value">11<small> 개</small></div>
+                </div>
+              </div>
+              <div class="split-two">
+                <div class="stat-block">
+                  <h3 class="stat-block-title">최다 사용 위젯 TOP 5</h3>
+                  <div class="rank-row">
+                    <span class="badge top3">1</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Predictions</span>
+                      <div class="bar-track"><div class="bar-fill" style="width: 100%"></div></div>
+                    </div>
+                    <span class="rank-value">157</span>
+                  </div>
+                  <div class="rank-row">
+                    <span class="badge top3">2</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Correlogram</span>
+                      <div class="bar-track"><div class="bar-fill" style="width: 94%"></div></div>
+                    </div>
+                    <span class="rank-value">147</span>
+                  </div>
+                  <div class="rank-row">
+                    <span class="badge top3">3</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Scatter Plot</span>
+                      <div class="bar-track"><div class="bar-fill" style="width: 93%"></div></div>
+                    </div>
+                    <span class="rank-value">146</span>
+                  </div>
+                  <div class="rank-row">
+                    <span class="badge">4</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">File</span>
+                      <div class="bar-track"><div class="bar-fill is-muted" style="width: 83%"></div></div>
+                    </div>
+                    <span class="rank-value">130</span>
+                  </div>
+                  <div class="rank-row">
+                    <span class="badge">5</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">k-Means</span>
+                      <div class="bar-track"><div class="bar-fill is-muted" style="width: 71%"></div></div>
+                    </div>
+                    <span class="rank-value">112</span>
+                  </div>
+                </div>
+                <div class="stat-block">
+                  <h3 class="stat-block-title">최다 사용 카테고리 TOP 5</h3>
+                  <div class="rank-row">
+                    <span class="badge top3">1</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Visualize</span>
+                      <div class="bar-track"><div class="bar-fill" style="width: 100%"></div></div>
+                    </div>
+                    <span class="rank-value">261</span>
+                  </div>
+                  <div class="rank-row">
+                    <span class="badge top3">2</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Time Series</span>
+                      <div class="bar-track"><div class="bar-fill" style="width: 95%"></div></div>
+                    </div>
+                    <span class="rank-value">249</span>
+                  </div>
+                  <div class="rank-row">
+                    <span class="badge top3">3</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Data</span>
+                      <div class="bar-track"><div class="bar-fill" style="width: 82%"></div></div>
+                    </div>
+                    <span class="rank-value">213</span>
+                  </div>
+                  <div class="rank-row">
+                    <span class="badge">4</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Unsupervised</span>
+                      <div class="bar-track"><div class="bar-fill is-muted" style="width: 82%"></div></div>
+                    </div>
+                    <span class="rank-value">213</span>
+                  </div>
+                  <div class="rank-row">
+                    <span class="badge">5</span>
+                    <div class="rank-name-row">
+                      <span class="rank-name">Evaluate</span>
+                      <div class="bar-track"><div class="bar-fill is-muted" style="width: 48%"></div></div>
+                    </div>
+                    <span class="rank-value">126</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head">
+                <h2 class="card-title">워크플로우 템플릿 이용 현황</h2>
+              </div>
+              <div class="kv-strip">
+                <div class="kv">
+                  <div class="kv-label">템플릿 이용 수</div>
+                  <div class="kv-value">1,248<small> 회</small></div>
+                </div>
+                <div class="kv">
+                  <div class="kv-label">실행 완료율</div>
+                  <div class="kv-value is-success">72.4<small>%</small></div>
+                </div>
+              </div>
+              <div class="stat-block">
+                <h3 class="stat-block-title">최다 사용 템플릿 TOP 5</h3>
+                <div class="list-row">
+                  <div class="list-title-row">
+                    <span class="badge top3">1</span>
+                    <span class="list-title">Author Prediction on Tweets</span>
+                  </div>
+                </div>
+                <div class="list-row">
+                  <div class="list-title-row">
+                    <span class="badge top3">2</span>
+                    <span class="list-title">Feature Ranking</span>
+                  </div>
+                </div>
+                <div class="list-row">
+                  <div class="list-title-row">
+                    <span class="badge top3">3</span>
+                    <span class="list-title">Hierarchical Clustering on Text</span>
+                  </div>
+                </div>
+                <div class="list-row">
+                  <div class="list-title-row">
+                    <span class="badge">4</span>
+                    <span class="list-title">Visualization of Data Subsets</span>
+                  </div>
+                </div>
+                <div class="list-row">
+                  <div class="list-title-row">
+                    <span class="badge">5</span>
+                    <span class="list-title">Evaluate semantic neighbors</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head">
+                <h2 class="card-title">개발자 도구</h2>
+              </div>
+              <p class="page-desc card-intro">시스템 주요 구성 요소의 상태를 확인할 수 있습니다.</p>
+              <div class="devtool-item">
+                <span class="label">API 버전</span>
+                <span class="status-badge status-success"><span class="dot" aria-hidden="true"></span>0.1.0</span>
+              </div>
+              <div class="devtool-item">
+                <span class="label">등록된 엔드포인트</span>
+                <span class="val">26 개</span>
+              </div>
+              <div class="devtool-item">
+                <span class="label">서비스 상태</span>
+                <span class="status-badge status-warning"><span class="dot" aria-hidden="true"></span>점검 예정</span>
+              </div>
+              <button type="button" class="btn btn-secondary btn-block">API 문서 열기</button>
+            </article>
+          </div>
+        </section>
+        </div><!-- /view-dashboard -->
+
+        <!-- 위젯 관리 -->
+        <div id="view-widgets" class="view" data-view-panel="widgets" hidden>
+          <div class="page-head page-head-stack">
+            <h1 class="page-title">위젯 관리</h1>
+          </div>
+
+          <section class="search-bar" aria-label="위젯 검색">
+            <label class="visually-hidden" for="widget-search">카테고리 또는 위젯 검색</label>
+            <div class="search-field">
+              <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path d="M20 20l-3-3" />
+              </svg>
+              <input id="widget-search" type="search" placeholder="카테고리 또는 위젯 검색" />
+            </div>
+            <button type="button" class="btn btn-outlined">검색</button>
+          </section>
+
+          <div class="widget-split">
+            <article class="card widget-panel">
+              <div class="card-head">
+                <h2 class="card-title">카테고리 구분</h2>
+                <button type="button" class="icon-btn icon-btn-sm" aria-label="카테고리 설정">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 01-4 0v-.09A1.7 1.7 0 009 19.4a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.55-1H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001-1.55V3a2 2 0 014 0v.09a1.7 1.7 0 001 1.55 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.55 1H21a2 2 0 010 4h-.09a1.7 1.7 0 00-1.55 1z" />
+                  </svg>
+                </button>
+              </div>
+              <ul class="cat-tree" role="tree" aria-label="위젯 카테고리">
+                <li class="cat-item cat-root" role="treeitem" aria-expanded="true">
+                  <button type="button" class="cat-row" data-cat="all">
+                    <span class="cat-folder" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                    </span>
+                    <span class="cat-name">전체 카테고리</span>
+                    <span class="cat-count">87/162 노출</span>
+                  </button>
+                  <ul class="cat-children" role="group">
+                    <li role="treeitem">
+                      <button type="button" class="cat-row is-active" data-cat="data" data-exposed="10" data-total="11">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">데이터</span>
+                        <span class="cat-count">10/11 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="transform" data-exposed="20" data-total="20">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">변환</span>
+                        <span class="cat-count">20/20 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="viz" data-exposed="18" data-total="22">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">시각화</span>
+                        <span class="cat-count">18/22 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="model" data-exposed="12" data-total="15">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">모델</span>
+                        <span class="cat-count">12/15 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="eval" data-exposed="8" data-total="9">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">평가</span>
+                        <span class="cat-count">8/9 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="unsup" data-exposed="7" data-total="10">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">비지도</span>
+                        <span class="cat-count">7/10 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="image" data-exposed="5" data-total="8">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">이미지 분석</span>
+                        <span class="cat-count">5/8 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="network" data-exposed="4" data-total="6">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">네트워크</span>
+                        <span class="cat-count">4/6 노출</span>
+                      </button>
+                    </li>
+                    <li role="treeitem">
+                      <button type="button" class="cat-row" data-cat="ts" data-exposed="3" data-total="5">
+                        <span class="cat-folder" aria-hidden="true">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                        </span>
+                        <span class="cat-name">시계열</span>
+                        <span class="cat-count">3/5 노출</span>
+                      </button>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </article>
+
+            <article class="card widget-panel">
+              <div class="card-head">
+                <h2 class="card-title">
+                  위젯 구분
+                  <span class="card-title-meta" id="widget-panel-meta">10/11 노출</span>
+                </h2>
+                <button type="button" class="icon-btn icon-btn-sm" aria-label="위젯 목록 설정">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 01-4 0v-.09A1.7 1.7 0 009 19.4a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.55-1H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001-1.55V3a2 2 0 014 0v.09a1.7 1.7 0 001 1.55 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.55 1H21a2 2 0 010 4h-.09a1.7 1.7 0 00-1.55 1z" />
+                  </svg>
+                </button>
+              </div>
+              <div class="table-wrap">
+                <table class="widget-table">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="col-check">
+                        <input type="checkbox" id="check-all" aria-label="전체 선택" />
+                      </th>
+                      <th scope="col">위젯 이름</th>
+                      <th scope="col">설명</th>
+                      <th scope="col" class="col-status">노출 상태</th>
+                    </tr>
+                  </thead>
+                  <tbody id="widget-tbody">
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="파일 선택" /></td>
+                      <td>파일</td>
+                      <td>로컬 파일을 워크플로우에 불러옵니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="CSV파일 가져오기 선택" /></td>
+                      <td>CSV파일 가져오기</td>
+                      <td>CSV 데이터를 테이블로 가져옵니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="데이터셋 선택" /></td>
+                      <td>데이터셋</td>
+                      <td>내장·연결된 데이터셋을 선택합니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="데이터 테이블 선택" /></td>
+                      <td>데이터 테이블</td>
+                      <td>행·열 단위로 데이터를 편집합니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="SQL 테이블 선택" /></td>
+                      <td>SQL 테이블</td>
+                      <td>DB 쿼리 결과를 불러옵니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="샘플 데이터 선택" /></td>
+                      <td>샘플 데이터</td>
+                      <td>실습용 샘플 세트를 제공합니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="데이터 병합 선택" /></td>
+                      <td>데이터 병합</td>
+                      <td>여러 소스를 하나로 합칩니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="컬럼 선택 선택" /></td>
+                      <td>컬럼 선택</td>
+                      <td>분석에 사용할 컬럼을 고릅니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" checked aria-label="행 필터 선택" /></td>
+                      <td>행 필터</td>
+                      <td>조건에 맞는 행만 남깁니다.</td>
+                      <td><span class="pill pill-on">노출</span></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" aria-label="외부 URL 가져오기 선택" /></td>
+                      <td>외부 URL 가져오기</td>
+                      <td>원격 URL에서 데이터를 가져옵니다.</td>
+                      <td><span class="pill pill-off">비노출</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+
+          <footer class="sticky-footer" aria-label="위젯 관리 저장">
+            <p class="footer-note">
+              <span class="info-mark" aria-hidden="true">i</span>
+              변경 사항은 저장 전까지 적용되지 않습니다.
+            </p>
+            <div class="footer-actions">
+              <button type="button" class="btn btn-ghost">취소</button>
+              <button type="button" class="btn btn-primary" data-primary-cta="true">저장</button>
+            </div>
+          </footer>
+        </div><!-- /view-widgets -->
+
+        <!-- 서비스 설정 -->
+        <div id="view-settings" class="view" data-view-panel="settings" hidden>
+          <div class="page-head page-head-stack">
+            <h1 class="page-title">서비스 설정</h1>
+          </div>
+
+          <div class="subtab-bar" role="tablist" aria-label="서비스 설정 구분">
+            <button type="button" class="subtab is-active" role="tab" aria-selected="true" data-subtab="lang">언어설정</button>
+            <button type="button" class="subtab" role="tab" aria-selected="false" data-subtab="loading">로딩 이미지 설정</button>
+          </div>
+
+          <div id="subtab-lang" class="subtab-panel" role="tabpanel">
+            <div class="info-box">
+              <ul>
+                <li>학습자에게 노출할 언어를 선택하고 기본 언어를 지정할 수 있습니다.</li>
+                <li>기본 언어는 사용 중인 언어 중 하나만 선택할 수 있습니다.</li>
+                <li>비노출 언어는 실습 도구 UI에 표시되지 않습니다.</li>
+              </ul>
+            </div>
+
+            <div class="summary-row">
+              <article class="card summary-card">
+                <div class="summary-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>
+                </div>
+                <div>
+                  <p class="summary-label">사용 언어</p>
+                  <p class="summary-value">2개</p>
+                </div>
+              </article>
+              <article class="card summary-card">
+                <div class="summary-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"/></svg>
+                </div>
+                <div>
+                  <p class="summary-label">기본 언어</p>
+                  <p class="summary-value">한국어(KO)</p>
+                </div>
+              </article>
+              <article class="card summary-card summary-card-wide">
+                <div class="summary-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11v2a9 9 0 009 9h1"/><path d="M21 13V8a2 2 0 00-2-2h-4l-3-3H8a2 2 0 00-2 2v3"/><circle cx="18" cy="18" r="3"/></svg>
+                </div>
+                <p class="summary-help">
+                  신규 학습자는 기본 언어로 실습 도구에 진입합니다. 사용 여부 체크 후에만 기본 언어로 지정할 수 있습니다.
+                </p>
+              </article>
+            </div>
+
+            <article class="card">
+              <div class="table-wrap">
+                <table class="lang-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">언어</th>
+                      <th scope="col" class="col-center">사용 여부</th>
+                      <th scope="col" class="col-center">기본 언어</th>
+                      <th scope="col" class="col-status">상태</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span class="lang-cell">
+                          <span class="lang-flag" aria-hidden="true">KO</span>
+                          한국어 (KO)
+                        </span>
+                      </td>
+                      <td class="col-center"><input type="checkbox" checked aria-label="한국어 사용" /></td>
+                      <td class="col-center"><input type="radio" name="default-lang" checked aria-label="한국어를 기본 언어로" /></td>
+                      <td><span class="pill pill-danger">기본 언어</span></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="lang-cell">
+                          <span class="lang-flag" aria-hidden="true">EN</span>
+                          English (EN)
+                        </span>
+                      </td>
+                      <td class="col-center"><input type="checkbox" checked aria-label="English 사용" /></td>
+                      <td class="col-center"><input type="radio" name="default-lang" aria-label="English를 기본 언어로" /></td>
+                      <td><span class="pill pill-warn">사용 중</span></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="lang-cell">
+                          <span class="lang-flag" aria-hidden="true">SL</span>
+                          Slovenščina (SL)
+                        </span>
+                      </td>
+                      <td class="col-center"><input type="checkbox" aria-label="Slovenščina 사용" /></td>
+                      <td class="col-center"><input type="radio" name="default-lang" aria-label="Slovenščina를 기본 언어로" /></td>
+                      <td><span class="pill pill-off">비노출</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-ghost">취소</button>
+              <button type="button" class="btn btn-primary" data-primary-cta="true">저장</button>
+            </div>
+          </div>
+
+          <div id="subtab-loading" class="subtab-panel" role="tabpanel" hidden>
+            <div class="loading-split">
+              <!-- 1. Session loading -->
+              <section class="card loading-card" aria-labelledby="loading-session-title">
+                <header class="loading-card-head">
+                  <h2 id="loading-session-title" class="card-title">1. 세션 로딩 화면</h2>
+                  <p class="page-desc">실습 세션이 준비되는 동안 표시되는 화면입니다.</p>
+                </header>
+                <div class="loading-card-body">
+                  <div class="preview-block">
+                    <p class="preview-label">미리보기</p>
+                    <div class="preview-frame" role="img" aria-label="세션 로딩 미리보기 영역 (이미지 없음)">
+                      <span class="preview-empty">미리보기 영역</span>
+                    </div>
+                    <p class="preview-file">default-session-loading.png</p>
+                  </div>
+                  <div class="loading-controls">
+                    <label class="check-row">
+                      <input type="checkbox" checked />
+                      노출 사용
+                    </label>
+                    <fieldset class="radio-group">
+                      <legend class="visually-hidden">이미지 소스</legend>
+                      <label class="radio-row">
+                        <input type="radio" name="session-image" value="default" checked />
+                        기본 이미지
+                      </label>
+                      <label class="radio-row">
+                        <input type="radio" name="session-image" value="upload" />
+                        이미지 업로드
+                      </label>
+                    </fieldset>
+                    <div class="upload-box" tabindex="0" role="button" aria-label="이미지 업로드 영역">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M12 16V6" />
+                        <path d="M8 10l4-4 4 4" />
+                        <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
+                      </svg>
+                      <p class="upload-title">이미지를 드래그하거나 클릭하여 업로드</p>
+                      <p class="upload-hint">PNG/JPG · 최대 8MB · 권장 크기 622 × 493</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- 2. Loading complete -->
+              <section class="card loading-card" aria-labelledby="loading-done-title">
+                <header class="loading-card-head">
+                  <h2 id="loading-done-title" class="card-title">2. 로딩 완료 화면</h2>
+                  <p class="page-desc">세션 준비가 끝난 뒤 학습자에게 보이는 안내 화면입니다.</p>
+                </header>
+                <div class="loading-card-body">
+                  <div class="preview-block">
+                    <p class="preview-label">미리보기</p>
+                    <div class="preview-frame" role="img" aria-label="로딩 완료 미리보기 영역 (이미지 없음)">
+                      <span class="preview-empty">미리보기 영역</span>
+                    </div>
+                    <p class="footer-note preview-note">
+                      <span class="info-mark" aria-hidden="true">i</span>
+                      로딩 완료 이미지는 등록할 수 없습니다.
+                    </p>
+                  </div>
+                  <div class="loading-controls">
+                    <label class="check-row">
+                      <input type="checkbox" checked />
+                      노출 사용
+                    </label>
+                    <div class="lang-seg" role="tablist" aria-label="환영 메시지 언어">
+                      <button type="button" class="lang-seg-btn is-active" data-welcome-lang="ko">한국어 (KO)</button>
+                      <button type="button" class="lang-seg-btn" data-welcome-lang="en">English (EN)</button>
+                      <button type="button" class="lang-seg-btn" data-welcome-lang="sl">Slovenščina (SL)</button>
+                    </div>
+                    <div class="textarea-wrap">
+                      <label class="visually-hidden" for="welcome-msg">환영 메시지</label>
+                      <textarea id="welcome-msg" maxlength="200" rows="6">실습 준비가 완료되었습니다. 지금 바로 시작해 보세요.</textarea>
+                      <div class="char-count"><span id="welcome-count">33</span>/200</div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-ghost">취소</button>
+              <button type="button" class="btn btn-primary" data-primary-cta="true">저장</button>
+            </div>
+          </div>
+        </div><!-- /view-settings -->
+
+        <!-- 운영 모니터링 -->
+        <div id="view-monitor" class="view" data-view-panel="monitor" hidden>
+          <div class="page-head page-head-stack">
+            <h1 class="page-title">운영 모니터링</h1>
+          </div>
+
+          <div class="subtab-bar" role="tablist" aria-label="운영 모니터링 구분">
+            <button type="button" class="subtab is-active" role="tab" aria-selected="true" data-monitor-tab="session">세션 분석</button>
+            <button type="button" class="subtab" role="tab" aria-selected="false" data-monitor-tab="widget">위젯 분석</button>
+            <button type="button" class="subtab" role="tab" aria-selected="false" data-monitor-tab="workflow">워크플로우 샘플 분석</button>
+          </div>
+
+          <div id="monitor-session" class="monitor-panel">
+            <div class="filter-bar" aria-label="조회 조건">
+              <div class="date-range" aria-label="기간">
+                <span class="date-ico" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+                </span>
+                <span>2026-07-22 ~ 2026-07-28</span>
+              </div>
+              <div class="chip-group" role="group" aria-label="빠른 기간">
+                <button type="button" class="chip-btn">오늘</button>
+                <button type="button" class="chip-btn">전일</button>
+                <button type="button" class="chip-btn is-active">최근 7일</button>
+                <button type="button" class="chip-btn">최근 30일</button>
+              </div>
+              <label class="visually-hidden" for="monitor-granularity">집계 단위</label>
+              <select id="monitor-granularity" class="select">
+                <option>연간</option>
+                <option selected>주간</option>
+                <option>월간</option>
+              </select>
+              <button type="button" class="btn btn-ghost filter-refresh">새로고침</button>
+            </div>
+
+            <section class="section" aria-label="세션 KPI">
+              <div class="monitor-kpi">
+                <article class="card kpi-card">
+                  <p class="kpi-title">세션 수</p>
+                  <p class="kpi-value">24,842</p>
+                </article>
+                <article class="card kpi-card">
+                  <p class="kpi-title">최대 동시 접속</p>
+                  <p class="kpi-value">1,286</p>
+                </article>
+                <article class="card kpi-card">
+                  <p class="kpi-title">평균 사용 시간(분)</p>
+                  <p class="kpi-value">00:10:15</p>
+                </article>
+                <article class="card kpi-card">
+                  <p class="kpi-title">종료(완료) 세션</p>
+                  <p class="kpi-value">23,615</p>
+                </article>
+              </div>
+            </section>
+
+            <section class="section" aria-label="세션 차트">
+              <div class="analytics-grid">
+                <article class="card">
+                  <div class="card-head">
+                    <h2 class="card-title">세션 추이</h2>
+                  </div>
+                  <div class="chart-frame">
+                    <div class="chart-plot">
+                      <div class="chart-grid-bg" aria-hidden="true"></div>
+                      <svg class="chart-svg" viewBox="0 0 560 200" preserveAspectRatio="none" role="img" aria-label="세션 추이 라인 차트">
+                        <polyline
+                          points="10,150 90,120 170,135 250,90 330,100 410,70 490,55 550,40"
+                          fill="none"
+                          stroke="#6D4AFF"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <g fill="#6D4AFF">
+                          <circle cx="10" cy="150" r="3.5" />
+                          <circle cx="90" cy="120" r="3.5" />
+                          <circle cx="170" cy="135" r="3.5" />
+                          <circle cx="250" cy="90" r="3.5" />
+                          <circle cx="330" cy="100" r="3.5" />
+                          <circle cx="410" cy="70" r="3.5" />
+                          <circle cx="490" cy="55" r="3.5" />
+                          <circle cx="550" cy="40" r="4.5" stroke="#fff" stroke-width="2" />
+                        </g>
+                      </svg>
+                    </div>
+                    <div class="chart-caption" aria-hidden="true">
+                      <span>07/22</span><span>07/23</span><span>07/24</span><span>07/25</span>
+                      <span>07/26</span><span>07/27</span><span>07/28</span>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="card">
+                  <div class="card-head">
+                    <h2 class="card-title">시간대별 세션 시작</h2>
+                  </div>
+                  <div class="chart-frame">
+                    <div class="chart-plot">
+                      <div class="chart-grid-bg" aria-hidden="true"></div>
+                      <div class="hour-bars" id="hourBars" role="img" aria-label="시간대별 세션 시작 막대 차트 00시부터 23시까지"></div>
+                    </div>
+                    <div class="hour-labels" id="hourLabels" aria-hidden="true"></div>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <section class="section" aria-label="이용 분포">
+              <article class="card">
+                <div class="card-head">
+                  <h2 class="card-title">일자 · 시간대 이용 분포</h2>
+                  <div class="heat-legend" aria-hidden="true">
+                    적음
+                    <span class="sw sw-0"></span>
+                    <span class="sw sw-1"></span>
+                    <span class="sw sw-2"></span>
+                    <span class="sw sw-3"></span>
+                    <span class="sw sw-4"></span>
+                    많음
+                  </div>
+                </div>
+                <div class="heatmap-wrap monitor-heat-wrap">
+                  <table class="heatmap" id="monitorHeatTable" aria-label="일자별 시간대 이용 히트맵"></table>
+                </div>
+              </article>
+            </section>
+          </div>
+
+          <div id="monitor-widget" class="monitor-panel" hidden>
+            <p class="page-desc">위젯 분석 화면은 세션 분석과 동일한 필터·차트 패턴으로 이어서 구성합니다.</p>
+          </div>
+          <div id="monitor-workflow" class="monitor-panel" hidden>
+            <p class="page-desc">워크플로우 샘플 분석 화면은 세션 분석과 동일한 필터·차트 패턴으로 이어서 구성합니다.</p>
+          </div>
+        </div><!-- /view-monitor -->
+      </main>
+    </div>
+
+    <script>
+/* Heatmap + navigation + settings subtabs */
+(function () {
+  function renderHeatmapInto(tableId, rowLabels, opts) {
+    opts = opts || {};
+    var everyHour = !!opts.everyHour;
+    var hours = [];
+    for (var h = 0; h < 24; h++) hours.push(h);
+    var scale = [
+      "#F7F8FC",
+      "#F4F1FF",
+      "#DDD4FF",
+      "#AF9AFF",
+      "#8768FF",
+      "#6D4AFF",
+    ];
+    var seedData = [
+      [0, 0, 0, 0, 0, 1, 2, 3, 2, 1, 0, 0, 1, 2, 3, 2, 1, 0, 0, 0, 1, 2, 1, 0],
+      [0, 0, 0, 0, 0, 0, 1, 2, 3, 2, 1, 1, 2, 3, 4, 3, 2, 1, 1, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 1, 2, 2, 1, 1, 2, 3, 4, 4, 3, 2, 2, 1, 1, 1, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 3, 2, 2, 3, 4, 5, 4, 3, 2, 1, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0, 1, 2, 2, 1, 1, 2, 2, 3, 3, 2, 2, 1, 2, 3, 4, 3, 2, 1, 0],
+      [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 2, 2, 3, 4, 5, 5, 4, 3, 2, 1, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 2, 2, 3, 3, 3, 2, 1, 1, 0],
+    ];
+
+    var table = document.getElementById(tableId);
+    if (!table) return;
+
+    var thead = "<tr><th class='row-label'></th>";
+    hours.forEach(function (h) {
+      var label = (h < 10 ? "0" : "") + h;
+      if (everyHour) {
+        thead += "<th>" + label + "</th>";
+      } else if (h % 2 === 0) {
+        thead += "<th colspan='2'>" + h + "</th>";
+      }
+    });
+    thead += "</tr>";
+
+    var body = "";
+    rowLabels.forEach(function (d, r) {
+      body += "<tr><td class='row-label'>" + d + "</td>";
+      seedData[r].forEach(function (v) {
+        body += "<td style='background:" + scale[v] + "'></td>";
+      });
+      body += "</tr>";
+    });
+    table.innerHTML = thead + body;
+  }
+
+  function renderHeatmap() {
+    renderHeatmapInto("heatTable", ["월", "화", "수", "목", "금", "토", "일"]);
+    renderHeatmapInto(
+      "monitorHeatTable",
+      ["7/22", "7/23", "7/24", "7/25", "7/26", "7/27", "7/28"],
+      { everyHour: true }
+    );
+  }
+
+  var titles = {
+    dashboard: "AI 실습 도구 관리 포털 — 대시보드",
+    widgets: "AI 실습 도구 관리 포털 — 위젯 관리",
+    settings: "AI 실습 도구 관리 포털 — 서비스 설정",
+    monitor: "AI 실습 도구 관리 포털 — 운영 모니터링",
+  };
+
+  function showView(view) {
+    var dashboard = document.getElementById("view-dashboard");
+    var widgets = document.getElementById("view-widgets");
+    var settings = document.getElementById("view-settings");
+    var monitor = document.getElementById("view-monitor");
+
+    function setPanel(el, on) {
+      if (!el) return;
+      el.hidden = !on;
+      el.classList.toggle("is-active", on);
+    }
+
+    setPanel(dashboard, view === "dashboard");
+    setPanel(widgets, view === "widgets");
+    setPanel(settings, view === "settings");
+    setPanel(monitor, view === "monitor");
+
+    document.querySelectorAll(".nav-item[data-view]").forEach(function (link) {
+      var active = link.getAttribute("data-view") === view;
+      link.classList.toggle("is-active", active);
+      if (active) link.setAttribute("aria-current", "page");
+      else link.removeAttribute("aria-current");
+    });
+
+    document.title = titles[view] || titles.dashboard;
+
+    /* Keep viewport stable when switching LNB tabs */
+    window.scrollTo(0, 0);
+    var main = document.getElementById("main");
+    if (main) main.scrollTop = 0;
+  }
+
+  function bindNav() {
+    document.querySelectorAll(".nav-item[data-view]").forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        showView(link.getAttribute("data-view"));
+      });
+    });
+  }
+
+  function bindCategory() {
+    document.querySelectorAll(".cat-row[data-cat]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        document.querySelectorAll(".cat-row").forEach(function (el) {
+          el.classList.remove("is-active");
+        });
+        btn.classList.add("is-active");
+        var meta = document.getElementById("widget-panel-meta");
+        if (meta && btn.dataset.exposed && btn.dataset.total) {
+          meta.textContent = btn.dataset.exposed + "/" + btn.dataset.total + " 노출";
+        }
+      });
+    });
+  }
+
+  function bindSettingsTabs() {
+    var tabs = document.querySelectorAll(".subtab[data-subtab]");
+    tabs.forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        var id = tab.getAttribute("data-subtab");
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.classList.toggle("is-active", on);
+          t.setAttribute("aria-selected", on ? "true" : "false");
+        });
+        var lang = document.getElementById("subtab-lang");
+        var loading = document.getElementById("subtab-loading");
+        if (lang) lang.hidden = id !== "lang";
+        if (loading) loading.hidden = id !== "loading";
+      });
+    });
+  }
+
+  function bindCheckAll() {
+    var all = document.getElementById("check-all");
+    if (!all) return;
+    all.addEventListener("change", function () {
+      document.querySelectorAll("#widget-tbody input[type='checkbox']").forEach(function (cb) {
+        cb.checked = all.checked;
+      });
+    });
+  }
+
+  function bindWelcomeLang() {
+    var buttons = document.querySelectorAll(".lang-seg-btn[data-welcome-lang]");
+    var textarea = document.getElementById("welcome-msg");
+    var count = document.getElementById("welcome-count");
+    var messages = {
+      ko: "실습 준비가 완료되었습니다. 지금 바로 시작해 보세요.",
+      en: "Your practice session is ready. Start now.",
+      sl: "Vadba je pripravljena. Začnite zdaj.",
+    };
+
+    function updateCount() {
+      if (textarea && count) count.textContent = String(textarea.value.length);
+    }
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        buttons.forEach(function (b) {
+          b.classList.toggle("is-active", b === btn);
+        });
+        var lang = btn.getAttribute("data-welcome-lang");
+        if (textarea && messages[lang]) textarea.value = messages[lang];
+        updateCount();
+      });
+    });
+
+    if (textarea) {
+      textarea.addEventListener("input", updateCount);
+      updateCount();
+    }
+  }
+
+  function bindMonitorTabs() {
+    var tabs = document.querySelectorAll(".subtab[data-monitor-tab]");
+    tabs.forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        var id = tab.getAttribute("data-monitor-tab");
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.classList.toggle("is-active", on);
+          t.setAttribute("aria-selected", on ? "true" : "false");
+        });
+        var session = document.getElementById("monitor-session");
+        var widget = document.getElementById("monitor-widget");
+        var workflow = document.getElementById("monitor-workflow");
+        if (session) session.hidden = id !== "session";
+        if (widget) widget.hidden = id !== "widget";
+        if (workflow) workflow.hidden = id !== "workflow";
+      });
+    });
+
+    document.querySelectorAll(".chip-group .chip-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        btn.parentElement.querySelectorAll(".chip-btn").forEach(function (b) {
+          b.classList.toggle("is-active", b === btn);
+        });
+      });
+    });
+  }
+
+  function renderHourBars() {
+    var root = document.getElementById("hourBars");
+    var labels = document.getElementById("hourLabels");
+    if (!root) return;
+    var heights = [
+      12, 8, 6, 5, 7, 14, 28, 45, 62, 78, 85, 90, 95, 88, 80, 72, 65, 58, 48,
+      40, 32, 25, 18, 14,
+    ];
+    var barsHtml = "";
+    var labelsHtml = "";
+    for (var h = 0; h < 24; h++) {
+      var label = (h < 10 ? "0" : "") + h;
+      barsHtml +=
+        '<div class="hour-col">' +
+        '<div class="hour-bar" style="height:' +
+        heights[h] +
+        '%" title="' +
+        label +
+        '시"></div></div>';
+      labelsHtml += "<span>" + label + "</span>";
+    }
+    root.innerHTML = barsHtml;
+    if (labels) labels.innerHTML = labelsHtml;
+  }
+
+  renderHeatmap();
+  renderHourBars();
+  bindNav();
+  bindCategory();
+  bindSettingsTabs();
+  bindMonitorTabs();
+  bindCheckAll();
+  bindWelcomeLang();
+
+  var hash = (location.hash || "").replace("#", "");
+  if (hash === "widgets" || hash === "settings" || hash === "monitor") showView(hash);
+  else showView("dashboard");
+})();
+
+</script>
+  </body>
+</html>
