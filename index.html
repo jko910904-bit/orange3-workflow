@@ -771,86 +771,43 @@
     transform: scale(1.08);
   }
 
-  .lang-switch {
-    display: inline-flex; align-items: center; gap: 2px;
-    padding: 3px; border-radius: 10px;
-    background: rgba(0,0,0,.18); border: 1px solid rgba(255,255,255,.28);
-  }
-  .lang-switch button {
-    border: none; background: transparent; color: rgba(255,255,255,.75);
-    font-size: 13px; font-weight: 700; padding: 6px 10px; border-radius: 8px; cursor: pointer;
-  }
-  .lang-switch button.is-active { background: rgba(255,255,255,.22); color: #fff; }
-  .lang-switch button:hover:not(.is-active) { color: #fff; }
-
   .tabs-actions {
-    margin-left: auto; display: flex; align-items: center; gap: 8px;
+    margin-left: auto; display: flex; align-items: center; gap: 10px;
     padding: 0 4px 10px 0; flex-shrink: 0;
   }
-  .tabs-actions .btn-ghost {
-    display: inline-flex; align-items: center; justify-content: center;
-    min-height: 42px;
-    padding: 0 22px;
-    border-radius: 11px;
-    border-color: rgba(255,255,255,.45);
-    color: #fff;
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+  .run-mode-switch {
+    display: inline-flex; align-items: center; gap: 2px;
+    padding: 3px; border-radius: 11px;
+    background: rgba(0,0,0,.18); border: 1px solid rgba(255,255,255,.28);
   }
-  .tabs-actions .btn-ghost:hover {
+  .run-mode-switch button {
+    border: none; background: transparent; color: rgba(255,255,255,.75);
+    font-size: 14px; font-weight: 700; padding: 8px 14px; border-radius: 9px; cursor: pointer;
+    transition: background .18s, color .18s;
+  }
+  .run-mode-switch button.is-active {
+    background: #fff; color: var(--brand-dark);
+  }
+  .run-mode-switch button:hover:not(.is-active) { color: #fff; }
+  .tabs-logout {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    min-height: 42px; padding: 0 16px;
+    border: 1px solid rgba(255,255,255,.45);
+    border-radius: 11px;
+    background: transparent;
+    color: #fff;
+    font-size: 14px; font-weight: 700;
+    cursor: pointer;
+    transition: background .18s, border-color .18s;
+  }
+  .tabs-logout:hover {
     background: rgba(255,255,255,.14);
   }
-  .tabs-actions .btn-run {
-    background: #fff;
-    color: var(--brand);
-    min-height: 42px;
-    padding: 0 22px;
-    border-radius: 11px;
-    font-size: 15px;
-    gap: 9px;
-    box-shadow: 0 4px 14px rgba(0,40,80,.18);
-  }
-  .tabs-actions .btn-run:hover {
-    filter: none;
-    background: #F3F8FE;
-    color: var(--brand-dark);
-    box-shadow: 0 6px 18px rgba(0,40,80,.22);
-  }
-  .tabs-actions .btn-run svg {
-    width: 16px;
-    height: 16px;
-    fill: currentColor;
-  }
-  .btn-run {
-    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-    background: linear-gradient(180deg, #4EA0F0, #227DE2 55%, #1B6BC4);
-    color: #fff; border: none;
-    font-size: 14px; font-weight: 800;
-    letter-spacing: 0.02em;
-    padding: 9px 14px 9px 18px; border-radius: 10px; cursor: pointer;
-    box-shadow:
-      0 1px 0 rgba(255,255,255,.28) inset,
-      0 8px 20px rgba(34,125,226,.38),
-      0 2px 6px rgba(34,125,226,.22);
-    transition: filter var(--motion), box-shadow var(--motion), transform var(--motion);
-  }
-  .btn-run svg {
-    width: 14px; height: 14px;
-    fill: currentColor;
-    flex-shrink: 0;
-  }
-  .btn-run:hover {
-    filter: brightness(1.06);
-    transform: translateY(-1px);
-    box-shadow:
-      0 1px 0 rgba(255,255,255,.32) inset,
-      0 12px 28px rgba(34,125,226,.45),
-      0 4px 10px rgba(34,125,226,.28);
-  }
-  .btn-run:active {
-    transform: translateY(0) scale(0.98);
-    filter: brightness(0.98);
+  .tabs-logout[hidden] { display: none !important; }
+  .tabs-logout svg {
+    width: 16px; height: 16px;
+    stroke: currentColor; fill: none;
+    stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
   }
   .btn-ghost {
     background: transparent; border: 1px solid var(--border); font-weight: 600;
@@ -1514,20 +1471,6 @@
     font-size: 11px; color: var(--muted);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  .auth-logout {
-    flex-shrink: 0;
-    width: 28px; height: 28px; border: none; border-radius: 8px;
-    background: transparent; color: var(--muted); cursor: pointer;
-    display: inline-flex; align-items: center; justify-content: center;
-    padding: 0;
-  }
-  .auth-logout:hover { background: #F5F5F5; color: var(--text); }
-  .auth-logout svg {
-    width: 16px; height: 16px;
-    stroke: currentColor; fill: none;
-    stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
-  }
-  .rail.collapsed .auth-logout { display: none; }
 
   /* Figma-style floating toolbar */
   .toolbar {
@@ -1996,9 +1939,6 @@
           <div class="auth-name" id="authName"></div>
           <div class="auth-email" id="authEmail"></div>
         </div>
-        <button class="auth-logout" type="button" id="btnLogout" title="Logout" aria-label="Logout">
-          <svg viewBox="0 0 24 24"><path d="M14 12H5"/><path d="M9 7l-5 5 5 5"/><path d="M11 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6"/></svg>
-        </button>
       </div>
       <button class="rail-item" type="button" id="btnLogin" title="Login">
         <span class="ri-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 12h9"/><path d="M15 7l5 5-5 5"/><path d="M13 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h6"/></svg></span>
@@ -2035,15 +1975,14 @@
         </button>
       </div>
       <button class="tab-add" type="button" title="탭 추가">＋</button>
-            <div class="tabs-actions">
-        <div class="lang-switch" role="group" aria-label="언어">
-          <button type="button" data-lang="ko" class="is-active" aria-pressed="true">한</button>
-          <button type="button" data-lang="en" aria-pressed="false">영</button>
+      <div class="tabs-actions">
+        <div class="run-mode-switch" role="group" aria-label="실행 모드">
+          <button type="button" data-run-mode="auto" class="is-active" aria-pressed="true" data-i18n="tabs.runAuto">자동</button>
+          <button type="button" data-run-mode="manual" aria-pressed="false" data-i18n="tabs.runManual">수동</button>
         </div>
-        <button class="btn-ghost" type="button" data-i18n="tabs.export">내보내기</button>
-        <button class="btn-run" type="button" id="btnRun">
-          <span data-i18n="tabs.run">실행</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l12-6.5L8 5.5Z"/></svg>
+        <button class="tabs-logout" type="button" id="btnLogout" hidden title="Logout" aria-label="Logout">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 12H5"/><path d="M9 7l-5 5 5 5"/><path d="M11 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6"/></svg>
+          <span data-i18n="auth.logout">로그아웃</span>
         </button>
       </div>
     </div>
@@ -3309,7 +3248,8 @@
   let lang = localStorage.getItem(LANG_KEY) || 'ko';
   const I18N = {
     ko: {
-      'tabs.export': '내보내기', 'tabs.run': '실행', 'auth.login': '로그인', 'auth.logout': '로그아웃',
+      'tabs.runAuto': '자동', 'tabs.runManual': '수동', 'auth.login': '로그인', 'auth.logout': '로그아웃',
+      'menu.setLang': '언어', 'menu.setLangKo': '한국어', 'menu.setLangEn': 'English',
       'menu.new': '새로 만들기', 'menu.open': '열기', 'menu.menu': '메뉴', 'menu.workspaces': '워크스페이스',
       'menu.widgets': '위젯', 'menu.datasets': '분석 데이터셋', 'menu.templates': '템플릿',
       'menu.examples': '예제', 'menu.datasetDes': '데이터셋 설명', 'menu.help': '도움말', 'menu.settings': '설정',
@@ -3334,7 +3274,8 @@
       'onboard.step1': '위젯 추가', 'onboard.step2': '위젯 연결', 'onboard.step3': '실행 후 결과 확인',
     },
     en: {
-      'tabs.export': 'Export', 'tabs.run': 'Run', 'auth.login': 'Login', 'auth.logout': 'Logout',
+      'tabs.runAuto': 'Auto', 'tabs.runManual': 'Manual', 'auth.login': 'Login', 'auth.logout': 'Logout',
+      'menu.setLang': 'Language', 'menu.setLangKo': '한국어', 'menu.setLangEn': 'English',
       'menu.new': 'New', 'menu.open': 'Open', 'menu.menu': 'Menu', 'menu.workspaces': 'WorkSpaces',
       'menu.widgets': 'Widget', 'menu.datasets': 'Analysis Datasets', 'menu.templates': 'Templates',
       'menu.examples': 'Examples', 'menu.datasetDes': 'Dataset Description', 'menu.help': 'Help', 'menu.settings': 'Settings',
@@ -3380,6 +3321,7 @@
     'help-community':'menu.helpCommunity', 'set-general':'menu.setGeneral', 'set-shortcuts':'menu.setShortcuts',
     'set-appearance':'menu.setAppearance',
     'set-appearance-light':'menu.setAppearanceLight', 'set-appearance-dark':'menu.setAppearanceDark', 'set-appearance-auto':'menu.setAppearanceAuto',
+    'set-lang':'menu.setLang', 'set-lang-ko':'menu.setLangKo', 'set-lang-en':'menu.setLangEn',
     theme:'menu.theme', 'theme-none':'menu.themeNone', 'theme-pengsu':'menu.themePengsu', 'theme-rabbit':'menu.themeRabbit',
   };
   function t(key) {
@@ -3392,41 +3334,47 @@
       if (item.children) localizeMenuTree(item.children);
     });
   }
+  function syncLangMenu() {
+    document.querySelectorAll('[data-menu="set-lang-ko"], [data-menu="set-lang-en"]').forEach(el => {
+      const on = (el.dataset.menu === 'set-lang-ko' && lang === 'ko')
+        || (el.dataset.menu === 'set-lang-en' && lang === 'en');
+      el.classList.toggle('is-selected', on);
+      el.classList.toggle('active', on);
+    });
+  }
   function applyI18n(root = document) {
     root.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
       if (key) el.textContent = t(key);
     });
-    document.querySelectorAll('[data-lang]').forEach(btn => {
-      const on = btn.dataset.lang === lang;
-      btn.classList.toggle('is-active', on);
-      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    });
     document.documentElement.lang = lang;
+    syncLangMenu();
   }
   function setLang(next) {
-    if (!I18N[next] || next === lang) return;
-    lang = next;
-    localStorage.setItem(LANG_KEY, lang);
-    localizeMenuTree(MENU_SECTIONS.flatMap(s => s.items));
-    localizeMenuTree(MENU_BOTTOM);
-    applyI18n(document);
-    if (typeof renderMenuLocales === 'function') renderMenuLocales();
-    else {
-      renderMenuSections(MENU_SECTIONS, railMenu);
-      renderMenuSections([{ items: MENU_BOTTOM }], railBottom);
-      bindMenuClicks(railMenu);
-      bindMenuClicks(railBottom);
+    if (!I18N[next]) return;
+    if (next !== lang) {
+      lang = next;
+      localStorage.setItem(LANG_KEY, lang);
+      localizeMenuTree(MENU_SECTIONS.flatMap(s => s.items));
+      localizeMenuTree(MENU_BOTTOM);
+      applyI18n(document);
+      if (typeof renderMenuLocales === 'function') renderMenuLocales();
+      else {
+        renderMenuSections(MENU_SECTIONS, railMenu);
+        renderMenuSections([{ items: MENU_BOTTOM }], railBottom);
+        bindMenuClicks(railMenu);
+        bindMenuClicks(railBottom);
+      }
+      document.querySelectorAll('[data-onboard-step] .step-title').forEach(el => {
+        const step = el.closest('[data-onboard-step]')?.dataset.onboardStep;
+        const map = { add: 'onboard.step1', connect: 'onboard.step2', run: 'onboard.step3' };
+        if (map[step]) el.textContent = t(map[step]);
+      });
     }
-    document.querySelectorAll('[data-onboard-step] .step-title').forEach(el => {
-      const step = el.closest('[data-onboard-step]')?.dataset.onboardStep;
-      const map = { add: 'onboard.step1', connect: 'onboard.step2', run: 'onboard.step3' };
-      if (map[step]) el.textContent = t(map[step]);
-    });
+    document.querySelector('[data-group="settings"]')?.classList.add('open');
+    document.querySelector('[data-wrap="set-lang"]')?.classList.add('open');
+    syncLangMenu();
   }
-  document.querySelectorAll('[data-lang]').forEach(btn => {
-    btn.addEventListener('click', () => setLang(btn.dataset.lang));
-  });
 
   const MENU_SECTIONS = [
     {
@@ -3584,6 +3532,13 @@
             { id: 'set-appearance-auto', label: '시스템 설정' },
           ],
         },
+        {
+          id: 'set-lang', label: '언어',
+          children: [
+            { id: 'set-lang-ko', label: '한국어' },
+            { id: 'set-lang-en', label: 'English' },
+          ],
+        },
       ],
     },
     {
@@ -3686,15 +3641,28 @@
         el.classList.toggle('active', false);
         return;
       }
+      if (el.dataset.menu === 'set-lang-ko' || el.dataset.menu === 'set-lang-en') {
+        el.classList.toggle('active', false);
+        return;
+      }
       el.classList.toggle('active', el.dataset.menu === id);
     });
     syncWidgetSidebar();
+    if (id === 'set-lang-ko') {
+      setLang('ko');
+      return;
+    }
+    if (id === 'set-lang-en') {
+      setLang('en');
+      return;
+    }
     if (CHAR_MODE_BY_MENU[id]) {
       document.querySelector('[data-group="theme"]')?.classList.add('open');
       setCharacterMode(CHAR_MODE_BY_MENU[id]);
       return;
     }
     syncThemeTabs();
+    syncLangMenu();
     if (id === 'open' || id === 'open-file' || id.startsWith('recent-') || id === 'open-recent') {
       openOpenDialog('local');
       return;
@@ -3790,6 +3758,8 @@
     renderMenuSections([{ items: MENU_BOTTOM }], railBottom);
     bindMenuClicks(railMenu);
     bindMenuClicks(railBottom);
+    syncThemeTabs();
+    syncLangMenu();
   }
 
   function findMenuItem(id, lists = [...MENU_SECTIONS.flatMap(s => s.items), ...MENU_BOTTOM]) {
@@ -3997,16 +3967,34 @@ document.querySelector('.tab-add')?.addEventListener('click', () => {
 /* initial tab already in DOM counts as #1 */
 tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
-  document.getElementById('btnRun').onclick = () => {
-    showHint('워크플로 실행 중…');
-    connSvg.classList.add('is-running');
-    drawConnections();
-    setTimeout(() => {
-      connSvg.classList.remove('is-running');
+  const RUN_MODE_KEY = 'orange3-run-mode';
+  let runMode = localStorage.getItem(RUN_MODE_KEY) === 'manual' ? 'manual' : 'auto';
+  function syncRunModeUI() {
+    document.querySelectorAll('[data-run-mode]').forEach(btn => {
+      const on = btn.dataset.runMode === runMode;
+      btn.classList.toggle('is-active', on);
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  function setRunMode(mode) {
+    if (mode !== 'auto' && mode !== 'manual') return;
+    runMode = mode;
+    localStorage.setItem(RUN_MODE_KEY, mode);
+    syncRunModeUI();
+    showHint(mode === 'auto' ? t('tabs.runAuto') : t('tabs.runManual'));
+    if (mode === 'auto') {
+      connSvg.classList.add('is-running');
       drawConnections();
-      showHint('실행 완료');
-    }, 900);
-  };
+      setTimeout(() => {
+        connSvg.classList.remove('is-running');
+        drawConnections();
+      }, 700);
+    }
+  }
+  document.querySelectorAll('[data-run-mode]').forEach(btn => {
+    btn.addEventListener('click', () => setRunMode(btn.dataset.runMode));
+  });
+  syncRunModeUI();
 
   function fitView() {
     if (!nodes.length) return;
@@ -4164,7 +4152,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   const ONBOARD_HINTS = {
     add: '왼쪽 위젯 패널에서 위젯을 선택하거나 캔버스로 드래그해 배치하세요',
     connect: '위젯 포트에서 드래그해 다른 위젯과 연결하세요',
-    run: '상단 Run 버튼을 눌러 분석 결과를 확인하세요',
+    run: '상단 자동/수동 모드로 분석 실행 방식을 선택하세요',
   };
 
   function getUser() {
@@ -4224,6 +4212,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     const loggedIn = !!user;
     authUserEl.hidden = !loggedIn;
     btnLogin.hidden = loggedIn;
+    if (btnLogout) btnLogout.hidden = !loggedIn;
     if (loggedIn) {
       const name = user.name || user.email.split('@')[0];
       document.getElementById('authName').textContent = name;
