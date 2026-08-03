@@ -599,6 +599,43 @@ button {
   width: 56px;
 }
 
+/* Monitor: date×hour distribution — equal L/R padding, full-width cells */
+#monitorHeatTable {
+  table-layout: fixed;
+  width: 100%;
+  border-spacing: 2px;
+}
+
+#monitorHeatTable .row-label {
+  width: 36px;
+  min-width: 36px;
+  padding: 0 6px 0 0;
+  box-sizing: border-box;
+}
+
+#monitorHeatTable th:not(.row-label),
+#monitorHeatTable td:not(.row-label) {
+  width: auto;
+  padding: 0;
+  height: 18px;
+}
+
+#monitorHeatTable th:not(.row-label) {
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+  padding-bottom: 4px;
+  overflow: hidden;
+}
+
+#monitorHeatTable td:not(.row-label) {
+  border-radius: 3px;
+}
+
+.monitor-heat-wrap {
+  padding: 0;
+  margin: 0;
+}
+
 .heat-legend {
   display: flex;
   align-items: center;
