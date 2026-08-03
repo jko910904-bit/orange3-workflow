@@ -6,9 +6,13 @@ Standalone static admin (`index.html` · `styles.css` · `app.js`).
 
 ## Working preview (open this)
 
-Single-file bundle (no GitHub Pages required):
+Live tunnel (no GitHub Pages / Vercel required):
 
-**https://litter.catbox.moe/9zt66j.html**
+**https://b9ad238dc9d3d7.lhr.life/**
+
+Backup: **https://nicholas-uniprotkb-wma-usc.trycloudflare.com/**
+
+> Note: `github.io` is 404 until Pages is enabled. File hosts like `litter.catbox.moe` are often blocked on KR networks.
 
 ## Local
 
