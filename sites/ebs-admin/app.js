@@ -1,11 +1,8 @@
 /* Heatmap + navigation + settings subtabs */
 (function () {
-  function renderHeatmap() {
-    var days = ["월", "화", "수", "목", "금", "토", "일"];
-    var hours = [
-      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-      21, 22, 23,
-    ];
+  function renderHeatmapInto(tableId, rowLabels) {
+    var hours = [];
+    for (var h = 0; h < 24; h++) hours.push(h);
     var scale = [
       "#F7F8FC",
       "#F4F1FF",
@@ -24,7 +21,7 @@
       [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 2, 2, 3, 3, 3, 2, 1, 1, 0],
     ];
 
-    var table = document.getElementById("heatTable");
+    var table = document.getElementById(tableId);
     if (!table) return;
 
     var thead = "<tr><th class='row-label'></th>";
@@ -34,7 +31,7 @@
     thead += "</tr>";
 
     var body = "";
-    days.forEach(function (d, r) {
+    rowLabels.forEach(function (d, r) {
       body += "<tr><td class='row-label'>" + d + "</td>";
       seedData[r].forEach(function (v) {
         body += "<td style='background:" + scale[v] + "'></td>";
@@ -42,6 +39,19 @@
       body += "</tr>";
     });
     table.innerHTML = thead + body;
+  }
+
+  function renderHeatmap() {
+    renderHeatmapInto("heatTable", ["월", "화", "수", "목", "금", "토", "일"]);
+    renderHeatmapInto("monitorHeatTable", [
+      "7/22",
+      "7/23",
+      "7/24",
+      "7/25",
+      "7/26",
+      "7/27",
+      "7/28",
+    ]);
   }
 
   var titles = {
@@ -55,7 +65,7 @@
     var dashboard = document.getElementById("view-dashboard");
     var widgets = document.getElementById("view-widgets");
     var settings = document.getElementById("view-settings");
-    var placeholder = document.getElementById("view-placeholder");
+    var monitor = document.getElementById("view-monitor");
 
     function setPanel(el, on) {
       if (!el) return;
@@ -66,12 +76,7 @@
     setPanel(dashboard, view === "dashboard");
     setPanel(widgets, view === "widgets");
     setPanel(settings, view === "settings");
-    setPanel(placeholder, view === "monitor");
-
-    if (view === "monitor") {
-      var t = document.getElementById("placeholder-title");
-      if (t) t.textContent = "운영 모니터링";
-    }
+    setPanel(monitor, view === "monitor");
 
     document.querySelectorAll(".nav-item[data-view]").forEach(function (link) {
       var active = link.getAttribute("data-view") === view;
@@ -166,10 +171,39 @@
     }
   }
 
+  function bindMonitorTabs() {
+    var tabs = document.querySelectorAll(".subtab[data-monitor-tab]");
+    tabs.forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        var id = tab.getAttribute("data-monitor-tab");
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.classList.toggle("is-active", on);
+          t.setAttribute("aria-selected", on ? "true" : "false");
+        });
+        var session = document.getElementById("monitor-session");
+        var widget = document.getElementById("monitor-widget");
+        var workflow = document.getElementById("monitor-workflow");
+        if (session) session.hidden = id !== "session";
+        if (widget) widget.hidden = id !== "widget";
+        if (workflow) workflow.hidden = id !== "workflow";
+      });
+    });
+
+    document.querySelectorAll(".chip-group .chip-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        btn.parentElement.querySelectorAll(".chip-btn").forEach(function (b) {
+          b.classList.toggle("is-active", b === btn);
+        });
+      });
+    });
+  }
+
   renderHeatmap();
   bindNav();
   bindCategory();
   bindSettingsTabs();
+  bindMonitorTabs();
   bindCheckAll();
   bindWelcomeLang();
 

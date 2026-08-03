@@ -789,12 +789,147 @@
           </div>
         </div><!-- /view-settings -->
 
-        <div id="view-placeholder" class="view" data-view-panel="placeholder" hidden>
-          <div class="page-head">
-            <h1 class="page-title" id="placeholder-title">준비 중</h1>
+        <!-- 운영 모니터링 -->
+        <div id="view-monitor" class="view" data-view-panel="monitor" hidden>
+          <div class="page-head page-head-stack">
+            <h1 class="page-title">운영 모니터링</h1>
           </div>
-          <p class="page-desc">이 메뉴 화면은 아직 구성되지 않았습니다.</p>
-        </div>
+
+          <div class="subtab-bar" role="tablist" aria-label="운영 모니터링 구분">
+            <button type="button" class="subtab is-active" role="tab" aria-selected="true" data-monitor-tab="session">세션 분석</button>
+            <button type="button" class="subtab" role="tab" aria-selected="false" data-monitor-tab="widget">위젯 분석</button>
+            <button type="button" class="subtab" role="tab" aria-selected="false" data-monitor-tab="workflow">워크플로우 샘플 분석</button>
+          </div>
+
+          <div id="monitor-session" class="monitor-panel">
+            <div class="filter-bar" aria-label="조회 조건">
+              <div class="date-range" aria-label="기간">
+                <span class="date-ico" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+                </span>
+                <span>2026-07-22 ~ 2026-07-28</span>
+              </div>
+              <div class="chip-group" role="group" aria-label="빠른 기간">
+                <button type="button" class="chip-btn">오늘</button>
+                <button type="button" class="chip-btn">전일</button>
+                <button type="button" class="chip-btn is-active">최근 7일</button>
+                <button type="button" class="chip-btn">최근 30일</button>
+              </div>
+              <label class="visually-hidden" for="monitor-granularity">집계 단위</label>
+              <select id="monitor-granularity" class="select">
+                <option>연간</option>
+                <option selected>주간</option>
+                <option>월간</option>
+              </select>
+              <button type="button" class="btn btn-ghost filter-refresh">새로고침</button>
+            </div>
+
+            <section class="section" aria-label="세션 KPI">
+              <div class="monitor-kpi">
+                <article class="card kpi-card">
+                  <p class="kpi-title">세션 수</p>
+                  <p class="kpi-value">24,842</p>
+                </article>
+                <article class="card kpi-card">
+                  <p class="kpi-title">최대 동시 접속</p>
+                  <p class="kpi-value">1,286</p>
+                </article>
+                <article class="card kpi-card">
+                  <p class="kpi-title">평균 사용 시간(분)</p>
+                  <p class="kpi-value">00:10:15</p>
+                </article>
+                <article class="card kpi-card">
+                  <p class="kpi-title">종료(완료) 세션</p>
+                  <p class="kpi-value">23,615</p>
+                </article>
+              </div>
+            </section>
+
+            <section class="section" aria-label="세션 차트">
+              <div class="analytics-grid">
+                <article class="card">
+                  <div class="card-head">
+                    <h2 class="card-title">세션 추이</h2>
+                  </div>
+                  <p class="chart-summary">07/22–07/28 세션 추이. 단위: 건.</p>
+                  <svg viewBox="0 0 560 200" width="100%" height="200" preserveAspectRatio="none" role="img" aria-label="세션 추이 라인 차트">
+                    <line x1="0" y1="10" x2="560" y2="10" class="chart-grid" />
+                    <line x1="0" y1="55" x2="560" y2="55" class="chart-grid" />
+                    <line x1="0" y1="100" x2="560" y2="100" class="chart-grid" />
+                    <line x1="0" y1="145" x2="560" y2="145" class="chart-grid" />
+                    <line x1="0" y1="190" x2="560" y2="190" class="chart-grid" />
+                    <polyline
+                      points="10,150 90,120 170,135 250,90 330,100 410,70 490,55 550,40"
+                      fill="none"
+                      stroke="#6D4AFF"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <g fill="#6D4AFF">
+                      <circle cx="10" cy="150" r="3.5" />
+                      <circle cx="90" cy="120" r="3.5" />
+                      <circle cx="170" cy="135" r="3.5" />
+                      <circle cx="250" cy="90" r="3.5" />
+                      <circle cx="330" cy="100" r="3.5" />
+                      <circle cx="410" cy="70" r="3.5" />
+                      <circle cx="490" cy="55" r="3.5" />
+                      <circle cx="550" cy="40" r="4.5" stroke="#fff" stroke-width="2" />
+                    </g>
+                  </svg>
+                  <div class="chart-caption" aria-hidden="true">
+                    <span>07/22</span><span>07/23</span><span>07/24</span><span>07/25</span>
+                    <span>07/26</span><span>07/27</span><span>07/28</span>
+                  </div>
+                </article>
+
+                <article class="card">
+                  <div class="card-head">
+                    <h2 class="card-title">시간대별 세션 시작</h2>
+                  </div>
+                  <p class="chart-summary">시간대별 세션 시작 건수. 00–23시.</p>
+                  <div class="hour-bars" role="img" aria-label="시간대별 세션 시작 막대 차트">
+                    <div class="hour-col"><div class="hour-bar" style="height:18%"></div><span>00</span></div>
+                    <div class="hour-col"><div class="hour-bar" style="height:12%"></div><span>03</span></div>
+                    <div class="hour-col"><div class="hour-bar" style="height:35%"></div><span>06</span></div>
+                    <div class="hour-col"><div class="hour-bar" style="height:62%"></div><span>09</span></div>
+                    <div class="hour-col"><div class="hour-bar" style="height:88%"></div><span>12</span></div>
+                    <div class="hour-col"><div class="hour-bar" style="height:74%"></div><span>15</span></div>
+                    <div class="hour-col"><div class="hour-bar" style="height:55%"></div><span>18</span></div>
+                    <div class="hour-col"><div class="hour-bar" style="height:30%"></div><span>21</span></div>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <section class="section" aria-label="이용 분포">
+              <article class="card">
+                <div class="card-head">
+                  <h2 class="card-title">일자 · 시간대 이용 분포</h2>
+                  <div class="heat-legend" aria-hidden="true">
+                    적음
+                    <span class="sw sw-0"></span>
+                    <span class="sw sw-1"></span>
+                    <span class="sw sw-2"></span>
+                    <span class="sw sw-3"></span>
+                    <span class="sw sw-4"></span>
+                    많음
+                  </div>
+                </div>
+                <div class="heatmap-wrap">
+                  <table class="heatmap" id="monitorHeatTable" aria-label="일자별 시간대 이용 히트맵"></table>
+                </div>
+              </article>
+            </section>
+          </div>
+
+          <div id="monitor-widget" class="monitor-panel" hidden>
+            <p class="page-desc">위젯 분석 화면은 세션 분석과 동일한 필터·차트 패턴으로 이어서 구성합니다.</p>
+          </div>
+          <div id="monitor-workflow" class="monitor-panel" hidden>
+            <p class="page-desc">워크플로우 샘플 분석 화면은 세션 분석과 동일한 필터·차트 패턴으로 이어서 구성합니다.</p>
+          </div>
+        </div><!-- /view-monitor -->
       </main>
     </div>
 
