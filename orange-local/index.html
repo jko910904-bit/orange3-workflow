@@ -215,6 +215,7 @@
     scrollbar-width: thin;
     display: flex; flex-direction: column; align-items: center; gap: 6px;
     width: 100%;
+    padding-top: 8px;
   }
   .rail.collapsed .rail-scroll { overflow: visible; }
   #railBottom {
@@ -372,6 +373,95 @@
   .rail-flyout .rail-sub-children { grid-template-rows: 1fr !important; display: block !important; }
   .rail-flyout .rail-children > .rail-children-inner,
   .rail-flyout .rail-sub-children > .rail-sub-children-inner { overflow: visible; }
+
+  /* Settings popover */
+  .settings-popover {
+    position: fixed;
+    z-index: 220;
+    width: min(280px, calc(100vw - 24px));
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 14px 36px rgba(15, 23, 42, .16);
+    padding: 16px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-6px);
+    transition: opacity .18s var(--ease), transform .22s var(--ease);
+  }
+  .settings-popover.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+  }
+  .settings-popover[hidden] { display: none !important; }
+  .settings-section + .settings-section { margin-top: 16px; }
+  .settings-heading {
+    font-size: 14px;
+    font-weight: 750;
+    color: #1F2328;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .settings-theme-row {
+    display: flex;
+    gap: 8px;
+  }
+  .settings-theme-btn {
+    flex: 1;
+    min-height: 38px;
+    padding: 8px 6px;
+    border-radius: 10px;
+    border: 1px solid #E5E7EB;
+    background: #fff;
+    color: #4B5563;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .settings-theme-btn:hover {
+    border-color: color-mix(in srgb, var(--brand) 35%, #E5E7EB);
+    color: var(--brand-dark);
+  }
+  .settings-theme-btn.is-selected {
+    background: color-mix(in srgb, var(--brand) 10%, #fff);
+    border-color: color-mix(in srgb, var(--brand) 55%, #93C5FD);
+    color: var(--brand-dark);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--brand) 18%, transparent);
+  }
+  .settings-select-wrap {
+    display: block;
+    position: relative;
+  }
+  .settings-select-wrap select {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    min-height: 40px;
+    padding: 9px 36px 9px 12px;
+    border-radius: 10px;
+    border: 1px solid #E5E7EB;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center / 16px;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #1F2328;
+    cursor: pointer;
+  }
+  .settings-select-wrap select:focus {
+    outline: none;
+    border-color: color-mix(in srgb, var(--brand) 45%, #E5E7EB);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 14%, transparent);
+  }
+  .settings-note {
+    margin: 14px 0 0;
+    font-size: 11.5px;
+    line-height: 1.4;
+    color: #9CA3AF;
+    font-weight: 500;
+  }
 
   /* ---------- Sidebar (right, under tabs like props) ---------- */
   .sidebar {
@@ -2088,12 +2178,6 @@
 <body>
 
   <nav class="rail collapsed" id="rail">
-    <div class="rail-head">
-      <button class="rail-toggle" type="button" id="btnRailToggle" title="Orange3" aria-label="Orange3">
-        <svg class="toggle-ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
-      </button>
-    </div>
-
     <div class="rail-scroll" id="railMenu"></div>
 
     <div class="rail-section" id="railBottom"></div>
@@ -2114,6 +2198,26 @@
   </nav>
 
   <div class="rail-flyout" id="railFlyout" hidden></div>
+  <div class="settings-popover" id="settingsPopover" hidden role="dialog" aria-label="설정">
+    <div class="settings-section">
+      <div class="settings-heading" data-i18n="settings.themeStyle">테마 스타일</div>
+      <div class="settings-theme-row" role="group" aria-label="테마 스타일">
+        <button type="button" class="settings-theme-btn" data-theme-mode="none">기본</button>
+        <button type="button" class="settings-theme-btn" data-theme-mode="pengsu">펭수</button>
+        <button type="button" class="settings-theme-btn" data-theme-mode="rabbit">토끼</button>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-heading" data-i18n="settings.lang">언어 설정</div>
+      <label class="settings-select-wrap">
+        <select id="settingsLangSelect" aria-label="언어 설정">
+          <option value="ko">한국어(ko)</option>
+          <option value="en">English(en)</option>
+        </select>
+      </label>
+    </div>
+    <p class="settings-note" data-i18n="settings.note">설정 정보는 브라우저에 저장됩니다.</p>
+  </div>
 
   <div class="main">
     <div class="tabs">
@@ -3245,6 +3349,8 @@
     if (e.key === 'Escape') {
       cancelLink();
       clearSelection();
+      if (typeof hideSettingsPopover === 'function') hideSettingsPopover();
+      if (typeof hideFlyout === 'function') hideFlyout();
     }
     if ((e.key === 'Delete' || e.key === 'Backspace') && !isTyping(e)) {
       if (selectedNodeId) deleteNode(selectedNodeId);
@@ -3331,6 +3437,9 @@
     ko: {
       'tabs.runOn': 'On', 'tabs.runOff': 'Off', 'auth.login': '로그인', 'auth.logout': '로그아웃',
       'menu.setLang': '언어', 'menu.setLangKo': '한국어', 'menu.setLangEn': 'English',
+      'settings.themeStyle': '테마 스타일', 'settings.lang': '언어 설정',
+      'settings.note': '설정 정보는 브라우저에 저장됩니다.',
+      'menu.themeNone': '기본', 'menu.themePengsu': '펭수', 'menu.themeRabbit': '토끼',
       'menu.new': '새로 만들기', 'menu.open': '열기', 'menu.file': '파일', 'menu.saveOws': '.ows로 저장하기', 'menu.menu': '메뉴', 'menu.workspaces': '워크스페이스',
       'menu.widgets': '위젯', 'menu.datasets': '분석 데이터셋', 'menu.templates': '워크플로우 템플릿',
       'menu.examples': '예제', 'menu.datasetDes': '데이터셋 설명', 'menu.help': '도움말', 'menu.settings': '설정',
@@ -3357,6 +3466,9 @@
     en: {
       'tabs.runOn': 'On', 'tabs.runOff': 'Off', 'auth.login': 'Login', 'auth.logout': 'Logout',
       'menu.setLang': 'Language', 'menu.setLangKo': '한국어', 'menu.setLangEn': 'English',
+      'settings.themeStyle': 'Theme style', 'settings.lang': 'Language',
+      'settings.note': 'Settings are saved in this browser.',
+      'menu.themeNone': 'Basic', 'menu.themePengsu': 'Pengsu', 'menu.themeRabbit': 'Rabbit',
       'menu.new': 'New', 'menu.open': 'Open', 'menu.file': 'File', 'menu.saveOws': 'Save as .ows', 'menu.menu': 'Menu', 'menu.workspaces': 'WorkSpaces',
       'menu.widgets': 'Widgets', 'menu.datasets': 'Analysis Datasets', 'menu.templates': 'Workflow Templates',
       'menu.examples': 'Examples', 'menu.datasetDes': 'Dataset Description', 'menu.help': 'Help', 'menu.settings': 'Settings',
@@ -3452,9 +3564,8 @@
         if (map[step]) el.textContent = t(map[step]);
       });
     }
-    document.querySelector('[data-group="settings"]')?.classList.add('open');
-    document.querySelector('[data-wrap="set-lang"]')?.classList.add('open');
     syncLangMenu();
+    if (typeof syncSettingsPopoverUI === 'function') syncSettingsPopoverUI();
   }
 
   const MENU_SECTIONS = [
@@ -3475,7 +3586,10 @@
     },
   ];
 
-  const MENU_BOTTOM = [];
+  const MENU_BOTTOM = [
+    { id: 'help', label: '도움말', icon: 'help' },
+    { id: 'settings', label: '설정', icon: 'settings' },
+  ];
 
   const MENU_ICONS = {
     file: '<path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H11l2 2h4.5A2.5 2.5 0 0 1 20 9.5v7A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5v-9Z"/>',
@@ -3633,6 +3747,17 @@
       showHint(label || t('menu.datasets'));
       return;
     }
+    if (id === 'help') {
+      hideSettingsPopover();
+      showHint(lang === 'en' ? 'Help docs coming soon' : '도움말 문서를 준비 중입니다');
+      return;
+    }
+    if (id === 'settings') {
+      hideFlyout();
+      const btn = document.querySelector('[data-menu="settings"]');
+      if (btn) toggleSettingsPopover(btn);
+      return;
+    }
     if (id === 'file') return;
     showHint(label || id);
   }
@@ -3684,7 +3809,54 @@
     railFlyout.hidden = true;
   }
 
+  const settingsPopover = document.getElementById('settingsPopover');
+  let settingsOpen = false;
+
+  function syncSettingsPopoverUI() {
+    if (!settingsPopover) return;
+    settingsPopover.querySelectorAll('[data-theme-mode]').forEach(btn => {
+      const mode = btn.dataset.themeMode;
+      btn.classList.toggle('is-selected', mode === characterMode);
+      const key = ({ none: 'menu.themeNone', pengsu: 'menu.themePengsu', rabbit: 'menu.themeRabbit' })[mode];
+      if (key) btn.textContent = t(key);
+    });
+    const sel = document.getElementById('settingsLangSelect');
+    if (sel) sel.value = lang;
+    settingsPopover.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (key) el.textContent = t(key);
+    });
+  }
+
+  function hideSettingsPopover() {
+    if (!settingsPopover) return;
+    settingsOpen = false;
+    settingsPopover.classList.remove('show');
+    settingsPopover.hidden = true;
+  }
+
+  function showSettingsPopover(anchor) {
+    if (!settingsPopover || !anchor) return;
+    hideFlyout();
+    syncSettingsPopoverUI();
+    settingsPopover.hidden = false;
+    const rect = anchor.getBoundingClientRect();
+    requestAnimationFrame(() => {
+      const top = Math.min(Math.max(8, rect.top - 20), window.innerHeight - settingsPopover.offsetHeight - 12);
+      settingsPopover.style.top = `${top}px`;
+      settingsPopover.style.left = `${rect.right + 10}px`;
+      settingsPopover.classList.add('show');
+      settingsOpen = true;
+    });
+  }
+
+  function toggleSettingsPopover(anchor) {
+    if (settingsOpen) hideSettingsPopover();
+    else showSettingsPopover(anchor);
+  }
+
   function showFlyout(anchor, item) {
+    hideSettingsPopover();
     const rect = anchor.getBoundingClientRect();
     railFlyout.hidden = false;
     const body = item.id === 'theme'
@@ -3764,8 +3936,27 @@
     setWidgetSidebarCollapsed(!sidebar.classList.contains('is-collapsed'));
   });
 
+  document.getElementById('settingsLangSelect')?.addEventListener('change', e => {
+    setLang(e.target.value);
+    syncSettingsPopoverUI();
+  });
+  settingsPopover?.querySelectorAll('[data-theme-mode]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setCharacterMode(btn.dataset.themeMode);
+      syncSettingsPopoverUI();
+    });
+  });
+
   document.addEventListener('click', e => {
     if (!railFlyout.contains(e.target) && !e.target.closest('.rail-item.has-children')) hideFlyout();
+    if (
+      settingsOpen
+      && settingsPopover
+      && !settingsPopover.contains(e.target)
+      && !e.target.closest('[data-menu="settings"]')
+    ) {
+      hideSettingsPopover();
+    }
   });
   rail.classList.add('collapsed');
 
@@ -3865,10 +4056,6 @@
 
   document.getElementById('btnZoomIn').onclick = () => setZoom(zoom * 1.12);
   document.getElementById('btnZoomOut').onclick = () => setZoom(zoom / 1.12);
-  document.getElementById('btnRailToggle').onclick = () => {
-    // Simple 4-icon rail stays compact; keep flyouts closed.
-    hideFlyout();
-  };
   document.getElementById('btnRedo')?.addEventListener('click', () => showHint('다시 실행'));
   document.getElementById('btnUndo')?.addEventListener('click', () => showHint('실행 취소'));
   document.getElementById('btnFit').onclick = fitView;
@@ -4335,6 +4522,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
         if (!el.classList.contains('theme-tab')) el.classList.toggle('active', on);
       });
     });
+    if (typeof syncSettingsPopoverUI === 'function') syncSettingsPopoverUI();
   }
 
   function applyCharacterMode() {
