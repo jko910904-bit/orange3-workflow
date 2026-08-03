@@ -971,8 +971,60 @@ button {
   padding: 0;
 }
 
+.cat-root > .cat-row {
+  position: relative;
+  z-index: 1;
+}
+
+/* stub from parent folder down into the tree */
+.cat-root > .cat-row::after {
+  content: "";
+  position: absolute;
+  left: 19px; /* center of 10px pad + 20px icon col */
+  top: calc(50% + 10px);
+  bottom: -2px;
+  width: 1px;
+  background: var(--color-grey-400);
+}
+
 .cat-children {
-  padding-left: var(--spacing-16);
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.cat-children > li {
+  position: relative;
+  padding-left: 28px;
+}
+
+/* vertical spine */
+.cat-children > li::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--color-grey-400);
+}
+
+/* horizontal branch to folder */
+.cat-children > li::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  width: 12px;
+  height: 1px;
+  background: var(--color-grey-400);
+  transform: translateY(-50%);
+}
+
+/* last item: spine stops at the branch */
+.cat-children > li:last-child::before {
+  bottom: auto;
+  height: 50%;
 }
 
 .cat-row {
@@ -989,6 +1041,8 @@ button {
   font: inherit;
   color: var(--color-grey-800);
   cursor: pointer;
+  position: relative;
+  z-index: 1;
 }
 
 .cat-row:hover {
