@@ -3266,12 +3266,6 @@
       label: '기본',
       hideMascot: true,
     },
-    'orange-pengsu': {
-      splash: 'assets/splash-orange-pengsu.png',
-      onboard: 'assets/onboarding-characters.png',
-      splashAlt: '오렌지와 펭수',
-      label: '오렌지와 펭수',
-    },
     pengsu: {
       splash: 'assets/splash-pengsu-ai.png',
       onboard: 'assets/onboarding-pengsu-ai.png',
@@ -3288,7 +3282,6 @@
   };
   const CHAR_MENU_IDS = {
     none: 'theme-none',
-    'orange-pengsu': 'theme-orange-pengsu',
     pengsu: 'theme-pengsu',
     rabbit: 'theme-rabbit',
   };
@@ -3297,8 +3290,9 @@
   );
   let characterMode = (() => {
     const saved = localStorage.getItem(CHAR_KEY);
-    if (saved === 'none' || saved === 'rabbit' || saved === 'pengsu' || saved === 'orange-pengsu') return saved;
-    if (saved === 'orange') return 'orange-pengsu';
+    if (saved === 'none' || saved === 'rabbit' || saved === 'pengsu') return saved;
+    // legacy orange duo theme removed → fall back to pengsu
+    if (saved === 'orange-pengsu' || saved === 'orange') return 'pengsu';
     return 'pengsu';
   })();
 
@@ -3336,7 +3330,7 @@
       'menu.helpApi': 'API 문서', 'menu.helpCommunity': '커뮤니티', 'menu.setGeneral': '일반',
       'menu.setShortcuts': '단축키', 'menu.setAppearance': '화면',
       'menu.setAppearanceLight': '라이트', 'menu.setAppearanceDark': '다크', 'menu.setAppearanceAuto': '시스템 설정',
-      'menu.theme': '테마', 'menu.themeNone': '기본', 'menu.themeOrangePengsu': '오렌지와 펭수', 'menu.themePengsu': '펭수', 'menu.themeRabbit': '토끼',
+      'menu.theme': '테마', 'menu.themeNone': '기본', 'menu.themePengsu': '펭수', 'menu.themeRabbit': '토끼',
       'onboard.step1': '위젯 추가', 'onboard.step2': '위젯 연결', 'onboard.step3': '실행 후 결과 확인',
     },
     en: {
@@ -3361,7 +3355,7 @@
       'menu.helpApi': 'API docs', 'menu.helpCommunity': 'Community', 'menu.setGeneral': 'General',
       'menu.setShortcuts': 'Shortcuts', 'menu.setAppearance': 'Appearance',
       'menu.setAppearanceLight': 'Light', 'menu.setAppearanceDark': 'Dark', 'menu.setAppearanceAuto': 'System',
-      'menu.theme': 'Theme', 'menu.themeNone': 'Default', 'menu.themeOrangePengsu': 'Orange & Pengsu', 'menu.themePengsu': 'Pengsu', 'menu.themeRabbit': 'Rabbit',
+      'menu.theme': 'Theme', 'menu.themeNone': 'Default', 'menu.themePengsu': 'Pengsu', 'menu.themeRabbit': 'Rabbit',
       'onboard.step1': 'Add widgets', 'onboard.step2': 'Connect widgets', 'onboard.step3': 'Run and check results',
     },
   };
@@ -3386,7 +3380,7 @@
     'help-community':'menu.helpCommunity', 'set-general':'menu.setGeneral', 'set-shortcuts':'menu.setShortcuts',
     'set-appearance':'menu.setAppearance',
     'set-appearance-light':'menu.setAppearanceLight', 'set-appearance-dark':'menu.setAppearanceDark', 'set-appearance-auto':'menu.setAppearanceAuto',
-    theme:'menu.theme', 'theme-none':'menu.themeNone', 'theme-orange-pengsu':'menu.themeOrangePengsu', 'theme-pengsu':'menu.themePengsu', 'theme-rabbit':'menu.themeRabbit',
+    theme:'menu.theme', 'theme-none':'menu.themeNone', 'theme-pengsu':'menu.themePengsu', 'theme-rabbit':'menu.themeRabbit',
   };
   function t(key) {
     return (I18N[lang] && I18N[lang][key]) || (I18N.ko && I18N.ko[key]) || key;
@@ -3596,7 +3590,6 @@
       id: 'theme', label: '테마', icon: 'theme',
       children: [
         { id: 'theme-none', label: '기본' },
-        { id: 'theme-orange-pengsu', label: '오렌지와 펭수' },
         { id: 'theme-pengsu', label: '펭수' },
         { id: 'theme-rabbit', label: '토끼' },
       ],
