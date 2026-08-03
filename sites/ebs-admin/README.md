@@ -2,6 +2,14 @@
 
 Standalone static admin (`index.html` · `styles.css` · `app.js`).
 
+> **404 note:** `https://jko910904-bit.github.io/orange3-workflow/` returns **404** until GitHub Pages is enabled once in repo Settings. The `gh-pages` branch alone is not enough.
+
+## Working preview (open this)
+
+Single-file bundle (no GitHub Pages required):
+
+**https://litter.catbox.moe/9zt66j.html**
+
 ## Local
 
 ```bash
@@ -9,17 +17,17 @@ npx --yes serve sites/ebs-admin -l 4173 --no-clipboard
 # http://127.0.0.1:4173/
 ```
 
-## GitHub Pages (branch ready)
-
-`gh-pages` branch already contains the built static files.
+## Enable GitHub Pages (permanent)
 
 1. GitHub → **Settings → Pages**
 2. Source: **Deploy from a branch**
 3. Branch: **`gh-pages`** / folder **`/`** → Save
 
-Expected URL:
+Then open:
 
 `https://jko910904-bit.github.io/orange3-workflow/`
+
+(Alternative) Source: **GitHub Actions** — workflow `.github/workflows/deploy-ebs-admin-pages.yml` deploys `sites/ebs-admin`.
 
 ## Vercel (recommended custom domain / *.vercel.app)
 
@@ -33,6 +41,4 @@ Or in Vercel dashboard: **Add New Project** → import this repo → Root Direct
 
 ## Next.js mirror
 
-Same files are copied to `public/ebs-admin/` so a platform deploy also serves:
-
-`/ebs-admin/`
+Same files are copied to `public/ebs-admin/` for platform deploys. Do **not** expect `/ebs-admin/` on the existing Workflow Editor Vercel app — that SPA catch-all overrides static files.
