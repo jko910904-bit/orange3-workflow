@@ -1,6 +1,8 @@
 /* Heatmap + navigation + settings subtabs */
 (function () {
-  function renderHeatmapInto(tableId, rowLabels) {
+  function renderHeatmapInto(tableId, rowLabels, opts) {
+    opts = opts || {};
+    var everyHour = !!opts.everyHour;
     var hours = [];
     for (var h = 0; h < 24; h++) hours.push(h);
     var scale = [
@@ -26,7 +28,12 @@
 
     var thead = "<tr><th class='row-label'></th>";
     hours.forEach(function (h) {
-      if (h % 2 === 0) thead += "<th colspan='2'>" + h + "</th>";
+      var label = (h < 10 ? "0" : "") + h;
+      if (everyHour) {
+        thead += "<th>" + label + "</th>";
+      } else if (h % 2 === 0) {
+        thead += "<th colspan='2'>" + h + "</th>";
+      }
     });
     thead += "</tr>";
 
@@ -43,15 +50,11 @@
 
   function renderHeatmap() {
     renderHeatmapInto("heatTable", ["월", "화", "수", "목", "금", "토", "일"]);
-    renderHeatmapInto("monitorHeatTable", [
-      "7/22",
-      "7/23",
-      "7/24",
-      "7/25",
-      "7/26",
-      "7/27",
-      "7/28",
-    ]);
+    renderHeatmapInto(
+      "monitorHeatTable",
+      ["7/22", "7/23", "7/24", "7/25", "7/26", "7/27", "7/28"],
+      { everyHour: true }
+    );
   }
 
   var titles = {

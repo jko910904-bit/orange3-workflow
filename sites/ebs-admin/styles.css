@@ -1647,13 +1647,14 @@ button {
 .hour-bars {
   display: flex;
   align-items: flex-end;
-  gap: 3px;
+  gap: 2px;
   height: 160px;
-  padding-top: 8px;
+  padding: 8px 0 0;
+  box-sizing: border-box;
 }
 
 .hour-col {
-  flex: 1;
+  flex: 1 1 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1665,7 +1666,6 @@ button {
 
 .hour-bar {
   width: 100%;
-  max-width: 14px;
   border-radius: var(--radius-4) var(--radius-4) 0 0;
   background: var(--color-primary-500);
   min-height: 4px;
