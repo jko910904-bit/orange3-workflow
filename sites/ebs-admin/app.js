@@ -199,7 +199,33 @@
     });
   }
 
+  function renderHourBars() {
+    var root = document.getElementById("hourBars");
+    if (!root) return;
+    /* Relative session-start intensity by hour 00–23 */
+    var heights = [
+      12, 8, 6, 5, 7, 14, 28, 45, 62, 78, 85, 90, 95, 88, 80, 72, 65, 58, 48,
+      40, 32, 25, 18, 14,
+    ];
+    var html = "";
+    for (var h = 0; h < 24; h++) {
+      var label = (h < 10 ? "0" : "") + h;
+      html +=
+        '<div class="hour-col">' +
+        '<div class="hour-bar" style="height:' +
+        heights[h] +
+        '%" title="' +
+        label +
+        '시"></div>' +
+        "<span>" +
+        label +
+        "</span></div>";
+    }
+    root.innerHTML = html;
+  }
+
   renderHeatmap();
+  renderHourBars();
   bindNav();
   bindCategory();
   bindSettingsTabs();
