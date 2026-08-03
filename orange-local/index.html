@@ -2208,6 +2208,13 @@
       </div>
     </div>
     <div class="settings-section">
+      <div class="settings-heading" data-i18n="settings.widgetStyle">위젯 스타일</div>
+      <div class="settings-theme-row" role="group" aria-label="위젯 스타일">
+        <button type="button" class="settings-theme-btn" data-widget-style="apple" data-i18n="settings.widgetApple">애플 스타일</button>
+        <button type="button" class="settings-theme-btn" data-widget-style="orange" data-i18n="settings.widgetOrange">오렌지 스타일</button>
+      </div>
+    </div>
+    <div class="settings-section">
       <div class="settings-heading" data-i18n="settings.lang">언어 설정</div>
       <label class="settings-select-wrap">
         <select id="settingsLangSelect" aria-label="언어 설정">
@@ -2619,9 +2626,32 @@
     instance: svg(`<path d="M7 9.5 12 6.5 17 9.5v6L12 18.5 7 15.5v-6Z" stroke-dasharray="2.5 2"/><path d="M12 6.5v12M7 9.5l5 3 5-3"/>`),
   };
 
+  const WIDGET_STYLE_KEY = 'orange3-widget-style';
+  let widgetStyle = localStorage.getItem(WIDGET_STYLE_KEY) === 'apple' ? 'apple' : 'orange';
+
+  function applyWidgetStyle() {
+    document.body.classList.toggle('widget-style-apple', widgetStyle === 'apple');
+    document.body.classList.toggle('widget-style-orange', widgetStyle === 'orange');
+    if (typeof renderCatalog === 'function') {
+      const q = document.getElementById('searchInput')?.value || '';
+      renderCatalog(q);
+    }
+    if (typeof renderNodes === 'function') renderNodes();
+  }
+
+  function setWidgetStyle(style) {
+    if (style !== 'apple' && style !== 'orange') return;
+    widgetStyle = style;
+    localStorage.setItem(WIDGET_STYLE_KEY, style);
+    applyWidgetStyle();
+    if (typeof syncSettingsPopoverUI === 'function') syncSettingsPopoverUI();
+    showHint(style === 'apple' ? t('settings.widgetApple') : t('settings.widgetOrange'));
+  }
+
   function makeIco(iconKey, sizeClass = '', tileClass = 'icon-blue', imgSrc = null) {
     const el = document.createElement('div');
-    if (imgSrc) {
+    const useImg = widgetStyle === 'orange' && imgSrc;
+    if (useImg) {
       el.className = `icon-tile icon-tile--img ${tileClass} ${sizeClass}`.trim();
       el.innerHTML = `<img src="${imgSrc}" alt="">`;
       return el;
@@ -3438,6 +3468,8 @@
       'tabs.runOn': 'On', 'tabs.runOff': 'Off', 'auth.login': '로그인', 'auth.logout': '로그아웃',
       'menu.setLang': '언어', 'menu.setLangKo': '한국어', 'menu.setLangEn': 'English',
       'settings.themeStyle': '테마 스타일', 'settings.lang': '언어 설정',
+      'settings.widgetStyle': '위젯 스타일',
+      'settings.widgetApple': '애플 스타일', 'settings.widgetOrange': '오렌지 스타일',
       'settings.note': '설정 정보는 브라우저에 저장됩니다.',
       'menu.themeNone': '기본', 'menu.themePengsu': '펭수', 'menu.themeRabbit': '토끼',
       'menu.new': '새로 만들기', 'menu.open': '열기', 'menu.file': '파일', 'menu.saveOws': '.ows로 저장하기', 'menu.menu': '메뉴', 'menu.workspaces': '워크스페이스',
@@ -3467,6 +3499,8 @@
       'tabs.runOn': 'On', 'tabs.runOff': 'Off', 'auth.login': 'Login', 'auth.logout': 'Logout',
       'menu.setLang': 'Language', 'menu.setLangKo': '한국어', 'menu.setLangEn': 'English',
       'settings.themeStyle': 'Theme style', 'settings.lang': 'Language',
+      'settings.widgetStyle': 'Widget style',
+      'settings.widgetApple': 'Apple style', 'settings.widgetOrange': 'Orange style',
       'settings.note': 'Settings are saved in this browser.',
       'menu.themeNone': 'Basic', 'menu.themePengsu': 'Pengsu', 'menu.themeRabbit': 'Rabbit',
       'menu.new': 'New', 'menu.open': 'Open', 'menu.file': 'File', 'menu.saveOws': 'Save as .ows', 'menu.menu': 'Menu', 'menu.workspaces': 'WorkSpaces',
@@ -3820,9 +3854,16 @@
       const key = ({ none: 'menu.themeNone', pengsu: 'menu.themePengsu', rabbit: 'menu.themeRabbit' })[mode];
       if (key) btn.textContent = t(key);
     });
+    settingsPopover.querySelectorAll('[data-widget-style]').forEach(btn => {
+      const style = btn.dataset.widgetStyle;
+      btn.classList.toggle('is-selected', style === widgetStyle);
+      const key = style === 'apple' ? 'settings.widgetApple' : 'settings.widgetOrange';
+      btn.textContent = t(key);
+    });
     const sel = document.getElementById('settingsLangSelect');
     if (sel) sel.value = lang;
     settingsPopover.querySelectorAll('[data-i18n]').forEach(el => {
+      if (el.matches('[data-widget-style], [data-theme-mode]')) return;
       const key = el.getAttribute('data-i18n');
       if (key) el.textContent = t(key);
     });
@@ -3946,6 +3987,12 @@
       syncSettingsPopoverUI();
     });
   });
+  settingsPopover?.querySelectorAll('[data-widget-style]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setWidgetStyle(btn.dataset.widgetStyle);
+    });
+  });
+  applyWidgetStyle();
 
   document.addEventListener('click', e => {
     if (!railFlyout.contains(e.target) && !e.target.closest('.rail-item.has-children')) hideFlyout();
