@@ -1815,7 +1815,15 @@
   .hint-bar.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
   /* ---------- Properties panel ---------- */
-  .props {
+  .props,
+  #props {
+    display: none !important;
+    width: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    border: none !important;
+  }
+  .props-legacy-hidden {
     width: 300px; flex-shrink: 0;
     background: var(--panel);
     backdrop-filter: blur(20px);
@@ -2835,99 +2843,10 @@
     drawConnections();
   }
 
-  /* ========== Properties ========== */
+  /* ========== Properties (panel removed) ========== */
   function renderProps() {
-    if (selectedNodeId) {
-      const n = nodeById(selectedNodeId);
-      if (!n) { propsEl.classList.add('empty'); return; }
-      const meta = metaOf(n);
-      propsEl.classList.remove('empty');
-      const inC = connections.filter(c => c.to === n.id).length;
-      const outC = connections.filter(c => c.from === n.id).length;
-      propsInner.innerHTML = `
-        <div class="props-head">
-          <div class="icon-tile xl icon-tile--img ${meta.tile}"><img src="${meta.img}" alt=""></div>
-          <div class="meta">
-            <div class="name">${n.name}</div>
-            <span class="cat-pill"><i style="background:${meta.color}"></i>${meta.catName}</span>
-          </div>
-          <button class="props-close" type="button" id="propsClose">✕</button>
-        </div>
-        <div class="props-body">
-          <div class="stat-grid">
-            <div class="stat"><div class="k">입력</div><div class="v">${inC}</div></div>
-            <div class="stat"><div class="k">출력</div><div class="v">${outC}</div></div>
-          </div>
-          <div class="field">
-            <label>이름</label>
-            <input id="propName" value="${escapeAttr(n.name)}">
-          </div>
-          <div class="field">
-            <label>설명</label>
-            <div style="color:var(--muted);font-size:12.5px;line-height:1.45">${meta.desc}</div>
-          </div>
-          <div class="field">
-            <label>샘플 비율 (%)</label>
-            <input id="propSample" type="number" min="1" max="100" value="${n.sample}">
-          </div>
-          <div class="field">
-            <label>메모</label>
-            <textarea id="propNotes">${escapeHtml(n.notes || '')}</textarea>
-          </div>
-          <div class="props-actions">
-            <button class="btn-secondary" type="button" id="propDup">복제</button>
-            <button class="btn-danger" type="button" id="propDel">삭제</button>
-          </div>
-        </div>`;
-      document.getElementById('propsClose').onclick = clearSelection;
-      document.getElementById('propName').oninput = e => {
-        n.name = e.target.value;
-        const title = nodesLayer.querySelector(`[data-id="${n.id}"] .title`);
-        if (title) {
-          const ins = connections.filter(c => c.to === n.id).length;
-          title.innerHTML = `${n.name}${ins ? ` <span class="badge">(${ins})</span>` : ''}`;
-        }
-      };
-      document.getElementById('propSample').oninput = e => { n.sample = Number(e.target.value) || 100; };
-      document.getElementById('propNotes').oninput = e => { n.notes = e.target.value; };
-      document.getElementById('propDel').onclick = () => deleteNode(n.id);
-      document.getElementById('propDup').onclick = () => duplicateNode(n.id);
-      return;
-    }
-
-    if (selectedConnId) {
-      const c = connections.find(x => x.id === selectedConnId);
-      if (!c) { propsEl.classList.add('empty'); return; }
-      const from = nodeById(c.from);
-      const to = nodeById(c.to);
-      propsEl.classList.remove('empty');
-      propsInner.innerHTML = `
-        <div class="props-head">
-          <div style="width:56px;height:56px;border-radius:14px;background:var(--brand-soft);display:flex;align-items:center;justify-content:center;color:var(--brand);font-size:22px;font-weight:800">→</div>
-          <div class="meta">
-            <div class="name">연결</div>
-            <span class="cat-pill">데이터 흐름</span>
-          </div>
-          <button class="props-close" type="button" id="propsClose">✕</button>
-        </div>
-        <div class="props-body">
-          <div class="field"><label>From</label><input value="${escapeAttr(from?.name || '')}" readonly></div>
-          <div class="field"><label>To</label><input value="${escapeAttr(to?.name || '')}" readonly></div>
-          <div class="field"><label>라벨</label><input id="connLabel" value="${escapeAttr(c.label || '')}"></div>
-          <div class="props-actions">
-            <button class="btn-danger" type="button" id="propDel">연결 삭제</button>
-          </div>
-        </div>`;
-      document.getElementById('propsClose').onclick = clearSelection;
-      document.getElementById('connLabel').oninput = e => {
-        c.label = e.target.value;
-        drawConnections();
-      };
-      document.getElementById('propDel').onclick = () => deleteConn(c.id);
-      return;
-    }
-
-    propsEl.classList.add('empty');
+    if (propsEl) propsEl.classList.add('empty');
+    if (propsInner) propsInner.innerHTML = '';
   }
 
   function escapeAttr(s) {
