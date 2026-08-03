@@ -3605,14 +3605,7 @@
   const MENU_SECTIONS = [
     {
       items: [
-        {
-          id: 'file', label: '파일', icon: 'file',
-          children: [
-            { id: 'new-blank', label: '새로 만들기', icon: 'new' },
-            { id: 'open-file', label: '열기', icon: 'open' },
-            { id: 'save-ows', label: '.ows로 저장하기', icon: 'save' },
-          ],
-        },
+        { id: 'file', label: '파일', icon: 'file' },
         { id: 'widgets', label: '위젯', icon: 'widgets' },
         { id: 'datasets', label: '분석 데이터셋', icon: 'datasets' },
         { id: 'templates', label: '워크플로우 템플릿', icon: 'templates' },
@@ -3620,10 +3613,7 @@
     },
   ];
 
-  const MENU_BOTTOM = [
-    { id: 'help', label: '도움말', icon: 'help' },
-    { id: 'settings', label: '설정', icon: 'settings' },
-  ];
+  const MENU_BOTTOM = [];
 
   const MENU_ICONS = {
     file: '<path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H11l2 2h4.5A2.5 2.5 0 0 1 20 9.5v7A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5v-9Z"/>',
@@ -3656,12 +3646,10 @@
   }
 
   function renderMenuItem(item, depth) {
-    const active = item.id === activeMenuId || (item.id === 'file' && ['new-blank', 'open-file', 'save-ows'].includes(activeMenuId))
-      ? ' active' : '';
+    const active = item.id === activeMenuId ? ' active' : '';
     const expandable = hasMenuChildren(item, depth);
 
     if (depth === 1) {
-      // Simple rail: parents open a flyout — no inline children tree.
       return `<button class="rail-item${expandable ? ' has-children' : ''}${active}" type="button" data-menu="${item.id}" data-depth="1" title="${item.label}">
         ${menuIcon(item.icon)}<span class="ri-label">${item.label}</span>
       </button>`;
@@ -3733,66 +3721,13 @@
         el.classList.toggle('active', false);
         return;
       }
-      if (el.dataset.menu === 'set-lang-ko' || el.dataset.menu === 'set-lang-en') {
-        el.classList.toggle('active', false);
-        return;
-      }
-      const on = el.dataset.menu === id
-        || (el.dataset.menu === 'file' && ['file', 'new-blank', 'open-file', 'save-ows'].includes(id));
-      el.classList.toggle('active', on);
+      el.classList.toggle('active', el.dataset.menu === id);
     });
     syncWidgetSidebar();
-    if (id === 'set-lang-ko') {
-      setLang('ko');
-      return;
-    }
-    if (id === 'set-lang-en') {
-      setLang('en');
-      return;
-    }
-    if (CHAR_MODE_BY_MENU[id]) {
-      document.querySelector('[data-group="theme"]')?.classList.add('open');
-      setCharacterMode(CHAR_MODE_BY_MENU[id]);
-      return;
-    }
-    syncThemeTabs();
-    syncLangMenu();
-    if (id === 'new-blank') {
-      createBlankWorkflow();
-      return;
-    }
-    if (id === 'save-ows') {
-      saveWorkflowOws();
-      return;
-    }
-    if (id === 'open' || id === 'open-file' || id.startsWith('recent-') || id === 'open-recent') {
-      openOpenDialog('local');
-      return;
-    }
-    if (id === 'new-example' || id.startsWith('ex-') || id === 'templates') {
-      if (id === 'templates') {
-        openOpenDialog('examples');
-        return;
-      }
-      openOpenDialog('examples');
-      return;
-    }
-    if (id === 'datasets') {
-      showHint(label || t('menu.datasets'));
-      return;
-    }
-    if (id === 'help') {
-      hideSettingsPopover();
-      showHint(lang === 'en' ? 'Help docs coming soon' : '도움말 문서를 준비 중입니다');
-      return;
-    }
-    if (id === 'settings') {
-      hideFlyout();
-      const btn = document.querySelector('[data-menu="settings"]');
-      if (btn) toggleSettingsPopover(btn);
-      return;
-    }
-    if (id === 'file') return;
+    hideFlyout();
+    hideSettingsPopover();
+    // Widgets opens the palette; other rail items are select-only.
+    if (id === 'widgets') return;
     showHint(label || id);
   }
 
