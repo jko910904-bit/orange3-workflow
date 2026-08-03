@@ -336,6 +336,7 @@
 
   /* ---------- Sidebar (right, under tabs like props) ---------- */
   .sidebar {
+    position: relative;
     width: 300px;
     background: #FAFBFC;
     backdrop-filter: none;
@@ -343,9 +344,17 @@
     border-right: none;
     display: flex; flex-direction: column;
     flex-shrink: 0;
-    overflow: hidden;
+    overflow: visible;
     z-index: 4;
     transition: width .28s var(--ease), opacity .22s var(--ease), border-color .22s;
+  }
+  .sidebar.is-collapsed {
+    width: 0;
+    border-left-color: transparent;
+  }
+  .sidebar.is-collapsed .sidebar-inner {
+    opacity: 0;
+    pointer-events: none;
   }
   .sidebar.is-hidden {
     width: 0;
@@ -353,7 +362,54 @@
     border-left-color: transparent;
     pointer-events: none;
   }
-  .sidebar-inner { width: 300px; display: flex; flex-direction: column; height: 100%; }
+  .sidebar.is-hidden .sidebar-toggle { display: none; }
+  .sidebar-inner {
+    width: 300px; display: flex; flex-direction: column; height: 100%;
+    overflow: hidden;
+    transition: opacity .18s var(--ease);
+  }
+  .sidebar-toggle {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 8;
+    width: 22px;
+    height: 52px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: #fff;
+    color: #6B7280;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, .08);
+    transition: background .18s, color .18s, border-color .18s, box-shadow .18s, transform .28s var(--ease);
+  }
+  .sidebar-toggle:hover {
+    background: var(--brand-soft);
+    color: var(--brand-dark);
+    border-color: color-mix(in srgb, var(--brand) 28%, var(--border));
+    box-shadow: 0 4px 14px rgba(15, 23, 42, .10);
+  }
+  .sidebar-toggle:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 22%, transparent);
+  }
+  .sidebar-toggle svg {
+    width: 14px; height: 14px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round;
+    transition: transform .22s var(--ease);
+  }
+  .sidebar.is-collapsed .sidebar-toggle {
+    transform: translate(-100%, -50%);
+  }
+  .sidebar.is-collapsed .sidebar-toggle svg {
+    transform: rotate(180deg);
+  }
   .sidebar-header {
     padding: 16px 16px 8px;
     font-weight: 600; font-size: 15px;
@@ -2172,6 +2228,9 @@
       </aside>
 
       <aside class="sidebar" id="sidebar">
+        <button class="sidebar-toggle" type="button" id="sidebarToggle" title="위젯 창 접기" aria-label="위젯 창 접기" aria-expanded="true" aria-controls="sidebar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
         <div class="sidebar-inner">
           <div class="sidebar-header">
             <div class="sidebar-title">
@@ -3547,10 +3606,35 @@
     `).join('');
   }
 
+  function syncSidebarToggleLabel() {
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.getElementById('sidebarToggle');
+    if (!sidebar || !toggle) return;
+    const collapsed = sidebar.classList.contains('is-collapsed');
+    const label = collapsed ? '위젯 창 열기' : '위젯 창 접기';
+    toggle.title = label;
+    toggle.setAttribute('aria-label', label);
+    toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+  }
+
+  function setWidgetSidebarCollapsed(collapsed) {
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar) return;
+    sidebar.classList.toggle('is-collapsed', !!collapsed);
+    syncSidebarToggleLabel();
+  }
+
   function syncWidgetSidebar() {
     const sidebar = document.getElementById('sidebar');
     if (!sidebar) return;
-    sidebar.classList.toggle('is-hidden', activeMenuId !== 'widgets');
+    const show = activeMenuId === 'widgets';
+    sidebar.classList.toggle('is-hidden', !show);
+    if (show) {
+      // Opening Widgets from the rail should reveal the panel again.
+      setWidgetSidebarCollapsed(false);
+    } else {
+      syncSidebarToggleLabel();
+    }
   }
 
   function setActiveMenu(id, label) {
@@ -3702,6 +3786,13 @@
   bindMenuClicks(railBottom);
   applyI18n(document);
   syncWidgetSidebar();
+
+  document.getElementById('sidebarToggle')?.addEventListener('click', e => {
+    e.stopPropagation();
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar || sidebar.classList.contains('is-hidden')) return;
+    setWidgetSidebarCollapsed(!sidebar.classList.contains('is-collapsed'));
+  });
 
   document.addEventListener('click', e => {
     if (!railFlyout.contains(e.target) && !e.target.closest('.rail-item.has-children')) hideFlyout();
