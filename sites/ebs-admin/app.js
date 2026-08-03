@@ -135,11 +135,43 @@
     });
   }
 
+  function bindWelcomeLang() {
+    var buttons = document.querySelectorAll(".lang-seg-btn[data-welcome-lang]");
+    var textarea = document.getElementById("welcome-msg");
+    var count = document.getElementById("welcome-count");
+    var messages = {
+      ko: "실습 준비가 완료되었습니다. 지금 바로 시작해 보세요.",
+      en: "Your practice session is ready. Start now.",
+      sl: "Vadba je pripravljena. Začnite zdaj.",
+    };
+
+    function updateCount() {
+      if (textarea && count) count.textContent = String(textarea.value.length);
+    }
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        buttons.forEach(function (b) {
+          b.classList.toggle("is-active", b === btn);
+        });
+        var lang = btn.getAttribute("data-welcome-lang");
+        if (textarea && messages[lang]) textarea.value = messages[lang];
+        updateCount();
+      });
+    });
+
+    if (textarea) {
+      textarea.addEventListener("input", updateCount);
+      updateCount();
+    }
+  }
+
   renderHeatmap();
   bindNav();
   bindCategory();
   bindSettingsTabs();
   bindCheckAll();
+  bindWelcomeLang();
 
   var hash = (location.hash || "").replace("#", "");
   if (hash === "widgets" || hash === "settings" || hash === "monitor") showView(hash);

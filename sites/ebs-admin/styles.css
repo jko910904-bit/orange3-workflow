@@ -1347,7 +1347,8 @@ button {
 
 @media (max-width: 1100px) {
   .widget-split,
-  .summary-row {
+  .summary-row,
+  .loading-split {
     grid-template-columns: 1fr;
   }
 }
@@ -1364,5 +1365,214 @@ button {
 
   .footer-actions .btn {
     flex: 1;
+  }
+}
+
+/* ---------- Loading image settings ---------- */
+.loading-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: var(--spacing-16);
+}
+
+.loading-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+  min-width: 0;
+}
+
+.loading-card-head .page-desc {
+  margin-top: 6px;
+}
+
+.loading-card-body {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.9fr) minmax(0, 1.2fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.preview-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.preview-label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-grey-700);
+}
+
+.preview-frame {
+  aspect-ratio: 622 / 493;
+  width: 100%;
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-8);
+  background: var(--color-grey-50);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-empty {
+  font-size: 13px;
+  color: var(--color-grey-500);
+}
+
+.preview-file {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-grey-600);
+  word-break: break-all;
+}
+
+.preview-note {
+  margin: 0;
+  font-size: 12px;
+}
+
+.loading-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.check-row,
+.radio-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--color-grey-800);
+  cursor: pointer;
+}
+
+.check-row input,
+.radio-row input {
+  accent-color: var(--color-primary-500);
+  width: 16px;
+  height: 16px;
+}
+
+.radio-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.upload-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 140px;
+  padding: 16px;
+  border: 1px dashed var(--color-grey-400);
+  border-radius: var(--radius-8);
+  background: var(--color-grey-50);
+  color: var(--color-grey-600);
+  text-align: center;
+  cursor: pointer;
+}
+
+.upload-box:hover,
+.upload-box:focus-visible {
+  border-color: var(--color-primary-500);
+  color: var(--color-primary-500);
+  background: var(--color-primary-100);
+  outline: none;
+}
+
+.upload-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: inherit;
+}
+
+.upload-hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-grey-500);
+}
+
+.lang-seg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 3px;
+  background: var(--color-grey-100);
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-8);
+}
+
+.lang-seg-btn {
+  border: 0;
+  background: transparent;
+  color: var(--color-grey-700);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: var(--radius-4);
+  cursor: pointer;
+}
+
+.lang-seg-btn.is-active {
+  background: var(--color-grey-0);
+  color: var(--color-primary-500);
+  box-shadow: 0 1px 2px rgba(24, 26, 34, 0.06);
+}
+
+.lang-seg-btn:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 1px;
+}
+
+.textarea-wrap {
+  position: relative;
+}
+
+.textarea-wrap textarea {
+  width: 100%;
+  min-height: 140px;
+  resize: vertical;
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-8);
+  padding: 12px 14px 28px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--color-grey-900);
+  background: var(--color-grey-0);
+  line-height: 1.5;
+}
+
+.textarea-wrap textarea:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+.char-count {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  font-size: 11px;
+  color: var(--color-grey-500);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 900px) {
+  .loading-card-body {
+    grid-template-columns: 1fr;
   }
 }

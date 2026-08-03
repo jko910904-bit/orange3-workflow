@@ -704,15 +704,87 @@
           </div>
 
           <div id="subtab-loading" class="subtab-panel" role="tabpanel" hidden>
-            <div class="info-box">
-              <ul>
-                <li>실습 도구 로딩 화면에 표시할 이미지를 설정합니다.</li>
-                <li>권장 비율은 16:9이며, 용량은 2MB 이하를 권장합니다.</li>
-              </ul>
+            <div class="loading-split">
+              <!-- 1. Session loading -->
+              <section class="card loading-card" aria-labelledby="loading-session-title">
+                <header class="loading-card-head">
+                  <h2 id="loading-session-title" class="card-title">1. 세션 로딩 화면</h2>
+                  <p class="page-desc">실습 세션이 준비되는 동안 표시되는 화면입니다.</p>
+                </header>
+                <div class="loading-card-body">
+                  <div class="preview-block">
+                    <p class="preview-label">미리보기</p>
+                    <div class="preview-frame" role="img" aria-label="세션 로딩 미리보기 영역 (이미지 없음)">
+                      <span class="preview-empty">미리보기 영역</span>
+                    </div>
+                    <p class="preview-file">default-session-loading.png</p>
+                  </div>
+                  <div class="loading-controls">
+                    <label class="check-row">
+                      <input type="checkbox" checked />
+                      노출 사용
+                    </label>
+                    <fieldset class="radio-group">
+                      <legend class="visually-hidden">이미지 소스</legend>
+                      <label class="radio-row">
+                        <input type="radio" name="session-image" value="default" checked />
+                        기본 이미지
+                      </label>
+                      <label class="radio-row">
+                        <input type="radio" name="session-image" value="upload" />
+                        이미지 업로드
+                      </label>
+                    </fieldset>
+                    <div class="upload-box" tabindex="0" role="button" aria-label="이미지 업로드 영역">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M12 16V6" />
+                        <path d="M8 10l4-4 4 4" />
+                        <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
+                      </svg>
+                      <p class="upload-title">이미지를 드래그하거나 클릭하여 업로드</p>
+                      <p class="upload-hint">PNG/JPG · 최대 8MB · 권장 크기 622 × 493</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- 2. Loading complete -->
+              <section class="card loading-card" aria-labelledby="loading-done-title">
+                <header class="loading-card-head">
+                  <h2 id="loading-done-title" class="card-title">2. 로딩 완료 화면</h2>
+                  <p class="page-desc">세션 준비가 끝난 뒤 학습자에게 보이는 안내 화면입니다.</p>
+                </header>
+                <div class="loading-card-body">
+                  <div class="preview-block">
+                    <p class="preview-label">미리보기</p>
+                    <div class="preview-frame" role="img" aria-label="로딩 완료 미리보기 영역 (이미지 없음)">
+                      <span class="preview-empty">미리보기 영역</span>
+                    </div>
+                    <p class="footer-note preview-note">
+                      <span class="info-mark" aria-hidden="true">i</span>
+                      로딩 완료 이미지는 등록할 수 없습니다.
+                    </p>
+                  </div>
+                  <div class="loading-controls">
+                    <label class="check-row">
+                      <input type="checkbox" checked />
+                      노출 사용
+                    </label>
+                    <div class="lang-seg" role="tablist" aria-label="환영 메시지 언어">
+                      <button type="button" class="lang-seg-btn is-active" data-welcome-lang="ko">한국어 (KO)</button>
+                      <button type="button" class="lang-seg-btn" data-welcome-lang="en">English (EN)</button>
+                      <button type="button" class="lang-seg-btn" data-welcome-lang="sl">Slovenščina (SL)</button>
+                    </div>
+                    <div class="textarea-wrap">
+                      <label class="visually-hidden" for="welcome-msg">환영 메시지</label>
+                      <textarea id="welcome-msg" maxlength="200" rows="6">실습 준비가 완료되었습니다. 지금 바로 시작해 보세요.</textarea>
+                      <div class="char-count"><span id="welcome-count">33</span>/200</div>
+                    </div>
+                  </div>
+                </div>
+              </section>
             </div>
-            <article class="card">
-              <p class="page-desc" style="margin:0">로딩 이미지 업로드 UI는 이 화면에서 이어서 구성합니다.</p>
-            </article>
+
             <div class="form-actions">
               <button type="button" class="btn btn-ghost">취소</button>
               <button type="button" class="btn btn-primary" data-primary-cta="true">저장</button>
