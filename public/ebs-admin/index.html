@@ -136,33 +136,35 @@
               <p class="chart-summary">
                 일간 세션 추이: 07/16–07/22. 최저 07/18, 최고 07/22 부근.
               </p>
-              <svg class="line-chart" viewBox="0 0 560 200" preserveAspectRatio="xMidYMid meet" role="img" aria-label="세션 추이 라인 차트">
-                <line x1="0" y1="10" x2="560" y2="10" class="chart-grid" />
-                <line x1="0" y1="55" x2="560" y2="55" class="chart-grid" />
-                <line x1="0" y1="100" x2="560" y2="100" class="chart-grid" />
-                <line x1="0" y1="145" x2="560" y2="145" class="chart-grid" />
-                <line x1="0" y1="190" x2="560" y2="190" class="chart-grid" />
-                <polyline
-                  points="10,153 90,105 170,172 250,76 330,124 410,38 490,66 550,28"
-                  fill="none"
-                  stroke="#6D4AFF"
-                  class="chart-line"
-                  stroke-width="2.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <g fill="#6D4AFF" class="chart-dots">
-                  <circle cx="10" cy="153" r="3.5" />
-                  <circle cx="90" cy="105" r="3.5" />
-                  <circle cx="170" cy="172" r="3.5" />
-                  <circle cx="250" cy="76" r="3.5" />
-                  <circle cx="330" cy="124" r="3.5" />
-                  <circle cx="410" cy="38" r="3.5" />
-                  <circle cx="490" cy="66" r="3.5" />
-                  <circle cx="550" cy="28" r="4.5" class="chart-dot-end" stroke="#fff" stroke-width="2" />
-                </g>
-              </svg>
-              <div class="chart-caption" aria-hidden="true">
+              <div class="analytics-plot">
+                <svg class="line-chart" viewBox="0 0 560 200" preserveAspectRatio="xMidYMid meet" role="img" aria-label="세션 추이 라인 차트">
+                  <line x1="0" y1="10" x2="560" y2="10" class="chart-grid" />
+                  <line x1="0" y1="55" x2="560" y2="55" class="chart-grid" />
+                  <line x1="0" y1="100" x2="560" y2="100" class="chart-grid" />
+                  <line x1="0" y1="145" x2="560" y2="145" class="chart-grid" />
+                  <line x1="0" y1="190" x2="560" y2="190" class="chart-grid" />
+                  <polyline
+                    points="10,153 90,105 170,172 250,76 330,124 410,38 490,66 550,28"
+                    fill="none"
+                    stroke="#6D4AFF"
+                    class="chart-line"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <g fill="#6D4AFF" class="chart-dots">
+                    <circle cx="10" cy="153" r="3.5" />
+                    <circle cx="90" cy="105" r="3.5" />
+                    <circle cx="170" cy="172" r="3.5" />
+                    <circle cx="250" cy="76" r="3.5" />
+                    <circle cx="330" cy="124" r="3.5" />
+                    <circle cx="410" cy="38" r="3.5" />
+                    <circle cx="490" cy="66" r="3.5" />
+                    <circle cx="550" cy="28" r="4.5" class="chart-dot-end" stroke="#fff" stroke-width="2" />
+                  </g>
+                </svg>
+              </div>
+              <div class="chart-footer chart-caption" aria-hidden="true">
                 <span>07/16</span><span>07/17</span><span>07/18</span><span>07/19</span>
                 <span>07/20</span><span>07/21</span><span>07/22</span>
               </div>
@@ -177,10 +179,12 @@
                 </div>
               </div>
               <p class="chart-summary">요일×시간대 이용 밀도. 색이 진할수록 이용이 많음.</p>
-              <div class="heatmap-wrap">
-                <table class="heatmap" id="heatTable" aria-label="요일별 시간대 이용 히트맵"></table>
+              <div class="analytics-plot">
+                <div class="heatmap-wrap">
+                  <table class="heatmap" id="heatTable" aria-label="요일별 시간대 이용 히트맵"></table>
+                </div>
               </div>
-              <div class="heat-legend" aria-hidden="true">
+              <div class="chart-footer heat-legend" aria-hidden="true">
                 적음
                 <span class="sw sw-0"></span>
                 <span class="sw sw-1"></span>
