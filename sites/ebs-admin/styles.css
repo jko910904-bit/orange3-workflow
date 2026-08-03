@@ -364,16 +364,16 @@ button {
 
 .page-head {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--spacing-32);
+  margin-bottom: var(--spacing-16); /* half of previous 32px */
   flex-wrap: wrap;
   gap: var(--spacing-16);
 }
 
 .page-title {
   margin: 0;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 700;
   color: var(--color-grey-900);
   letter-spacing: -0.01em;
@@ -395,11 +395,18 @@ button {
   height: var(--control-height);
   border: 1px solid var(--color-grey-300);
   border-radius: var(--radius-8);
-  padding: 0 var(--spacing-12);
+  /* Match .btn horizontal padding (14px); reserve equal room for chevron on the right */
+  padding: 0 14px;
+  padding-right: 34px; /* 14px + 12px icon + 8px gap */
   font-size: 13px;
   color: var(--color-grey-700);
-  background: var(--color-grey-0);
+  background-color: var(--color-grey-0);
   font-family: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23757575' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center; /* chevron inset matches left padding */
 }
 
 .select:focus-visible {
@@ -408,7 +415,11 @@ button {
 }
 
 .section {
-  margin-bottom: var(--spacing-32);
+  margin-bottom: var(--spacing-16); /* half of previous 32px — vertical card-row gap */
+}
+
+.section:last-child {
+  margin-bottom: 0;
 }
 
 /* ---------- Card ---------- */
