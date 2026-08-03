@@ -533,9 +533,21 @@ button {
 /* ---------- Analytics ---------- */
 .analytics-grid {
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
-  gap: 10px; /* half of previous 20px card gap */
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
   align-items: stretch;
+}
+
+.analytics-grid > .card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.analytics-grid > .card .heatmap-wrap,
+.analytics-grid > .card .chart-frame {
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .seg {
@@ -652,6 +664,7 @@ button {
 
 .heatmap-wrap {
   overflow-x: auto;
+  width: 100%;
 }
 
 .heatmap {
@@ -659,20 +672,26 @@ button {
   border-spacing: 3px;
   font-size: 11px;
   width: 100%;
+  table-layout: fixed;
 }
 
 .heatmap th {
   font-weight: 500;
   color: var(--color-grey-500);
-  padding: 0 3px 4px;
+  padding: 0 2px 4px;
   text-align: center;
   font-size: 10px;
 }
 
 .heatmap td {
-  width: 22px;
   height: 20px;
   border-radius: var(--radius-4);
+  padding: 0;
+}
+
+.heatmap th:not(.row-label),
+.heatmap td:not(.row-label) {
+  width: auto;
 }
 
 .heatmap .row-label {
@@ -680,7 +699,8 @@ button {
   font-size: 11px;
   padding-right: var(--spacing-8);
   text-align: right;
-  width: 56px;
+  width: 28px;
+  min-width: 28px;
 }
 
 /* Monitor: date×hour distribution — equal L/R padding, full-width cells */
