@@ -5,11 +5,11 @@
  */
 
 :root {
-  /* Color — kit */
-  --color-primary-100: #ecf2fe;
-  --color-primary-500: #2c6ef2;
-  --color-primary-700: #104ac5;
-  --color-primary-900: #093895;
+  /* Color — site primary violet (standalone theme; kit blue not used here) */
+  --color-primary-100: #f4f1ff;
+  --color-primary-500: #6d4aff;
+  --color-primary-700: #5b3fe0;
+  --color-primary-900: #4b33c7;
   --color-secondary-500: #2e4176;
   --color-secondary-700: #202d52;
   --color-grey-0: #ffffff;
@@ -141,20 +141,6 @@ button {
   min-width: 0;
 }
 
-.logo-mark {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-8);
-  background: var(--color-primary-500);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-grey-0);
-  font-weight: 700;
-  font-size: var(--typography-caption1-fontSize);
-  flex-shrink: 0;
-}
-
 .header-title {
   font-size: 16px;
   font-weight: 600;
@@ -162,12 +148,6 @@ button {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.header-sep {
-  color: var(--color-grey-500);
-  font-weight: 400;
-  margin: 0 10px;
 }
 
 .header-right {
@@ -463,7 +443,7 @@ button {
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: var(--spacing-20);
+  gap: 10px; /* half of previous 20px card gap */
 }
 
 .kpi-title {
@@ -507,7 +487,7 @@ button {
 .analytics-grid {
   display: grid;
   grid-template-columns: 1.15fr 1fr;
-  gap: var(--spacing-20);
+  gap: 10px; /* half of previous 20px card gap */
   align-items: stretch;
 }
 
@@ -631,7 +611,7 @@ button {
 .stats-grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr 0.9fr;
-  gap: var(--spacing-20);
+  gap: 10px; /* half of previous 20px card gap */
   align-items: stretch;
 }
 
