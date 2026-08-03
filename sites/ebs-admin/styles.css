@@ -1746,7 +1746,12 @@ button {
 .hour-bar {
   width: 100%;
   border-radius: var(--radius-4) var(--radius-4) 0 0;
-  background: var(--color-primary-500);
+  background: linear-gradient(
+    180deg,
+    #c4b5ff 0%,
+    #9b82ff 42%,
+    #6d4aff 100%
+  );
   min-height: 4px;
 }
 
