@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>교육 운영 현황 · Admin Dashboard</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-density="dense">
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+    <div class="admin-shell" role="application" aria-label="교육 운영 Admin">
+      <header class="topbar">
+        <div class="logo" aria-label="제품명">EduOps Admin</div>
+        <nav class="top-nav" aria-label="주요 메뉴">
+          <a class="top-link is-active" href="#" aria-current="page">대시보드</a>
+          <a class="top-link" href="#">콘텐츠</a>
+          <a class="top-link" href="#">실습 도구</a>
+          <a class="top-link" href="#">학습자</a>
+          <a class="top-link" href="#">공지</a>
+          <a class="top-link" href="#">설정</a>
+        </nav>
+        <div class="top-right">
+          <span>운영자</span>
+          <button type="button" class="btn btn-ghost btn-xs">로그아웃</button>
+        </div>
+      </header>
+
+      <aside class="lnb" aria-label="사이드 내비게이션">
+        <p class="lnb-title">운영</p>
+        <button type="button" class="lnb-item is-active">운영 현황</button>
+        <button type="button" class="lnb-item">지표 리포트</button>
+        <button type="button" class="lnb-item">알림·활동</button>
+        <button type="button" class="lnb-item">콘텐츠 관리</button>
+        <button type="button" class="lnb-item">학습자 관리</button>
+      </aside>
+
+      <main id="main" class="main">
+        <div class="content">
+          <p class="breadcrumb">Home / 운영 / 대시보드</p>
+          <h1 class="page-title">교육 운영 현황</h1>
+
+          <section class="stack" aria-label="Dashboard">
+            <!-- 1. KPI -->
+            <section class="kpi-row" aria-label="KPI">
+              <article class="card">
+                <p class="kpi-label">오늘 활성 학습자</p>
+                <p class="kpi-value">3,842</p>
+                <p class="kpi-hint">전일 대비 +6%</p>
+              </article>
+              <article class="card">
+                <p class="kpi-label">실습 완료율</p>
+                <p class="kpi-value">78%</p>
+                <p class="kpi-hint">목표 75% 이상</p>
+              </article>
+              <article class="card">
+                <p class="kpi-label">미발행 콘텐츠</p>
+                <p class="kpi-value">12</p>
+                <p class="kpi-hint">검수 대기 5</p>
+              </article>
+              <article class="card">
+                <p class="kpi-label">오류 알림</p>
+                <p class="kpi-value">3</p>
+                <p class="kpi-hint">심각 1 · 주의 2</p>
+              </article>
+            </section>
+
+            <!-- 2. Charts -->
+            <section aria-label="Charts">
+              <article class="card">
+                <header class="card-header">
+                  <h2 class="card-title">최근 6개월 실습 완료</h2>
+                </header>
+                <div class="card-body">
+                  <p class="chart-summary">
+                    6개월 실습 완료 요약: 최고 4월(90), 최저 1월(40). 단위: 상대 지수.
+                  </p>
+                  <div class="chart-block">
+                    <div
+                      class="bars"
+                      role="img"
+                      aria-label="1월 40, 2월 70, 3월 55, 4월 90, 5월 65, 6월 80"
+                    >
+                      <div class="bar-col">
+                        <div class="bar" style="height: 40%"></div>
+                        <span class="bar-label">1월</span>
+                      </div>
+                      <div class="bar-col">
+                        <div class="bar" style="height: 70%"></div>
+                        <span class="bar-label">2월</span>
+                      </div>
+                      <div class="bar-col">
+                        <div class="bar" style="height: 55%"></div>
+                        <span class="bar-label">3월</span>
+                      </div>
+                      <div class="bar-col">
+                        <div class="bar" style="height: 90%"></div>
+                        <span class="bar-label">4월</span>
+                      </div>
+                      <div class="bar-col">
+                        <div class="bar" style="height: 65%"></div>
+                        <span class="bar-label">5월</span>
+                      </div>
+                      <div class="bar-col">
+                        <div class="bar" style="height: 80%"></div>
+                        <span class="bar-label">6월</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </section>
+
+            <div class="lower-grid">
+              <!-- 3. Recent Activity -->
+              <section aria-label="Recent Activity">
+                <article class="card">
+                  <header class="card-header">
+                    <h2 class="card-title">Recent Activity</h2>
+                  </header>
+                  <div class="card-body">
+                    <ol class="activity-list">
+                      <li class="activity-item">
+                        <time class="activity-time">09:42</time>
+                        <span class="activity-text">실습 도구 “데이터 시각화” 검수 요청</span>
+                      </li>
+                      <li class="activity-item">
+                        <time class="activity-time">08:15</time>
+                        <span class="activity-text">주간 학습 안내 공지 게시</span>
+                      </li>
+                      <li class="activity-item">
+                        <time class="activity-time">어제</time>
+                        <span class="activity-text">신규 학습자 권한 일괄 부여 · 2학년</span>
+                      </li>
+                      <li class="activity-item">
+                        <time class="activity-time">어제</time>
+                        <span class="activity-text">오류율 알림 해제 — 퀴즈 제출 API</span>
+                      </li>
+                      <li class="activity-item">
+                        <time class="activity-time">2일 전</time>
+                        <span class="activity-text">월간 실습 리포트 생성</span>
+                      </li>
+                    </ol>
+                  </div>
+                </article>
+              </section>
+
+              <!-- 4. Quick Action -->
+              <section aria-label="Quick Action">
+                <article class="card">
+                  <header class="card-header">
+                    <h2 class="card-title">Quick Action</h2>
+                  </header>
+                  <div class="card-body">
+                    <div class="quick-actions">
+                      <button type="button" class="btn btn-primary btn-s" data-primary-cta="true">
+                        콘텐츠 등록
+                      </button>
+                      <button type="button" class="btn btn-secondary btn-s">
+                        리포트 내보내기
+                      </button>
+                      <button type="button" class="btn btn-ghost btn-s">
+                        알림 설정
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              </section>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
