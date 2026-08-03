@@ -64,35 +64,33 @@
   }
   button { font-family: inherit; }
 
-  /* ---------- Rail (collapses to icons / expands like Orange nav) ---------- */
+  /* ---------- Rail (simple 4-icon nav) ---------- */
   .rail {
-    width: 220px;
-    background: #fff;
+    width: 92px;
+    background: #F4F5F7;
     border-right: 1px solid var(--border);
     display: flex;
     flex-direction: column;
-    padding: 12px 10px;
-    gap: 2px;
+    align-items: center;
+    padding: 12px 8px;
+    gap: 4px;
     flex-shrink: 0;
     z-index: 5;
-    transition: width .28s var(--ease);
-    overflow: hidden;
+    overflow: visible;
   }
   .rail.collapsed {
-    width: 64px;
+    width: 92px;
     align-items: center;
     padding: 12px 8px;
   }
   .rail-head {
-    display: flex; align-items: center; gap: 8px;
-    padding: 4px 6px 14px;
-    min-height: 56px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 4px 0 12px;
+    min-height: 48px;
+    width: 100%;
   }
   .rail-logo {
-    display: flex; align-items: center; gap: 0;
-    min-width: 0; flex: 1;
-    user-select: none;
-    line-height: 0;
+    display: none;
   }
   .rail-logo .logo-full {
     display: block;
@@ -109,9 +107,9 @@
   }
   .rail.collapsed .rail-logo { display: none; }
   .rail-toggle {
-    margin-left: auto; flex-shrink: 0;
-    width: 28px; height: 28px; border: none; background: transparent;
-    border-radius: 8px; color: var(--muted); cursor: pointer;
+    margin-left: 0; flex-shrink: 0;
+    width: 36px; height: 36px; border: none; background: transparent;
+    border-radius: 10px; color: var(--muted); cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     padding: 0;
   }
@@ -123,8 +121,8 @@
   }
   .rail-toggle .toggle-ico {
     display: block;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     stroke: currentColor;
     fill: none;
     stroke-width: 1.8;
@@ -132,50 +130,56 @@
   .rail.collapsed .rail-head {
     justify-content: center;
     align-items: center;
-    padding: 4px 0 10px;
-    min-height: 36px;
+    padding: 4px 0 12px;
+    min-height: 48px;
     width: 100%;
   }
   .rail.collapsed .rail-toggle {
     margin-left: 0;
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
   }
   .rail.collapsed .rail-toggle .toggle-ico { display: block; }
-  .rail-toggle:hover { background: #F3F3F3; color: var(--text); }
+  .rail-toggle:hover { background: #E8EAED; color: var(--text); }
 
   .rail-section {
-    display: flex; flex-direction: column; gap: 2px;
-    padding: 6px 0;
-    border-top: 1px solid var(--border);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    padding: 0;
+    border-top: none;
+    width: 100%;
   }
   .rail-section:first-of-type { border-top: none; padding-top: 0; }
   .rail .spacer { flex: 1; min-height: 8px; }
 
   .rail-item {
     border: none; background: transparent;
-    border-radius: 10px; color: #4A4A4A; cursor: pointer;
-    display: flex; align-items: center; gap: 12px;
-    width: 100%;
-    padding: 9px 10px;
-    font-family: inherit; font-size: 13.5px; font-weight: 550;
-    text-align: left;
-    white-space: nowrap;
-    transition: background .18s var(--ease), color .18s;
+    border-radius: 14px; color: #6B7280; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    width: 76px;
+    min-height: 72px;
+    padding: 10px 6px 8px;
+    font-family: inherit; font-size: 11px; font-weight: 650;
+    text-align: center;
+    white-space: normal;
+    line-height: 1.25;
+    transition: background .18s var(--ease), color .18s, box-shadow .18s;
   }
   .rail-item[hidden],
   .auth-user[hidden] { display: none !important; }
   .rail.collapsed .rail-item {
-    width: 40px; height: 40px; padding: 0;
-    justify-content: center; gap: 0;
+    width: 76px; min-height: 72px; height: auto; padding: 10px 6px 8px;
+    justify-content: center; gap: 6px;
   }
   .rail-item .ri-ico {
-    width: 20px; height: 20px; flex-shrink: 0;
+    width: 28px; height: 28px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
+    border-radius: 10px;
+    background: transparent;
+    transition: background .18s, color .18s;
   }
   .rail-item .ri-ico svg {
-    width: 18px; height: 18px; stroke: currentColor; fill: none;
-    stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+    width: 22px; height: 22px; stroke: currentColor; fill: none;
+    stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
   }
   .rail-item .ri-ico--img img {
     width: 18px; height: 18px;
@@ -184,37 +188,48 @@
     display: block;
   }
   .rail-item .ri-label {
-    overflow: hidden; text-overflow: ellipsis;
-    opacity: 1; transition: opacity .18s;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    max-width: 72px;
+    opacity: 1;
+    word-break: keep-all;
   }
-  .rail.collapsed .rail-item .ri-label { display: none; }
-  .rail-item:hover { background: #F5F5F5; color: var(--text); }
+  .rail.collapsed .rail-item .ri-label { display: -webkit-box; }
+  .rail-item:hover { background: rgba(255,255,255,.72); color: var(--text); }
   .rail-item.active {
-    background: var(--brand-soft);
+    background: #fff;
     color: var(--brand-dark);
-    font-weight: 650;
+    font-weight: 750;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, .06);
+  }
+  .rail-item.active .ri-ico {
+    background: color-mix(in srgb, var(--brand) 16%, #fff);
+    color: var(--brand-dark);
   }
 
   /* ---------- Rail 4-depth menu tree ---------- */
   .rail-scroll {
-    flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
+    flex: 1; min-height: 0; overflow-y: auto; overflow-x: visible;
     scrollbar-width: thin;
-    display: flex; flex-direction: column; gap: 2px;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    width: 100%;
   }
   .rail.collapsed .rail-scroll { overflow: visible; }
   #railBottom {
     margin-top: auto; flex-shrink: 0;
-    border-top: 1px solid var(--border);
-    padding-top: 6px;
+    border-top: none;
+    padding-top: 8px;
+    width: 100%;
   }
+  #railBottom:empty { display: none; }
 
-  .rail-group { display: flex; flex-direction: column; gap: 1px; }
+  .rail-group { display: flex; flex-direction: column; align-items: center; gap: 1px; width: 100%; }
 
   /* Unified chevron (right ▶ · open/down ▼ · left ◀) */
   .ico-chevron {
-    display: inline-flex; align-items: center; justify-content: center;
-    flex-shrink: 0; opacity: .45;
-    transition: transform .22s var(--ease), opacity .18s;
+    display: none;
   }
   .ico-chevron svg,
   .ico-chevron .ui-ico-img {
@@ -236,10 +251,9 @@
   }
 
   .rail-children {
-    display: grid; grid-template-rows: 0fr;
-    transition: grid-template-rows .24s var(--ease);
+    display: none;
   }
-  .rail-group.open > .rail-children { grid-template-rows: 1fr; }
+  .rail-group.open > .rail-children { display: none; }
   .rail-children > .rail-children-inner {
     overflow: hidden;
     display: flex; flex-direction: column; gap: 1px;
@@ -300,15 +314,15 @@
   }
   .rail-leaf[data-depth="4"]::before { width: 3px; height: 3px; }
 
-  /* Flyout when rail collapsed */
+  /* Flyout popup (File menu etc.) */
   .rail-flyout {
     position: fixed; z-index: 200;
-    min-width: 200px; max-width: 260px;
-    background: rgba(255,255,255,.96);
+    min-width: 220px; max-width: 280px;
+    background: #fff;
     backdrop-filter: blur(16px);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    box-shadow: var(--shadow-lift);
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, .14);
     padding: 8px;
     opacity: 0; pointer-events: none;
     transform: translateX(-6px);
@@ -318,19 +332,44 @@
     opacity: 1; pointer-events: auto; transform: translateX(0);
   }
   .rail-flyout-title {
-    padding: 6px 10px 8px; font-size: 11px; font-weight: 700;
-    letter-spacing: .04em; text-transform: uppercase; color: var(--muted);
+    display: none;
   }
   .rail-flyout .rail-sub,
-  .rail-flyout .rail-leaf { font-size: 13px; padding: 8px 10px; }
+  .rail-flyout .rail-leaf {
+    font-size: 13.5px; font-weight: 600;
+    padding: 10px 12px;
+    border-radius: 10px;
+    display: flex; align-items: center; gap: 10px;
+    width: 100%;
+    border: none; background: transparent; color: #374151;
+    cursor: pointer; text-align: left; font-family: inherit;
+  }
+  .rail-flyout .rail-sub:hover,
+  .rail-flyout .rail-leaf:hover {
+    background: #F5F6F8;
+    color: var(--text);
+  }
+  .rail-flyout .rail-sub .ri-ico,
+  .rail-flyout .rail-leaf .ri-ico {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: #F3F4F6; color: #4B5563;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .rail-flyout .rail-sub .ri-ico svg,
+  .rail-flyout .rail-leaf .ri-ico svg {
+    width: 16px; height: 16px; stroke: currentColor; fill: none;
+    stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+  }
   .rail-flyout .rail-sub-children > .rail-sub-children-inner {
     margin-left: 8px; padding-left: 6px;
   }
   .rail-flyout .rail-children > .rail-children-inner {
-    margin-left: 0; padding-left: 6px; border-left: none;
+    margin-left: 0; padding-left: 0; border-left: none;
+    display: flex; flex-direction: column; gap: 2px;
   }
   .rail-flyout .rail-children,
-  .rail-flyout .rail-sub-children { grid-template-rows: 1fr !important; }
+  .rail-flyout .rail-sub-children { grid-template-rows: 1fr !important; display: block !important; }
   .rail-flyout .rail-children > .rail-children-inner,
   .rail-flyout .rail-sub-children > .rail-sub-children-inner { overflow: visible; }
 
@@ -1559,19 +1598,26 @@
     display: none !important;
   }
 
-  #railAuth { border-top: 1px solid var(--border); padding-top: 6px; }
+  #railAuth {
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .auth-user {
-    display: flex; align-items: center; gap: 8px;
-    padding: 8px 6px 10px 10px; min-width: 0;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 6px 0 8px; min-width: 0;
   }
   .rail.collapsed .auth-user { justify-content: center; padding: 6px 0 8px; }
   .auth-avatar {
-    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
     background: var(--brand-soft); color: var(--brand-dark);
     font-size: 13px; font-weight: 750;
   }
-  .auth-meta { min-width: 0; flex: 1; }
+  .auth-meta { min-width: 0; flex: 1; display: none; }
   .rail.collapsed .auth-meta { display: none; }
   .auth-name {
     font-size: 13px; font-weight: 700; color: var(--text);
@@ -1580,6 +1626,9 @@
   .auth-email {
     font-size: 11px; color: var(--muted);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  #btnLogin .ri-label {
+    font-size: 11px;
   }
 
   /* Figma-style floating toolbar */
@@ -2038,10 +2087,9 @@
 </head>
 <body>
 
-  <nav class="rail" id="rail">
+  <nav class="rail collapsed" id="rail">
     <div class="rail-head">
-      <div class="rail-logo" aria-label="로고자리"><span class="logo-placeholder">로고자리</span></div>
-      <button class="rail-toggle" type="button" id="btnRailToggle" title="메뉴 접기/펼치기">
+      <button class="rail-toggle" type="button" id="btnRailToggle" title="Orange3" aria-label="Orange3">
         <svg class="toggle-ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
       </button>
     </div>
@@ -3283,11 +3331,11 @@
     ko: {
       'tabs.runOn': 'On', 'tabs.runOff': 'Off', 'auth.login': '로그인', 'auth.logout': '로그아웃',
       'menu.setLang': '언어', 'menu.setLangKo': '한국어', 'menu.setLangEn': 'English',
-      'menu.new': '새로 만들기', 'menu.open': '열기', 'menu.menu': '메뉴', 'menu.workspaces': '워크스페이스',
-      'menu.widgets': '위젯', 'menu.datasets': '분석 데이터셋', 'menu.templates': '템플릿',
+      'menu.new': '새로 만들기', 'menu.open': '열기', 'menu.file': '파일', 'menu.saveOws': '.ows로 저장하기', 'menu.menu': '메뉴', 'menu.workspaces': '워크스페이스',
+      'menu.widgets': '위젯', 'menu.datasets': '분석 데이터셋', 'menu.templates': '워크플로우 템플릿',
       'menu.examples': '예제', 'menu.datasetDes': '데이터셋 설명', 'menu.help': '도움말', 'menu.settings': '설정',
-      'menu.newBlank': '빈 워크플로', 'menu.newTemplate': '템플릿에서', 'menu.newExample': '예제에서',
-      'menu.openFile': '파일 열기', 'menu.openRecent': '최근 파일', 'menu.recentUnsaved': '저장 안 된 워크플로',
+      'menu.newBlank': '새로 만들기', 'menu.newTemplate': '템플릿에서', 'menu.newExample': '예제에서',
+      'menu.openFile': '열기', 'menu.openRecent': '최근 파일', 'menu.recentUnsaved': '저장 안 된 워크플로',
       'menu.recentCurrent': '현재 버전', 'menu.recentBackup': '백업 (3월)', 'menu.recentDraft': '임시 저장',
       'menu.wsMine': '내 워크스페이스', 'menu.wsShared': '공유됨', 'menu.wsArchive': '아카이브',
       'menu.dsMine': '내 데이터셋', 'menu.dsEbs': 'EBS 샘플', 'menu.dsEdu': '교육 통계',
@@ -3309,11 +3357,11 @@
     en: {
       'tabs.runOn': 'On', 'tabs.runOff': 'Off', 'auth.login': 'Login', 'auth.logout': 'Logout',
       'menu.setLang': 'Language', 'menu.setLangKo': '한국어', 'menu.setLangEn': 'English',
-      'menu.new': 'New', 'menu.open': 'Open', 'menu.menu': 'Menu', 'menu.workspaces': 'WorkSpaces',
-      'menu.widgets': 'Widget', 'menu.datasets': 'Analysis Datasets', 'menu.templates': 'Templates',
+      'menu.new': 'New', 'menu.open': 'Open', 'menu.file': 'File', 'menu.saveOws': 'Save as .ows', 'menu.menu': 'Menu', 'menu.workspaces': 'WorkSpaces',
+      'menu.widgets': 'Widgets', 'menu.datasets': 'Analysis Datasets', 'menu.templates': 'Workflow Templates',
       'menu.examples': 'Examples', 'menu.datasetDes': 'Dataset Description', 'menu.help': 'Help', 'menu.settings': 'Settings',
-      'menu.newBlank': 'Blank workflow', 'menu.newTemplate': 'From template', 'menu.newExample': 'From example',
-      'menu.openFile': 'Open file', 'menu.openRecent': 'Recent files', 'menu.recentUnsaved': 'Unsaved workflow',
+      'menu.newBlank': 'New', 'menu.newTemplate': 'From template', 'menu.newExample': 'From example',
+      'menu.openFile': 'Open', 'menu.openRecent': 'Recent files', 'menu.recentUnsaved': 'Unsaved workflow',
       'menu.recentCurrent': 'Current version', 'menu.recentBackup': 'Backup (Mar)', 'menu.recentDraft': 'Draft save',
       'menu.wsMine': 'My workspaces', 'menu.wsShared': 'Shared', 'menu.wsArchive': 'Archive',
       'menu.dsMine': 'My datasets', 'menu.dsEbs': 'EBS samples', 'menu.dsEdu': 'Education stats',
@@ -3334,11 +3382,11 @@
     },
   };
   const MENU_I18N_IDS = {
-    new:'menu.new', open:'menu.open', menu:'menu.menu', workspaces:'menu.workspaces', widgets:'menu.widgets',
+    file:'menu.file', new:'menu.new', open:'menu.open', menu:'menu.menu', workspaces:'menu.workspaces', widgets:'menu.widgets',
     datasets:'menu.datasets', templates:'menu.templates', examples:'menu.examples', 'dataset-des':'menu.datasetDes',
     help:'menu.help', settings:'menu.settings',
     'new-blank':'menu.newBlank', 'new-template':'menu.newTemplate', 'new-example':'menu.newExample',
-    'open-file':'menu.openFile', 'open-recent':'menu.openRecent', 'recent-1':'menu.recentUnsaved',
+    'open-file':'menu.openFile', 'open-recent':'menu.openRecent', 'save-ows':'menu.saveOws', 'recent-1':'menu.recentUnsaved',
     'recent-2-main':'menu.recentCurrent', 'recent-2-backup':'menu.recentBackup', 'recent-2-draft':'menu.recentDraft',
     'ws-mine':'menu.wsMine', 'ws-shared':'menu.wsShared', 'ws-archive':'menu.wsArchive',
     'ds-mine':'menu.dsMine', 'ds-ebs':'menu.dsEbs', 'ds-ebs-edu':'menu.dsEdu', 'ds-ebs-elem':'menu.dsElem',
@@ -3413,185 +3461,32 @@
     {
       items: [
         {
-          id: 'new', label: '새로 만들기', icon: 'new',
+          id: 'file', label: '파일', icon: 'file',
           children: [
-            { id: 'new-blank', label: '빈 워크플로' },
-            { id: 'new-template', label: '템플릿에서' },
-            { id: 'new-example', label: '예제에서' },
-          ],
-        },
-        {
-          id: 'open', label: '열기', icon: 'open',
-          children: [
-            { id: 'open-file', label: '파일 열기' },
-            {
-              id: 'open-recent', label: '최근 파일',
-              children: [
-                { id: 'recent-1', label: '저장 안 된 워크플로' },
-                {
-                  id: 'recent-2', label: 'classification.ows',
-                  children: [
-                    { id: 'recent-2-main', label: '현재 버전' },
-                    { id: 'recent-2-backup', label: '백업 (3월)' },
-                    { id: 'recent-2-draft', label: '임시 저장' },
-                  ],
-                },
-                { id: 'recent-3', label: 'clustering-demo.ows' },
-              ],
-            },
-          ],
-        },
-        { id: 'menu', label: '메뉴', icon: 'menu' },
-        {
-          id: 'workspaces', label: '워크스페이스', icon: 'workspaces',
-          children: [
-            { id: 'ws-mine', label: '내 워크스페이스' },
-            { id: 'ws-shared', label: '공유됨' },
-            { id: 'ws-archive', label: '아카이브' },
+            { id: 'new-blank', label: '새로 만들기', icon: 'new' },
+            { id: 'open-file', label: '열기', icon: 'open' },
+            { id: 'save-ows', label: '.ows로 저장하기', icon: 'save' },
           ],
         },
         { id: 'widgets', label: '위젯', icon: 'widgets' },
-      ],
-    },
-    {
-      items: [
-        {
-          id: 'datasets', label: '분석 데이터셋', icon: 'datasets',
-          children: [
-            { id: 'ds-mine', label: '내 데이터셋' },
-            {
-              id: 'ds-ebs', label: 'EBS 샘플',
-              children: [
-                {
-                  id: 'ds-ebs-edu', label: '교육 통계',
-                  children: [
-                    { id: 'ds-ebs-elem', label: '초등 학습 데이터' },
-                    { id: 'ds-ebs-mid', label: '중등 성취 데이터' },
-                    { id: 'ds-ebs-high', label: '고등 진로 데이터' },
-                  ],
-                },
-              ],
-            },
-            { id: 'ds-import', label: '가져오기' },
-          ],
-        },
-        {
-          id: 'templates', label: '템플릿', icon: 'templates',
-          children: [
-            { id: 'tpl-classify', label: '분류',
-              children: [
-                { id: 'tpl-clf-binary', label: '이진 분류' },
-                { id: 'tpl-clf-multi', label: '다중 분류' },
-                { id: 'tpl-clf-imbalanced', label: '불균형 데이터' },
-              ],
-            },
-            { id: 'tpl-regress', label: '회귀' },
-            { id: 'tpl-cluster', label: '클러스터링' },
-          ],
-        },
-      ],
-    },
-    {
-      items: [
-        {
-          id: 'examples', label: '예제', icon: 'examples',
-          children: [
-            {
-              id: 'ex-beginner', label: '입문',
-              children: [
-                {
-                  id: 'ex-iris', label: 'Iris 분류',
-                  children: [
-                    { id: 'ex-iris-basic', label: '기본 파이프라인' },
-                    { id: 'ex-iris-knn', label: 'KNN 분류' },
-                    { id: 'ex-iris-tree', label: '결정 트리' },
-                  ],
-                },
-                { id: 'ex-titanic', label: '타이타닉 생존 예측' },
-              ],
-            },
-            {
-              id: 'ex-advanced', label: '고급',
-              children: [
-                {
-                  id: 'ex-text', label: '텍스트 마이닝',
-                  children: [
-                    { id: 'ex-text-tfidf', label: 'TF-IDF 분석' },
-                    { id: 'ex-text-lda', label: 'LDA 토픽 모델' },
-                    { id: 'ex-text-sentiment', label: '감성 분류' },
-                  ],
-                },
-                { id: 'ex-ts', label: '시계열 분석' },
-              ],
-            },
-          ],
-        },
-        { id: 'dataset-des', label: '데이터셋 설명', icon: 'datasetDes' },
+        { id: 'datasets', label: '분석 데이터셋', icon: 'datasets' },
+        { id: 'templates', label: '워크플로우 템플릿', icon: 'templates' },
       ],
     },
   ];
 
-  const MENU_BOTTOM = [
-    {
-      id: 'help', label: '도움말', icon: 'help',
-      children: [
-        { id: 'help-start', label: '시작하기' },
-        {
-          id: 'help-docs', label: '문서',
-          children: [
-            {
-              id: 'help-docs-guide', label: '가이드',
-              children: [
-                { id: 'help-docs-quickstart', label: '빠른 시작' },
-                { id: 'help-docs-widget', label: '위젯 참조' },
-                { id: 'help-docs-api', label: 'API 문서' },
-              ],
-            },
-          ],
-        },
-        { id: 'help-community', label: '커뮤니티' },
-      ],
-    },
-    {
-      id: 'settings', label: '설정', icon: 'settings',
-      children: [
-        { id: 'set-general', label: '일반' },
-        { id: 'set-shortcuts', label: '단축키' },
-        {
-          id: 'set-appearance', label: '화면',
-          children: [
-            { id: 'set-appearance-light', label: '라이트' },
-            { id: 'set-appearance-dark', label: '다크' },
-            { id: 'set-appearance-auto', label: '시스템 설정' },
-          ],
-        },
-        {
-          id: 'set-lang', label: '언어',
-          children: [
-            { id: 'set-lang-ko', label: '한국어' },
-            { id: 'set-lang-en', label: 'English' },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'theme', label: '테마', icon: 'theme',
-      children: [
-        { id: 'theme-none', label: '기본' },
-        { id: 'theme-pengsu', label: '펭수' },
-        { id: 'theme-rabbit', label: '토끼' },
-      ],
-    },
-  ];
+  const MENU_BOTTOM = [];
 
   const MENU_ICONS = {
-    new: '<path d="M12 5v14M5 12h14"/>',
-    open: '<path d="M12 16V8M12 8l-3 3M12 8l3 3"/><path d="M4 17v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1"/>',
+    file: '<path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H11l2 2h4.5A2.5 2.5 0 0 1 20 9.5v7A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5v-9Z"/>',
+    new: '<rect x="5" y="5" width="14" height="14" rx="2.5"/><path d="M12 8.5v7M8.5 12h7"/>',
+    open: '<path d="M4 18V8.5A2.5 2.5 0 0 1 6.5 6H10l2 2h5.5A2.5 2.5 0 0 1 20 10.5V18a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M9.5 13.5l2.5 2.5 4-4"/>',
+    save: '<path d="M6 4.5h9.5L19.5 8v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-13a1 1 0 0 1 1-1Z"/><path d="M8 4.5V9h7V4.5M8 16h8"/>',
     menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
     workspaces: '<path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-5v-5H10v5H5a1 1 0 0 1-1-1v-7.5Z"/>',
     widgets: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
     datasets: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>',
-    templates: '<rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',
+    templates: '<rect x="5" y="4" width="14" height="10" rx="1.5"/><path d="M8 17h8M10 14v6M14 14v6"/><circle cx="9" cy="8" r="1.2"/><path d="M12 7.5h4"/>',
     examples: '<path d="M12 3.5 14.2 9H20l-4.5 3.4L17.4 18 12 14.6 6.6 18l1.9-5.6L4 9h5.8L12 3.5Z"/>',
     datasetDes: '<path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14 3.5V8h4"/><circle cx="11" cy="14" r="2.5"/><path d="M13 16.2 15.5 18.7"/>',
     help: '<circle cx="12" cy="12" r="8.5"/><path d="M9.8 9.5a2.4 2.4 0 1 1 3.4 2.2c-.8.4-1.2.9-1.2 1.8"/><circle cx="12" cy="16.5" r=".7" fill="currentColor" stroke="none"/>',
@@ -3613,33 +3508,21 @@
   }
 
   function renderMenuItem(item, depth) {
-    const active = item.id === activeMenuId ? ' active' : '';
-    const open = MENU_DEFAULT_OPEN.has(item.id) ? ' open' : '';
+    const active = item.id === activeMenuId || (item.id === 'file' && ['new-blank', 'open-file', 'save-ows'].includes(activeMenuId))
+      ? ' active' : '';
     const expandable = hasMenuChildren(item, depth);
 
     if (depth === 1) {
-      if (!expandable) {
-        return `<button class="rail-item${active}" type="button" data-menu="${item.id}" data-depth="1" title="${item.label}">
-          ${menuIcon(item.icon)}<span class="ri-label">${item.label}</span>
-        </button>`;
-      }
-      const childrenHtml = item.id === 'theme'
-        ? renderThemeTabs(item.children)
-        : renderMenuNodes(item.children, 2);
-      return `<div class="rail-group${open}" data-group="${item.id}">
-        <button class="rail-item has-children${active}" type="button" data-menu="${item.id}" data-depth="1" title="${item.label}">
-          ${menuIcon(item.icon)}<span class="ri-label">${item.label}</span>${CHEVRON}
-        </button>
-        <div class="rail-children"><div class="rail-children-inner">
-          ${childrenHtml}
-        </div></div>
-      </div>`;
+      // Simple rail: parents open a flyout — no inline children tree.
+      return `<button class="rail-item${expandable ? ' has-children' : ''}${active}" type="button" data-menu="${item.id}" data-depth="1" title="${item.label}">
+        ${menuIcon(item.icon)}<span class="ri-label">${item.label}</span>
+      </button>`;
     }
 
     if (expandable) {
-      return `<div class="rail-sub-wrap${open}" data-wrap="${item.id}">
+      return `<div class="rail-sub-wrap" data-wrap="${item.id}">
         <button class="rail-sub has-children${active}" type="button" data-menu="${item.id}" data-depth="${depth}">
-          <span>${item.label}</span>${CHEVRON}
+          ${item.icon ? menuIcon(item.icon) : ''}<span>${item.label}</span>
         </button>
         <div class="rail-sub-children"><div class="rail-sub-children-inner">
           ${renderMenuNodes(item.children, depth + 1)}
@@ -3649,12 +3532,15 @@
 
     const btnClass = depth >= 3 ? 'rail-leaf' : 'rail-sub';
     return `<button class="${btnClass}${active}" type="button" data-menu="${item.id}" data-depth="${depth}">
-      <span>${item.label}</span>
+      ${item.icon ? menuIcon(item.icon) : ''}<span>${item.label}</span>
     </button>`;
   }
 
   function renderMenuSections(sections, target) {
-    target.innerHTML = sections.map(sec => `
+    if (!target) return;
+    target.innerHTML = sections
+      .filter(sec => sec.items?.length)
+      .map(sec => `
       <div class="rail-section">
         ${renderMenuNodes(sec.items, 1)}
       </div>
@@ -3703,7 +3589,9 @@
         el.classList.toggle('active', false);
         return;
       }
-      el.classList.toggle('active', el.dataset.menu === id);
+      const on = el.dataset.menu === id
+        || (el.dataset.menu === 'file' && ['file', 'new-blank', 'open-file', 'save-ows'].includes(id));
+      el.classList.toggle('active', on);
     });
     syncWidgetSidebar();
     if (id === 'set-lang-ko') {
@@ -3721,15 +3609,62 @@
     }
     syncThemeTabs();
     syncLangMenu();
+    if (id === 'new-blank') {
+      createBlankWorkflow();
+      return;
+    }
+    if (id === 'save-ows') {
+      saveWorkflowOws();
+      return;
+    }
     if (id === 'open' || id === 'open-file' || id.startsWith('recent-') || id === 'open-recent') {
       openOpenDialog('local');
       return;
     }
-    if (id === 'new-example' || id.startsWith('ex-')) {
+    if (id === 'new-example' || id.startsWith('ex-') || id === 'templates') {
+      if (id === 'templates') {
+        openOpenDialog('examples');
+        return;
+      }
       openOpenDialog('examples');
       return;
     }
+    if (id === 'datasets') {
+      showHint(label || t('menu.datasets'));
+      return;
+    }
+    if (id === 'file') return;
     showHint(label || id);
+  }
+
+  function createBlankWorkflow() {
+    nodes = [];
+    connections = [];
+    selectedNodeId = null;
+    selectedConnId = null;
+    renderNodes();
+    const activeTab = tabsList?.querySelector('.tab.active .tab-label');
+    if (activeTab) activeTab.textContent = lang === 'en' ? 'Blank tab' : '빈 탭';
+    showHint(lang === 'en' ? 'New blank workflow' : '새 빈 워크플로');
+  }
+
+  function saveWorkflowOws() {
+    const activeLabel = tabsList?.querySelector('.tab.active .tab-label')?.textContent?.trim() || 'workflow';
+    const payload = {
+      version: 'orange3-web-1',
+      name: activeLabel,
+      nodes,
+      connections,
+      savedAt: new Date().toISOString(),
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    const safe = activeLabel.replace(/[^\w가-힣\-]+/g, '_').slice(0, 40) || 'workflow';
+    a.href = URL.createObjectURL(blob);
+    a.download = `${safe}.ows`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showHint(lang === 'en' ? `Saved ${safe}.ows` : `${safe}.ows 저장됨`);
   }
 
   function toggleWrap(wrap, singleOpen) {
@@ -3755,13 +3690,12 @@
     const body = item.id === 'theme'
       ? renderThemeTabs(item.children)
       : `<div class="rail-children" style="display:block"><div class="rail-children-inner">${renderMenuNodes(item.children, 2)}</div></div>`;
-    railFlyout.innerHTML = `
-      <div class="rail-flyout-title">${item.label}</div>
-      ${body}`;
+    railFlyout.innerHTML = body;
     railFlyout.querySelectorAll('.rail-sub-wrap').forEach(w => w.classList.add('open'));
     requestAnimationFrame(() => {
-      railFlyout.style.top = `${Math.min(rect.top, window.innerHeight - railFlyout.offsetHeight - 12)}px`;
-      railFlyout.style.left = `${rect.right + 8}px`;
+      const top = Math.min(Math.max(8, rect.top), window.innerHeight - railFlyout.offsetHeight - 12);
+      railFlyout.style.top = `${top}px`;
+      railFlyout.style.left = `${rect.right + 10}px`;
       railFlyout.classList.add('show');
     });
     openFlyoutId = item.id;
@@ -3773,32 +3707,13 @@
       btn.onclick = (e) => {
         e.stopPropagation();
         const id = btn.dataset.menu;
-        const depth = Number(btn.dataset.depth);
         const label = btn.querySelector('.ri-label')?.textContent
           || btn.querySelector('span')?.textContent || id;
 
-        if (rail.classList.contains('collapsed') && !inFlyout) {
-          if (id === 'open') {
-            hideFlyout();
-            setActiveMenu(id, label);
-            return;
-          }
-          const item = findMenuItem(id);
-          if (item?.children?.length) {
-            if (openFlyoutId === id) hideFlyout();
-            else showFlyout(btn, item);
-            return;
-          }
-        }
-
-        if (btn.classList.contains('has-children')) {
-          if (id === 'open') {
-            hideFlyout();
-            setActiveMenu(id, label);
-            return;
-          }
-          const wrap = btn.closest('.rail-group') || btn.closest('.rail-sub-wrap');
-          toggleWrap(wrap, depth < MENU_MAX_DEPTH - 1);
+        const item = findMenuItem(id);
+        if (!inFlyout && item?.children?.length) {
+          if (openFlyoutId === id) hideFlyout();
+          else showFlyout(btn, item);
           setActiveMenu(id, label);
           return;
         }
@@ -3852,6 +3767,7 @@
   document.addEventListener('click', e => {
     if (!railFlyout.contains(e.target) && !e.target.closest('.rail-item.has-children')) hideFlyout();
   });
+  rail.classList.add('collapsed');
 
   let activeTool = 'select';
   const TOOL_GROUPS = {
@@ -3950,7 +3866,7 @@
   document.getElementById('btnZoomIn').onclick = () => setZoom(zoom * 1.12);
   document.getElementById('btnZoomOut').onclick = () => setZoom(zoom / 1.12);
   document.getElementById('btnRailToggle').onclick = () => {
-    rail.classList.toggle('collapsed');
+    // Simple 4-icon rail stays compact; keep flyouts closed.
     hideFlyout();
   };
   document.getElementById('btnRedo')?.addEventListener('click', () => showHint('다시 실행'));
