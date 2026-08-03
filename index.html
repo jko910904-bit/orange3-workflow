@@ -372,34 +372,31 @@
     position: absolute;
     left: 0;
     top: 50%;
-    transform: translate(-100%, -50%);
+    transform: translate(-50%, -50%);
     z-index: 8;
-    min-width: 28px;
-    height: 72px;
-    padding: 0 2px 0 0;
-    border: 1px solid color-mix(in srgb, var(--brand) 34%, var(--border));
-    border-right: none;
-    border-radius: 12px 0 0 12px;
-    background:
-      linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.78)),
-      var(--brand-soft);
+    width: 24px;
+    height: 24px;
+    min-width: 0;
+    padding: 0;
+    border: 1px solid color-mix(in srgb, var(--brand) 28%, var(--border));
+    border-radius: 50%;
+    background: #fff;
     color: var(--brand-dark);
     cursor: pointer;
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    box-shadow:
-      -2px 2px 10px rgba(15, 23, 42, .08),
-      0 0 0 1px color-mix(in srgb, var(--brand) 8%, transparent);
+    gap: 0;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, .10);
     transition:
       background .2s,
       color .2s,
       border-color .2s,
       box-shadow .2s,
+      width .28s var(--ease),
       height .28s var(--ease),
-      min-width .28s var(--ease),
+      border-radius .28s var(--ease),
       padding .28s var(--ease),
       transform .28s var(--ease);
   }
@@ -407,18 +404,14 @@
     background: var(--brand);
     color: #fff;
     border-color: var(--brand);
-    box-shadow:
-      -4px 4px 16px color-mix(in srgb, var(--brand) 28%, transparent),
-      0 0 0 1px color-mix(in srgb, var(--brand) 20%, transparent);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--brand) 28%, transparent);
   }
   .sidebar-toggle:focus-visible {
     outline: none;
-    box-shadow:
-      -2px 2px 10px rgba(15, 23, 42, .08),
-      0 0 0 3px color-mix(in srgb, var(--brand) 28%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 28%, transparent);
   }
   .sidebar-toggle .toggle-arrow {
-    width: 16px; height: 16px;
+    width: 14px; height: 14px;
     display: block;
     flex-shrink: 0;
     transition: transform .22s var(--ease);
@@ -437,22 +430,19 @@
     line-height: 1;
     user-select: none;
   }
-  .sidebar-toggle .toggle-grip {
-    width: 4px;
-    height: 18px;
-    border-radius: 999px;
-    background: currentColor;
-    opacity: .28;
-    flex-shrink: 0;
-  }
+  .sidebar-toggle .toggle-grip { display: none; }
   .sidebar.is-collapsed .sidebar-toggle {
+    transform: translate(-100%, -50%);
+    width: auto;
     min-width: 34px;
     height: 112px;
     padding: 10px 6px;
     gap: 8px;
+    border-radius: 12px 0 0 12px;
+    border: 1px solid var(--brand);
+    border-right: none;
     background: var(--brand);
     color: #fff;
-    border-color: var(--brand);
     box-shadow:
       -4px 6px 18px color-mix(in srgb, var(--brand) 34%, transparent),
       0 0 0 1px color-mix(in srgb, var(--brand) 18%, transparent);
@@ -465,10 +455,10 @@
       0 0 0 1px color-mix(in srgb, var(--brand) 24%, transparent);
   }
   .sidebar.is-collapsed .sidebar-toggle .toggle-arrow {
+    width: 16px; height: 16px;
     transform: rotate(180deg);
   }
   .sidebar.is-collapsed .sidebar-toggle .toggle-label { display: block; }
-  .sidebar.is-collapsed .sidebar-toggle .toggle-grip { display: none; }
   @keyframes sidebar-toggle-pulse {
     0%, 100% { box-shadow: -4px 6px 18px color-mix(in srgb, var(--brand) 34%, transparent); }
     50% { box-shadow: -4px 6px 22px color-mix(in srgb, var(--brand) 55%, transparent), 0 0 0 4px color-mix(in srgb, var(--brand) 18%, transparent); }
@@ -2293,7 +2283,6 @@
       <aside class="sidebar" id="sidebar">
         <button class="sidebar-toggle" type="button" id="sidebarToggle" title="위젯 창 접기" aria-label="위젯 창 접기" aria-expanded="true" aria-controls="sidebar">
           <svg class="toggle-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
-          <span class="toggle-grip" aria-hidden="true"></span>
           <span class="toggle-label">위젯</span>
         </button>
         <div class="sidebar-inner">
