@@ -3613,7 +3613,10 @@
     },
   ];
 
-  const MENU_BOTTOM = [];
+  const MENU_BOTTOM = [
+    { id: 'help', label: '도움말', icon: 'help' },
+    { id: 'settings', label: '설정', icon: 'settings' },
+  ];
 
   const MENU_ICONS = {
     file: '<path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H11l2 2h4.5A2.5 2.5 0 0 1 20 9.5v7A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5v-9Z"/>',
@@ -3725,9 +3728,18 @@
     });
     syncWidgetSidebar();
     hideFlyout();
+    if (id === 'settings') {
+      const btn = document.querySelector('[data-menu="settings"]');
+      if (btn) toggleSettingsPopover(btn);
+      return;
+    }
     hideSettingsPopover();
-    // Widgets opens the palette; other rail items are select-only.
+    // Widgets opens the palette; other top rail items are select-only.
     if (id === 'widgets') return;
+    if (id === 'help') {
+      showHint(lang === 'en' ? 'Help docs coming soon' : '도움말 문서를 준비 중입니다');
+      return;
+    }
     showHint(label || id);
   }
 
