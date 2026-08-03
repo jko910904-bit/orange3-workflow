@@ -4,15 +4,11 @@ Standalone static admin (`index.html` · `styles.css` · `app.js`).
 
 > **404 note:** `https://jko910904-bit.github.io/orange3-workflow/` returns **404** until GitHub Pages is enabled once in repo Settings. The `gh-pages` branch alone is not enough.
 
-## Working preview (open this)
+## Production (open this)
 
-Live tunnel (no GitHub Pages / Vercel required):
+**https://ebs-admin-portal.vercel.app/**
 
-**https://b9ad238dc9d3d7.lhr.life/**
-
-Backup: **https://nicholas-uniprotkb-wma-usc.trycloudflare.com/**
-
-> Note: `github.io` is 404 until Pages is enabled. File hosts like `litter.catbox.moe` are often blocked on KR networks.
+> Note: `github.io` is 404 until Pages is enabled. Temporary file hosts / tunnels are fallbacks only.
 
 ## Local
 
@@ -33,15 +29,15 @@ Then open:
 
 (Alternative) Source: **GitHub Actions** — workflow `.github/workflows/deploy-ebs-admin-pages.yml` deploys `sites/ebs-admin`.
 
-## Vercel (recommended custom domain / *.vercel.app)
+## Vercel (already deployed)
+
+Project: `jeonkyoungok/ebs-admin-portal`  
+URL: **https://ebs-admin-portal.vercel.app/**
 
 ```bash
 cd sites/ebs-admin
-npx vercel login
 npx vercel --prod
 ```
-
-Or in Vercel dashboard: **Add New Project** → import this repo → Root Directory = `sites/ebs-admin` → Deploy.
 
 ## Next.js mirror
 
