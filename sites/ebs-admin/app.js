@@ -26,18 +26,18 @@
     var table = document.getElementById(tableId);
     if (!table) return;
 
-    var thead = "<tr><th class='row-label'></th>";
+    var thead = "<thead><tr><th class='row-label'></th>";
     hours.forEach(function (h) {
       var label = (h < 10 ? "0" : "") + h;
       if (everyHour) {
         thead += "<th>" + label + "</th>";
-      } else if (h % 2 === 0) {
-        thead += "<th colspan='2'>" + h + "</th>";
+      } else {
+        thead += "<th>" + (h % 2 === 0 ? String(h) : "") + "</th>";
       }
     });
-    thead += "</tr>";
+    thead += "</tr></thead>";
 
-    var body = "";
+    var body = "<tbody>";
     rowLabels.forEach(function (d, r) {
       body += "<tr><td class='row-label'>" + d + "</td>";
       seedData[r].forEach(function (v) {
@@ -45,6 +45,7 @@
       });
       body += "</tr>";
     });
+    body += "</tbody>";
     table.innerHTML = thead + body;
   }
 
