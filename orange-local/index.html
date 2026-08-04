@@ -64,33 +64,39 @@
   }
   button { font-family: inherit; }
 
-  /* ---------- Rail (simple 4-icon nav) ---------- */
+  /* ---------- Rail: collapsed = icon column, expanded = horizontal rows ---------- */
   .rail {
-    width: 92px;
-    background: #F4F5F7;
+    width: 220px;
+    background: #fff;
     border-right: 1px solid var(--border);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 12px 8px;
+    align-items: stretch;
+    padding: 12px 10px;
     gap: 4px;
     flex-shrink: 0;
     z-index: 5;
-    overflow: visible;
+    overflow: hidden;
+    transition: width .28s var(--ease), padding .28s var(--ease);
   }
   .rail.collapsed {
     width: 92px;
     align-items: center;
     padding: 12px 8px;
+    background: #F4F5F7;
+    overflow: visible;
   }
   .rail-head {
-    display: flex; align-items: center; justify-content: center;
-    padding: 4px 0 12px;
+    display: flex; align-items: center; gap: 8px;
+    padding: 4px 4px 12px;
     min-height: 48px;
     width: 100%;
   }
   .rail-logo {
-    display: none;
+    display: flex; align-items: center; gap: 0;
+    min-width: 0; flex: 1;
+    user-select: none;
+    line-height: 0;
   }
   .rail-logo .logo-full {
     display: block;
@@ -107,7 +113,7 @@
   }
   .rail.collapsed .rail-logo { display: none; }
   .rail-toggle {
-    margin-left: 0; flex-shrink: 0;
+    margin-left: auto; flex-shrink: 0;
     width: 36px; height: 36px; border: none; background: transparent;
     border-radius: 10px; color: var(--muted); cursor: pointer;
     display: flex; align-items: center; justify-content: center;
@@ -126,6 +132,7 @@
     stroke: currentColor;
     fill: none;
     stroke-width: 1.8;
+    transition: transform .22s var(--ease);
   }
   .rail.collapsed .rail-head {
     justify-content: center;
@@ -136,50 +143,68 @@
   }
   .rail.collapsed .rail-toggle {
     margin-left: 0;
-    width: 36px;
-    height: 36px;
   }
-  .rail.collapsed .rail-toggle .toggle-ico { display: block; }
-  .rail-toggle:hover { background: #E8EAED; color: var(--text); }
+  .rail.collapsed .rail-toggle .toggle-ico {
+    transform: rotate(180deg);
+  }
+  .rail-toggle:hover { background: #F3F4F6; color: var(--text); }
 
   .rail-section {
-    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    display: flex; flex-direction: column; align-items: stretch; gap: 4px;
     padding: 0;
     border-top: none;
     width: 100%;
   }
+  .rail.collapsed .rail-section { align-items: center; gap: 6px; }
   .rail-section:first-of-type { border-top: none; padding-top: 0; }
   .rail .spacer { flex: 1; min-height: 8px; }
 
+  /* Expanded: horizontal icon + label rows */
   .rail-item {
     border: none; background: transparent;
-    border-radius: 14px; color: #6B7280; cursor: pointer;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
-    width: 76px;
-    min-height: 72px;
-    padding: 10px 6px 8px;
-    font-family: inherit; font-size: 11px; font-weight: 650;
-    text-align: center;
-    white-space: normal;
+    border-radius: 12px; color: #4B5563; cursor: pointer;
+    display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 12px;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    font-family: inherit; font-size: 14px; font-weight: 650;
+    text-align: left;
+    white-space: nowrap;
     line-height: 1.25;
     transition: background .18s var(--ease), color .18s, box-shadow .18s;
   }
   .rail-item[hidden],
   .auth-user[hidden] { display: none !important; }
+  /* Collapsed: current vertical icon stack */
   .rail.collapsed .rail-item {
-    width: 76px; min-height: 72px; height: auto; padding: 10px 6px 8px;
-    justify-content: center; gap: 6px;
+    flex-direction: column;
+    width: 76px;
+    min-height: 72px;
+    height: auto;
+    padding: 10px 6px 8px;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    white-space: normal;
+    font-size: 11px;
+    color: #6B7280;
   }
   .rail-item .ri-ico {
-    width: 28px; height: 28px; flex-shrink: 0;
+    width: 22px; height: 22px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
-    border-radius: 10px;
+    border-radius: 8px;
     background: transparent;
     transition: background .18s, color .18s;
   }
+  .rail.collapsed .rail-item .ri-ico {
+    width: 28px; height: 28px; border-radius: 10px;
+  }
   .rail-item .ri-ico svg {
-    width: 22px; height: 22px; stroke: currentColor; fill: none;
+    width: 20px; height: 20px; stroke: currentColor; fill: none;
     stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .rail.collapsed .rail-item .ri-ico svg {
+    width: 22px; height: 22px;
   }
   .rail-item .ri-ico--img img {
     width: 18px; height: 18px;
@@ -189,44 +214,69 @@
   }
   .rail-item .ri-label {
     overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 1;
+    max-width: none;
+    display: block;
+  }
+  .rail.collapsed .rail-item .ri-label {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     max-width: 72px;
-    opacity: 1;
+    text-overflow: unset;
     word-break: keep-all;
+    white-space: normal;
   }
-  .rail.collapsed .rail-item .ri-label { display: -webkit-box; }
-  .rail-item:hover { background: rgba(255,255,255,.72); color: var(--text); }
+  .rail-item:hover { background: #F5F5F7; color: var(--text); }
   .rail-item.active {
-    background: #fff;
+    background: color-mix(in srgb, var(--brand) 12%, #fff);
     color: var(--brand-dark);
     font-weight: 750;
+    box-shadow: none;
+  }
+  .rail.collapsed .rail-item:hover { background: rgba(255,255,255,.72); }
+  .rail.collapsed .rail-item.active {
+    background: #fff;
     box-shadow: 0 2px 10px rgba(15, 23, 42, .06);
   }
   .rail-item.active .ri-ico {
+    background: transparent;
+    color: inherit;
+  }
+  .rail.collapsed .rail-item.active .ri-ico {
     background: color-mix(in srgb, var(--brand) 16%, #fff);
     color: var(--brand-dark);
   }
 
-  /* ---------- Rail 4-depth menu tree ---------- */
+  /* ---------- Rail menu tree ---------- */
   .rail-scroll {
-    flex: 1; min-height: 0; overflow-y: auto; overflow-x: visible;
+    flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
     scrollbar-width: thin;
-    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    display: flex; flex-direction: column; align-items: stretch; gap: 4px;
     width: 100%;
-    padding-top: 8px;
+    padding-top: 0;
   }
-  .rail.collapsed .rail-scroll { overflow: visible; }
+  .rail.collapsed .rail-scroll {
+    align-items: center;
+    gap: 6px;
+    overflow: visible;
+    padding-top: 0;
+  }
   #railBottom {
     margin-top: auto; flex-shrink: 0;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+    width: 100%;
+  }
+  .rail.collapsed #railBottom {
     border-top: none;
     padding-top: 8px;
-    width: 100%;
   }
   #railBottom:empty { display: none; }
 
-  .rail-group { display: flex; flex-direction: column; align-items: center; gap: 1px; width: 100%; }
+  .rail-group { display: flex; flex-direction: column; align-items: stretch; gap: 1px; width: 100%; }
+  .rail.collapsed .rail-group { align-items: center; }
 
   /* Unified chevron (right ▶ · open/down ▼ · left ◀) */
   .ico-chevron {
@@ -811,6 +861,21 @@
       0 10px 20px rgba(15,23,42,.13);
   }
   .widget:hover .icon-tile.icon-tile--img::after { opacity: 1; }
+
+  /* Apple-style pack already includes dark squircle + glyph — skip clay sheen */
+  body.widget-style-apple .icon-tile.icon-tile--img {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+  body.widget-style-apple .icon-tile.icon-tile--img::before,
+  body.widget-style-apple .icon-tile.icon-tile--img::after {
+    display: none;
+  }
+  body.widget-style-apple .widget:hover .icon-tile.icon-tile--img,
+  body.widget-style-apple .node:hover .icon-tile.icon-tile--img {
+    box-shadow: 0 4px 14px rgba(15,23,42,.12);
+  }
 
   .icon-blue {
     --tile-a: #EEF4FC; --tile-b: #D8E6F7;
@@ -1694,11 +1759,12 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
   }
+  .rail.collapsed #railAuth { align-items: center; }
   .auth-user {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    padding: 6px 0 8px; min-width: 0;
+    display: flex; align-items: center; justify-content: flex-start; gap: 8px;
+    padding: 8px 10px; min-width: 0;
   }
   .rail.collapsed .auth-user { justify-content: center; padding: 6px 0 8px; }
   .auth-avatar {
@@ -1707,7 +1773,7 @@
     background: var(--brand-soft); color: var(--brand-dark);
     font-size: 13px; font-weight: 750;
   }
-  .auth-meta { min-width: 0; flex: 1; display: none; }
+  .auth-meta { min-width: 0; flex: 1; display: block; }
   .rail.collapsed .auth-meta { display: none; }
   .auth-name {
     font-size: 13px; font-weight: 700; color: var(--text);
@@ -1718,6 +1784,9 @@
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   #btnLogin .ri-label {
+    font-size: inherit;
+  }
+  .rail.collapsed #btnLogin .ri-label {
     font-size: 11px;
   }
 
@@ -2178,6 +2247,13 @@
 <body>
 
   <nav class="rail collapsed" id="rail">
+    <div class="rail-head">
+      <div class="rail-logo" aria-label="로고자리"><span class="logo-placeholder">로고자리</span></div>
+      <button class="rail-toggle" type="button" id="btnRailToggle" title="메뉴 펼치기" aria-label="메뉴 펼치기" aria-expanded="false">
+        <svg class="toggle-ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
+      </button>
+    </div>
+
     <div class="rail-scroll" id="railMenu"></div>
 
     <div class="rail-section" id="railBottom"></div>
@@ -3962,6 +4038,23 @@
     }
   });
   rail.classList.add('collapsed');
+
+  function syncRailToggleLabel() {
+    const btn = document.getElementById('btnRailToggle');
+    if (!btn) return;
+    const collapsed = rail.classList.contains('collapsed');
+    const label = collapsed ? '메뉴 펼치기' : '메뉴 접기';
+    btn.title = label;
+    btn.setAttribute('aria-label', label);
+    btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+  }
+  document.getElementById('btnRailToggle')?.addEventListener('click', () => {
+    rail.classList.toggle('collapsed');
+    hideFlyout();
+    hideSettingsPopover();
+    syncRailToggleLabel();
+  });
+  syncRailToggleLabel();
 
   let activeTool = 'select';
   const TOOL_GROUPS = {
