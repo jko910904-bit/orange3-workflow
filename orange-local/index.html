@@ -2627,7 +2627,8 @@
   };
 
   const WIDGET_STYLE_KEY = 'orange3-widget-style';
-  let widgetStyle = localStorage.getItem(WIDGET_STYLE_KEY) === 'apple' ? 'apple' : 'orange';
+  // Prefer uploaded Apple-style icons unless the user chose Orange clay.
+  let widgetStyle = localStorage.getItem(WIDGET_STYLE_KEY) === 'orange' ? 'orange' : 'apple';
 
   function applyWidgetStyle() {
     document.body.classList.toggle('widget-style-apple', widgetStyle === 'apple');
@@ -2648,12 +2649,20 @@
     showHint(style === 'apple' ? t('settings.widgetApple') : t('settings.widgetOrange'));
   }
 
+  function resolveWidgetImg(imgSrc) {
+    if (!imgSrc) return null;
+    if (widgetStyle === 'apple') {
+      return imgSrc.replace('assets/widgets/', 'assets/widgets-apple/');
+    }
+    return imgSrc;
+  }
+
   function makeIco(iconKey, sizeClass = '', tileClass = 'icon-blue', imgSrc = null) {
     const el = document.createElement('div');
-    const useImg = widgetStyle === 'orange' && imgSrc;
-    if (useImg) {
+    const src = resolveWidgetImg(imgSrc);
+    if (src) {
       el.className = `icon-tile icon-tile--img ${tileClass} ${sizeClass}`.trim();
-      el.innerHTML = `<img src="${imgSrc}" alt="">`;
+      el.innerHTML = `<img src="${src}" alt="">`;
       return el;
     }
     el.className = `icon-tile ${tileClass} ${sizeClass}`.trim();
