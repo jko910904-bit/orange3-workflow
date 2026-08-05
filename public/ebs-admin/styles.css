@@ -1746,12 +1746,171 @@ button {
   background-color: #fff;
 }
 
-.logo-card {
+/* ---------- Logo settings layout ---------- */
+.logo-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.9fr);
+  gap: 10px;
   margin-bottom: var(--spacing-16);
+  align-items: stretch;
 }
 
-.logo-card-body {
-  grid-template-columns: minmax(200px, 0.85fr) minmax(0, 1.15fr);
+.logo-config-card,
+.logo-apply-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+  min-width: 0;
+}
+
+.logo-config-body {
+  display: grid;
+  grid-template-columns: minmax(160px, 0.95fr) minmax(0, 1.2fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.logo-preview-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-8);
+  background: var(--color-grey-0);
+  min-width: 0;
+}
+
+.logo-preview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.logo-mark-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 96px;
+  padding: 16px;
+  border-radius: var(--radius-8);
+  border: 1px solid var(--color-grey-300);
+  background: var(--color-grey-50);
+}
+
+.logo-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-grey-900);
+}
+
+.logo-mark-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-8);
+  background: var(--color-primary-500);
+  color: var(--color-grey-0);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.logo-mark-text {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.logo-mark-sm .logo-mark-badge {
+  width: 24px;
+  height: 24px;
+  font-size: 10px;
+}
+
+.logo-mark-sm .logo-mark-text {
+  font-size: 14px;
+}
+
+.check-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-hint {
+  margin: 0 0 0 24px;
+  font-size: 12px;
+  color: var(--color-grey-500);
+  line-height: 1.4;
+}
+
+.logo-apply-shell {
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--radius-8);
+  background: var(--color-grey-0);
+  overflow: hidden;
+  min-height: 280px;
+}
+
+.logo-apply-brand {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--color-grey-300);
+  background: var(--color-grey-0);
+}
+
+.logo-apply-nav {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.logo-apply-nav li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: var(--radius-8);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-grey-700);
+}
+
+.logo-apply-nav li.is-active {
+  background: var(--color-primary-100);
+  color: var(--color-primary-700);
+}
+
+.logo-apply-ico {
+  display: inline-flex;
+  color: inherit;
+}
+
+.logo-apply-note {
+  margin-top: auto;
+}
+
+@media (max-width: 1100px) {
+  .logo-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .logo-config-body {
+    grid-template-columns: 1fr;
+  }
 }
 
 .preview-empty {

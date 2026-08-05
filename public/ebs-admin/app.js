@@ -173,6 +173,17 @@
     });
   }
 
+  function bindLogoPreview() {
+    var expose = document.getElementById("logo-expose");
+    var brand = document.querySelector(".logo-apply-brand .logo-mark");
+    if (!expose || !brand) return;
+    function sync() {
+      brand.style.visibility = expose.checked ? "visible" : "hidden";
+    }
+    expose.addEventListener("change", sync);
+    sync();
+  }
+
   function bindCheckAll() {
     var all = document.getElementById("check-all");
     if (!all) return;
