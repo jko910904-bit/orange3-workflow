@@ -107,18 +107,48 @@
   }
 
   function bindCategory() {
-    document.querySelectorAll(".cat-row[data-cat]").forEach(function (btn) {
-      btn.addEventListener("click", function () {
+    document.querySelectorAll(".cat-row[data-cat]").forEach(function (row) {
+      var main = row.querySelector(".cat-row-main");
+      if (!main) return;
+      main.addEventListener("click", function () {
         document.querySelectorAll(".cat-row").forEach(function (el) {
           el.classList.remove("is-active");
         });
-        btn.classList.add("is-active");
+        row.classList.add("is-active");
         var meta = document.getElementById("widget-panel-meta");
-        if (meta && btn.dataset.exposed && btn.dataset.total) {
-          meta.textContent = btn.dataset.exposed + "/" + btn.dataset.total + " 노출";
+        if (meta && row.dataset.exposed && row.dataset.total) {
+          meta.textContent = row.dataset.exposed + "/" + row.dataset.total + " 노출";
         }
       });
     });
+  }
+
+  function bindCategoryChecks() {
+    var root = document.querySelector('.cat-checkbox[data-cat-check="all"]');
+    var children = Array.prototype.slice.call(
+      document.querySelectorAll(".cat-children .cat-checkbox")
+    );
+    if (!root || !children.length) return;
+
+    function syncRoot() {
+      var checked = children.filter(function (cb) {
+        return cb.checked;
+      }).length;
+      root.checked = checked === children.length;
+      root.indeterminate = checked > 0 && checked < children.length;
+    }
+
+    root.addEventListener("change", function () {
+      children.forEach(function (cb) {
+        cb.checked = root.checked;
+      });
+      root.indeterminate = false;
+    });
+
+    children.forEach(function (cb) {
+      cb.addEventListener("change", syncRoot);
+    });
+    syncRoot();
   }
 
   function bindSettingsTabs() {

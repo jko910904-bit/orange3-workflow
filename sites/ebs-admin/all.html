@@ -1211,7 +1211,7 @@ button {
 .cat-root > .cat-row::after {
   content: "";
   position: absolute;
-  left: 19px; /* center of 10px pad + 20px icon col */
+  left: 42px; /* checkbox + gap + folder center */
   top: calc(50% + 10px);
   bottom: -2px;
   width: 1px;
@@ -1233,7 +1233,7 @@ button {
 .cat-children > li::before {
   content: "";
   position: absolute;
-  left: 18px;
+  left: 41px;
   top: 0;
   bottom: 0;
   width: 1px;
@@ -1244,7 +1244,7 @@ button {
 .cat-children > li::after {
   content: "";
   position: absolute;
-  left: 18px;
+  left: 41px;
   top: 50%;
   width: 12px;
   height: 1px;
@@ -1260,31 +1260,65 @@ button {
 
 .cat-row {
   display: grid;
-  grid-template-columns: 20px 1fr auto;
+  grid-template-columns: 18px minmax(0, 1fr);
   align-items: center;
   gap: var(--spacing-8);
   width: 100%;
-  border: 0;
-  background: transparent;
-  text-align: left;
-  padding: 8px 10px;
+  padding: 4px 8px 4px 10px;
   border-radius: var(--radius-8);
-  font: inherit;
   color: var(--color-grey-800);
-  cursor: pointer;
   position: relative;
   z-index: 1;
+  box-sizing: border-box;
 }
 
-.cat-row:hover {
+.cat-row:hover,
+.cat-row.is-active {
   background: var(--color-primary-100);
   color: var(--color-primary-500);
 }
 
 .cat-row.is-active {
-  background: var(--color-primary-100);
-  color: var(--color-primary-500);
   font-weight: 600;
+}
+
+.cat-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  cursor: pointer;
+}
+
+.cat-checkbox {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--color-primary-500);
+  cursor: pointer;
+}
+
+.cat-row-main {
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  align-items: center;
+  gap: var(--spacing-8);
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 4px 2px;
+  border-radius: var(--radius-4);
+  font: inherit;
+  color: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+}
+
+.cat-row-main:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 1px;
 }
 
 .cat-folder {
@@ -1302,6 +1336,12 @@ button {
   font-size: 12px;
   color: var(--color-grey-500);
   white-space: nowrap;
+  font-weight: 500;
+}
+
+.cat-row.is-active .cat-count,
+.cat-row:hover .cat-count {
+  color: inherit;
 }
 
 .cat-row.is-active .cat-count {
@@ -1410,6 +1450,26 @@ button {
   border: 1px solid var(--color-grey-300);
   border-radius: var(--radius-8);
   box-shadow: 0 -4px 16px rgba(24, 26, 34, 0.04);
+}
+
+/* Widgets: pin save bar to viewport so it stays while scrolling */
+#view-widgets {
+  padding-bottom: 88px;
+}
+
+#view-widgets .sticky-footer {
+  position: fixed;
+  left: var(--admin-sidebar);
+  right: 0;
+  bottom: 0;
+  z-index: 25;
+  margin: 0;
+  padding: 12px 32px;
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  box-shadow: 0 -6px 24px rgba(24, 26, 34, 0.08);
 }
 
 .footer-note {
@@ -1588,6 +1648,11 @@ button {
   .sticky-footer {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  #view-widgets .sticky-footer {
+    left: 0;
+    padding: 12px 16px;
   }
 
   .footer-actions {
@@ -2351,94 +2416,144 @@ button {
               </div>
               <ul class="cat-tree" role="tree" aria-label="위젯 카테고리">
                 <li class="cat-item cat-root" role="treeitem" aria-expanded="true">
-                  <button type="button" class="cat-row" data-cat="all">
-                    <span class="cat-folder" aria-hidden="true">
+                  <div class="cat-row" data-cat="all">
+                    <label class="cat-check">
+                      <input type="checkbox" class="cat-checkbox" data-cat-check="all" aria-label="전체 카테고리 선택" checked />
+                    </label>
+                    <button type="button" class="cat-row-main">
+                      <span class="cat-folder" aria-hidden="true">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
                     </span>
-                    <span class="cat-name">전체 카테고리</span>
-                    <span class="cat-count">87/162 노출</span>
-                  </button>
+                      <span class="cat-name">전체 카테고리</span>
+                      <span class="cat-count">87/162 노출</span>
+                    </button>
+                  </div>
                   <ul class="cat-children" role="group">
                     <li role="treeitem">
-                      <button type="button" class="cat-row is-active" data-cat="data" data-exposed="10" data-total="11">
-                        <span class="cat-folder" aria-hidden="true">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
-                        </span>
-                        <span class="cat-name">데이터</span>
-                        <span class="cat-count">10/11 노출</span>
-                      </button>
+                  <div class="cat-row is-active" data-cat="data" data-exposed="10" data-total="11">
+                    <label class="cat-check">
+                      <input type="checkbox" class="cat-checkbox" data-cat-check="data" aria-label="데이터 선택" checked />
+                    </label>
+                    <button type="button" class="cat-row-main">
+                      <span class="cat-folder" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                    </span>
+                      <span class="cat-name">데이터</span>
+                      <span class="cat-count">10/11 노출</span>
+                    </button>
+                  </div>
                     </li>
                     <li role="treeitem">
-                      <button type="button" class="cat-row" data-cat="transform" data-exposed="20" data-total="20">
-                        <span class="cat-folder" aria-hidden="true">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
-                        </span>
-                        <span class="cat-name">변환</span>
-                        <span class="cat-count">20/20 노출</span>
-                      </button>
+                  <div class="cat-row" data-cat="transform" data-exposed="20" data-total="20">
+                    <label class="cat-check">
+                      <input type="checkbox" class="cat-checkbox" data-cat-check="transform" aria-label="변환 선택" checked />
+                    </label>
+                    <button type="button" class="cat-row-main">
+                      <span class="cat-folder" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                    </span>
+                      <span class="cat-name">변환</span>
+                      <span class="cat-count">20/20 노출</span>
+                    </button>
+                  </div>
                     </li>
                     <li role="treeitem">
-                      <button type="button" class="cat-row" data-cat="viz" data-exposed="18" data-total="22">
-                        <span class="cat-folder" aria-hidden="true">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
-                        </span>
-                        <span class="cat-name">시각화</span>
-                        <span class="cat-count">18/22 노출</span>
-                      </button>
+                  <div class="cat-row" data-cat="viz" data-exposed="18" data-total="22">
+                    <label class="cat-check">
+                      <input type="checkbox" class="cat-checkbox" data-cat-check="viz" aria-label="시각화 선택" checked />
+                    </label>
+                    <button type="button" class="cat-row-main">
+                      <span class="cat-folder" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                    </span>
+                      <span class="cat-name">시각화</span>
+                      <span class="cat-count">18/22 노출</span>
+                    </button>
+                  </div>
                     </li>
                     <li role="treeitem">
-                      <button type="button" class="cat-row" data-cat="model" data-exposed="12" data-total="15">
-                        <span class="cat-folder" aria-hidden="true">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
-                        </span>
-                        <span class="cat-name">모델</span>
-                        <span class="cat-count">12/15 노출</span>
-                      </button>
+                  <div class="cat-row" data-cat="model" data-exposed="12" data-total="15">
+                    <label class="cat-check">
+                      <input type="checkbox" class="cat-checkbox" data-cat-check="model" aria-label="모델 선택" checked />
+                    </label>
+                    <button type="button" class="cat-row-main">
+                      <span class="cat-folder" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                    </span>
+                      <span class="cat-name">모델</span>
+                      <span class="cat-count">12/15 노출</span>
+                    </button>
+                  </div>
                     </li>
                     <li role="treeitem">
-                      <button type="button" class="cat-row" data-cat="eval" data-exposed="8" data-total="9">
-                        <span class="cat-folder" aria-hidden="true">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
-                        </span>
-                        <span class="cat-name">평가</span>
-                        <span class="cat-count">8/9 노출</span>
-                      </button>
+                  <div class="cat-row" data-cat="eval" data-exposed="8" data-total="9">
+                    <label class="cat-check">
+                      <input type="checkbox" class="cat-checkbox" data-cat-check="eval" aria-label="평가 선택" checked />
+                    </label>
+                    <button type="button" class="cat-row-main">
+                      <span class="cat-folder" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                    </span>
+                      <span class="cat-name">평가</span>
+                      <span class="cat-count">8/9 노출</span>
+                    </button>
+                  </div>
                     </li>
                     <li role="treeitem">
-                      <button type="button" class="cat-row" data-cat="unsup" data-exposed="7" data-total="10">
-                        <span class="cat-folder" aria-hidden="true">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
-                        </span>
-                        <span class="cat-name">비지도</span>
-                        <span class="cat-count">7/10 노출</span>
-                      </button>
+                  <div class="cat-row" data-cat="unsup" data-exposed="7" data-total="10">
+                    <label class="cat-check">
+                      <input type="checkbox" class="cat-checkbox" data-cat-check="unsup" aria-label="비지도 선택" checked />
+                    </label>
+                    <button type="button" class="cat-row-main">
+                      <span class="cat-folder" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                    </span>
+                      <span class="cat-name">비지도</span>
+                      <span class="cat-count">7/10 노출</span>
+                    </button>
+                  </div>
                     </li>
                     <li role="treeitem">
-                      <button type="button" class="cat-row" data-cat="image" data-exposed="5" data-total="8">
-                        <span class="cat-folder" aria-hidden="true">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
-                        </span>
-                        <span class="cat-name">이미지 분석</span>
-                        <span class="cat-count">5/8 노출</span>
-                      </button>
+                  <div class="cat-row" data-cat="image" data-exposed="5" data-total="8">
+                    <label class="cat-check">
+                      <input type="checkbox" class="cat-checkbox" data-cat-check="image" aria-label="이미지 분석 선택" checked />
+                    </label>
+                    <button type="button" class="cat-row-main">
+                      <span class="cat-folder" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                    </span>
+                      <span class="cat-name">이미지 분석</span>
+                      <span class="cat-count">5/8 노출</span>
+                    </button>
+                  </div>
                     </li>
                     <li role="treeitem">
-                      <button type="button" class="cat-row" data-cat="network" data-exposed="4" data-total="6">
-                        <span class="cat-folder" aria-hidden="true">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
-                        </span>
-                        <span class="cat-name">네트워크</span>
-                        <span class="cat-count">4/6 노출</span>
-                      </button>
+                  <div class="cat-row" data-cat="network" data-exposed="4" data-total="6">
+                    <label class="cat-check">
+                      <input type="checkbox" class="cat-checkbox" data-cat-check="network" aria-label="네트워크 선택" checked />
+                    </label>
+                    <button type="button" class="cat-row-main">
+                      <span class="cat-folder" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                    </span>
+                      <span class="cat-name">네트워크</span>
+                      <span class="cat-count">4/6 노출</span>
+                    </button>
+                  </div>
                     </li>
                     <li role="treeitem">
-                      <button type="button" class="cat-row" data-cat="ts" data-exposed="3" data-total="5">
-                        <span class="cat-folder" aria-hidden="true">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
-                        </span>
-                        <span class="cat-name">시계열</span>
-                        <span class="cat-count">3/5 노출</span>
-                      </button>
+                  <div class="cat-row" data-cat="ts" data-exposed="3" data-total="5">
+                    <label class="cat-check">
+                      <input type="checkbox" class="cat-checkbox" data-cat-check="ts" aria-label="시계열 선택" checked />
+                    </label>
+                    <button type="button" class="cat-row-main">
+                      <span class="cat-folder" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                    </span>
+                      <span class="cat-name">시계열</span>
+                      <span class="cat-count">3/5 노출</span>
+                    </button>
+                  </div>
                     </li>
                   </ul>
                 </li>
@@ -2991,18 +3106,48 @@ button {
   }
 
   function bindCategory() {
-    document.querySelectorAll(".cat-row[data-cat]").forEach(function (btn) {
-      btn.addEventListener("click", function () {
+    document.querySelectorAll(".cat-row[data-cat]").forEach(function (row) {
+      var main = row.querySelector(".cat-row-main");
+      if (!main) return;
+      main.addEventListener("click", function () {
         document.querySelectorAll(".cat-row").forEach(function (el) {
           el.classList.remove("is-active");
         });
-        btn.classList.add("is-active");
+        row.classList.add("is-active");
         var meta = document.getElementById("widget-panel-meta");
-        if (meta && btn.dataset.exposed && btn.dataset.total) {
-          meta.textContent = btn.dataset.exposed + "/" + btn.dataset.total + " 노출";
+        if (meta && row.dataset.exposed && row.dataset.total) {
+          meta.textContent = row.dataset.exposed + "/" + row.dataset.total + " 노출";
         }
       });
     });
+  }
+
+  function bindCategoryChecks() {
+    var root = document.querySelector('.cat-checkbox[data-cat-check="all"]');
+    var children = Array.prototype.slice.call(
+      document.querySelectorAll(".cat-children .cat-checkbox")
+    );
+    if (!root || !children.length) return;
+
+    function syncRoot() {
+      var checked = children.filter(function (cb) {
+        return cb.checked;
+      }).length;
+      root.checked = checked === children.length;
+      root.indeterminate = checked > 0 && checked < children.length;
+    }
+
+    root.addEventListener("change", function () {
+      children.forEach(function (cb) {
+        cb.checked = root.checked;
+      });
+      root.indeterminate = false;
+    });
+
+    children.forEach(function (cb) {
+      cb.addEventListener("change", syncRoot);
+    });
+    syncRoot();
   }
 
   function bindSettingsTabs() {
@@ -3121,6 +3266,7 @@ button {
   renderHourBars();
   bindNav();
   bindCategory();
+  bindCategoryChecks();
   bindSettingsTabs();
   bindMonitorTabs();
   bindCheckAll();
