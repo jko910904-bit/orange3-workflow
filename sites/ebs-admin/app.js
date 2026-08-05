@@ -175,7 +175,7 @@
 
   function bindLogoPreview() {
     var expose = document.getElementById("logo-expose");
-    var brand = document.querySelector(".logo-apply-brand .logo-mark");
+    var brand = document.querySelector(".logo-apply-brand .logo-placeholder");
     if (!expose || !brand) return;
     function sync() {
       brand.style.visibility = expose.checked ? "visible" : "hidden";

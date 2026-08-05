@@ -1767,7 +1767,7 @@ button {
   display: grid;
   grid-template-columns: minmax(160px, 0.95fr) minmax(0, 1.2fr);
   gap: 14px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .logo-preview-card {
@@ -1779,6 +1779,8 @@ button {
   border-radius: var(--radius-8);
   background: var(--color-grey-0);
   min-width: 0;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .logo-preview-head {
@@ -1786,17 +1788,39 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  flex: 0 0 auto;
 }
 
 .logo-mark-frame {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 96px;
+  flex: 1 1 auto;
+  min-height: 120px;
   padding: 16px;
   border-radius: var(--radius-8);
   border: 1px solid var(--color-grey-300);
   background: var(--color-grey-50);
+}
+
+.logo-placeholder {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-grey-500);
+  letter-spacing: -0.01em;
+}
+
+.logo-placeholder-sm {
+  font-size: 13px;
+}
+
+.logo-preview-card .preview-file {
+  flex: 0 0 auto;
+  margin-top: auto;
+}
+
+.logo-config-body .loading-controls {
+  height: 100%;
 }
 
 .logo-mark {
