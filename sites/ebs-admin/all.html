@@ -1202,57 +1202,58 @@ button {
   padding: 0;
 }
 
-.cat-root > .cat-row {
-  position: relative;
-  z-index: 1;
+.cat-tree {
+  --cat-pad-x: 8px;
+  --cat-check: 16px;
+  --cat-gap: 8px;
+  --cat-indent: 22px;
+  --cat-spine: calc(var(--cat-pad-x) + var(--cat-check) / 2);
 }
 
-/* stub from parent folder down into the tree */
-.cat-root > .cat-row::after {
-  content: "";
-  position: absolute;
-  left: 42px; /* checkbox + gap + folder center */
-  top: calc(50% + 10px);
-  bottom: -2px;
-  width: 1px;
-  background: var(--color-grey-400);
+.cat-item.cat-root {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .cat-children {
   position: relative;
   margin: 0;
-  padding: 0;
+  padding: 0 0 2px;
 }
 
 .cat-children > li {
   position: relative;
-  padding-left: 28px;
+  padding-left: var(--cat-indent);
 }
 
-/* vertical spine */
+/* vertical spine under root checkbox */
 .cat-children > li::before {
   content: "";
   position: absolute;
-  left: 41px;
+  left: var(--cat-spine);
   top: 0;
   bottom: 0;
   width: 1px;
-  background: var(--color-grey-400);
+  background: var(--color-grey-300);
 }
 
-/* horizontal branch to folder */
+/* elbow into the child row */
 .cat-children > li::after {
   content: "";
   position: absolute;
-  left: 41px;
+  left: var(--cat-spine);
   top: 50%;
-  width: 12px;
+  width: calc(var(--cat-indent) + var(--cat-pad-x) - var(--cat-check) / 2);
   height: 1px;
-  background: var(--color-grey-400);
+  background: var(--color-grey-300);
   transform: translateY(-50%);
 }
 
-/* last item: spine stops at the branch */
+.cat-children > li:first-child::before {
+  top: -2px;
+}
+
 .cat-children > li:last-child::before {
   bottom: auto;
   height: 50%;
@@ -1260,11 +1261,12 @@ button {
 
 .cat-row {
   display: grid;
-  grid-template-columns: 18px minmax(0, 1fr);
+  grid-template-columns: var(--cat-check) minmax(0, 1fr);
   align-items: center;
-  gap: var(--spacing-8);
+  gap: var(--cat-gap);
   width: 100%;
-  padding: 4px 8px 4px 10px;
+  min-height: 36px;
+  padding: 4px var(--cat-pad-x);
   border-radius: var(--radius-8);
   color: var(--color-grey-800);
   position: relative;
@@ -1272,27 +1274,29 @@ button {
   box-sizing: border-box;
 }
 
-.cat-row:hover,
-.cat-row.is-active {
-  background: var(--color-primary-100);
-  color: var(--color-primary-500);
+.cat-row:hover {
+  background: var(--color-grey-50);
 }
 
 .cat-row.is-active {
-  font-weight: 600;
+  background: var(--color-primary-100);
+  color: var(--color-primary-700);
 }
 
 .cat-check {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: var(--cat-check);
+  height: var(--cat-check);
   margin: 0;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .cat-checkbox {
-  width: 16px;
-  height: 16px;
+  width: var(--cat-check);
+  height: var(--cat-check);
   margin: 0;
   accent-color: var(--color-primary-500);
   cursor: pointer;
@@ -1300,20 +1304,24 @@ button {
 
 .cat-row-main {
   display: grid;
-  grid-template-columns: 20px 1fr auto;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: 8px;
   width: 100%;
   min-width: 0;
   border: 0;
   background: transparent;
   text-align: left;
-  padding: 4px 2px;
+  padding: 2px 0;
   border-radius: var(--radius-4);
   font: inherit;
   color: inherit;
-  font-weight: inherit;
+  font-weight: 500;
   cursor: pointer;
+}
+
+.cat-row.is-active .cat-row-main {
+  font-weight: 650;
 }
 
 .cat-row-main:focus-visible {
@@ -1323,29 +1331,45 @@ button {
 
 .cat-folder {
   display: inline-flex;
-  color: inherit;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-grey-500);
+  flex-shrink: 0;
+}
+
+.cat-row:hover .cat-folder,
+.cat-row.is-active .cat-folder {
+  color: var(--color-primary-500);
 }
 
 .cat-name {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 13px;
+  line-height: 1.3;
 }
 
 .cat-count {
+  justify-self: end;
   font-size: 12px;
+  line-height: 1;
   color: var(--color-grey-500);
   white-space: nowrap;
   font-weight: 500;
-}
-
-.cat-row.is-active .cat-count,
-.cat-row:hover .cat-count {
-  color: inherit;
+  font-variant-numeric: tabular-nums;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--color-grey-100);
 }
 
 .cat-row.is-active .cat-count {
   color: var(--color-primary-700);
+  background: rgba(109, 74, 255, 0.12);
+}
+
+.cat-row:hover .cat-count {
+  color: var(--color-grey-700);
 }
 
 .card-title-meta {
