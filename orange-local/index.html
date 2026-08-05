@@ -2660,16 +2660,16 @@
       <h2 class="auth-title">로그인</h2>
       <p class="auth-desc">워크플로 에디터를 사용하려면 로그인하세요</p>
       <div class="auth-field">
-        <label for="authEmailInput">이메일</label>
-        <input id="authEmailInput" name="email" type="email" placeholder="you@example.com" required>
+        <label for="authIdInput">아이디</label>
+        <input id="authIdInput" name="username" type="text" placeholder="아이디" required autocomplete="username">
       </div>
       <div class="auth-field">
         <label for="authPasswordInput">비밀번호</label>
-        <input id="authPasswordInput" name="password" type="password" placeholder="4자 이상" required minlength="4">
+        <input id="authPasswordInput" name="password" type="password" placeholder="비밀번호" required autocomplete="current-password">
       </div>
       <div class="auth-error" id="authError" aria-live="polite"></div>
       <button class="auth-submit" type="submit">로그인</button>
-      <p class="auth-hint">데모: 아무 이메일 + 비밀번호 4자 이상</p>
+      <p class="auth-hint">데모: 아이디 1234 / 비밀번호 5678</p>
     </form>
   </div>
 
@@ -4420,6 +4420,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   });
 
   const AUTH_KEY = 'orange3-auth-user';
+  const AUTH_FIXED_ID = '1234';
+  const AUTH_FIXED_PW = '5678';
   const authOverlay = document.getElementById('authOverlay');
   const authForm = document.getElementById('authForm');
   const authError = document.getElementById('authError');
@@ -4447,7 +4449,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function openAuth() {
     authError.textContent = '';
     authOverlay.hidden = false;
-    document.getElementById('authEmailInput')?.focus();
+    document.getElementById('authIdInput')?.focus();
   }
 
   function closeAuth() {
@@ -4495,9 +4497,9 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (railAuth) railAuth.hidden = loggedIn;
     if (btnLogout) btnLogout.hidden = !loggedIn;
     if (loggedIn) {
-      const name = user.name || user.email.split('@')[0];
+      const name = user.name || user.id || 'User';
       document.getElementById('authName').textContent = name;
-      authUserEl.title = user.email;
+      authUserEl.title = name;
     }
   }
 
@@ -4516,18 +4518,13 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   authForm?.addEventListener('submit', e => {
     e.preventDefault();
-    const email = document.getElementById('authEmailInput').value.trim();
+    const id = document.getElementById('authIdInput').value.trim();
     const password = document.getElementById('authPasswordInput').value;
-    if (!email || !email.includes('@')) {
-      authError.textContent = '올바른 이메일을 입력하세요';
+    if (id !== AUTH_FIXED_ID || password !== AUTH_FIXED_PW) {
+      authError.textContent = '아이디 또는 비밀번호가 올바르지 않습니다';
       return;
     }
-    if (password.length < 4) {
-      authError.textContent = '비밀번호는 4자 이상이어야 합니다';
-      return;
-    }
-    const name = email.split('@')[0];
-    setUser({ email, name });
+    setUser({ id: AUTH_FIXED_ID, name: AUTH_FIXED_ID });
     renderAuth();
   });
 
