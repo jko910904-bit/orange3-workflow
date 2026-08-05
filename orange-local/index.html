@@ -175,7 +175,8 @@
     transition: background .18s var(--ease), color .18s, box-shadow .18s;
   }
   .rail-item[hidden],
-  .auth-user[hidden] { display: none !important; }
+  .auth-user[hidden],
+  #railAuth[hidden] { display: none !important; }
   /* Collapsed: current vertical icon stack */
   .rail.collapsed .rail-item {
     flex-direction: column;
@@ -4478,8 +4479,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function renderAuthUI() {
     const user = getUser();
     const loggedIn = !!user;
+    const railAuth = document.getElementById('railAuth');
     authUserEl.hidden = !loggedIn;
     btnLogin.hidden = loggedIn;
+    if (railAuth) railAuth.hidden = loggedIn;
     if (btnLogout) btnLogout.hidden = !loggedIn;
     if (loggedIn) {
       const name = user.name || user.email.split('@')[0];
