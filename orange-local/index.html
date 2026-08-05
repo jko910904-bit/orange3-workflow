@@ -1764,24 +1764,22 @@
   }
   .rail.collapsed #railAuth { align-items: center; }
   .auth-user {
-    display: flex; align-items: center; justify-content: flex-start; gap: 8px;
-    padding: 8px 10px; min-width: 0;
+    display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+    padding: 4px 6px; min-width: 0; max-width: 220px;
   }
-  .rail.collapsed .auth-user { justify-content: center; padding: 6px 0 8px; }
   .auth-avatar {
     width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
-    background: var(--brand-soft); color: var(--brand-dark);
+    background: #fff; color: var(--brand-dark);
     font-size: 13px; font-weight: 750;
   }
-  .auth-meta { min-width: 0; flex: 1; display: block; }
-  .rail.collapsed .auth-meta { display: none; }
+  .auth-meta { min-width: 0; flex: 1; display: block; text-align: left; }
   .auth-name {
-    font-size: 13px; font-weight: 700; color: var(--text);
+    font-size: 13px; font-weight: 700; color: #fff;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .auth-email {
-    font-size: 11px; color: var(--muted);
+    font-size: 11px; color: rgba(255,255,255,.72);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   #btnLogin .ri-label {
@@ -2260,13 +2258,6 @@
     <div class="rail-section" id="railBottom"></div>
 
     <div class="rail-section" id="railAuth">
-      <div class="auth-user" id="authUser" hidden>
-        <div class="auth-avatar" id="authAvatar">U</div>
-        <div class="auth-meta">
-          <div class="auth-name" id="authName"></div>
-          <div class="auth-email" id="authEmail"></div>
-        </div>
-      </div>
       <button class="rail-item" type="button" id="btnLogin" title="Login">
         <span class="ri-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 12h9"/><path d="M15 7l5 5-5 5"/><path d="M13 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h6"/></svg></span>
         <span class="ri-label" data-i18n="auth.login">로그인</span>
@@ -2333,6 +2324,13 @@
         <div class="run-mode-switch" role="group" aria-label="실행 On/Off">
           <button type="button" data-run-mode="on" class="is-active" aria-pressed="true" data-i18n="tabs.runOn">On</button>
           <button type="button" data-run-mode="off" aria-pressed="false" data-i18n="tabs.runOff">Off</button>
+        </div>
+        <div class="auth-user" id="authUser" hidden>
+          <div class="auth-avatar" id="authAvatar">U</div>
+          <div class="auth-meta">
+            <div class="auth-name" id="authName"></div>
+            <div class="auth-email" id="authEmail"></div>
+          </div>
         </div>
         <button class="tabs-logout" type="button" id="btnLogout" hidden title="Logout" aria-label="Logout">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 12H5"/><path d="M9 7l-5 5 5 5"/><path d="M11 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6"/></svg>
