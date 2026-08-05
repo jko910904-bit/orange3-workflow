@@ -1732,6 +1732,28 @@ button {
   justify-content: center;
 }
 
+.preview-frame-logo {
+  aspect-ratio: 240 / 64;
+  min-height: 88px;
+  max-width: 360px;
+  background:
+    linear-gradient(45deg, #eef0f5 25%, transparent 25%),
+    linear-gradient(-45deg, #eef0f5 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #eef0f5 75%),
+    linear-gradient(-45deg, transparent 75%, #eef0f5 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+  background-color: #fff;
+}
+
+.logo-card {
+  margin-bottom: var(--spacing-16);
+}
+
+.logo-card-body {
+  grid-template-columns: minmax(200px, 0.85fr) minmax(0, 1.15fr);
+}
+
 .preview-empty {
   font-size: 13px;
   color: var(--color-grey-500);

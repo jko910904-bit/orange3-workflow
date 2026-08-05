@@ -153,6 +153,11 @@
 
   function bindSettingsTabs() {
     var tabs = document.querySelectorAll(".subtab[data-subtab]");
+    var panels = {
+      lang: document.getElementById("subtab-lang"),
+      loading: document.getElementById("subtab-loading"),
+      logo: document.getElementById("subtab-logo"),
+    };
     tabs.forEach(function (tab) {
       tab.addEventListener("click", function () {
         var id = tab.getAttribute("data-subtab");
@@ -161,10 +166,9 @@
           t.classList.toggle("is-active", on);
           t.setAttribute("aria-selected", on ? "true" : "false");
         });
-        var lang = document.getElementById("subtab-lang");
-        var loading = document.getElementById("subtab-loading");
-        if (lang) lang.hidden = id !== "lang";
-        if (loading) loading.hidden = id !== "loading";
+        Object.keys(panels).forEach(function (key) {
+          if (panels[key]) panels[key].hidden = key !== id;
+        });
       });
     });
   }

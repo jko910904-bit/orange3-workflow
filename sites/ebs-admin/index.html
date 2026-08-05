@@ -663,6 +663,7 @@
           <div class="subtab-bar" role="tablist" aria-label="서비스 설정 구분">
             <button type="button" class="subtab is-active" role="tab" aria-selected="true" data-subtab="lang">언어설정</button>
             <button type="button" class="subtab" role="tab" aria-selected="false" data-subtab="loading">로딩 이미지 설정</button>
+            <button type="button" class="subtab" role="tab" aria-selected="false" data-subtab="logo">로고 설정</button>
           </div>
 
           <div id="subtab-lang" class="subtab-panel" role="tabpanel">
@@ -840,6 +841,59 @@
                 </div>
               </section>
             </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-ghost">취소</button>
+              <button type="button" class="btn btn-primary" data-primary-cta="true">저장</button>
+            </div>
+          </div>
+
+          <div id="subtab-logo" class="subtab-panel" role="tabpanel" hidden>
+            <section class="card loading-card logo-card" aria-labelledby="logo-settings-title">
+              <header class="loading-card-head">
+                <h2 id="logo-settings-title" class="card-title">로고 이미지 설정</h2>
+                <p class="page-desc">서비스 전반에 표시될 브랜드 로고를 설정합니다.</p>
+              </header>
+              <div class="loading-card-body logo-card-body">
+                <div class="preview-block">
+                  <p class="preview-label">미리보기</p>
+                  <div class="preview-frame preview-frame-logo" role="img" aria-label="로고 미리보기 영역 (이미지 없음)">
+                    <span class="preview-empty">미리보기 영역</span>
+                  </div>
+                  <p class="preview-file">logo-default.png</p>
+                  <p class="footer-note preview-note">
+                    <span class="info-mark" aria-hidden="true">i</span>
+                    헤더·로그인 등 서비스 공통 영역에 적용됩니다.
+                  </p>
+                </div>
+                <div class="loading-controls">
+                  <label class="check-row">
+                    <input type="checkbox" checked />
+                    노출 사용
+                  </label>
+                  <fieldset class="radio-group">
+                    <legend class="visually-hidden">로고 소스</legend>
+                    <label class="radio-row">
+                      <input type="radio" name="logo-image" value="default" checked />
+                      기본 로고
+                    </label>
+                    <label class="radio-row">
+                      <input type="radio" name="logo-image" value="upload" />
+                      로고 업로드
+                    </label>
+                  </fieldset>
+                  <div class="upload-box" tabindex="0" role="button" aria-label="로고 업로드 영역">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                      <path d="M12 16V6" />
+                      <path d="M8 10l4-4 4 4" />
+                      <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
+                    </svg>
+                    <p class="upload-title">로고를 드래그하거나 클릭하여 업로드</p>
+                    <p class="upload-hint">PNG · 투명 배경 권장 · 최대 2MB · 권장 크기 240 × 64</p>
+                  </div>
+                </div>
+              </div>
+            </section>
 
             <div class="form-actions">
               <button type="button" class="btn btn-ghost">취소</button>
