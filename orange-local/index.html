@@ -1165,8 +1165,8 @@
   .exec-mode-badge .exec-mode-dot {
     width: 8px; height: 8px; flex-shrink: 0;
     border-radius: 50%;
-    background: #FF4D4F;
-    box-shadow: 0 0 0 3px rgba(255, 77, 79, .22);
+    background: #5BB0FF;
+    box-shadow: 0 0 0 3px rgba(91, 176, 255, .28);
     animation: exec-mode-dot-pulse 1.6s ease-in-out infinite;
   }
   @keyframes exec-mode-dot-pulse {
@@ -4442,7 +4442,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     const isAuto = executionMode === 'auto';
     if (badge) {
       badge.hidden = !isAuto;
-      badge.textContent = t('exec.badgeAuto');
+      const label = badge.querySelector('[data-i18n="exec.badgeAuto"]');
+      if (label) label.textContent = t('exec.badgeAuto');
     }
     if (runBtn) {
       runBtn.hidden = isAuto;
