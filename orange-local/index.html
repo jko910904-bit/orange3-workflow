@@ -2461,6 +2461,12 @@
           </span>
           <button type="button" class="exec-mode-run-btn" id="btnRunNow" hidden data-i18n="exec.runNow">▶ 지금 실행</button>
         </div>
+        <div class="auth-user" id="authUser" hidden>
+          <span class="tabs-divider" aria-hidden="true"></span>
+          <div class="auth-meta">
+            <div class="auth-name" id="authName"></div>
+          </div>
+        </div>
         <button class="tabs-logout" type="button" id="btnLogout" hidden title="Logout" aria-label="Logout">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 12H5"/><path d="M9 7l-5 5 5 5"/><path d="M11 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6"/></svg>
           <span data-i18n="auth.logout">로그아웃</span>
@@ -4727,10 +4733,16 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     const user = getUser();
     const loggedIn = !!user;
     const railAuth = document.getElementById('railAuth');
-    if (authUserEl) authUserEl.hidden = true;
+    if (authUserEl) authUserEl.hidden = !loggedIn;
     btnLogin.hidden = loggedIn;
     if (railAuth) railAuth.hidden = loggedIn;
     if (btnLogout) btnLogout.hidden = !loggedIn;
+    if (loggedIn && authUserEl) {
+      const name = user.name || user.id || 'User';
+      const nameEl = document.getElementById('authName');
+      if (nameEl) nameEl.textContent = name;
+      authUserEl.title = name;
+    }
   }
 
   function renderAuth(opts = {}) {
