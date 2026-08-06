@@ -4545,7 +4545,6 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   document.getElementById('btnRunNow')?.addEventListener('click', () => {
     runWorkflow();
-    setExecutionMode('auto', { silent: true, skipRun: true });
   });
   document.getElementById('execModeHelp')?.addEventListener('click', e => {
     e.stopPropagation();
