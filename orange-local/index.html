@@ -1201,8 +1201,8 @@
   .exec-mode-run-btn[hidden],
   .exec-mode-badge[hidden] { display: none !important; }
   .tabs-logout {
-    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-    min-height: 42px; padding: 0 16px;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 42px; min-height: 42px; padding: 0;
     border: 1px solid rgba(255,255,255,.45);
     border-radius: 11px;
     background: transparent;
@@ -2467,9 +2467,8 @@
             <div class="auth-name" id="authName"></div>
           </div>
         </div>
-        <button class="tabs-logout" type="button" id="btnLogout" hidden title="Logout" aria-label="Logout">
+        <button class="tabs-logout" type="button" id="btnLogout" hidden title="로그아웃" aria-label="로그아웃">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 12H5"/><path d="M9 7l-5 5 5 5"/><path d="M11 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6"/></svg>
-          <span data-i18n="auth.logout">로그아웃</span>
         </button>
       </div>
     </div>
