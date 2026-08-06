@@ -1096,16 +1096,16 @@
   }
 
   .tabs-actions {
-    margin-left: auto; display: flex; align-items: center; gap: 16px;
+    margin-left: auto; display: flex; align-items: center; gap: 10px;
     padding: 0 0 10px 0; flex-shrink: 0;
   }
   .tabs-divider {
     width: 1px; height: 28px; flex-shrink: 0;
     background: rgba(255,255,255,.38);
-    margin: 0;
+    margin: 0 2px;
   }
   .exec-mode-header {
-    display: inline-flex; align-items: center; gap: 20px;
+    display: inline-flex; align-items: center; gap: 10px;
     flex-shrink: 0;
     position: relative;
   }
@@ -1160,34 +1160,32 @@
   .exec-mode-tooltip li + li { margin-top: 8px; }
   .exec-mode-status {
     position: relative;
-    display: inline-grid;
-    grid-template-columns: 1fr;
-    place-items: center;
-    width: 148px;
-    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+    min-height: 42px;
   }
   .exec-mode-badge {
-    grid-area: 1 / 1;
     display: inline-flex; align-items: center; justify-content: center;
-    width: 100%; height: 100%;
-    min-height: 0; padding: 0 14px;
+    width: auto; height: auto;
+    min-height: 0; padding: 5px 10px;
     box-sizing: border-box;
-    border-radius: 12px;
+    border-radius: 6px;
     background: rgba(15, 42, 86, .35);
     border: none;
     color: rgba(255,255,255,.92);
-    font-size: 14px; font-weight: 600;
+    font-size: 12px; font-weight: 600;
     letter-spacing: -0.01em;
     line-height: 1.2;
+    white-space: nowrap;
     pointer-events: none;
     user-select: none;
     box-shadow: none;
   }
   .exec-mode-run-btn {
-    grid-area: 1 / 1;
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    width: 100%; height: 100%;
+    width: auto; height: 42px;
     min-height: 0; padding: 0 14px;
     box-sizing: border-box;
     border: none;
@@ -1197,6 +1195,7 @@
     font-family: inherit;
     font-size: 14px; font-weight: 600;
     letter-spacing: -0.01em;
+    white-space: nowrap;
     cursor: pointer;
     box-shadow:
       0 2px 0 rgba(15, 42, 86, .12),
