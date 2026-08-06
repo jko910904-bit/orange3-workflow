@@ -1152,7 +1152,7 @@
   }
   .exec-mode-tooltip li + li { margin-top: 8px; }
   .exec-mode-badge {
-    display: inline-flex; align-items: center; justify-content: center;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     min-height: 0; padding: 7px 14px;
     border-radius: 999px;
     background: #164A8A;
@@ -1161,6 +1161,17 @@
     font-size: 13px; font-weight: 700;
     pointer-events: none;
     user-select: none;
+  }
+  .exec-mode-badge .exec-mode-dot {
+    width: 8px; height: 8px; flex-shrink: 0;
+    border-radius: 50%;
+    background: #FF4D4F;
+    box-shadow: 0 0 0 3px rgba(255, 77, 79, .22);
+    animation: exec-mode-dot-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes exec-mode-dot-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .72; transform: scale(.92); }
   }
   .exec-mode-run-btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 6px;
@@ -2438,7 +2449,10 @@
               </ul>
             </div>
           </div>
-          <span class="exec-mode-badge" id="execModeBadge" data-i18n="exec.badgeAuto">자동 실행 모드</span>
+          <span class="exec-mode-badge" id="execModeBadge">
+            <i class="exec-mode-dot" aria-hidden="true"></i>
+            <span data-i18n="exec.badgeAuto">자동 실행 모드</span>
+          </span>
           <button type="button" class="exec-mode-run-btn" id="btnRunNow" hidden data-i18n="exec.runNow">▶ 지금 실행</button>
         </div>
         <div class="auth-user" id="authUser" hidden>
