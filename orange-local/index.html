@@ -1178,25 +1178,24 @@
     min-height: 42px; padding: 0 20px;
     border: none;
     border-radius: 12px;
-    background: linear-gradient(145deg, #FFD36A 0%, #FFB020 55%, #F59E0B 100%);
-    color: #1A2B4A;
+    background: #fff;
+    color: var(--brand-dark);
     font-family: inherit;
     font-size: 14.5px; font-weight: 800;
     letter-spacing: -0.01em;
     cursor: pointer;
     box-shadow:
-      0 2px 0 rgba(180, 110, 0, .35),
-      0 8px 22px rgba(245, 158, 11, .45),
-      0 0 0 1px rgba(255, 255, 255, .35) inset;
-    transition: transform .15s, filter .15s, box-shadow .15s;
+      0 2px 0 rgba(15, 42, 86, .12),
+      0 8px 22px rgba(34, 125, 226, .28);
+    transition: transform .15s, filter .15s, box-shadow .15s, color .15s;
   }
   .exec-mode-run-btn:hover {
-    filter: brightness(1.05);
+    filter: brightness(1.02);
+    color: var(--brand);
     transform: translateY(-1px);
     box-shadow:
-      0 2px 0 rgba(180, 110, 0, .4),
-      0 10px 26px rgba(245, 158, 11, .55),
-      0 0 0 1px rgba(255, 255, 255, .4) inset;
+      0 2px 0 rgba(15, 42, 86, .14),
+      0 10px 26px rgba(34, 125, 226, .34);
   }
   .exec-mode-run-btn:active { transform: scale(0.98); }
   .exec-mode-run-btn[hidden],
@@ -4728,15 +4727,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     const user = getUser();
     const loggedIn = !!user;
     const railAuth = document.getElementById('railAuth');
-    authUserEl.hidden = !loggedIn;
+    if (authUserEl) authUserEl.hidden = true;
     btnLogin.hidden = loggedIn;
     if (railAuth) railAuth.hidden = loggedIn;
     if (btnLogout) btnLogout.hidden = !loggedIn;
-    if (loggedIn) {
-      const name = user.name || user.id || 'User';
-      document.getElementById('authName').textContent = name;
-      authUserEl.title = name;
-    }
   }
 
   function renderAuth(opts = {}) {
