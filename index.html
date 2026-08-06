@@ -1158,9 +1158,20 @@
     list-style: disc;
   }
   .exec-mode-tooltip li + li { margin-top: 8px; }
+  .exec-mode-status {
+    position: relative;
+    display: inline-grid;
+    grid-template-columns: 1fr;
+    width: 132px;
+    height: 42px;
+    flex-shrink: 0;
+  }
   .exec-mode-badge {
+    grid-area: 1 / 1;
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    min-height: 0; padding: 7px 14px;
+    width: 100%; height: 100%;
+    min-height: 0; padding: 0 14px;
+    box-sizing: border-box;
     border-radius: 999px;
     background: #164A8A;
     border: 1px solid rgba(255,255,255,.18);
@@ -1181,10 +1192,13 @@
     50% { opacity: .72; transform: scale(.92); }
   }
   .exec-mode-run-btn {
+    grid-area: 1 / 1;
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    min-height: 42px; padding: 0 24px;
+    width: 100%; height: 100%;
+    min-height: 0; padding: 0 14px;
+    box-sizing: border-box;
     border: none;
-    border-radius: 12px;
+    border-radius: 999px;
     background: #fff;
     color: var(--brand-dark);
     font-family: inherit;
@@ -1207,7 +1221,9 @@
   }
   .exec-mode-run-btn:active { transform: scale(0.98); }
   .exec-mode-run-btn[hidden],
-  .exec-mode-badge[hidden] { display: none !important; }
+  .exec-mode-badge[hidden] {
+    display: none !important;
+  }
   .tabs-logout {
     display: inline-flex; align-items: center; justify-content: center;
     width: 42px; min-height: 42px; padding: 0;
@@ -2480,11 +2496,13 @@
               </ul>
             </div>
           </div>
-          <span class="exec-mode-badge" id="execModeBadge">
-            <i class="exec-mode-dot" aria-hidden="true"></i>
-            <span data-i18n="exec.badgeAuto">자동 실행</span>
+          <span class="exec-mode-status" id="execModeStatus">
+            <span class="exec-mode-badge" id="execModeBadge">
+              <i class="exec-mode-dot" aria-hidden="true"></i>
+              <span data-i18n="exec.badgeAuto">자동 실행</span>
+            </span>
+            <button type="button" class="exec-mode-run-btn" id="btnRunNow" hidden data-i18n="exec.runNow">▶ 지금 실행</button>
           </span>
-          <button type="button" class="exec-mode-run-btn" id="btnRunNow" hidden data-i18n="exec.runNow">▶ 지금 실행</button>
         </div>
         <div class="auth-user" id="authUser" hidden>
           <span class="tabs-divider" aria-hidden="true"></span>
@@ -4524,11 +4542,12 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (!opts.silent) {
       showHint(mode === 'auto' ? t('settings.execAuto') : t('settings.execManual'));
     }
-    if (mode === 'auto' && nodes.length) runWorkflow({ silent: true });
+    if (mode === 'auto' && nodes.length && !opts.skipRun) runWorkflow({ silent: true });
   }
 
   document.getElementById('btnRunNow')?.addEventListener('click', () => {
     runWorkflow();
+    setExecutionMode('auto', { silent: true, skipRun: true });
   });
   document.getElementById('execModeHelp')?.addEventListener('click', e => {
     e.stopPropagation();
