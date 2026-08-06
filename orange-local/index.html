@@ -2144,6 +2144,12 @@
     z-index: 2;
   }
   .node:active { cursor: grabbing; }
+  .node.is-running .body {
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--brand) 35%, transparent),
+      0 10px 24px rgba(34, 125, 226, .22);
+    transform: translateY(-1px);
+  }
   .node .body {
     position: relative;
     width: 76px; height: 76px; margin: 0 auto 8px;
@@ -2979,6 +2985,16 @@
   let linking = null; // { fromId, x, y }
   let dropType = null;
 
+  const EXEC_MODE_KEY = 'orange3-exec-mode';
+  function readExecutionMode() {
+    const raw = localStorage.getItem(EXEC_MODE_KEY) || localStorage.getItem('orange3-run-mode');
+    if (raw === 'manual' || raw === 'off') return 'manual';
+    if (raw === 'auto' || raw === 'on') return 'auto';
+    return 'auto';
+  }
+  let executionMode = readExecutionMode();
+  let execTooltipOpen = false;
+
   const uid = (p) => p + Math.random().toString(36).slice(2, 8);
   const world = document.getElementById('world');
   const canvasWrap = document.getElementById('canvasWrap');
@@ -3329,9 +3345,9 @@
     hideHint();
     renderNodes();
     if (created) {
-      if (typeof executionMode !== 'undefined' && executionMode === 'auto') {
+      if (executionMode === 'auto') {
         runWorkflow({ silent: false });
-      } else if (typeof executionMode !== 'undefined' && executionMode === 'manual') {
+      } else {
         showHint(t('exec.hintManualWait'));
       }
     }
@@ -3805,7 +3821,6 @@
     });
     document.documentElement.lang = lang;
     syncLangMenu();
-    if (typeof syncExecutionModeUI === 'function') syncExecutionModeUI();
   }
   function setLang(next) {
     if (!I18N[next]) return;
@@ -3830,6 +3845,7 @@
     }
     syncLangMenu();
     if (typeof syncSettingsPopoverUI === 'function') syncSettingsPopoverUI();
+    if (typeof syncExecutionModeUI === 'function') syncExecutionModeUI();
   }
 
   const MENU_SECTIONS = [
@@ -4397,16 +4413,6 @@ document.querySelector('.tab-add')?.addEventListener('click', () => {
 /* initial tab already in DOM counts as #1 */
 tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
-  const EXEC_MODE_KEY = 'orange3-exec-mode';
-  function readExecutionMode() {
-    const raw = localStorage.getItem(EXEC_MODE_KEY) || localStorage.getItem('orange3-run-mode');
-    if (raw === 'manual' || raw === 'off') return 'manual';
-    if (raw === 'auto' || raw === 'on') return 'auto';
-    return 'auto';
-  }
-  let executionMode = readExecutionMode();
-  let execTooltipOpen = false;
-
   function setExecTooltipOpen(open) {
     const tip = document.getElementById('execModeTooltip');
     const help = document.getElementById('execModeHelp');
@@ -4453,11 +4459,13 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       return false;
     }
     connSvg.classList.add('is-running');
+    document.querySelectorAll('.node').forEach(el => el.classList.add('is-running'));
     drawConnections();
     setTimeout(() => {
       connSvg.classList.remove('is-running');
+      document.querySelectorAll('.node').forEach(el => el.classList.remove('is-running'));
       drawConnections();
-    }, 700);
+    }, 900);
     if (!opts.silent) showHint(t('exec.hintAutoRun'));
     return true;
   }
