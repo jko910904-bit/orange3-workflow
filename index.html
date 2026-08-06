@@ -430,7 +430,7 @@
   .settings-popover {
     position: fixed;
     z-index: 220;
-    width: min(280px, calc(100vw - 24px));
+    width: min(320px, calc(100vw - 24px));
     background: #fff;
     border: 1px solid var(--border);
     border-radius: 16px;
@@ -513,6 +513,17 @@
     line-height: 1.4;
     color: #9CA3AF;
     font-weight: 500;
+  }
+  .settings-exec-hint {
+    margin: 10px 0 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #6B7280;
+    font-weight: 500;
+  }
+  .settings-exec-hint strong {
+    color: #374151;
+    font-weight: 700;
   }
 
   /* ---------- Sidebar (right, under tabs like props) ---------- */
@@ -1086,20 +1097,92 @@
     background: rgba(255,255,255,.45);
     margin: 0 2px;
   }
-  .run-mode-switch {
-    display: inline-flex; align-items: center; gap: 2px;
-    padding: 3px; border-radius: 11px;
-    background: rgba(0,0,0,.18); border: 1px solid rgba(255,255,255,.28);
+  .exec-mode-header {
+    display: inline-flex; align-items: center; gap: 10px;
+    flex-shrink: 0;
+    position: relative;
   }
-  .run-mode-switch button {
-    border: none; background: transparent; color: rgba(255,255,255,.75);
-    font-size: 14px; font-weight: 700; padding: 8px 14px; border-radius: 9px; cursor: pointer;
-    transition: background .18s, color .18s;
+  .exec-mode-label-wrap {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: rgba(255,255,255,.92);
+    font-size: 13px; font-weight: 700;
+    letter-spacing: -0.01em;
+    user-select: none;
+    position: relative;
   }
-  .run-mode-switch button.is-active {
-    background: #fff; color: var(--brand-dark);
+  .exec-mode-help {
+    position: relative;
+    width: 18px; height: 18px;
+    border: 1px solid rgba(255,255,255,.55);
+    border-radius: 50%;
+    background: rgba(255,255,255,.12);
+    color: #fff;
+    font-size: 11px; font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0;
   }
-  .run-mode-switch button:hover:not(.is-active) { color: #fff; }
+  .exec-mode-help:hover,
+  .exec-mode-help[aria-expanded="true"] {
+    background: rgba(255,255,255,.22);
+    border-color: #fff;
+  }
+  .exec-mode-tooltip {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 30;
+    width: min(320px, calc(100vw - 24px));
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: #fff;
+    color: #1F2328;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, .18);
+    text-align: left;
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .exec-mode-tooltip[hidden] { display: none !important; }
+  .exec-mode-tooltip ul {
+    margin: 0;
+    padding: 0 0 0 1.1em;
+    list-style: disc;
+  }
+  .exec-mode-tooltip li + li { margin-top: 8px; }
+  .exec-mode-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 36px; padding: 0 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.28);
+    color: rgba(255,255,255,.88);
+    font-size: 13px; font-weight: 700;
+    pointer-events: none;
+    user-select: none;
+  }
+  .exec-mode-run-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    min-height: 38px; padding: 0 16px;
+    border: none;
+    border-radius: 11px;
+    background: #fff;
+    color: var(--brand-dark);
+    font-family: inherit;
+    font-size: 13.5px; font-weight: 750;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, .16);
+    transition: transform .15s, filter .15s, box-shadow .15s;
+  }
+  .exec-mode-run-btn:hover {
+    filter: brightness(1.02);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, .2);
+  }
+  .exec-mode-run-btn:active { transform: scale(0.98); }
+  .exec-mode-run-btn[hidden],
+  .exec-mode-badge[hidden] { display: none !important; }
   .tabs-logout {
     display: inline-flex; align-items: center; justify-content: center; gap: 7px;
     min-height: 42px; padding: 0 16px;
@@ -2277,6 +2360,14 @@
   <div class="rail-flyout" id="railFlyout" hidden></div>
   <div class="settings-popover" id="settingsPopover" hidden role="dialog" aria-label="설정">
     <div class="settings-section">
+      <div class="settings-heading" data-i18n="settings.execMode">실행 모드</div>
+      <div class="settings-theme-row" role="group" aria-label="실행 모드">
+        <button type="button" class="settings-theme-btn" data-exec-mode="auto" data-i18n="settings.execAuto">자동 실행</button>
+        <button type="button" class="settings-theme-btn" data-exec-mode="manual" data-i18n="settings.execManual">수동 실행</button>
+      </div>
+      <p class="settings-exec-hint" id="settingsExecHint" data-i18n="settings.execHintAuto">위젯 연결 시 결과가 바로 표시됩니다.</p>
+    </div>
+    <div class="settings-section">
       <div class="settings-heading" data-i18n="settings.themeStyle">테마 스타일</div>
       <div class="settings-theme-row" role="group" aria-label="테마 스타일">
         <button type="button" class="settings-theme-btn" data-theme-mode="none">기본</button>
@@ -2330,9 +2421,19 @@
       </div>
       <button class="tab-add" type="button" title="탭 추가">＋</button>
       <div class="tabs-actions">
-        <div class="run-mode-switch" role="group" aria-label="실행 On/Off">
-          <button type="button" data-run-mode="on" class="is-active" aria-pressed="true" data-i18n="tabs.runOn">On</button>
-          <button type="button" data-run-mode="off" aria-pressed="false" data-i18n="tabs.runOff">Off</button>
+        <div class="exec-mode-header" id="execModeHeader">
+          <div class="exec-mode-label-wrap">
+            <span data-i18n="exec.label">실행모드</span>
+            <button type="button" class="exec-mode-help" id="execModeHelp" aria-label="실행 모드 안내" aria-expanded="false" aria-controls="execModeTooltip">?</button>
+            <div class="exec-mode-tooltip" id="execModeTooltip" role="tooltip" hidden>
+              <ul>
+                <li data-i18n="exec.tip1">자동 실행 모드는 위젯 연결 시 결과가 자동으로 표시되며, 수동 실행 모드는 '지금 실행' 버튼을 눌러 결과를 확인할 수 있습니다.</li>
+                <li data-i18n="exec.tip2">실행 방식은 설정에서 언제든 변경할 수 있습니다.</li>
+              </ul>
+            </div>
+          </div>
+          <span class="exec-mode-badge" id="execModeBadge" data-i18n="exec.badgeAuto">자동 실행 모드</span>
+          <button type="button" class="exec-mode-run-btn" id="btnRunNow" hidden data-i18n="exec.runNow">▶ 지금 실행</button>
         </div>
         <div class="auth-user" id="authUser" hidden>
           <span class="tabs-divider" aria-hidden="true"></span>
@@ -3213,6 +3314,7 @@
   function finishLink(toId) {
     if (!linking) return;
     const exists = connections.some(c => c.from === linking.fromId && c.to === toId);
+    let created = false;
     if (!exists && linking.fromId !== toId) {
       connections.push({
         id: uid('c'),
@@ -3220,11 +3322,19 @@
         to: toId,
         label: '데이터 → 데이터',
       });
+      created = true;
     }
     linking = null;
     canvasWrap.classList.remove('connecting');
     hideHint();
     renderNodes();
+    if (created) {
+      if (typeof executionMode !== 'undefined' && executionMode === 'auto') {
+        runWorkflow({ silent: false });
+      } else if (typeof executionMode !== 'undefined' && executionMode === 'manual') {
+        showHint(t('exec.hintManualWait'));
+      }
+    }
   }
 
   function cancelLink() {
@@ -3565,7 +3675,19 @@
       'settings.themeStyle': '테마 스타일', 'settings.lang': '언어 설정',
       'settings.widgetStyle': '위젯 스타일',
       'settings.widgetApple': '애플 스타일', 'settings.widgetOrange': '오렌지 스타일',
+      'settings.execMode': '실행 모드',
+      'settings.execAuto': '자동 실행', 'settings.execManual': '수동 실행',
+      'settings.execHintAuto': '위젯 연결 시 결과가 바로 표시됩니다.',
+      'settings.execHintManual': "위젯을 연결한 후 '지금 실행' 버튼을 눌러 결과를 확인할 수 있습니다.",
       'settings.note': '설정 정보는 브라우저에 저장됩니다.',
+      'exec.label': '실행모드',
+      'exec.badgeAuto': '자동 실행 모드',
+      'exec.runNow': '▶ 지금 실행',
+      'exec.tip1': "자동 실행 모드는 위젯 연결 시 결과가 자동으로 표시되며, 수동 실행 모드는 '지금 실행' 버튼을 눌러 결과를 확인할 수 있습니다.",
+      'exec.tip2': '실행 방식은 설정에서 언제든 변경할 수 있습니다.',
+      'exec.hintAutoRun': '워크플로를 실행했습니다',
+      'exec.hintManualWait': '연결됨 · 지금 실행을 눌러 결과를 확인하세요',
+      'exec.hintEmpty': '실행할 위젯이 없습니다',
       'menu.themeNone': '기본', 'menu.themePengsu': '펭수', 'menu.themeRabbit': '토끼',
       'menu.new': '새로 만들기', 'menu.open': '열기', 'menu.file': '파일', 'menu.saveOws': '.ows로 저장하기', 'menu.menu': '메뉴', 'menu.workspaces': '워크스페이스',
       'menu.widgets': '위젯', 'menu.datasets': '분석 데이터셋', 'menu.templates': '워크플로우 템플릿',
@@ -3596,7 +3718,19 @@
       'settings.themeStyle': 'Theme style', 'settings.lang': 'Language',
       'settings.widgetStyle': 'Widget style',
       'settings.widgetApple': 'Apple style', 'settings.widgetOrange': 'Orange style',
+      'settings.execMode': 'Execution mode',
+      'settings.execAuto': 'Auto run', 'settings.execManual': 'Manual run',
+      'settings.execHintAuto': 'Results appear as soon as widgets are connected.',
+      'settings.execHintManual': "After connecting widgets, press 'Run now' to see results.",
       'settings.note': 'Settings are saved in this browser.',
+      'exec.label': 'Run mode',
+      'exec.badgeAuto': 'Auto run mode',
+      'exec.runNow': '▶ Run now',
+      'exec.tip1': "Auto run shows results when widgets are connected. Manual run waits until you press 'Run now'.",
+      'exec.tip2': 'You can change the run mode anytime in Settings.',
+      'exec.hintAutoRun': 'Workflow ran',
+      'exec.hintManualWait': 'Connected · Press Run now to see results',
+      'exec.hintEmpty': 'Nothing to run',
       'menu.themeNone': 'Basic', 'menu.themePengsu': 'Pengsu', 'menu.themeRabbit': 'Rabbit',
       'menu.new': 'New', 'menu.open': 'Open', 'menu.file': 'File', 'menu.saveOws': 'Save as .ows', 'menu.menu': 'Menu', 'menu.workspaces': 'WorkSpaces',
       'menu.widgets': 'Widgets', 'menu.datasets': 'Analysis Datasets', 'menu.templates': 'Workflow Templates',
@@ -3671,6 +3805,7 @@
     });
     document.documentElement.lang = lang;
     syncLangMenu();
+    if (typeof syncExecutionModeUI === 'function') syncExecutionModeUI();
   }
   function setLang(next) {
     if (!I18N[next]) return;
@@ -3902,10 +4037,25 @@
       const key = style === 'apple' ? 'settings.widgetApple' : 'settings.widgetOrange';
       btn.textContent = t(key);
     });
+    settingsPopover.querySelectorAll('[data-exec-mode]').forEach(btn => {
+      const mode = btn.dataset.execMode;
+      const current = (typeof executionMode !== 'undefined') ? executionMode : 'auto';
+      btn.classList.toggle('is-selected', mode === current);
+      btn.setAttribute('aria-pressed', mode === current ? 'true' : 'false');
+      const key = mode === 'auto' ? 'settings.execAuto' : 'settings.execManual';
+      btn.textContent = t(key);
+    });
+    const hint = document.getElementById('settingsExecHint');
+    if (hint) {
+      const current = (typeof executionMode !== 'undefined') ? executionMode : 'auto';
+      const key = current === 'auto' ? 'settings.execHintAuto' : 'settings.execHintManual';
+      hint.setAttribute('data-i18n', key);
+      hint.textContent = t(key);
+    }
     const sel = document.getElementById('settingsLangSelect');
     if (sel) sel.value = lang;
     settingsPopover.querySelectorAll('[data-i18n]').forEach(el => {
-      if (el.matches('[data-widget-style], [data-theme-mode]')) return;
+      if (el.matches('[data-widget-style], [data-theme-mode], [data-exec-mode]')) return;
       const key = el.getAttribute('data-i18n');
       if (key) el.textContent = t(key);
     });
@@ -4032,6 +4182,12 @@
   settingsPopover?.querySelectorAll('[data-widget-style]').forEach(btn => {
     btn.addEventListener('click', () => {
       setWidgetStyle(btn.dataset.widgetStyle);
+    });
+  });
+  settingsPopover?.querySelectorAll('[data-exec-mode]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setExecutionMode(btn.dataset.execMode);
+      syncSettingsPopoverUI();
     });
   });
   applyWidgetStyle();
@@ -4241,39 +4397,98 @@ document.querySelector('.tab-add')?.addEventListener('click', () => {
 /* initial tab already in DOM counts as #1 */
 tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
-  const RUN_MODE_KEY = 'orange3-run-mode';
-  function readRunMode() {
-    const raw = localStorage.getItem(RUN_MODE_KEY);
-    if (raw === 'off' || raw === 'manual') return 'off';
-    return 'on';
+  const EXEC_MODE_KEY = 'orange3-exec-mode';
+  function readExecutionMode() {
+    const raw = localStorage.getItem(EXEC_MODE_KEY) || localStorage.getItem('orange3-run-mode');
+    if (raw === 'manual' || raw === 'off') return 'manual';
+    if (raw === 'auto' || raw === 'on') return 'auto';
+    return 'auto';
   }
-  let runMode = readRunMode();
-  function syncRunModeUI() {
-    document.querySelectorAll('[data-run-mode]').forEach(btn => {
-      const on = btn.dataset.runMode === runMode;
-      btn.classList.toggle('is-active', on);
+  let executionMode = readExecutionMode();
+  let execTooltipOpen = false;
+
+  function setExecTooltipOpen(open) {
+    const tip = document.getElementById('execModeTooltip');
+    const help = document.getElementById('execModeHelp');
+    execTooltipOpen = !!open;
+    if (tip) tip.hidden = !execTooltipOpen;
+    if (help) help.setAttribute('aria-expanded', execTooltipOpen ? 'true' : 'false');
+  }
+
+  function syncExecutionModeUI() {
+    const badge = document.getElementById('execModeBadge');
+    const runBtn = document.getElementById('btnRunNow');
+    const hint = document.getElementById('settingsExecHint');
+    const isAuto = executionMode === 'auto';
+    if (badge) {
+      badge.hidden = !isAuto;
+      badge.textContent = t('exec.badgeAuto');
+    }
+    if (runBtn) {
+      runBtn.hidden = isAuto;
+      runBtn.textContent = t('exec.runNow');
+    }
+    if (hint) {
+      hint.setAttribute('data-i18n', isAuto ? 'settings.execHintAuto' : 'settings.execHintManual');
+      hint.textContent = t(isAuto ? 'settings.execHintAuto' : 'settings.execHintManual');
+    }
+    document.querySelectorAll('[data-exec-mode]').forEach(btn => {
+      const on = btn.dataset.execMode === executionMode;
+      btn.classList.toggle('is-selected', on);
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      const key = btn.dataset.execMode === 'auto' ? 'settings.execAuto' : 'settings.execManual';
+      btn.textContent = t(key);
+    });
+    const label = document.querySelector('#execModeHeader [data-i18n="exec.label"]');
+    if (label) label.textContent = t('exec.label');
+    document.querySelectorAll('#execModeTooltip [data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (key) el.textContent = t(key);
     });
   }
-  function setRunMode(mode) {
-    if (mode !== 'on' && mode !== 'off') return;
-    runMode = mode;
-    localStorage.setItem(RUN_MODE_KEY, mode);
-    syncRunModeUI();
-    showHint(mode === 'on' ? t('tabs.runOn') : t('tabs.runOff'));
-    if (mode === 'on') {
-      connSvg.classList.add('is-running');
-      drawConnections();
-      setTimeout(() => {
-        connSvg.classList.remove('is-running');
-        drawConnections();
-      }, 700);
+
+  function runWorkflow(opts = {}) {
+    if (!nodes.length) {
+      if (!opts.silent) showHint(t('exec.hintEmpty'));
+      return false;
     }
+    connSvg.classList.add('is-running');
+    drawConnections();
+    setTimeout(() => {
+      connSvg.classList.remove('is-running');
+      drawConnections();
+    }, 700);
+    if (!opts.silent) showHint(t('exec.hintAutoRun'));
+    return true;
   }
-  document.querySelectorAll('[data-run-mode]').forEach(btn => {
-    btn.addEventListener('click', () => setRunMode(btn.dataset.runMode));
+
+  function setExecutionMode(mode, opts = {}) {
+    if (mode !== 'auto' && mode !== 'manual') return;
+    executionMode = mode;
+    localStorage.setItem(EXEC_MODE_KEY, mode);
+    syncExecutionModeUI();
+    if (typeof syncSettingsPopoverUI === 'function') syncSettingsPopoverUI();
+    if (!opts.silent) {
+      showHint(mode === 'auto' ? t('settings.execAuto') : t('settings.execManual'));
+    }
+    if (mode === 'auto' && nodes.length) runWorkflow({ silent: true });
+  }
+
+  document.getElementById('btnRunNow')?.addEventListener('click', () => {
+    runWorkflow();
   });
-  syncRunModeUI();
+  document.getElementById('execModeHelp')?.addEventListener('click', e => {
+    e.stopPropagation();
+    setExecTooltipOpen(!execTooltipOpen);
+  });
+  document.getElementById('execModeHelp')?.addEventListener('mouseenter', () => setExecTooltipOpen(true));
+  document.getElementById('execModeHeader')?.addEventListener('mouseleave', () => setExecTooltipOpen(false));
+  document.addEventListener('click', e => {
+    if (!execTooltipOpen) return;
+    if (e.target.closest?.('#execModeHeader')) return;
+    setExecTooltipOpen(false);
+  });
+  syncExecutionModeUI();
 
   function fitView() {
     if (!nodes.length) return;
@@ -4433,7 +4648,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   const ONBOARD_HINTS = {
     add: '왼쪽 위젯 패널에서 위젯을 선택하거나 캔버스로 드래그해 배치하세요',
     connect: '위젯 포트에서 드래그해 다른 위젯과 연결하세요',
-    run: '상단 On/Off로 분석 실행을 켜거나 끄세요',
+    run: '설정에서 실행 모드를 바꾸고, 수동일 때는 지금 실행을 눌러 확인하세요',
   };
 
   function getUser() {
