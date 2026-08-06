@@ -1174,22 +1174,29 @@
     50% { opacity: .72; transform: scale(.92); }
   }
   .exec-mode-run-btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    min-height: 38px; padding: 0 16px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 42px; padding: 0 20px;
     border: none;
-    border-radius: 11px;
-    background: #fff;
-    color: var(--brand-dark);
+    border-radius: 12px;
+    background: linear-gradient(145deg, #FFD36A 0%, #FFB020 55%, #F59E0B 100%);
+    color: #1A2B4A;
     font-family: inherit;
-    font-size: 13.5px; font-weight: 750;
+    font-size: 14.5px; font-weight: 800;
+    letter-spacing: -0.01em;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(15, 23, 42, .16);
+    box-shadow:
+      0 2px 0 rgba(180, 110, 0, .35),
+      0 8px 22px rgba(245, 158, 11, .45),
+      0 0 0 1px rgba(255, 255, 255, .35) inset;
     transition: transform .15s, filter .15s, box-shadow .15s;
   }
   .exec-mode-run-btn:hover {
-    filter: brightness(1.02);
+    filter: brightness(1.05);
     transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(15, 23, 42, .2);
+    box-shadow:
+      0 2px 0 rgba(180, 110, 0, .4),
+      0 10px 26px rgba(245, 158, 11, .55),
+      0 0 0 1px rgba(255, 255, 255, .4) inset;
   }
   .exec-mode-run-btn:active { transform: scale(0.98); }
   .exec-mode-run-btn[hidden],
@@ -2454,15 +2461,6 @@
             <span data-i18n="exec.badgeAuto">자동 실행 모드</span>
           </span>
           <button type="button" class="exec-mode-run-btn" id="btnRunNow" hidden data-i18n="exec.runNow">▶ 지금 실행</button>
-        </div>
-        <div class="auth-user" id="authUser" hidden>
-          <span class="tabs-divider" aria-hidden="true"></span>
-          <div class="auth-avatar" id="authAvatar" aria-hidden="true">
-            <img src="assets/profile-pengsu.png?v=2" alt="">
-          </div>
-          <div class="auth-meta">
-            <div class="auth-name" id="authName"></div>
-          </div>
         </div>
         <button class="tabs-logout" type="button" id="btnLogout" hidden title="Logout" aria-label="Logout">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 12H5"/><path d="M9 7l-5 5 5 5"/><path d="M11 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6"/></svg>
