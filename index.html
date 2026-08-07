@@ -4705,6 +4705,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   const AUTH_KEY = 'orange3-auth-user';
   const AUTH_FIXED_ID = '1234';
   const AUTH_FIXED_PW = '5678';
+  const AUTH_DISPLAY_NAME = '김교육님(1234)';
   const authOverlay = document.getElementById('authOverlay');
   const authForm = document.getElementById('authForm');
   const authError = document.getElementById('authError');
@@ -4780,10 +4781,13 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (railAuth) railAuth.hidden = loggedIn;
     if (btnLogout) btnLogout.hidden = !loggedIn;
     if (loggedIn && authUserEl) {
-      const name = user.name || user.id || 'User';
+      const name = user.id === AUTH_FIXED_ID
+        ? AUTH_DISPLAY_NAME
+        : (user.name || user.id || 'User');
       const nameEl = document.getElementById('authName');
       if (nameEl) nameEl.textContent = name;
       authUserEl.title = name;
+      if (user.name !== name) setUser({ ...user, name });
     }
   }
 
@@ -4808,7 +4812,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       authError.textContent = '아이디 또는 비밀번호가 올바르지 않습니다';
       return;
     }
-    setUser({ id: AUTH_FIXED_ID, name: AUTH_FIXED_ID });
+    setUser({ id: AUTH_FIXED_ID, name: AUTH_DISPLAY_NAME });
     renderAuth();
   });
 
