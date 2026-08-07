@@ -1202,7 +1202,7 @@
       0 8px 22px rgba(34, 125, 226, .28);
     transition: transform .15s ease, background .15s ease, box-shadow .15s ease, color .15s ease;
   }
-  .exec-mode-run-btn:hover {
+  .exec-mode-run-btn:hover:not(:disabled) {
     background: #EAF3FC;
     color: var(--brand);
     transform: translateY(-1px);
@@ -1210,13 +1210,20 @@
       0 3px 0 rgba(15, 42, 86, .14),
       0 12px 26px rgba(34, 125, 226, .38);
   }
-  .exec-mode-run-btn:active {
+  .exec-mode-run-btn:active:not(:disabled) {
     background: #DCEAF8;
     color: var(--brand-dark);
     transform: translateY(0) scale(0.98);
     box-shadow:
       0 1px 0 rgba(15, 42, 86, .1),
       0 4px 12px rgba(34, 125, 226, .22);
+  }
+  .exec-mode-run-btn:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+    filter: grayscale(.15);
   }
   .exec-mode-run-btn[hidden],
   .exec-mode-badge[hidden] {
@@ -3409,6 +3416,7 @@
       } else {
         showHint(t('exec.hintManualWait'));
       }
+      syncExecutionModeUI();
     }
   }
 
@@ -3437,12 +3445,14 @@
     connections = connections.filter(c => c.from !== id && c.to !== id);
     selectedNodeId = null;
     renderNodes();
+    syncExecutionModeUI();
   }
 
   function deleteConn(id) {
     connections = connections.filter(c => c.id !== id);
     selectedConnId = null;
     renderNodes();
+    syncExecutionModeUI();
   }
 
   function duplicateNode(id) {
@@ -3763,6 +3773,7 @@
       'exec.hintAutoRun': '워크플로를 실행했습니다',
       'exec.hintManualWait': '연결됨 · 지금 실행을 눌러 결과를 확인하세요',
       'exec.hintEmpty': '실행할 위젯이 없습니다',
+      'exec.hintNeedLink': '위젯을 연결한 뒤 실행할 수 있습니다',
       'menu.themeNone': '기본', 'menu.themePengsu': '펭수', 'menu.themeRabbit': '토끼',
       'menu.new': '새로 만들기', 'menu.open': '열기', 'menu.file': '파일', 'menu.saveOws': '.ows로 저장하기', 'menu.menu': '메뉴', 'menu.workspaces': '워크스페이스',
       'menu.widgets': '위젯', 'menu.datasets': '분석 데이터셋', 'menu.templates': '워크플로우 템플릿',
@@ -3806,6 +3817,7 @@
       'exec.hintAutoRun': 'Workflow ran',
       'exec.hintManualWait': 'Connected · Press Run now to see results',
       'exec.hintEmpty': 'Nothing to run',
+      'exec.hintNeedLink': 'Connect widgets before running',
       'menu.themeNone': 'Basic', 'menu.themePengsu': 'Pengsu', 'menu.themeRabbit': 'Rabbit',
       'menu.new': 'New', 'menu.open': 'Open', 'menu.file': 'File', 'menu.saveOws': 'Save as .ows', 'menu.menu': 'Menu', 'menu.workspaces': 'WorkSpaces',
       'menu.widgets': 'Widgets', 'menu.datasets': 'Analysis Datasets', 'menu.templates': 'Workflow Templates',
@@ -4493,6 +4505,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (runBtn) {
       runBtn.hidden = isAuto;
       runBtn.textContent = t('exec.runNow');
+      const canRun = connections.length > 0;
+      runBtn.disabled = !canRun;
+      runBtn.setAttribute('aria-disabled', canRun ? 'false' : 'true');
+      runBtn.title = canRun ? '' : t('exec.hintNeedLink');
     }
     if (hint) {
       hint.setAttribute('data-i18n', isAuto ? 'settings.execHintAuto' : 'settings.execHintManual');
@@ -4516,6 +4532,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function runWorkflow(opts = {}) {
     if (!nodes.length) {
       if (!opts.silent) showHint(t('exec.hintEmpty'));
+      return false;
+    }
+    if (!connections.length) {
+      if (!opts.silent) showHint(t('exec.hintNeedLink'));
       return false;
     }
     connSvg.classList.add('is-running');
@@ -4543,6 +4563,11 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   }
 
   document.getElementById('btnRunNow')?.addEventListener('click', () => {
+    const runBtn = document.getElementById('btnRunNow');
+    if (runBtn?.disabled) {
+      showHint(t('exec.hintNeedLink'));
+      return;
+    }
     runWorkflow();
   });
   document.getElementById('execModeHelp')?.addEventListener('click', e => {
