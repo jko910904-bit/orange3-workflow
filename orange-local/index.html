@@ -4066,6 +4066,7 @@
     selectedNodeId = null;
     selectedConnId = null;
     renderNodes();
+    syncExecutionModeUI();
     const activeTab = tabsList?.querySelector('.tab.active .tab-label');
     if (activeTab) activeTab.textContent = lang === 'en' ? 'Blank tab' : '빈 탭';
     showHint(lang === 'en' ? 'New blank workflow' : '새 빈 워크플로');
@@ -4885,6 +4886,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     selectedNodeId = null;
     selectedConnId = null;
     renderNodes();
+    syncExecutionModeUI();
     fitView();
     showHint('이전 작업 불러옴 · 파일 → 샘플러 → 테스트 및 점수 / 산점도 → 시간 구간');
   }
