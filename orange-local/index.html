@@ -3222,19 +3222,23 @@
   function flowLabelOf(type) {
     const fallback = { source: '보내기', sink: '받기', both: '받기 · 보내기' };
     const key = type === 'source' ? 'flow.source' : type === 'sink' ? 'flow.sink' : 'flow.both';
-    if (typeof t === 'function') {
-      const v = t(key);
-      if (v && v !== key) return v;
-    }
+    try {
+      if (typeof t === 'function' && typeof I18N !== 'undefined') {
+        const v = t(key);
+        if (v && v !== key) return v;
+      }
+    } catch (_) { /* I18N may still be in TDZ during early boot */ }
     return fallback[type] || fallback.both;
   }
   function flowCapLabel(kind) {
     const fallback = { in: '입력', out: '출력' };
     const key = kind === 'in' ? 'flow.in' : 'flow.out';
-    if (typeof t === 'function') {
-      const v = t(key);
-      if (v && v !== key) return v;
-    }
+    try {
+      if (typeof t === 'function' && typeof I18N !== 'undefined') {
+        const v = t(key);
+        if (v && v !== key) return v;
+      }
+    } catch (_) { /* I18N may still be in TDZ during early boot */ }
     return fallback[kind] || '';
   }
   function renderDataFlowIndicator(type, opts = {}) {
@@ -3383,9 +3387,15 @@
     }
     if (nameEl) nameEl.textContent = meta.label;
     if (descEl) descEl.textContent = meta.desc || '';
-    if (kicker) kicker.textContent = (typeof t === 'function' && t('flow.section') !== 'flow.section')
-      ? t('flow.section')
-      : '데이터 흐름';
+    if (kicker) {
+      try {
+        kicker.textContent = (typeof t === 'function' && t('flow.section') !== 'flow.section')
+          ? t('flow.section')
+          : '데이터 흐름';
+      } catch (_) {
+        kicker.textContent = '데이터 흐름';
+      }
+    }
     if (indHost) {
       indHost.innerHTML = '';
       indHost.appendChild(renderDataFlowIndicator(meta.flow || flowTypeOf(type), {
@@ -3405,6 +3415,7 @@
   }
 
   function renderCatalog(filter = '') {
+    if (!catBox) return;
     const q = filter.trim().toLowerCase();
     catBox.innerHTML = '';
     CATS.forEach(cat => {
@@ -4220,7 +4231,11 @@
     theme:'menu.theme', 'theme-none':'menu.themeNone', 'theme-pengsu':'menu.themePengsu', 'theme-rabbit':'menu.themeRabbit',
   };
   function t(key) {
-    return (I18N[lang] && I18N[lang][key]) || (I18N.ko && I18N.ko[key]) || key;
+    try {
+      return (I18N[lang] && I18N[lang][key]) || (I18N.ko && I18N.ko[key]) || key;
+    } catch (_) {
+      return key;
+    }
   }
   function localizeMenuTree(items) {
     (items || []).forEach(item => {
