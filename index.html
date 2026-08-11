@@ -768,75 +768,10 @@
     border-color: rgba(34, 125, 226, .16);
   }
 
-  /* ---------- Data flow indicator (source / sink / both) ---------- */
-  .dfi {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    max-width: 100%;
-    color: #8A9199;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 1;
-    pointer-events: none;
-    user-select: none;
-  }
-  .dfi-glyph {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    flex-shrink: 0;
-  }
-  .dfi-node {
-    width: 8px;
-    height: 8px;
-    border-radius: 2px;
-    background: #9AA3AD;
-    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, .08);
-  }
-  .dfi-arrow {
-    width: 8px;
-    height: 8px;
-    position: relative;
-    flex-shrink: 0;
-  }
-  .dfi-arrow::before {
-    content: '';
-    position: absolute;
-    left: 0; right: 1px; top: 50%;
-    height: 1.5px;
-    margin-top: -0.75px;
-    background: currentColor;
-    opacity: .72;
-  }
-  .dfi-arrow::after {
-    content: '';
-    position: absolute;
-    right: 0; top: 50%;
-    width: 4px; height: 4px;
-    margin-top: -2px;
-    border-right: 1.5px solid currentColor;
-    border-top: 1.5px solid currentColor;
-    transform: rotate(45deg);
-    opacity: .72;
-  }
-  .dfi-label {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    opacity: .92;
-  }
-  .widget .dfi {
-    margin-top: 1px;
-    gap: 4px;
-  }
-  .widget .dfi-label { max-width: 72px; }
-
+  /* Selected widget info card (name + description only) */
   .widget-flow-detail {
     margin: 0 12px 10px;
-    padding: 12px 12px 11px;
+    padding: 12px;
     border-radius: 12px;
     background: #F7F8FA;
     border: 1px solid rgba(15, 23, 42, .06);
@@ -844,11 +779,8 @@
   .widget-flow-detail[hidden] { display: none !important; }
   .widget-flow-detail-top {
     display: flex; align-items: flex-start; gap: 10px;
-    margin-bottom: 10px;
   }
-  .widget-flow-detail-ico {
-    flex-shrink: 0;
-  }
+  .widget-flow-detail-ico { flex-shrink: 0; }
   .widget-flow-detail-ico .icon-tile {
     width: 40px; height: 40px; border-radius: 12px;
   }
@@ -863,76 +795,12 @@
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .widget-flow-detail-desc {
-    margin: 3px 0 0;
+    margin: 4px 0 0;
     font-size: 12px; font-weight: 500; color: var(--muted);
     line-height: 1.45;
   }
-  .widget-flow-detail-kicker {
-    font-size: 12px; font-weight: 650; color: #8A9199;
-    letter-spacing: 0.02em;
-    margin: 0 0 8px;
-  }
-  .dfi--detail {
-    width: 100%;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 8px;
-    color: #5F6770;
-    font-size: 12px;
-  }
-  .dfi--detail .dfi-label {
-    width: 100%;
-    margin-top: 2px;
-    color: #8A9199;
-  }
-  .dfi--detail .dfi-glyph { gap: 6px; flex-wrap: wrap; }
-  .dfi--detail .dfi-node {
-    width: auto;
-    min-width: 64px;
-    max-width: 140px;
-    height: 24px;
-    padding: 0 8px;
-    border-radius: 6px;
-    background: #fff;
-    border: 1px solid rgba(15, 23, 42, .1);
-    box-shadow: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 700;
-    color: #3A4149;
-    letter-spacing: -0.01em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .dfi--detail .dfi-arrow {
-    width: 14px;
-    height: 10px;
-    color: #7A828C;
-  }
-  .dfi--detail .dfi-arrow::before {
-    height: 2px;
-    margin-top: -1px;
-    opacity: .8;
-  }
-  .dfi--detail .dfi-arrow::after {
-    width: 5px; height: 5px;
-    margin-top: -2.5px;
-    border-width: 2px;
-    opacity: .8;
-  }
-  .dfi-endcap {
-    font-size: 12px;
-    font-weight: 650;
-    color: #8A9199;
-    white-space: nowrap;
-  }
-  .dfi-endcap.is-disabled {
-    opacity: .38;
-    text-decoration: line-through;
-  }
+  .widget-flow-detail-kicker,
+  #widgetFlowDetailIndicator { display: none !important; }
 
   /* ---------- Glass squircle icon tiles ---------- */
   .icon-tile {
@@ -2431,25 +2299,67 @@
   }
 
   .port {
-    position: absolute; width: 14px; height: 14px; border-radius: 50%;
+    position: absolute; width: 12px; height: 12px; border-radius: 50%;
     background: #fff; border: 2px solid #B8BCC4;
     top: 50%; transform: translateY(-50%);
     cursor: crosshair; z-index: 3;
-    transition: transform var(--motion), border-color var(--motion), background var(--motion), box-shadow var(--motion);
-    opacity: 0;
-  }
-  .node:hover .port, .node.selected .port, .canvas-wrap.connecting .port {
     opacity: 1;
+    transition: transform var(--motion), border-color var(--motion), background var(--motion), box-shadow var(--motion), opacity var(--motion);
   }
-  .port.in { left: -8px; }
-  .port.out { right: -8px; }
+  .port.in { left: -7px; }
+  .port.out { right: -7px; }
   .port:hover, .port.hot {
-    transform: translateY(-50%) scale(1.25);
+    transform: translateY(-50%) scale(1.2);
     border-color: var(--brand);
     background: var(--brand-soft);
-    box-shadow: 0 0 0 4px rgba(255,122,26,0.18);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 18%, transparent);
   }
-  .node.selected .port { border-color: var(--accent, var(--brand)); }
+  .port.is-connected {
+    border-color: var(--brand);
+    background: var(--brand);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 16%, transparent);
+  }
+  .port.is-connected:hover, .port.is-connected.hot {
+    background: var(--brand-dark);
+    border-color: var(--brand-dark);
+  }
+  .node.selected .port:not(.is-connected) {
+    border-color: color-mix(in srgb, var(--accent, var(--brand)) 70%, #B8BCC4);
+  }
+
+  .conn-path.is-empty {
+    stroke-dasharray: 5 5;
+    opacity: 0.75;
+  }
+  .conn-label.is-generic { display: none !important; }
+
+  .node-status {
+    position: absolute;
+    top: -2px;
+    right: 14px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1;
+    z-index: 4;
+    cursor: default;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, .12);
+  }
+  .node-status.is-warning {
+    background: #FFF4DF;
+    color: #B36B00;
+    border: 1px solid #F0D19A;
+  }
+  .node-status.is-error {
+    background: #FDECEC;
+    color: #C0392B;
+    border: 1px solid #F0B7B7;
+  }
 
   /* ---------- Info toast ---------- */
   .hint-bar {
@@ -2886,8 +2796,6 @@
                 <p class="widget-flow-detail-desc" id="widgetFlowDetailDesc"></p>
               </div>
             </div>
-            <div class="widget-flow-detail-kicker" data-i18n="flow.section">데이터 흐름</div>
-            <div id="widgetFlowDetailIndicator"></div>
           </div>
           <div class="search">
             <input id="searchInput" placeholder="위젯 검색..." autocomplete="off">
@@ -3207,112 +3115,56 @@
     },
   ];
 
-  /* source = 보내기 only, sink = 받기 only, both = 받기 · 보내기 */
-  const FLOW_SOURCE = new Set([
+  /* portType: output = right only, input = left only, both = left+right */
+  const PORT_OUTPUT_ONLY = new Set([
     'file', 'csv', 'datasets', 'import-images', 'corpus', 'geocoding',
   ]);
-  const FLOW_SINK = new Set([
+  const PORT_INPUT_ONLY = new Set([
     'save-data', 'box-plot', 'violin', 'bar-plot', 'roc', 'word-cloud', 'choropleth',
   ]);
-  function flowTypeOf(id) {
-    if (FLOW_SOURCE.has(id)) return 'source';
-    if (FLOW_SINK.has(id)) return 'sink';
+  function portTypeOf(id) {
+    if (PORT_OUTPUT_ONLY.has(id)) return 'output';
+    if (PORT_INPUT_ONLY.has(id)) return 'input';
     return 'both';
   }
-  function flowLabelOf(type) {
-    const fallback = { source: '보내기', sink: '받기', both: '받기 · 보내기' };
-    const key = type === 'source' ? 'flow.source' : type === 'sink' ? 'flow.sink' : 'flow.both';
-    try {
-      if (typeof t === 'function' && typeof I18N !== 'undefined') {
-        const v = t(key);
-        if (v && v !== key) return v;
-      }
-    } catch (_) { /* I18N may still be in TDZ during early boot */ }
-    return fallback[type] || fallback.both;
+  function canAcceptInput(typeId) {
+    const p = portTypeOf(typeId);
+    return p === 'input' || p === 'both';
   }
-  function flowCapLabel(kind) {
-    const fallback = { in: '입력', out: '출력' };
-    const key = kind === 'in' ? 'flow.in' : 'flow.out';
-    try {
-      if (typeof t === 'function' && typeof I18N !== 'undefined') {
-        const v = t(key);
-        if (v && v !== key) return v;
-      }
-    } catch (_) { /* I18N may still be in TDZ during early boot */ }
-    return fallback[kind] || '';
+  function canEmitOutput(typeId) {
+    const p = portTypeOf(typeId);
+    return p === 'output' || p === 'both';
   }
-  function renderDataFlowIndicator(type, opts = {}) {
-    const variant = opts.variant || 'compact';
-    const label = opts.label || '';
-    const wrap = document.createElement('span');
-    wrap.className = `dfi dfi--${type}` + (variant === 'detail' ? ' dfi--detail' : '');
-    wrap.dataset.flow = type;
-    wrap.setAttribute('aria-label', flowLabelOf(type));
-    wrap.title = flowLabelOf(type);
-
-    const glyph = document.createElement('span');
-    glyph.className = 'dfi-glyph';
-    glyph.setAttribute('aria-hidden', 'true');
-
-    const mkArrow = () => {
-      const a = document.createElement('span');
-      a.className = 'dfi-arrow';
-      return a;
-    };
-    const mkNode = () => {
-      const n = document.createElement('span');
-      n.className = 'dfi-node';
-      if (variant === 'detail' && label) n.textContent = label;
-      return n;
-    };
-    const mkCap = (text, disabled) => {
-      const c = document.createElement('span');
-      c.className = 'dfi-endcap' + (disabled ? ' is-disabled' : '');
-      c.textContent = text;
-      return c;
-    };
-
-    if (variant === 'detail') {
-      if (type === 'source') {
-        glyph.appendChild(mkNode());
-        glyph.appendChild(mkArrow());
-        glyph.appendChild(mkCap(flowCapLabel('out')));
-      } else if (type === 'sink') {
-        glyph.appendChild(mkCap(flowCapLabel('in')));
-        glyph.appendChild(mkArrow());
-        glyph.appendChild(mkNode());
-      } else {
-        glyph.appendChild(mkCap(flowCapLabel('in')));
-        glyph.appendChild(mkArrow());
-        glyph.appendChild(mkNode());
-        glyph.appendChild(mkArrow());
-        glyph.appendChild(mkCap(flowCapLabel('out')));
-      }
-      wrap.appendChild(glyph);
-      const text = document.createElement('span');
-      text.className = 'dfi-label';
-      text.textContent = flowLabelOf(type);
-      wrap.appendChild(text);
-      return wrap;
+  /** Only show connection labels when they carry distinctive channel info. */
+  function isMeaningfulConnLabel(label) {
+    if (!label) return false;
+    const normalized = String(label).trim().toLowerCase();
+    const generic = new Set([
+      '데이터 → 데이터',
+      '데이터->데이터',
+      'data → data',
+      'data->data',
+      'data',
+      '데이터',
+    ]);
+    return !generic.has(normalized);
+  }
+  /**
+   * Connection transfer style.
+   * No real payload/empty-output state exists in the model yet,
+   * so edges stay solid unless an explicit `transfer: 'empty'` is present.
+   */
+  function connectionTransferState(conn) {
+    if (conn && conn.transfer === 'empty') return 'empty';
+    return 'active';
+  }
+  /** Widget runtime status — only when node carries real status fields. */
+  function nodeStatusOf(node) {
+    if (!node) return null;
+    if (node.status === 'error' || node.status === 'warning') {
+      return { level: node.status, message: node.statusMessage || '' };
     }
-
-    if (type === 'source') {
-      glyph.appendChild(mkNode());
-      glyph.appendChild(mkArrow());
-    } else if (type === 'sink') {
-      glyph.appendChild(mkArrow());
-      glyph.appendChild(mkNode());
-    } else {
-      glyph.appendChild(mkArrow());
-      glyph.appendChild(mkNode());
-      glyph.appendChild(mkArrow());
-    }
-    wrap.appendChild(glyph);
-    const text = document.createElement('span');
-    text.className = 'dfi-label';
-    text.textContent = flowLabelOf(type);
-    wrap.appendChild(text);
-    return wrap;
+    return null;
   }
 
   const ITEM_MAP = {};
@@ -3325,7 +3177,7 @@
       catName: c.name,
       tile: c.tile,
       img: it.img || c.img,
-      flow: flowTypeOf(it.id),
+      portType: portTypeOf(it.id),
     };
   }));
 
@@ -3379,30 +3231,12 @@
     const icoHost = document.getElementById('widgetFlowDetailIco');
     const nameEl = document.getElementById('widgetFlowDetailName');
     const descEl = document.getElementById('widgetFlowDetailDesc');
-    const indHost = document.getElementById('widgetFlowDetailIndicator');
-    const kicker = widgetFlowDetail.querySelector('[data-i18n="flow.section"]');
     if (icoHost) {
       icoHost.innerHTML = '';
       icoHost.appendChild(makeIco(meta.icon, '', meta.tile, meta.img));
     }
     if (nameEl) nameEl.textContent = meta.label;
     if (descEl) descEl.textContent = meta.desc || '';
-    if (kicker) {
-      try {
-        kicker.textContent = (typeof t === 'function' && t('flow.section') !== 'flow.section')
-          ? t('flow.section')
-          : '데이터 흐름';
-      } catch (_) {
-        kicker.textContent = '데이터 흐름';
-      }
-    }
-    if (indHost) {
-      indHost.innerHTML = '';
-      indHost.appendChild(renderDataFlowIndicator(meta.flow || flowTypeOf(type), {
-        variant: 'detail',
-        label: meta.label,
-      }));
-    }
     catBox?.querySelectorAll('.widget').forEach(el => {
       el.classList.toggle('is-focused', el.dataset.type === type);
     });
@@ -3436,18 +3270,17 @@
       const grid = document.createElement('div');
       grid.className = 'cat-items';
       items.forEach(it => {
-        const flow = flowTypeOf(it.id);
+        const portType = portTypeOf(it.id);
         const w = document.createElement('div');
         w.className = 'widget' + (focusedWidgetType === it.id ? ' is-focused' : '');
         w.draggable = true;
         w.dataset.type = it.id;
-        w.dataset.flow = flow;
+        w.dataset.portType = portType;
         w.appendChild(makeIco(it.icon, '', cat.tile, it.img || cat.img));
         const lab = document.createElement('div');
         lab.className = 'label';
         lab.textContent = it.label;
         w.appendChild(lab);
-        w.appendChild(renderDataFlowIndicator(flow));
         w.addEventListener('click', e => {
           if (e.defaultPrevented) return;
           showWidgetFlowDetail(it.id);
@@ -3529,29 +3362,51 @@
     nodesLayer.innerHTML = '';
     nodes.forEach(n => {
       const meta = metaOf(n);
+      const portType = meta?.portType || portTypeOf(n.type);
       const el = document.createElement('div');
       el.className = 'node' + (selectedNodeId === n.id ? ' selected' : '');
       el.style.left = n.x + 'px';
       el.style.top = n.y + 'px';
       el.style.setProperty('--accent', meta.color);
       el.dataset.id = n.id;
+      el.dataset.portType = portType;
 
       const body = document.createElement('div');
       body.className = 'body';
       body.appendChild(makeIco(meta.icon, 'node', meta.tile, meta.img));
 
-      const portIn = document.createElement('div');
-      portIn.className = 'port in';
-      portIn.dataset.side = 'in';
-      portIn.dataset.node = n.id;
+      const hasIn = portType === 'input' || portType === 'both';
+      const hasOut = portType === 'output' || portType === 'both';
+      const inConnected = connections.some(c => c.to === n.id);
+      const outConnected = connections.some(c => c.from === n.id);
 
-      const portOut = document.createElement('div');
-      portOut.className = 'port out';
-      portOut.dataset.side = 'out';
-      portOut.dataset.node = n.id;
+      let portIn = null;
+      let portOut = null;
+      if (hasIn) {
+        portIn = document.createElement('div');
+        portIn.className = 'port in' + (inConnected ? ' is-connected' : '');
+        portIn.dataset.side = 'in';
+        portIn.dataset.node = n.id;
+        portIn.title = '입력';
+        body.appendChild(portIn);
+      }
+      if (hasOut) {
+        portOut = document.createElement('div');
+        portOut.className = 'port out' + (outConnected ? ' is-connected' : '');
+        portOut.dataset.side = 'out';
+        portOut.dataset.node = n.id;
+        portOut.title = '출력';
+        body.appendChild(portOut);
+      }
 
-      body.appendChild(portIn);
-      body.appendChild(portOut);
+      const status = nodeStatusOf(n);
+      if (status) {
+        const badge = document.createElement('div');
+        badge.className = `node-status is-${status.level}`;
+        badge.textContent = status.level === 'error' ? '✕' : '!';
+        badge.title = status.message || (status.level === 'error' ? '오류' : '확인 필요');
+        el.appendChild(badge);
+      }
 
       const title = document.createElement('div');
       title.className = 'title';
@@ -3564,7 +3419,6 @@
 
       const ico = body.querySelector('.icon-tile');
 
-      // Select / drag at icon unit
       const onIconDown = e => {
         if (e.button !== 0) return;
         if (e.target.classList.contains('port')) return;
@@ -3574,7 +3428,6 @@
         startNodeDrag(n, e);
       };
       ico.addEventListener('mousedown', onIconDown);
-      // Title still selects, but highlight stays on icon
       title.addEventListener('mousedown', e => {
         if (e.button !== 0 || spaceDown) return;
         e.stopPropagation();
@@ -3582,13 +3435,13 @@
         startNodeDrag(n, e);
       });
 
-      portOut.addEventListener('mousedown', e => {
+      portOut?.addEventListener('mousedown', e => {
         e.stopPropagation();
         e.preventDefault();
         beginLink(n.id, e);
       });
 
-      portIn.addEventListener('mouseup', e => {
+      portIn?.addEventListener('mouseup', e => {
         e.stopPropagation();
         if (linking && linking.fromId !== n.id) finishLink(n.id);
       });
@@ -3699,12 +3552,13 @@
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       path.setAttribute('d', d);
       path.classList.add('conn-path');
+      if (connectionTransferState(c) === 'empty') path.classList.add('is-empty');
 
       g.appendChild(hit);
       g.appendChild(path);
       connSvg.appendChild(g);
 
-      if (c.label) {
+      if (isMeaningfulConnLabel(c.label)) {
         const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 - 8 };
         const lbl = document.createElement('div');
         lbl.className = 'conn-label' + (selectedConnId === c.id ? ' show' : '');
@@ -3737,6 +3591,8 @@
   }
 
   function beginLink(fromId, e) {
+    const fromNode = nodeById(fromId);
+    if (!fromNode || !canEmitOutput(fromNode.type)) return;
     const w = screenToWorld(e.clientX, e.clientY);
     linking = { fromId, x: w.x, y: w.y };
     canvasWrap.classList.add('connecting');
@@ -3746,6 +3602,12 @@
 
   function finishLink(toId) {
     if (!linking) return;
+    const fromNode = nodeById(linking.fromId);
+    const toNode = nodeById(toId);
+    if (!fromNode || !toNode || !canEmitOutput(fromNode.type) || !canAcceptInput(toNode.type)) {
+      cancelLink();
+      return;
+    }
     const exists = connections.some(c => c.from === linking.fromId && c.to === toId);
     let created = false;
     if (!exists && linking.fromId !== toId) {
@@ -3753,7 +3615,8 @@
         id: uid('c'),
         from: linking.fromId,
         to: toId,
-        label: '데이터 → 데이터',
+        // No generic label — only show when a distinctive channel name exists.
+        label: '',
       });
       created = true;
     }
@@ -5245,11 +5108,11 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       { id: 'n5', type: 'time-slice', x: 740, y: 200, name: ITEM_MAP['time-slice'].label, notes: '', sample: 100 },
     ];
     connections = [
-      { id: 'c1', from: 'n1', to: 'n2', label: '데이터 → 데이터' },
-      { id: 'c2', from: 'n2', to: 'n3', label: '데이터 → 데이터' },
-      { id: 'c3', from: 'n2', to: 'n4', label: '데이터 → 데이터' },
-      { id: 'c4', from: 'n3', to: 'n5', label: '데이터 → 데이터' },
-      { id: 'c5', from: 'n4', to: 'n5', label: '데이터 → 데이터' },
+      { id: 'c1', from: 'n1', to: 'n2', label: '' },
+      { id: 'c2', from: 'n2', to: 'n3', label: '' },
+      { id: 'c3', from: 'n2', to: 'n4', label: '' },
+      { id: 'c4', from: 'n3', to: 'n5', label: '' },
+      { id: 'c5', from: 'n4', to: 'n5', label: '' },
     ];
     selectedNodeId = null;
     selectedConnId = null;
