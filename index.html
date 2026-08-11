@@ -763,6 +763,176 @@
     line-height: 1.3; max-width: 84px;
     letter-spacing: -0.01em;
   }
+  .widget.is-focused {
+    background: rgba(34, 125, 226, .06);
+    border-color: rgba(34, 125, 226, .16);
+  }
+
+  /* ---------- Data flow indicator (source / sink / both) ---------- */
+  .dfi {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    max-width: 100%;
+    color: #8A9199;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+  .dfi-glyph {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+  .dfi-node {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: #9AA3AD;
+    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, .08);
+  }
+  .dfi-arrow {
+    width: 8px;
+    height: 8px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .dfi-arrow::before {
+    content: '';
+    position: absolute;
+    left: 0; right: 1px; top: 50%;
+    height: 1.5px;
+    margin-top: -0.75px;
+    background: currentColor;
+    opacity: .72;
+  }
+  .dfi-arrow::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 50%;
+    width: 4px; height: 4px;
+    margin-top: -2px;
+    border-right: 1.5px solid currentColor;
+    border-top: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    opacity: .72;
+  }
+  .dfi-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: .92;
+  }
+  .widget .dfi {
+    margin-top: 1px;
+    gap: 4px;
+  }
+  .widget .dfi-label { max-width: 72px; }
+
+  .widget-flow-detail {
+    margin: 0 12px 10px;
+    padding: 12px 12px 11px;
+    border-radius: 12px;
+    background: #F7F8FA;
+    border: 1px solid rgba(15, 23, 42, .06);
+  }
+  .widget-flow-detail[hidden] { display: none !important; }
+  .widget-flow-detail-top {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 10px;
+  }
+  .widget-flow-detail-ico {
+    flex-shrink: 0;
+  }
+  .widget-flow-detail-ico .icon-tile {
+    width: 40px; height: 40px; border-radius: 12px;
+  }
+  .widget-flow-detail-ico .icon-tile svg { width: 20px; height: 20px; }
+  .widget-flow-detail-ico .icon-tile img {
+    width: 40px; height: 40px; object-fit: contain;
+  }
+  .widget-flow-detail-meta { min-width: 0; flex: 1; }
+  .widget-flow-detail-name {
+    font-size: 14px; font-weight: 700; color: var(--text);
+    letter-spacing: -0.01em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .widget-flow-detail-desc {
+    margin: 3px 0 0;
+    font-size: 12px; font-weight: 500; color: var(--muted);
+    line-height: 1.45;
+  }
+  .widget-flow-detail-kicker {
+    font-size: 12px; font-weight: 650; color: #8A9199;
+    letter-spacing: 0.02em;
+    margin: 0 0 8px;
+  }
+  .dfi--detail {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+    color: #5F6770;
+    font-size: 12px;
+  }
+  .dfi--detail .dfi-label {
+    width: 100%;
+    margin-top: 2px;
+    color: #8A9199;
+  }
+  .dfi--detail .dfi-glyph { gap: 6px; flex-wrap: wrap; }
+  .dfi--detail .dfi-node {
+    width: auto;
+    min-width: 64px;
+    max-width: 140px;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid rgba(15, 23, 42, .1);
+    box-shadow: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #3A4149;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .dfi--detail .dfi-arrow {
+    width: 14px;
+    height: 10px;
+    color: #7A828C;
+  }
+  .dfi--detail .dfi-arrow::before {
+    height: 2px;
+    margin-top: -1px;
+    opacity: .8;
+  }
+  .dfi--detail .dfi-arrow::after {
+    width: 5px; height: 5px;
+    margin-top: -2.5px;
+    border-width: 2px;
+    opacity: .8;
+  }
+  .dfi-endcap {
+    font-size: 12px;
+    font-weight: 650;
+    color: #8A9199;
+    white-space: nowrap;
+  }
+  .dfi-endcap.is-disabled {
+    opacity: .38;
+    text-decoration: line-through;
+  }
 
   /* ---------- Glass squircle icon tiles ---------- */
   .icon-tile {
@@ -2708,6 +2878,17 @@
               <span class="hint">드래그해서 추가</span>
             </div>
           </div>
+          <div class="widget-flow-detail" id="widgetFlowDetail" hidden>
+            <div class="widget-flow-detail-top">
+              <div class="widget-flow-detail-ico" id="widgetFlowDetailIco"></div>
+              <div class="widget-flow-detail-meta">
+                <div class="widget-flow-detail-name" id="widgetFlowDetailName"></div>
+                <p class="widget-flow-detail-desc" id="widgetFlowDetailDesc"></p>
+              </div>
+            </div>
+            <div class="widget-flow-detail-kicker" data-i18n="flow.section">데이터 흐름</div>
+            <div id="widgetFlowDetailIndicator"></div>
+          </div>
           <div class="search">
             <input id="searchInput" placeholder="위젯 검색..." autocomplete="off">
             <button class="clear" id="searchClear" type="button" title="지우기">✕</button>
@@ -3026,11 +3207,122 @@
     },
   ];
 
+  /* source = 보내기 only, sink = 받기 only, both = 받기 · 보내기 */
+  const FLOW_SOURCE = new Set([
+    'file', 'csv', 'datasets', 'import-images', 'corpus', 'geocoding',
+  ]);
+  const FLOW_SINK = new Set([
+    'save-data', 'box-plot', 'violin', 'bar-plot', 'roc', 'word-cloud', 'choropleth',
+  ]);
+  function flowTypeOf(id) {
+    if (FLOW_SOURCE.has(id)) return 'source';
+    if (FLOW_SINK.has(id)) return 'sink';
+    return 'both';
+  }
+  function flowLabelOf(type) {
+    const fallback = { source: '보내기', sink: '받기', both: '받기 · 보내기' };
+    const key = type === 'source' ? 'flow.source' : type === 'sink' ? 'flow.sink' : 'flow.both';
+    if (typeof t === 'function') {
+      const v = t(key);
+      if (v && v !== key) return v;
+    }
+    return fallback[type] || fallback.both;
+  }
+  function flowCapLabel(kind) {
+    const fallback = { in: '입력', out: '출력' };
+    const key = kind === 'in' ? 'flow.in' : 'flow.out';
+    if (typeof t === 'function') {
+      const v = t(key);
+      if (v && v !== key) return v;
+    }
+    return fallback[kind] || '';
+  }
+  function renderDataFlowIndicator(type, opts = {}) {
+    const variant = opts.variant || 'compact';
+    const label = opts.label || '';
+    const wrap = document.createElement('span');
+    wrap.className = `dfi dfi--${type}` + (variant === 'detail' ? ' dfi--detail' : '');
+    wrap.dataset.flow = type;
+    wrap.setAttribute('aria-label', flowLabelOf(type));
+    wrap.title = flowLabelOf(type);
 
+    const glyph = document.createElement('span');
+    glyph.className = 'dfi-glyph';
+    glyph.setAttribute('aria-hidden', 'true');
+
+    const mkArrow = () => {
+      const a = document.createElement('span');
+      a.className = 'dfi-arrow';
+      return a;
+    };
+    const mkNode = () => {
+      const n = document.createElement('span');
+      n.className = 'dfi-node';
+      if (variant === 'detail' && label) n.textContent = label;
+      return n;
+    };
+    const mkCap = (text, disabled) => {
+      const c = document.createElement('span');
+      c.className = 'dfi-endcap' + (disabled ? ' is-disabled' : '');
+      c.textContent = text;
+      return c;
+    };
+
+    if (variant === 'detail') {
+      if (type === 'source') {
+        glyph.appendChild(mkNode());
+        glyph.appendChild(mkArrow());
+        glyph.appendChild(mkCap(flowCapLabel('out')));
+      } else if (type === 'sink') {
+        glyph.appendChild(mkCap(flowCapLabel('in')));
+        glyph.appendChild(mkArrow());
+        glyph.appendChild(mkNode());
+      } else {
+        glyph.appendChild(mkCap(flowCapLabel('in')));
+        glyph.appendChild(mkArrow());
+        glyph.appendChild(mkNode());
+        glyph.appendChild(mkArrow());
+        glyph.appendChild(mkCap(flowCapLabel('out')));
+      }
+      wrap.appendChild(glyph);
+      const text = document.createElement('span');
+      text.className = 'dfi-label';
+      text.textContent = flowLabelOf(type);
+      wrap.appendChild(text);
+      return wrap;
+    }
+
+    if (type === 'source') {
+      glyph.appendChild(mkNode());
+      glyph.appendChild(mkArrow());
+    } else if (type === 'sink') {
+      glyph.appendChild(mkArrow());
+      glyph.appendChild(mkNode());
+    } else {
+      glyph.appendChild(mkArrow());
+      glyph.appendChild(mkNode());
+      glyph.appendChild(mkArrow());
+    }
+    wrap.appendChild(glyph);
+    const text = document.createElement('span');
+    text.className = 'dfi-label';
+    text.textContent = flowLabelOf(type);
+    wrap.appendChild(text);
+    return wrap;
+  }
 
   const ITEM_MAP = {};
   CATS.forEach(c => c.items.forEach(it => {
-    ITEM_MAP[it.id] = { ...it, catId: c.id, tone: c.tone, color: c.color, catName: c.name, tile: c.tile, img: it.img || c.img };
+    ITEM_MAP[it.id] = {
+      ...it,
+      catId: c.id,
+      tone: c.tone,
+      color: c.color,
+      catName: c.name,
+      tile: c.tile,
+      img: it.img || c.img,
+      flow: flowTypeOf(it.id),
+    };
   }));
 
   /* ========== State ========== */
@@ -3072,6 +3364,46 @@
 
   /* ========== Sidebar catalog ========== */
   const catBox = document.getElementById('categories');
+  const widgetFlowDetail = document.getElementById('widgetFlowDetail');
+  let focusedWidgetType = null;
+
+  function showWidgetFlowDetail(type) {
+    const meta = ITEM_MAP[type];
+    if (!meta || !widgetFlowDetail) return;
+    focusedWidgetType = type;
+    widgetFlowDetail.hidden = false;
+    const icoHost = document.getElementById('widgetFlowDetailIco');
+    const nameEl = document.getElementById('widgetFlowDetailName');
+    const descEl = document.getElementById('widgetFlowDetailDesc');
+    const indHost = document.getElementById('widgetFlowDetailIndicator');
+    const kicker = widgetFlowDetail.querySelector('[data-i18n="flow.section"]');
+    if (icoHost) {
+      icoHost.innerHTML = '';
+      icoHost.appendChild(makeIco(meta.icon, '', meta.tile, meta.img));
+    }
+    if (nameEl) nameEl.textContent = meta.label;
+    if (descEl) descEl.textContent = meta.desc || '';
+    if (kicker) kicker.textContent = (typeof t === 'function' && t('flow.section') !== 'flow.section')
+      ? t('flow.section')
+      : '데이터 흐름';
+    if (indHost) {
+      indHost.innerHTML = '';
+      indHost.appendChild(renderDataFlowIndicator(meta.flow || flowTypeOf(type), {
+        variant: 'detail',
+        label: meta.label,
+      }));
+    }
+    catBox?.querySelectorAll('.widget').forEach(el => {
+      el.classList.toggle('is-focused', el.dataset.type === type);
+    });
+  }
+
+  function clearWidgetFlowDetail() {
+    focusedWidgetType = null;
+    if (widgetFlowDetail) widgetFlowDetail.hidden = true;
+    catBox?.querySelectorAll('.widget.is-focused').forEach(el => el.classList.remove('is-focused'));
+  }
+
   function renderCatalog(filter = '') {
     const q = filter.trim().toLowerCase();
     catBox.innerHTML = '';
@@ -3093,15 +3425,22 @@
       const grid = document.createElement('div');
       grid.className = 'cat-items';
       items.forEach(it => {
+        const flow = flowTypeOf(it.id);
         const w = document.createElement('div');
-        w.className = 'widget';
+        w.className = 'widget' + (focusedWidgetType === it.id ? ' is-focused' : '');
         w.draggable = true;
         w.dataset.type = it.id;
+        w.dataset.flow = flow;
         w.appendChild(makeIco(it.icon, '', cat.tile, it.img || cat.img));
         const lab = document.createElement('div');
         lab.className = 'label';
         lab.textContent = it.label;
         w.appendChild(lab);
+        w.appendChild(renderDataFlowIndicator(flow));
+        w.addEventListener('click', e => {
+          if (e.defaultPrevented) return;
+          showWidgetFlowDetail(it.id);
+        });
         w.addEventListener('dragstart', e => {
           dropType = it.id;
           e.dataTransfer.setData('text/plain', it.id);
@@ -3113,6 +3452,7 @@
           e.dataTransfer.setDragImage(ghost, 32, 32);
           setTimeout(() => ghost.remove(), 0);
           showHint(`${it.label}을(를) 캔버스에 놓으세요`);
+          showWidgetFlowDetail(it.id);
         });
         w.addEventListener('dragend', () => { dropType = null; hideHint(); });
         grid.appendChild(w);
@@ -3121,6 +3461,7 @@
       wrap.appendChild(grid);
       catBox.appendChild(wrap);
     });
+    if (focusedWidgetType && ITEM_MAP[focusedWidgetType]) showWidgetFlowDetail(focusedWidgetType);
   }
   renderCatalog();
 
@@ -3261,6 +3602,8 @@
     selectedNodeId = id;
     selectedConnId = null;
     renderNodes();
+    const n = nodeById(id);
+    if (n?.type) showWidgetFlowDetail(n.type);
   }
 
   function selectConn(id) {
@@ -3771,6 +4114,12 @@
       'exec.hintManualWait': '연결됨 · 지금 실행을 눌러 결과를 확인하세요',
       'exec.hintEmpty': '실행할 위젯이 없습니다',
       'exec.hintNeedLink': '위젯을 연결한 뒤 실행할 수 있습니다',
+      'flow.section': '데이터 흐름',
+      'flow.source': '보내기',
+      'flow.sink': '받기',
+      'flow.both': '받기 · 보내기',
+      'flow.in': '입력',
+      'flow.out': '출력',
       'menu.themeNone': '기본', 'menu.themePengsu': '펭수', 'menu.themeRabbit': '토끼',
       'menu.new': '새로 만들기', 'menu.open': '열기', 'menu.file': '파일', 'menu.saveOws': '.ows로 저장하기', 'menu.menu': '메뉴', 'menu.workspaces': '워크스페이스',
       'menu.widgets': '위젯', 'menu.datasets': '분석 데이터셋', 'menu.templates': '워크플로우 템플릿',
@@ -3815,6 +4164,12 @@
       'exec.hintManualWait': 'Connected · Press Run now to see results',
       'exec.hintEmpty': 'Nothing to run',
       'exec.hintNeedLink': 'Connect widgets before running',
+      'flow.section': 'Data flow',
+      'flow.source': 'Send',
+      'flow.sink': 'Receive',
+      'flow.both': 'Receive · Send',
+      'flow.in': 'In',
+      'flow.out': 'Out',
       'menu.themeNone': 'Basic', 'menu.themePengsu': 'Pengsu', 'menu.themeRabbit': 'Rabbit',
       'menu.new': 'New', 'menu.open': 'Open', 'menu.file': 'File', 'menu.saveOws': 'Save as .ows', 'menu.menu': 'Menu', 'menu.workspaces': 'WorkSpaces',
       'menu.widgets': 'Widgets', 'menu.datasets': 'Analysis Datasets', 'menu.templates': 'Workflow Templates',
@@ -3914,6 +4269,7 @@
     syncLangMenu();
     if (typeof syncSettingsPopoverUI === 'function') syncSettingsPopoverUI();
     if (typeof syncExecutionModeUI === 'function') syncExecutionModeUI();
+    if (typeof renderCatalog === 'function') renderCatalog(document.getElementById('searchInput')?.value || '');
   }
 
   const MENU_SECTIONS = [
