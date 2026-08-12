@@ -3250,7 +3250,7 @@
   let spaceDown = false;
   let panning = false;
   let panStart = null;
-  let linking = null; // { fromId, x, y }
+  let linking = null; // { nodeId, startSide: 'in'|'out', x, y }
   let dropType = null;
 
   const EXEC_MODE_KEY = 'orange3-exec-mode';
@@ -3499,12 +3499,21 @@
       portOut?.addEventListener('mousedown', e => {
         e.stopPropagation();
         e.preventDefault();
-        beginLink(n.id, e);
+        beginLink(n.id, 'out', e);
+      });
+      portOut?.addEventListener('mouseup', e => {
+        e.stopPropagation();
+        if (linking && linking.startSide === 'in' && linking.nodeId !== n.id) finishLink(n.id, 'out');
       });
 
+      portIn?.addEventListener('mousedown', e => {
+        e.stopPropagation();
+        e.preventDefault();
+        beginLink(n.id, 'in', e);
+      });
       portIn?.addEventListener('mouseup', e => {
         e.stopPropagation();
-        if (linking && linking.fromId !== n.id) finishLink(n.id);
+        if (linking && linking.startSide === 'out' && linking.nodeId !== n.id) finishLink(n.id, 'in');
       });
     });
     drawConnections();
@@ -3631,9 +3640,9 @@
     });
 
     if (linking) {
-      const from = nodeById(linking.fromId);
-      if (from) {
-        const a = getPort(from, 'out');
+      const anchor = nodeById(linking.nodeId);
+      if (anchor) {
+        const a = getPort(anchor, linking.startSide);
         const b = { x: linking.x, y: linking.y };
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('d', bezier(a, b));
@@ -3651,30 +3660,45 @@
     };
   }
 
-  function beginLink(fromId, e) {
-    const fromNode = nodeById(fromId);
-    if (!fromNode || !canEmitOutput(fromNode.type)) return;
+  function beginLink(nodeId, side, e) {
+    const node = nodeById(nodeId);
+    if (!node) return;
+    if (side === 'out' && !canEmitOutput(node.type)) return;
+    if (side === 'in' && !canAcceptInput(node.type)) return;
     const w = screenToWorld(e.clientX, e.clientY);
-    linking = { fromId, x: w.x, y: w.y };
+    linking = { nodeId, startSide: side, x: w.x, y: w.y };
     canvasWrap.classList.add('connecting');
-    showHint('입력 포트에 놓아 연결하세요 · Esc로 취소');
+    const hint = side === 'out'
+      ? '입력 포트에 놓아 연결하세요 · Esc로 취소'
+      : '출력 포트에 놓아 연결하세요 · Esc로 취소';
+    showHint(hint);
     drawConnections();
   }
 
-  function finishLink(toId) {
+  function finishLink(peerId, peerSide) {
     if (!linking) return;
-    const fromNode = nodeById(linking.fromId);
+    let fromId, toId;
+    if (linking.startSide === 'out') {
+      if (peerSide !== 'in') { cancelLink(); return; }
+      fromId = linking.nodeId;
+      toId = peerId;
+    } else {
+      if (peerSide !== 'out') { cancelLink(); return; }
+      fromId = peerId;
+      toId = linking.nodeId;
+    }
+    const fromNode = nodeById(fromId);
     const toNode = nodeById(toId);
     if (!fromNode || !toNode || !canEmitOutput(fromNode.type) || !canAcceptInput(toNode.type)) {
       cancelLink();
       return;
     }
-    const exists = connections.some(c => c.from === linking.fromId && c.to === toId);
+    const exists = connections.some(c => c.from === fromId && c.to === toId);
     let created = false;
-    if (!exists && linking.fromId !== toId) {
+    if (!exists && fromId !== toId) {
       connections.push({
         id: uid('c'),
-        from: linking.fromId,
+        from: fromId,
         to: toId,
         // No generic label — only show when a distinctive channel name exists.
         label: '',
@@ -3698,6 +3722,7 @@
   function cancelLink() {
     linking = null;
     canvasWrap.classList.remove('connecting');
+    document.querySelectorAll('.port.hot').forEach(p => p.classList.remove('hot'));
     hideHint();
     drawConnections();
   }
@@ -3839,8 +3864,8 @@
       const w = screenToWorld(e.clientX, e.clientY);
       linking.x = w.x;
       linking.y = w.y;
-      // highlight hot ports
-      document.querySelectorAll('.port.in').forEach(p => {
+      const targetSide = linking.startSide === 'out' ? 'in' : 'out';
+      document.querySelectorAll(`.port.${targetSide}`).forEach(p => {
         const r = p.getBoundingClientRect();
         const hot = Math.hypot(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2)) < 22;
         p.classList.toggle('hot', hot);
@@ -3859,8 +3884,9 @@
     }
     if (linking) {
       const el = document.elementFromPoint(e.clientX, e.clientY);
-      const port = el?.closest?.('.port.in');
-      if (port) finishLink(port.dataset.node);
+      const targetSide = linking.startSide === 'out' ? 'in' : 'out';
+      const port = el?.closest?.(`.port.${targetSide}`);
+      if (port && port.dataset.node !== linking.nodeId) finishLink(port.dataset.node, targetSide);
       else cancelLink();
       document.querySelectorAll('.port.hot').forEach(p => p.classList.remove('hot'));
     }
