@@ -2378,7 +2378,7 @@
     position: fixed;
     right: 28px;
     bottom: 22px;
-    z-index: 90;
+    z-index: 96;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -2475,6 +2475,242 @@
     .pengsu-coach { right: 14px; bottom: 14px; }
     .pengsu-coach-mascot-wrap,
     .pengsu-coach-mascot { width: 138px; height: 147px; }
+  }
+
+  /* ---------- Feature guide roadmap (Toss-style) ---------- */
+  .feature-guide {
+    position: fixed;
+    inset: 0;
+    z-index: 95;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .feature-guide[hidden] { display: none !important; }
+  .feature-guide-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(20, 28, 48, .48);
+    backdrop-filter: blur(2px);
+  }
+  .feature-guide-modal {
+    position: relative;
+    z-index: 1;
+    width: min(720px, 100%);
+    background: #2B3340;
+    color: #fff;
+    border-radius: 20px;
+    padding: 28px 28px 32px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, .35);
+  }
+  .feature-guide-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: rgba(255,255,255,.78);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .feature-guide-close:hover { background: rgba(255,255,255,.08); color: #fff; }
+  .feature-guide-close svg {
+    width: 18px; height: 18px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2; stroke-linecap: round;
+  }
+  .feature-guide-title {
+    margin: 0 40px 16px 0;
+    font-size: 22px;
+    font-weight: 750;
+    letter-spacing: -0.03em;
+    text-align: center;
+  }
+  .feature-guide-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .feature-guide-progress-track {
+    width: min(220px, 46vw);
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.14);
+    overflow: hidden;
+  }
+  .feature-guide-progress-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    background: #7ED321;
+    transition: width .28s ease;
+  }
+  .feature-guide-progress-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255,255,255,.72);
+    min-width: 34px;
+  }
+  .feature-guide-map {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: auto auto auto;
+    gap: 28px 18px;
+    min-height: 280px;
+    padding: 8px 4px 4px;
+  }
+  .feature-guide-map::before {
+    content: '';
+    position: absolute;
+    inset: 42px 48px 42px 48px;
+    border: 2px dashed rgba(255,255,255,.18);
+    border-radius: 28px;
+    pointer-events: none;
+  }
+  .fg-node {
+    position: relative;
+    z-index: 1;
+    appearance: none;
+    border: 2px dashed rgba(255,255,255,.28);
+    background: rgba(255,255,255,.04);
+    border-radius: 16px;
+    width: 100%;
+    aspect-ratio: 1;
+    max-width: 108px;
+    margin: 0 auto;
+    padding: 8px;
+    cursor: pointer;
+    color: rgba(255,255,255,.55);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: transform .18s, background .18s, border-color .18s, color .18s, box-shadow .18s;
+  }
+  .fg-node:nth-child(1) { grid-column: 1; grid-row: 1; }
+  .fg-node:nth-child(2) { grid-column: 2; grid-row: 1; }
+  .fg-node:nth-child(3) { grid-column: 3; grid-row: 1; }
+  .fg-node:nth-child(4) { grid-column: 4; grid-row: 1; }
+  .fg-node:nth-child(5) { grid-column: 4; grid-row: 2; }
+  .fg-node:nth-child(6) { grid-column: 4; grid-row: 3; }
+  .fg-node:nth-child(7) { grid-column: 3; grid-row: 3; }
+  .fg-node:nth-child(8) { grid-column: 2; grid-row: 3; }
+  .fg-node .fg-ico {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,.08);
+    font-size: 22px;
+    line-height: 1;
+  }
+  .fg-node .fg-ico img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    display: block;
+  }
+  .fg-node .fg-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-align: center;
+    line-height: 1.25;
+  }
+  .fg-node.is-locked {
+    cursor: default;
+    opacity: .72;
+  }
+  .fg-node.is-locked .fg-ico { font-size: 20px; color: rgba(255,255,255,.35); }
+  .fg-node.is-done {
+    border-style: solid;
+    border-color: rgba(126, 211, 33, .55);
+    background: rgba(126, 211, 33, .12);
+    color: #fff;
+  }
+  .fg-node.is-active {
+    border-style: solid;
+    border-color: #4B8FE8;
+    background: #3B78D8;
+    color: #fff;
+    box-shadow: 0 10px 28px rgba(34, 125, 226, .35);
+    transform: translateY(-2px) scale(1.04);
+  }
+  .fg-node.is-active .fg-ico { background: rgba(255,255,255,.18); }
+  .fg-node.is-clickable:not(.is-active):hover {
+    border-color: rgba(75, 143, 232, .7);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .fg-bubble {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 10px);
+    transform: translateX(-50%);
+    min-width: 140px;
+    max-width: 200px;
+    background: #fff;
+    color: #1F2328;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 13px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+    box-shadow: 0 10px 24px rgba(0,0,0,.22);
+    pointer-events: none;
+    z-index: 3;
+  }
+  .fg-bubble::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    border: 7px solid transparent;
+    border-top-color: #fff;
+  }
+  .feature-guide-tip {
+    position: absolute;
+    right: 28px;
+    bottom: 210px;
+    z-index: 2;
+    width: min(260px, calc(100vw - 48px));
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 14px 36px rgba(20, 28, 48, .2);
+    border: 1px solid rgba(229, 231, 235, .95);
+  }
+  .feature-guide-tip[hidden] { display: none !important; }
+  .feature-guide-tip-text {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    line-height: 1.4;
+    color: #1F2328;
+  }
+  body.char-none .feature-guide-tip { display: none !important; }
+  @media (max-width: 720px) {
+    .feature-guide-modal { padding: 22px 16px 24px; }
+    .feature-guide-map { gap: 16px 10px; min-height: 240px; }
+    .feature-guide-map::before { inset: 36px 28px; }
+    .fg-node { max-width: 84px; }
+    .fg-node .fg-label { font-size: 11px; }
+    .feature-guide-tip { right: 14px; bottom: 180px; }
   }
 
   /* ---------- Properties panel ---------- */
@@ -2921,6 +3157,26 @@
     </div>
     <div class="pengsu-coach-mascot-wrap" aria-hidden="true">
       <img class="pengsu-coach-mascot" id="pengsuCoachMascot" src="assets/onboarding-pengsu-ai.png" alt="">
+    </div>
+  </div>
+
+  <div class="feature-guide" id="featureGuide" hidden>
+    <div class="feature-guide-backdrop" id="featureGuideBackdrop"></div>
+    <div class="feature-guide-modal" role="dialog" aria-modal="true" aria-labelledby="featureGuideTitle">
+      <button class="feature-guide-close" type="button" id="featureGuideClose" aria-label="닫기">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <h2 class="feature-guide-title" id="featureGuideTitle">Orange3 주요기능 알아보기</h2>
+      <div class="feature-guide-progress">
+        <div class="feature-guide-progress-track">
+          <div class="feature-guide-progress-bar" id="featureGuideProgressBar"></div>
+        </div>
+        <span class="feature-guide-progress-label" id="featureGuideProgressLabel">0/8</span>
+      </div>
+      <div class="feature-guide-map" id="featureGuideMap" aria-label="기능 로드맵"></div>
+    </div>
+    <div class="feature-guide-tip" id="featureGuideTip" hidden>
+      <p class="feature-guide-tip-text" id="featureGuideTipText"></p>
     </div>
   </div>
 
@@ -5229,29 +5485,80 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   const pengsuCoachText = document.getElementById('pengsuCoachText');
   const pengsuCoachNext = document.getElementById('pengsuCoachNext');
   const pengsuCoachMascot = document.getElementById('pengsuCoachMascot');
-  const PENGSU_HELPER_FLOW = [
+  const featureGuide = document.getElementById('featureGuide');
+  const featureGuideMap = document.getElementById('featureGuideMap');
+  const featureGuideProgressBar = document.getElementById('featureGuideProgressBar');
+  const featureGuideProgressLabel = document.getElementById('featureGuideProgressLabel');
+  const featureGuideTip = document.getElementById('featureGuideTip');
+  const featureGuideTipText = document.getElementById('featureGuideTipText');
+  const FEATURE_GUIDE_STEPS = [
     {
-      text: '딱 1분만 시간을 내주실래요?',
-      next: '알겠어요',
-      step: null,
+      id: 'start',
+      label: '시작',
+      tip: '눌러보세요!',
+      bubble: '눌러보세요!',
+      icon: 'pengsu',
+      onboard: null,
     },
     {
-      text: '1번! 왼쪽에서 위젯을 골라 캔버스에 올려볼까요?',
-      next: '다음',
-      step: 'add',
+      id: 'add',
+      label: '위젯 추가',
+      tip: '왼쪽 패널에서 위젯을 더블클릭해 올려보세요.',
+      bubble: '위젯을 더블클릭하면 왼쪽에 정렬돼요',
+      icon: '📦',
+      onboard: 'add',
     },
     {
-      text: '2번! 포트끼리 연결하면 데이터가 흘러가요.',
-      next: '다음',
-      step: 'connect',
+      id: 'connect',
+      label: '위젯 연결',
+      tip: '출력 포트에서 입력 포트로 드래그해 연결해요.',
+      bubble: '포트끼리 연결하면 데이터가 흘러가요',
+      icon: '🔗',
+      onboard: 'connect',
     },
     {
-      text: '3번! ‘지금 실행’으로 결과를 확인해 보세요.',
-      next: '완료',
-      step: 'run',
+      id: 'run',
+      label: '지금 실행',
+      tip: '연결이 끝나면 ‘지금 실행’으로 결과를 확인해요.',
+      bubble: '지금 실행으로 결과를 확인해 보세요',
+      icon: '▶',
+      onboard: 'run',
+    },
+    {
+      id: 'mode',
+      label: '실행 모드',
+      tip: '자동실행모드와 수동 실행을 바꿀 수 있어요.',
+      bubble: '헤더에서 실행 모드를 바꿀 수 있어요',
+      icon: '⚙',
+      onboard: null,
+    },
+    {
+      id: 'dataset',
+      label: '분석 데이터셋',
+      tip: '왼쪽 메뉴의 분석 데이터셋으로 샘플을 불러와요.',
+      bubble: '데이터셋으로 바로 실습을 시작할 수 있어요',
+      icon: '📊',
+      onboard: null,
+    },
+    {
+      id: 'template',
+      label: '템플릿',
+      tip: '준비된 워크플로우 템플릿으로 빠르게 시작해요.',
+      bubble: '템플릿으로 분석 흐름을 바로 구성해요',
+      icon: '🧩',
+      onboard: null,
+    },
+    {
+      id: 'save',
+      label: '저장·열기',
+      tip: '작업한 워크플로우는 저장하고 다시 열 수 있어요.',
+      bubble: '저장해 두면 다음에 이어서 할 수 있어요',
+      icon: '💾',
+      onboard: null,
     },
   ];
-  let pengsuHelperIndex = 0;
+  let featureGuideIndex = 0;
+  let featureGuideBuilt = false;
 
   function getUser() {
     try { return JSON.parse(localStorage.getItem(AUTH_KEY) || 'null'); }
@@ -5290,36 +5597,16 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (!onboardOverlay) return;
     onboardOverlay.hidden = true;
     canvasWrap?.classList.remove('is-onboarding');
+    closeFeatureGuide();
     closePengsuHelper();
   }
 
   function openPengsuHelper() {
     if (!pengsuCoach || characterMode === 'none') return;
-    pengsuHelperIndex = 0;
-    renderPengsuHelper();
+    if (pengsuCoachText) pengsuCoachText.textContent = '딱 1분만 시간을 내주실래요?';
+    if (pengsuCoachNext) pengsuCoachNext.textContent = '알겠어요';
     pengsuCoach.hidden = false;
     requestAnimationFrame(() => pengsuCoach.classList.add('is-open'));
-  }
-
-  function renderPengsuHelper() {
-    const item = PENGSU_HELPER_FLOW[pengsuHelperIndex];
-    if (!item) return;
-    if (pengsuCoachText) pengsuCoachText.textContent = item.text;
-    if (pengsuCoachNext) pengsuCoachNext.textContent = item.next;
-    if (item.step) {
-      selectOnboardStep(item.step);
-      const stepEl = onboardSteps.find(btn => btn.dataset.onboardStep === item.step);
-      stepEl?.scrollIntoView?.({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
-    }
-  }
-
-  function advancePengsuHelper() {
-    if (pengsuHelperIndex >= PENGSU_HELPER_FLOW.length - 1) {
-      closePengsuHelper();
-      return;
-    }
-    pengsuHelperIndex += 1;
-    renderPengsuHelper();
   }
 
   function closePengsuHelper() {
@@ -5328,6 +5615,108 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     const hide = () => { pengsuCoach.hidden = true; };
     pengsuCoach.addEventListener('transitionend', hide, { once: true });
     setTimeout(hide, 420);
+  }
+
+  function buildFeatureGuide() {
+    if (!featureGuideMap || featureGuideBuilt) return;
+    featureGuideMap.innerHTML = '';
+    FEATURE_GUIDE_STEPS.forEach((step, idx) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'fg-node';
+      btn.dataset.guideIndex = String(idx);
+      const ico = document.createElement('span');
+      ico.className = 'fg-ico';
+      if (step.icon === 'pengsu') {
+        const img = document.createElement('img');
+        img.src = 'assets/onboarding-pengsu-ai.png';
+        img.alt = '';
+        ico.appendChild(img);
+      } else {
+        ico.textContent = step.icon;
+      }
+      const lab = document.createElement('span');
+      lab.className = 'fg-label';
+      lab.textContent = step.label;
+      btn.appendChild(ico);
+      btn.appendChild(lab);
+      btn.addEventListener('click', () => {
+        if (idx > featureGuideIndex + 1) return;
+        if (idx === featureGuideIndex) {
+          // click active → advance
+          setFeatureGuideStep(Math.min(idx + 1, FEATURE_GUIDE_STEPS.length - 1));
+          return;
+        }
+        setFeatureGuideStep(idx);
+      });
+      featureGuideMap.appendChild(btn);
+    });
+    featureGuideBuilt = true;
+  }
+
+  function setFeatureGuideStep(index) {
+    featureGuideIndex = Math.max(0, Math.min(index, FEATURE_GUIDE_STEPS.length - 1));
+    const step = FEATURE_GUIDE_STEPS[featureGuideIndex];
+    const doneCount = featureGuideIndex;
+    const total = FEATURE_GUIDE_STEPS.length;
+    if (featureGuideProgressBar) {
+      featureGuideProgressBar.style.width = `${(doneCount / total) * 100}%`;
+    }
+    if (featureGuideProgressLabel) {
+      featureGuideProgressLabel.textContent = `${doneCount}/${total}`;
+    }
+    featureGuideMap?.querySelectorAll('.fg-node').forEach((btn, idx) => {
+      btn.classList.toggle('is-active', idx === featureGuideIndex);
+      btn.classList.toggle('is-done', idx < featureGuideIndex);
+      btn.classList.toggle('is-locked', idx > featureGuideIndex + 1);
+      btn.classList.toggle('is-clickable', idx <= featureGuideIndex + 1);
+      const oldBubble = btn.querySelector('.fg-bubble');
+      oldBubble?.remove();
+      if (idx === featureGuideIndex && step.bubble) {
+        const bubble = document.createElement('div');
+        bubble.className = 'fg-bubble';
+        bubble.textContent = step.bubble;
+        btn.appendChild(bubble);
+      }
+    });
+    if (featureGuideTip) featureGuideTip.hidden = true;
+    if (step.onboard) selectOnboardStep(step.onboard);
+    // Keep Pengsu helper visible on the right with matching tip.
+    if (pengsuCoach && characterMode !== 'none') {
+      if (pengsuCoachText) pengsuCoachText.textContent = step.tip;
+      if (pengsuCoachNext) {
+        pengsuCoachNext.textContent = featureGuideIndex >= total - 1 ? '완료' : '다음';
+      }
+      pengsuCoach.hidden = false;
+      pengsuCoach.classList.add('is-open');
+    }
+  }
+
+  function openFeatureGuide(startIndex = 0) {
+    if (!featureGuide) return;
+    buildFeatureGuide();
+    featureGuide.hidden = false;
+    setFeatureGuideStep(startIndex);
+  }
+
+  function closeFeatureGuide() {
+    if (!featureGuide) return;
+    featureGuide.hidden = true;
+    if (featureGuideTip) featureGuideTip.hidden = true;
+  }
+
+  function advancePengsuHelper() {
+    // Intro → open roadmap guide; later clicks walk the path.
+    if (featureGuide && !featureGuide.hidden) {
+      if (featureGuideIndex >= FEATURE_GUIDE_STEPS.length - 1) {
+        closeFeatureGuide();
+        closePengsuHelper();
+        return;
+      }
+      setFeatureGuideStep(featureGuideIndex + 1);
+      return;
+    }
+    openFeatureGuide(0);
   }
 
   function selectOnboardStep(step) {
@@ -5403,6 +5792,14 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   });
 
   pengsuCoachNext?.addEventListener('click', () => advancePengsuHelper());
+  document.getElementById('featureGuideClose')?.addEventListener('click', () => {
+    closeFeatureGuide();
+    closePengsuHelper();
+  });
+  document.getElementById('featureGuideBackdrop')?.addEventListener('click', () => {
+    closeFeatureGuide();
+    closePengsuHelper();
+  });
 
   document.getElementById('btnOnboardLoad')?.addEventListener('click', () => {
     loadPreviousWorkflow();
