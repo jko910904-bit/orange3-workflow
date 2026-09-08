@@ -2665,38 +2665,47 @@
     position: relative;
     z-index: 1;
     width: min(1040px, 100%);
-    background: #2B3340;
-    color: #fff;
+    background: #fff;
+    color: #1F2328;
     border-radius: 24px;
     padding: 36px 40px 40px;
-    box-shadow: 0 24px 64px rgba(0, 0, 0, .35);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, .28);
+    animation: quickStartIn .35s cubic-bezier(.22, 1, .36, 1);
   }
   .feature-guide-close {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 42px;
-    height: 42px;
+    top: 14px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
     border: none;
     border-radius: 12px;
     background: transparent;
-    color: rgba(255,255,255,.78);
+    color: #6B7280;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
   }
-  .feature-guide-close:hover { background: rgba(255,255,255,.08); color: #fff; }
+  .feature-guide-close:hover { background: rgba(0,0,0,.05); color: #1F2328; }
   .feature-guide-close svg {
-    width: 20px; height: 20px;
+    width: 18px; height: 18px;
     stroke: currentColor; fill: none;
     stroke-width: 2; stroke-linecap: round;
   }
   .feature-guide-title {
-    margin: 0 48px 20px 0;
-    font-size: 28px;
-    font-weight: 750;
+    margin: 0 40px 8px 0;
+    font-size: 24px;
+    font-weight: 800;
     letter-spacing: -0.03em;
+    color: var(--brand-dark);
+    text-align: center;
+  }
+  .feature-guide-sub {
+    margin: 0 0 22px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #5B6472;
     text-align: center;
   }
   .feature-guide-progress {
@@ -2704,13 +2713,13 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
   }
   .feature-guide-progress-track {
     width: min(280px, 46vw);
     height: 8px;
     border-radius: 999px;
-    background: rgba(255,255,255,.14);
+    background: #E8ECF2;
     overflow: hidden;
   }
   .feature-guide-progress-bar {
@@ -2721,9 +2730,9 @@
     transition: width .28s ease;
   }
   .feature-guide-progress-label {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
-    color: rgba(255,255,255,.72);
+    color: #5B6472;
     min-width: 40px;
   }
   .feature-guide-map {
@@ -2752,7 +2761,7 @@
   }
   .fg-path path {
     fill: none;
-    stroke: rgba(255, 255, 255, .38);
+    stroke: rgba(120, 130, 150, .42);
     stroke-width: 2.5;
     stroke-dasharray: 7 8;
     stroke-linecap: round;
@@ -2762,8 +2771,8 @@
     position: relative;
     z-index: 1;
     appearance: none;
-    border: 2px dashed rgba(255,255,255,.28);
-    background: rgba(255,255,255,.04);
+    border: 1.5px dashed rgba(180, 188, 202, .95);
+    background: #F7F9FC;
     border-radius: 22px;
     width: 100%;
     aspect-ratio: 1;
@@ -2771,7 +2780,7 @@
     margin: 0 auto;
     padding: 14px;
     cursor: pointer;
-    color: rgba(255,255,255,.55);
+    color: #5B6472;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2787,9 +2796,9 @@
     height: 26px;
     padding: 0 6px;
     border-radius: 999px;
-    background: rgba(0, 0, 0, .35);
-    border: 1px solid rgba(255, 255, 255, .28);
-    color: rgba(255, 255, 255, .88);
+    background: #fff;
+    border: 1px solid rgba(229, 231, 235, .95);
+    color: #5B6472;
     font-size: 12px;
     font-weight: 800;
     letter-spacing: -0.02em;
@@ -2797,16 +2806,18 @@
     align-items: center;
     justify-content: center;
     line-height: 1;
+    box-shadow: 0 2px 6px rgba(20, 28, 48, .06);
   }
   .fg-node.is-active .fg-order,
   .fg-node.is-done .fg-order {
-    background: rgba(255, 255, 255, .2);
-    border-color: rgba(255, 255, 255, .45);
-    color: #fff;
+    background: rgba(255, 255, 255, .95);
+    border-color: rgba(255, 255, 255, .65);
+    color: var(--brand-dark);
   }
   .fg-node.is-done .fg-order {
-    background: rgba(126, 211, 33, .28);
-    border-color: rgba(126, 211, 33, .55);
+    background: rgba(126, 211, 33, .16);
+    border-color: rgba(126, 211, 33, .45);
+    color: #3F7A12;
   }
   .fg-node[data-guide-index="0"] { grid-column: 1; grid-row: 1; }
   .fg-node[data-guide-index="1"] { grid-column: 2; grid-row: 1; }
@@ -2823,9 +2834,11 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,.08);
+    background: #fff;
+    border: 1px solid rgba(229, 231, 235, .9);
     font-size: 44px;
     line-height: 1;
+    box-shadow: 0 4px 12px rgba(20, 28, 48, .06);
   }
   .fg-node .fg-ico img {
     width: 72px;
@@ -2839,30 +2852,37 @@
     letter-spacing: -0.02em;
     text-align: center;
     line-height: 1.25;
+    color: #1F2328;
   }
   .fg-node.is-locked {
     cursor: default;
-    opacity: .72;
+    opacity: .78;
   }
-  .fg-node.is-locked .fg-ico { font-size: 40px; color: rgba(255,255,255,.35); }
+  .fg-node.is-locked .fg-ico { font-size: 40px; color: #9AA3B2; }
+  .fg-node.is-locked .fg-label { color: #6B7280; }
   .fg-node.is-done {
     border-style: solid;
     border-color: rgba(126, 211, 33, .55);
-    background: rgba(126, 211, 33, .12);
-    color: #fff;
+    background: rgba(126, 211, 33, .1);
+    color: #1F2328;
   }
   .fg-node.is-active {
     border-style: solid;
-    border-color: #4B8FE8;
-    background: #3B78D8;
-    color: #fff;
-    box-shadow: 0 10px 28px rgba(34, 125, 226, .35);
+    border-color: var(--brand);
+    background: var(--brand-soft);
+    color: var(--brand-dark);
+    box-shadow: 0 10px 28px rgba(34, 125, 226, .18);
     transform: translateY(-2px) scale(1.04);
   }
-  .fg-node.is-active .fg-ico { background: rgba(255,255,255,.18); }
+  .fg-node.is-active .fg-ico {
+    background: #fff;
+    border-color: color-mix(in srgb, var(--brand) 35%, #E5E7EB);
+  }
+  .fg-node.is-active .fg-label { color: var(--brand-dark); }
   .fg-node.is-clickable:not(.is-active):hover {
-    border-color: rgba(75, 143, 232, .7);
-    color: #fff;
+    border-color: color-mix(in srgb, var(--brand) 45%, #E5E7EB);
+    background: #fff;
+    box-shadow: 0 10px 24px rgba(34, 125, 226, .12);
     transform: translateY(-1px);
   }
   .fg-bubble {
@@ -2918,7 +2938,7 @@
   .fg-node.is-complete-slot.is-active,
   .fg-node.is-complete-slot.is-done {
     border-color: #7ED321;
-    background: rgba(126, 211, 33, .22);
+    background: rgba(126, 211, 33, .14);
   }
   .feature-guide-foot {
     display: flex;
@@ -2931,20 +2951,20 @@
   .feature-guide-next {
     appearance: none;
     border: none;
-    background: #4B8FE8;
+    background: var(--brand);
     color: #fff;
     font: inherit;
     font-size: 14px;
     font-weight: 700;
     letter-spacing: -0.01em;
     padding: 10px 18px;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
-    box-shadow: 0 8px 18px rgba(34, 125, 226, .28);
+    box-shadow: 0 8px 18px rgba(34, 125, 226, .22);
     transition: background .15s, transform .12s;
   }
   .feature-guide-next:hover {
-    background: #3A7AD4;
+    background: var(--brand-dark);
     transform: translateY(-1px);
   }
   .feature-guide-celebrate {
@@ -3009,8 +3029,8 @@
     animation: fgModalGlow .8s ease;
   }
   @keyframes fgModalGlow {
-    0%, 100% { box-shadow: 0 24px 64px rgba(0, 0, 0, .35); }
-    40% { box-shadow: 0 0 0 3px rgba(126, 211, 33, .55), 0 24px 64px rgba(0, 0, 0, .35); }
+    0%, 100% { box-shadow: 0 24px 64px rgba(0, 0, 0, .28); }
+    40% { box-shadow: 0 0 0 3px rgba(126, 211, 33, .45), 0 24px 64px rgba(0, 0, 0, .28); }
   }
   @media (max-width: 1100px) {
     .feature-guide-modal { padding: 28px 22px 32px; width: min(960px, 100%); }
@@ -3025,7 +3045,8 @@
   @media (max-width: 720px) {
     .feature-guide { padding: 12px; }
     .feature-guide-modal { padding: 22px 14px 24px; }
-    .feature-guide-title { font-size: 22px; margin: 0 40px 14px 0; }
+    .feature-guide-title { font-size: 20px; margin: 0 40px 6px 0; }
+    .feature-guide-sub { font-size: 14px; margin-bottom: 16px; }
     .feature-guide-map {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       grid-template-rows: repeat(4, auto);
@@ -3287,44 +3308,8 @@
           <div id="nodesLayer"></div>
         </div>
 
-        <div class="canvas-onboard" id="onboardOverlay" hidden>
-          <div class="canvas-onboard-inner" aria-label="실습 시작 가이드">
-            <div class="canvas-onboard-hero">
-              <div class="canvas-onboard-copy">
-                <div class="onboard-title-row">
-                  <div class="onboard-title-block">
-                    <h2><span class="onboard-title-text">데이터 분석을 시작해볼까요?</span></h2>
-                    <p class="onboard-title-sub">위젯을 추가하고 연결하여 데이터 분석 워크플로우를 완성해보세요.</p>
-                  </div>
-                  <img class="onboard-title-mascot" id="onboardMascot" src="assets/onboarding-pengsu-ai.png" alt="">
-                </div>
-              </div>
-            </div>
-            <div class="canvas-onboard-steps" role="group" aria-label="시작 단계 선택">
-              <button class="canvas-onboard-step" type="button" data-onboard-step="add" aria-pressed="false">
-                <div class="step-head">
-                  <span class="step-num">1</span>
-                  <span class="step-title">위젯 추가하기</span>
-                </div>
-                <p class="step-desc">필요한 위젯을 선택하거나 캔버스로 드래그하여 배치합니다.</p>
-              </button>
-              <button class="canvas-onboard-step" type="button" data-onboard-step="connect" aria-pressed="false">
-                <div class="step-head">
-                  <span class="step-num">2</span>
-                  <span class="step-title">위젯 연결하기</span>
-                </div>
-                <p class="step-desc">위젯과 위젯을 선으로 연결해서 분석 흐름을 구성합니다.</p>
-              </button>
-              <button class="canvas-onboard-step" type="button" data-onboard-step="run" aria-pressed="false">
-                <div class="step-head">
-                  <span class="step-num">3</span>
-                  <span class="step-title">결과 확인하기</span>
-                </div>
-                <p class="step-desc">‘지금 실행’ 버튼을 눌러 분석 결과를 확인합니다.</p>
-              </button>
-            </div>
-          </div>
-        </div>
+        <!-- Floor stays clean: onboarding lives in Pengsu / feature-guide / quick-start popups -->
+        <div class="canvas-onboard" id="onboardOverlay" hidden aria-hidden="true"></div>
 
         <div class="hint-bar" id="hintBar"></div>
 
@@ -3485,6 +3470,7 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
       </button>
       <h2 class="feature-guide-title" id="featureGuideTitle">Orange3 주요기능 알아보기</h2>
+      <p class="feature-guide-sub">순서대로 따라가며 Orange3의 핵심 기능을 알아보세요.</p>
       <div class="feature-guide-progress">
         <div class="feature-guide-progress-track">
           <div class="feature-guide-progress-bar" id="featureGuideProgressBar"></div>
@@ -5947,19 +5933,18 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   }
 
   function openOnboard() {
-    if (!onboardOverlay) return;
+    // Keep the canvas floor clean — guides live in overlay popups only.
+    if (onboardOverlay) onboardOverlay.hidden = true;
+    canvasWrap?.classList.remove('is-onboarding');
     onboardSteps.forEach(btn => {
       btn.classList.remove('is-selected');
       btn.setAttribute('aria-pressed', 'false');
     });
-    onboardOverlay.hidden = false;
-    canvasWrap?.classList.add('is-onboarding');
     openPengsuHelper();
   }
 
   function closeOnboard() {
-    if (!onboardOverlay) return;
-    onboardOverlay.hidden = true;
+    if (onboardOverlay) onboardOverlay.hidden = true;
     canvasWrap?.classList.remove('is-onboarding');
     closeFeatureGuide();
     closePengsuHelper();
