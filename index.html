@@ -3368,6 +3368,13 @@
   let panStart = null;
   let linking = null; // { nodeId, startSide: 'in'|'out', x, y }
   let dropType = null;
+  let lastPlacedNodeId = null;
+
+  const NODE_W = 108;
+  const NODE_H = 100;
+  const PLACE_GAP_X = 40;
+  const PLACE_LEFT_X = 60;
+  const PLACE_BASE_Y = 180;
 
   const EXEC_MODE_KEY = 'orange3-exec-mode';
   function readExecutionMode() {
@@ -3462,6 +3469,11 @@
           if (e.defaultPrevented) return;
           showWidgetFlowDetail(it.id);
         });
+        w.addEventListener('dblclick', e => {
+          e.preventDefault();
+          e.stopPropagation();
+          addWidgetAligned(it.id);
+        });
         w.addEventListener('dragstart', e => {
           dropType = it.id;
           e.dataTransfer.setData('text/plain', it.id);
@@ -3516,6 +3528,52 @@
   /* ========== Nodes ========== */
   function nodeById(id) { return nodes.find(n => n.id === id); }
   function metaOf(n) { return ITEM_MAP[n.type]; }
+
+  function nextAlignedPlace() {
+    const anchor =
+      nodeById(selectedNodeId) ||
+      nodeById(lastPlacedNodeId) ||
+      (nodes.length ? nodes[nodes.length - 1] : null);
+    if (!anchor) {
+      // First widget: left-aligned in the canvas world.
+      const view = canvasWrap?.getBoundingClientRect();
+      const worldY = view
+        ? Math.max(80, ((view.height / 2) - panY) / zoom - NODE_H / 2)
+        : PLACE_BASE_Y;
+      return { x: PLACE_LEFT_X, y: worldY };
+    }
+    return {
+      x: anchor.x + NODE_W + PLACE_GAP_X,
+      y: anchor.y,
+    };
+  }
+
+  function createNode(type, x, y) {
+    const meta = ITEM_MAP[type];
+    if (!meta) return null;
+    const n = {
+      id: uid('n'),
+      type,
+      x,
+      y,
+      name: meta.label,
+      notes: '',
+      sample: 100,
+    };
+    nodes.push(n);
+    lastPlacedNodeId = n.id;
+    selectNode(n.id);
+    closeOnboard();
+    showHint(`${meta.label} 추가됨`);
+    syncExecutionModeUI();
+    return n;
+  }
+
+  function addWidgetAligned(type) {
+    if (!ITEM_MAP[type]) return null;
+    const pos = nextAlignedPlace();
+    return createNode(type, pos.x, pos.y);
+  }
 
   function portCenter(node, which) {
     const bodyW = 84, bodyH = 84;
@@ -4052,20 +4110,7 @@
     const type = e.dataTransfer.getData('text/plain') || dropType;
     if (!type || !ITEM_MAP[type]) return;
     const w = screenToWorld(e.clientX, e.clientY);
-    const meta = ITEM_MAP[type];
-    const n = {
-      id: uid('n'),
-      type,
-      x: w.x - 54,
-      y: w.y - 42,
-      name: meta.label,
-      notes: '',
-      sample: 100,
-    };
-    nodes.push(n);
-    selectNode(n.id);
-    closeOnboard();
-    showHint(`${meta.label} 추가됨`);
+    createNode(type, w.x - NODE_W / 2, w.y - 42);
   });
 
   // minimap drag
@@ -4499,6 +4544,7 @@
     connections = [];
     selectedNodeId = null;
     selectedConnId = null;
+    lastPlacedNodeId = null;
     renderNodes();
     syncExecutionModeUI();
     const activeTab = tabsList?.querySelector('.tab.active .tab-label');
@@ -5386,6 +5432,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     ];
     selectedNodeId = null;
     selectedConnId = null;
+    lastPlacedNodeId = nodes[nodes.length - 1]?.id || null;
     renderNodes();
     syncExecutionModeUI();
     fitView();
