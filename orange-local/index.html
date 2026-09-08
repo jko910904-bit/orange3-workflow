@@ -5183,7 +5183,29 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   const pengsuCoachText = document.getElementById('pengsuCoachText');
   const pengsuCoachNext = document.getElementById('pengsuCoachNext');
   const pengsuCoachMascot = document.getElementById('pengsuCoachMascot');
-  const PENGSU_HELPER_TEXT = '딱 1분만 시간을 내주실래요?';
+  const PENGSU_HELPER_FLOW = [
+    {
+      text: '딱 1분만 시간을 내주실래요?',
+      next: '알겠어요',
+      step: null,
+    },
+    {
+      text: '1번! 왼쪽에서 위젯을 골라 캔버스에 올려볼까요?',
+      next: '다음',
+      step: 'add',
+    },
+    {
+      text: '2번! 포트끼리 연결하면 데이터가 흘러가요.',
+      next: '다음',
+      step: 'connect',
+    },
+    {
+      text: '3번! ‘지금 실행’으로 결과를 확인해 보세요.',
+      next: '완료',
+      step: 'run',
+    },
+  ];
+  let pengsuHelperIndex = 0;
 
   function getUser() {
     try { return JSON.parse(localStorage.getItem(AUTH_KEY) || 'null'); }
@@ -5227,10 +5249,31 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   function openPengsuHelper() {
     if (!pengsuCoach || characterMode === 'none') return;
-    if (pengsuCoachText) pengsuCoachText.textContent = PENGSU_HELPER_TEXT;
-    if (pengsuCoachNext) pengsuCoachNext.textContent = '알겠어요';
+    pengsuHelperIndex = 0;
+    renderPengsuHelper();
     pengsuCoach.hidden = false;
     requestAnimationFrame(() => pengsuCoach.classList.add('is-open'));
+  }
+
+  function renderPengsuHelper() {
+    const item = PENGSU_HELPER_FLOW[pengsuHelperIndex];
+    if (!item) return;
+    if (pengsuCoachText) pengsuCoachText.textContent = item.text;
+    if (pengsuCoachNext) pengsuCoachNext.textContent = item.next;
+    if (item.step) {
+      selectOnboardStep(item.step);
+      const stepEl = onboardSteps.find(btn => btn.dataset.onboardStep === item.step);
+      stepEl?.scrollIntoView?.({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+    }
+  }
+
+  function advancePengsuHelper() {
+    if (pengsuHelperIndex >= PENGSU_HELPER_FLOW.length - 1) {
+      closePengsuHelper();
+      return;
+    }
+    pengsuHelperIndex += 1;
+    renderPengsuHelper();
   }
 
   function closePengsuHelper() {
@@ -5313,7 +5356,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     });
   });
 
-  pengsuCoachNext?.addEventListener('click', () => closePengsuHelper());
+  pengsuCoachNext?.addEventListener('click', () => advancePengsuHelper());
 
   document.getElementById('btnOnboardLoad')?.addEventListener('click', () => {
     loadPreviousWorkflow();
