@@ -1967,7 +1967,7 @@
   .quick-start-modal {
     position: relative;
     z-index: 1;
-    width: min(1040px, 100%);
+    width: min(560px, 100%);
     background: #fff;
     color: #1F2328;
     border-radius: 24px;
@@ -2016,21 +2016,25 @@
     text-align: center;
   }
   .quick-start .canvas-onboard-actions {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
   .quick-start .canvas-onboard-action {
-    padding: 20px 18px;
-    align-items: flex-start;
+    padding: 18px 20px;
+    align-items: center;
+    min-height: 0;
   }
   .quick-start .canvas-onboard-action .action-title {
     font-size: 16px;
   }
   .quick-start .canvas-onboard-action .action-title-row {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+    flex-wrap: nowrap;
   }
   .quick-start .canvas-onboard-action .action-desc {
     font-size: 14px;
+    line-height: 1.4;
+    white-space: nowrap;
   }
   /* Recommended path: subtle emphasis only */
   .quick-start .canvas-onboard-action.is-recommended {
@@ -2050,7 +2054,7 @@
     .canvas-onboard-media { width: min(220px, 55vw); }
     .canvas-onboard-steps,
     .canvas-onboard-actions { grid-template-columns: 1fr; }
-    .quick-start-modal { padding: 28px 22px 32px; width: min(960px, 100%); }
+    .quick-start-modal { padding: 28px 22px 32px; width: min(560px, 100%); }
     .quick-start .canvas-onboard-actions { grid-template-columns: 1fr; gap: 12px; }
     .quick-start .canvas-onboard-action { min-height: 0; }
   }
@@ -3149,10 +3153,11 @@
     .fg-node .fg-label { font-size: 13px; }
     .fg-node.is-locked .fg-ico { font-size: 40px; }
     .feature-guide-tip { right: 12px; bottom: 200px; }
-    .quick-start-modal { padding: 26px 16px 24px; }
+    .quick-start-modal { padding: 26px 16px 24px; width: min(560px, 100%); }
     .quick-start-title { font-size: 20px; }
     .quick-start .canvas-onboard-actions { grid-template-columns: 1fr; }
-    .quick-start .canvas-onboard-action { min-height: 0; }
+    .quick-start .canvas-onboard-action { min-height: 0; padding: 16px 14px; }
+    .quick-start .canvas-onboard-action .action-desc { font-size: 13px; }
   }
 
   /* ---------- Spotlight Guided Tutorial ---------- */
