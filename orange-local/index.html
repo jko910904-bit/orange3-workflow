@@ -3302,14 +3302,14 @@
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 12%, transparent);
   }
 
-  /* Analysis result = the Orange window itself floating on the canvas (no nested dialog chrome) */
+  /* Analysis result = one polished Scatter Plot window (HTML chrome, not screenshot-in-modal) */
   .result-popup {
     position: absolute;
     z-index: 45;
-    left: 42%;
-    top: 10%;
-    width: min(640px, calc(100% - 32px));
-    max-width: 720px;
+    left: 38%;
+    top: 8%;
+    width: min(760px, calc(100% - 28px));
+    max-width: 820px;
     padding: 0;
     margin: 0;
     background: transparent;
@@ -3324,73 +3324,346 @@
   }
   .result-popup.is-spotlighted .result-popup-window {
     pointer-events: auto;
-    filter: drop-shadow(0 14px 28px rgba(20, 28, 48, .32));
+    box-shadow:
+      0 18px 48px rgba(20, 28, 48, .28),
+      0 0 0 1px rgba(20, 28, 48, .06);
   }
   .result-popup-window {
     position: relative;
     width: 100%;
+    height: 100%;
+    max-height: inherit;
     pointer-events: auto;
-    background: transparent;
-    border-radius: 0;
-    border: none;
-    box-shadow: none;
-    filter: drop-shadow(0 10px 22px rgba(20, 28, 48, .28));
-    overflow: visible;
-    line-height: 0;
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #E4E7EC;
+    box-shadow:
+      0 14px 36px rgba(20, 28, 48, .18),
+      0 0 0 1px rgba(20, 28, 48, .04);
+    overflow: hidden;
+    line-height: normal;
+    display: flex;
+    flex-direction: column;
     animation: quickStartIn .35s cubic-bezier(.22, 1, .36, 1);
   }
-  .result-popup-title-sr {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
+  .sp-chrome {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    height: 40px;
+    padding: 0 8px 0 14px;
+    background: linear-gradient(180deg, #FAFBFC 0%, #F4F6F8 100%);
+    border-bottom: 1px solid #E8EAED;
+    flex-shrink: 0;
+  }
+  .sp-chrome-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+  .sp-chrome-mark {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    background:
+      radial-gradient(circle at 30% 30%, #7EC8FF 0%, transparent 55%),
+      radial-gradient(circle at 70% 65%, #8FDF8A 0%, transparent 50%),
+      linear-gradient(135deg, #4BA3F0, #2F7FD4);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);
+    flex-shrink: 0;
+  }
+  .sp-chrome-title h2 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 650;
+    color: #1F2328;
+    letter-spacing: -0.01em;
     white-space: nowrap;
-    border: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .result-popup-close {
-    position: absolute;
-    top: 4px;
-    right: 6px;
-    z-index: 2;
-    width: 36px;
+    width: 32px;
     height: 28px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     background: transparent;
-    color: transparent;
+    color: #6B7280;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
   }
-  .result-popup-close:hover { background: rgba(232, 17, 35, .12); }
+  .result-popup-close:hover {
+    background: rgba(232, 17, 35, .12);
+    color: #C42B2B;
+  }
   .result-popup-close:focus-visible {
     outline: 2px solid var(--brand);
     outline-offset: 1px;
-    color: #1F2328;
   }
   .result-popup-close svg {
     width: 12px; height: 12px;
     stroke: currentColor; fill: none;
     stroke-width: 2; stroke-linecap: round;
-    opacity: 0;
   }
-  .result-popup-close:focus-visible svg { opacity: 1; }
-  .result-popup-window > img {
+  .sp-body {
+    display: grid;
+    grid-template-columns: minmax(200px, 38%) 1fr;
+    min-height: 0;
+    flex: 1;
+    background: #F7F8FA;
+  }
+  .sp-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 10px 8px;
+    background: #F0F1F3;
+    border-right: 1px solid #E4E6EA;
+    overflow: auto;
+    min-height: 0;
+  }
+  .sp-section {
+    background: #fff;
+    border: 1px solid #E6E8EC;
+    border-radius: 10px;
+    padding: 8px 9px 9px;
+  }
+  .sp-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6B7280;
+    letter-spacing: .02em;
+    margin: 0 0 7px;
+    text-transform: none;
+  }
+  .sp-field {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  .sp-field:last-child { margin-bottom: 0; }
+  .sp-field > span {
+    font-size: 11px;
+    color: #4B5563;
+    white-space: nowrap;
+  }
+  .sp-select {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+    height: 26px;
+    padding: 0 8px 0 6px;
+    border: 1px solid #D7DBE2;
+    border-radius: 7px;
+    background: #fff;
+    font-size: 11px;
+    color: #1F2328;
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+  }
+  .sp-select .sp-type {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .sp-type.n { background: #E85A4F; }
+  .sp-type.c { background: #3FAE5A; }
+  .sp-select em {
+    font-style: normal;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .sp-select::after {
+    content: "";
+    width: 0; height: 0;
+    border-left: 3.5px solid transparent;
+    border-right: 3.5px solid transparent;
+    border-top: 4.5px solid #8B93A0;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .sp-btn {
     width: 100%;
-    height: auto;
+    margin-top: 6px;
+    height: 28px;
+    border-radius: 7px;
+    border: 1px solid color-mix(in srgb, var(--brand) 55%, #93C5FD);
+    background: #fff;
+    color: var(--brand-dark);
+    font: inherit;
+    font-size: 11px;
+    font-weight: 650;
+    cursor: default;
+  }
+  .sp-check {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 6px;
+    font-size: 11px;
+    color: #374151;
+  }
+  .sp-check i {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid #B8C0CC;
+    background: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .sp-check.is-on i {
+    background: var(--brand);
+    border-color: var(--brand);
+  }
+  .sp-check.is-on i::after {
+    content: "";
+    width: 7px;
+    height: 4px;
+    border-left: 1.8px solid #fff;
+    border-bottom: 1.8px solid #fff;
+    transform: rotate(-45deg) translate(0, -1px);
+  }
+  .sp-slider {
+    display: grid;
+    grid-template-columns: 78px 1fr;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    color: #4B5563;
+  }
+  .sp-slider:last-child { margin-bottom: 0; }
+  .sp-track {
+    position: relative;
+    height: 3px;
+    border-radius: 99px;
+    background: #D5DAE2;
+  }
+  .sp-track::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--fill, 55%);
+    border-radius: inherit;
+    background: color-mix(in srgb, var(--brand) 55%, #93C5FD);
+  }
+  .sp-track::after {
+    content: "";
+    position: absolute;
+    left: var(--fill, 55%);
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    background: var(--brand);
+    transform: translate(-50%, -50%);
+    box-shadow: 0 1px 2px rgba(24, 90, 162, .35);
+  }
+  .sp-tools {
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid #D7DBE2;
+    border-radius: 8px;
+    background: #fff;
+    align-self: flex-start;
+  }
+  .sp-tools span {
+    width: 26px;
+    height: 24px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #5B6472;
+  }
+  .sp-tools span.is-on {
+    background: color-mix(in srgb, var(--brand) 16%, #fff);
+    color: var(--brand-dark);
+  }
+  .sp-tools svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .sp-plot-pane {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    background: #fff;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 8px 10px 10px;
+  }
+  .sp-plot-pane img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
     display: block;
-    max-height: none;
-    object-fit: unset;
-    background: transparent;
-    border-radius: 0;
+    border-radius: 8px;
+    background: #fff;
     pointer-events: none;
     user-select: none;
+    border: 1px solid #EEF0F3;
   }
-  /* Legacy foot kept hidden — result is the Orange window only */
+  .sp-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    height: 28px;
+    padding: 0 10px;
+    background: #F4F6F8;
+    border-top: 1px solid #E8EAED;
+    color: #6B7280;
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+  .sp-status-left {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sp-status-left span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .sp-status-left i {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    background: #D7DBE2;
+  }
+  /* Legacy foot kept hidden */
   .result-popup-foot {
     display: none !important;
   }
@@ -3408,6 +3681,12 @@
     box-shadow: 0 6px 14px rgba(34, 125, 226, .2);
   }
   .result-popup-next:hover { background: var(--brand-dark); }
+
+  @media (max-width: 720px) {
+    .sp-body { grid-template-columns: 1fr; }
+    .sp-sidebar { max-height: 180px; }
+    .result-popup { width: min(520px, calc(100% - 16px)); }
+  }
 
   /* ---------- Properties panel ---------- */
   .props,
@@ -3653,11 +3932,85 @@
 
         <div class="result-popup" id="resultPopup" hidden>
           <div class="result-popup-window" role="dialog" aria-modal="true" aria-labelledby="resultPopupTitle">
-            <h2 class="result-popup-title-sr" id="resultPopupTitle">Scatter Plot - Orange</h2>
-            <button class="result-popup-close" type="button" id="resultPopupClose" aria-label="닫기" title="닫기">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
-            </button>
-            <img src="assets/results/scatter-plot-orange.png" alt="Scatter Plot - Orange">
+            <header class="sp-chrome">
+              <div class="sp-chrome-title">
+                <span class="sp-chrome-mark" aria-hidden="true"></span>
+                <h2 id="resultPopupTitle">Scatter Plot</h2>
+              </div>
+              <button class="result-popup-close" type="button" id="resultPopupClose" aria-label="닫기" title="닫기">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+              </button>
+            </header>
+            <div class="sp-body">
+              <aside class="sp-sidebar" aria-label="Scatter plot controls">
+                <div class="sp-section">
+                  <p class="sp-section-label">Axes</p>
+                  <div class="sp-field">
+                    <span>Axis x</span>
+                    <div class="sp-select"><i class="sp-type n">N</i><em>sepal length</em></div>
+                  </div>
+                  <div class="sp-field">
+                    <span>Axis y</span>
+                    <div class="sp-select"><i class="sp-type n">N</i><em>sepal width</em></div>
+                  </div>
+                  <button class="sp-btn" type="button" tabindex="-1">Find Informative Projections</button>
+                </div>
+                <div class="sp-section">
+                  <p class="sp-section-label">Attributes</p>
+                  <div class="sp-field">
+                    <span>Color</span>
+                    <div class="sp-select"><i class="sp-type c">C</i><em>iris</em></div>
+                  </div>
+                  <div class="sp-field">
+                    <span>Shape</span>
+                    <div class="sp-select"><em>Same shape</em></div>
+                  </div>
+                  <div class="sp-field">
+                    <span>Size</span>
+                    <div class="sp-select"><em>Same size</em></div>
+                  </div>
+                  <div class="sp-field">
+                    <span>Label</span>
+                    <div class="sp-select"><em>(No labels)</em></div>
+                  </div>
+                  <div class="sp-check"><i></i>Label only selection and subset</div>
+                </div>
+                <div class="sp-section">
+                  <div class="sp-slider"><span>Symbol size</span><div class="sp-track" style="--fill:58%"></div></div>
+                  <div class="sp-slider"><span>Opacity</span><div class="sp-track" style="--fill:72%"></div></div>
+                  <div class="sp-slider"><span>Jittering</span><div class="sp-track" style="--fill:18%"></div></div>
+                  <div class="sp-check is-on"><i></i>Jitter numeric values</div>
+                </div>
+                <div class="sp-section">
+                  <div class="sp-check is-on"><i></i>Show color regions</div>
+                  <div class="sp-check is-on"><i></i>Show legend</div>
+                  <div class="sp-check"><i></i>Show gridlines</div>
+                </div>
+                <div class="sp-tools" aria-hidden="true">
+                  <span class="is-on" title="Select">
+                    <svg viewBox="0 0 24 24"><path d="M5 4.5 11.5 19l2-5.5L19 11.5 5 4.5Z"/></svg>
+                  </span>
+                  <span title="Pan">
+                    <svg viewBox="0 0 24 24"><path d="M8.5 11.5V7.2a1.2 1.2 0 0 1 2.4 0V11"/><path d="M10.9 10.8V6.2a1.2 1.2 0 0 1 2.4 0V11"/><path d="M13.3 10.5V7a1.2 1.2 0 1 1 2.4 0v6.2"/><path d="M15.7 13.2V9.2a1.2 1.2 0 1 1 2.4 0v5.3c0 2.7-1.8 5-4.5 5.3-2.4.3-4.6-1.1-5.5-3.3L7.2 12a1.3 1.3 0 0 1 2.3-1.2l1.4 2.7"/></svg>
+                  </span>
+                  <span title="Zoom">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16.5 20 20.5"/></svg>
+                  </span>
+                  <span title="Fit">
+                    <svg viewBox="0 0 24 24"><path d="M5 9V5h4"/><path d="M19 9V5h-4"/><path d="M5 15v4h4"/><path d="M19 15v4h-4"/></svg>
+                  </span>
+                </div>
+              </aside>
+              <div class="sp-plot-pane">
+                <img src="assets/results/scatter-plot-area.png" alt="Iris scatter plot with color regions">
+              </div>
+            </div>
+            <footer class="sp-status">
+              <div class="sp-status-left">
+                <span><i></i>Send Automatically</span>
+              </div>
+              <div>150 · iris · sepal length × sepal width</div>
+            </footer>
             <div class="result-popup-foot" hidden>
               <button class="result-popup-next" type="button" id="resultPopupNext">다음</button>
             </div>
@@ -6059,7 +6412,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       drawConnections();
     }, 900);
     if (!opts.silent) showHint(t('exec.hintAutoRun'));
-    // File → Scatter (or any → scatter): show only the Orange scatter window on the canvas.
+    // File → Scatter (or any → scatter): open one redesigned Scatter Plot result popup.
     const hasScatterResult = connections.some(c => {
       const to = nodeById(c.to);
       return to && to.type === 'scatter';
@@ -6569,7 +6922,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   }
 
   function guideResultTargets() {
-    // Prefer the Orange window alone — avoid a large canvas cutout that reads as a second modal.
+    // Prefer the Scatter Plot result window — avoid a large canvas cutout that reads as a second modal.
     const popup = document.getElementById('resultPopup');
     if (popup && !popup.hidden) return [popup];
     const canvas = document.getElementById('canvasWrap');
@@ -6835,27 +7188,29 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (!el || !canvasWrap) return;
     const wrap = canvasWrap.getBoundingClientRect();
     const spotlighted = el.classList.contains('is-spotlighted');
-    // Keep width modest so the full Orange window fits without letterboxed white bars.
-    const popupW = Math.min(520, Math.max(280, Math.min(wrap.width - 28, wrap.height * 1.05)));
-    let left = Math.max(12, wrap.width * 0.36);
-    let top = Math.max(12, wrap.height * 0.06);
+    // Prefer a wide enough window for sidebar + plot; fall back on narrow canvases.
+    const popupW = Math.min(760, Math.max(320, Math.min(wrap.width - 24, wrap.height * 1.35)));
+    const popupH = Math.min(560, Math.max(280, wrap.height - 28));
+    let left = Math.max(12, (wrap.width - popupW) / 2);
+    let top = Math.max(12, (wrap.height - popupH) * 0.12);
     const scatterEl = guideScatterNodeEl();
     const file = nodes.find(n => n.type === 'file');
     const fileEl = file
       ? document.querySelector(`#nodesLayer .node[data-id="${file.id}"]`)
       : null;
     const anchor = scatterEl || fileEl;
-    if (anchor) {
+    if (anchor && wrap.width > popupW + 160) {
       const r = anchor.getBoundingClientRect();
-      left = r.right - wrap.left + 20;
-      top = Math.max(12, r.top - wrap.top - 4);
+      left = r.right - wrap.left + 18;
+      top = Math.max(12, r.top - wrap.top - 8);
       if (left + popupW > wrap.width - 10) {
         left = Math.max(10, wrap.width - popupW - 10);
-        top = Math.min(wrap.height - 80, r.bottom - wrap.top + 12);
+        top = Math.min(wrap.height - 120, r.bottom - wrap.top + 12);
       }
     }
-    top = Math.min(top, Math.max(12, wrap.height - 100));
+    top = Math.min(top, Math.max(12, wrap.height - 120));
     el.style.width = `${Math.round(popupW)}px`;
+    el.style.maxHeight = `${Math.round(popupH)}px`;
     if (spotlighted) {
       // Fixed above the dim overlay — use viewport coordinates.
       el.style.left = `${Math.round(wrap.left + left)}px`;
@@ -6884,6 +7239,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     el.style.left = '';
     el.style.top = '';
     el.style.width = '';
+    el.style.maxHeight = '';
   }
 
   function revealGuideResult() {
@@ -6893,7 +7249,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     spotlightResultReveal = true;
     if (spotlightTitle) spotlightTitle.textContent = '결과가 열렸어요!';
     if (spotlightBody) {
-      spotlightBody.textContent = '캔버스 위에 산점도 결과 창이\n바로 열렸어요.';
+      spotlightBody.textContent = '산점도 결과 팝업이\n바로 열렸어요.';
     }
     if (spotlightStepLabel) {
       const total = SPOTLIGHT_STEPS.length;
