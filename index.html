@@ -7363,6 +7363,75 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     return { left, top, right, bottom, width: right - left, height: bottom - top };
   }
 
+  function centerSpotlightTooltip() {
+    if (!spotlightTooltip || spotlightTooltip.hidden) return;
+    Object.assign(spotlightTooltip.style, {
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+      right: 'auto',
+      bottom: 'auto',
+    });
+  }
+
+  /** Place STEP alert beside #resultPopup (prefer right; fallback left/below). */
+  function positionSpotlightTooltipBesideResult() {
+    if (!spotlightTooltip || spotlightTooltip.hidden) return;
+    const popup = document.getElementById('resultPopup');
+    if (!popup || popup.hidden) {
+      centerSpotlightTooltip();
+      return;
+    }
+    const gap = 16;
+    const margin = 12;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    // Clear centering transform so offsetWidth/Height match on-screen size.
+    Object.assign(spotlightTooltip.style, {
+      transform: 'none',
+      right: 'auto',
+      bottom: 'auto',
+      left: '0px',
+      top: '0px',
+    });
+    const tipW = Math.max(spotlightTooltip.offsetWidth || 0, 280);
+    const tipH = Math.max(spotlightTooltip.offsetHeight || 0, 120);
+    const r = popup.getBoundingClientRect();
+
+    const rightLeft = r.right + gap;
+    const leftLeft = r.left - gap - tipW;
+    const fitsRight = rightLeft + tipW <= vw - margin;
+    const fitsLeft = leftLeft >= margin;
+
+    let left;
+    let top;
+    if (fitsRight) {
+      left = rightLeft;
+      top = r.top;
+    } else if (fitsLeft) {
+      left = leftLeft;
+      top = r.top;
+    } else {
+      // Below the result popup when neither side has room.
+      left = Math.max(margin, Math.min(r.left, vw - tipW - margin));
+      top = r.bottom + gap;
+      if (top + tipH > vh - margin) {
+        top = Math.max(margin, r.top - gap - tipH);
+      }
+    }
+
+    top = Math.max(margin, Math.min(top, vh - tipH - margin));
+    left = Math.max(margin, Math.min(left, vw - tipW - margin));
+
+    Object.assign(spotlightTooltip.style, {
+      left: `${Math.round(left)}px`,
+      top: `${Math.round(top)}px`,
+      transform: 'none',
+      right: 'auto',
+      bottom: 'auto',
+    });
+  }
+
   function layoutSpotlight(target) {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
@@ -7394,17 +7463,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       });
     }
 
-    // Tooltip stays viewport-centered for all spotlight steps (정중앙).
-    // Ring/shades still track the target; do not offset the card beside the hole.
-    if (spotlightTooltip && !spotlightTooltip.hidden) {
-      Object.assign(spotlightTooltip.style, {
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
-        right: 'auto',
-        bottom: 'auto',
-      });
-    }
+    // Other spotlight steps stay viewport-centered; result step uses side placement.
+    centerSpotlightTooltip();
   }
 
   function refreshSpotlightLayout() {
@@ -7427,17 +7487,9 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
         bySide[side].style.display = 'none';
       });
       if (spotlightRing) spotlightRing.hidden = true;
-      // Keep tooltip viewport-centered (shared with other steps).
-      if (spotlightTooltip && !spotlightTooltip.hidden) {
-        Object.assign(spotlightTooltip.style, {
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%)',
-          right: 'auto',
-          bottom: 'auto',
-        });
-      }
+      // Position result window first, then park the STEP alert beside it (not centered).
       positionResultPopupOnCanvas();
+      positionSpotlightTooltipBesideResult();
       return;
     }
     spotlightShades.forEach(s => {
