@@ -7730,6 +7730,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     closeQuickStart();
     closeResultPopup();
     hideSettingsPopover();
+    setExecModeGuideEmphasis(false);
     // Guide always uses auto-run as the default (info tip explains the mode).
     setExecutionMode('auto', { silent: true, skipRun: true });
     spotlightTourActive = true;
