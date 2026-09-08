@@ -2741,6 +2741,13 @@
     gap: 12px;
     margin-bottom: 28px;
   }
+  .feature-guide-progress[hidden] { display: none !important; }
+  .feature-guide.is-home .fg-node {
+    cursor: default;
+  }
+  .feature-guide.is-home .fg-node.is-locked {
+    opacity: 1;
+  }
   .feature-guide-progress-track {
     width: min(280px, 46vw);
     height: 8px;
@@ -3512,7 +3519,7 @@
       </button>
       <h2 class="feature-guide-title" id="featureGuideTitle">Orange3 주요기능 알아보기</h2>
       <p class="feature-guide-sub">순서대로 따라가며 Orange3의 핵심 기능을 알아보세요.</p>
-      <div class="feature-guide-progress">
+      <div class="feature-guide-progress" id="featureGuideProgress">
         <div class="feature-guide-progress-track">
           <div class="feature-guide-progress-bar" id="featureGuideProgressBar"></div>
         </div>
@@ -5975,9 +5982,11 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   let featureGuideIndex = 0;
   let featureGuideBuilt = false;
   let featureGuideCompleting = false;
+  let featureGuideMode = 'home'; // 'home' | 'tutorial'
   const featureGuideNext = document.getElementById('featureGuideNext');
   const featureGuideCelebrate = document.getElementById('featureGuideCelebrate');
   const featureGuideBurst = document.getElementById('featureGuideBurst');
+  const featureGuideProgress = document.getElementById('featureGuideProgress');
   const quickStart = document.getElementById('quickStart');
 
   function getUser() {
@@ -6077,6 +6086,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       btn.appendChild(lab);
       btn.addEventListener('click', () => {
         if (featureGuideCompleting) return;
+        if (featureGuideMode !== 'tutorial') return;
         if (idx > featureGuideIndex + 1) return;
         if (step.isComplete || idx === FEATURE_GUIDE_STEPS.length - 1) {
           if (idx <= featureGuideIndex + 1) completeFeatureGuide();
@@ -6149,7 +6159,42 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     quickStart.hidden = true;
   }
 
+  function clearFeatureGuideNodeStates() {
+    featureGuideMap?.querySelectorAll('.fg-node').forEach(btn => {
+      btn.classList.remove('is-active', 'is-done', 'is-locked', 'is-clickable');
+      btn.querySelector('.fg-bubble')?.remove();
+    });
+  }
+
+  function showFeatureGuideHome() {
+    featureGuideMode = 'home';
+    featureGuideIndex = 0;
+    featureGuideCompleting = false;
+    featureGuide?.classList.add('is-home');
+    featureGuide?.classList.remove('is-complete');
+    if (featureGuideProgress) featureGuideProgress.hidden = true;
+    if (featureGuideProgressBar) featureGuideProgressBar.style.width = '0%';
+    if (featureGuideProgressLabel) featureGuideProgressLabel.textContent = `0/${FEATURE_GUIDE_STEPS.length}`;
+    if (featureGuideTip) featureGuideTip.hidden = true;
+    clearFeatureGuideNodeStates();
+    const foot = featureGuideNext?.closest('.feature-guide-foot');
+    if (foot) foot.hidden = false;
+    if (featureGuideNext) {
+      featureGuideNext.textContent = '가이드 시작';
+      featureGuideNext.disabled = false;
+    }
+  }
+
+  function startFeatureGuideTutorial() {
+    featureGuideMode = 'tutorial';
+    featureGuide?.classList.remove('is-home');
+    if (featureGuideProgress) featureGuideProgress.hidden = false;
+    setFeatureGuideStep(0);
+  }
+
   function setFeatureGuideStep(index) {
+    featureGuideMode = 'tutorial';
+    featureGuide?.classList.remove('is-home');
     const total = FEATURE_GUIDE_STEPS.length;
     featureGuideIndex = Math.max(0, Math.min(index, total - 1));
     const step = FEATURE_GUIDE_STEPS[featureGuideIndex];
@@ -6157,7 +6202,9 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       completeFeatureGuide();
       return;
     }
-    const progress = featureGuideIndex;
+    // Tutorial progress starts at 1/8 for step 1 (index 0).
+    const progress = featureGuideIndex + 1;
+    if (featureGuideProgress) featureGuideProgress.hidden = false;
     if (featureGuideProgressBar) {
       featureGuideProgressBar.style.width = `${(progress / total) * 100}%`;
     }
@@ -6207,8 +6254,11 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function completeFeatureGuide() {
     if (!featureGuide || featureGuideCompleting) return;
     featureGuideCompleting = true;
+    featureGuideMode = 'tutorial';
+    featureGuide.classList.remove('is-home');
     const total = FEATURE_GUIDE_STEPS.length;
     featureGuideIndex = total - 1;
+    if (featureGuideProgress) featureGuideProgress.hidden = false;
     if (featureGuideProgressBar) featureGuideProgressBar.style.width = '100%';
     if (featureGuideProgressLabel) featureGuideProgressLabel.textContent = `${total}/${total}`;
     const foot = featureGuideNext?.closest('.feature-guide-foot');
@@ -6237,6 +6287,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   function advanceFeatureGuide() {
     if (!featureGuide || featureGuide.hidden || featureGuideCompleting) return;
+    if (featureGuideMode !== 'tutorial') {
+      startFeatureGuideTutorial();
+      return;
+    }
     const next = featureGuideIndex + 1;
     if (next >= FEATURE_GUIDE_STEPS.length - 1) {
       completeFeatureGuide();
@@ -6248,7 +6302,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function closeFeatureGuide() {
     if (!featureGuide) return;
     featureGuide.hidden = true;
-    featureGuide.classList.remove('is-complete');
+    featureGuide.classList.remove('is-complete', 'is-home');
+    featureGuideMode = 'home';
     if (featureGuideMap) {
       featureGuideMap.hidden = false;
       featureGuideMap.classList.remove('is-hiding');
@@ -6262,7 +6317,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     featureGuideCompleting = false;
   }
 
-  function openFeatureGuide(startIndex = 0) {
+  function openFeatureGuide(startIndex = null) {
     if (!featureGuide) return;
     closePengsuHelper({ immediate: true });
     featureGuideCompleting = false;
@@ -6282,17 +6337,25 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     featureGuide.hidden = false;
     const foot = featureGuideNext?.closest('.feature-guide-foot');
     if (foot) foot.hidden = false;
-    setFeatureGuideStep(startIndex);
+    // Default: guide home overview. Pass a number to jump into tutorial.
+    if (typeof startIndex === 'number') {
+      featureGuideMode = 'tutorial';
+      featureGuide.classList.remove('is-home');
+      setFeatureGuideStep(startIndex);
+    } else {
+      showFeatureGuideHome();
+    }
     requestAnimationFrame(() => updateFeatureGuidePath());
   }
 
   function advancePengsuHelper() {
-    // Intro (centered Pengsu) → open roadmap; Pengsu hides.
+    // Intro (centered Pengsu) → open roadmap home; Pengsu hides.
     if (featureGuide && !featureGuide.hidden) {
-      advanceFeatureGuide();
+      if (featureGuideMode === 'home') startFeatureGuideTutorial();
+      else advanceFeatureGuide();
       return;
     }
-    openFeatureGuide(0);
+    openFeatureGuide();
   }
 
   function selectOnboardStep(step) {
@@ -6368,7 +6431,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   });
 
   pengsuCoachNext?.addEventListener('click', () => advancePengsuHelper());
-  featureGuideNext?.addEventListener('click', () => advanceFeatureGuide());
+  featureGuideNext?.addEventListener('click', () => {
+    if (featureGuideMode === 'home') startFeatureGuideTutorial();
+    else advanceFeatureGuide();
+  });
   document.getElementById('featureGuideClose')?.addEventListener('click', () => {
     closeFeatureGuide();
     closePengsuHelper({ immediate: true });
@@ -6387,6 +6453,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     openFeatureGuide,
     closeFeatureGuide,
     completeFeatureGuide,
+    showFeatureGuideHome,
+    startFeatureGuideTutorial,
     openQuickStart,
     closeQuickStart,
     updateFeatureGuidePath,
