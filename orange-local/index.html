@@ -3016,6 +3016,7 @@
     .feature-guide-modal { padding: 28px 22px 32px; width: min(960px, 100%); }
     .feature-guide-map { gap: 20px 16px; }
     .fg-node { max-width: 180px; }
+    .fg-node .fg-order { min-width: 24px; height: 24px; font-size: 11px; top: 6px; left: 6px; }
     .fg-node .fg-ico { width: 72px; height: 72px; border-radius: 18px; font-size: 38px; }
     .fg-node .fg-ico img { width: 60px; height: 60px; }
     .fg-node .fg-label { font-size: 14px; }
@@ -3030,20 +3031,24 @@
       grid-template-rows: repeat(4, auto);
       gap: 16px 14px;
     }
-    .fg-node:nth-child(1) { grid-column: 1; grid-row: 1; }
-    .fg-node:nth-child(2) { grid-column: 2; grid-row: 1; }
-    .fg-node:nth-child(3) { grid-column: 1; grid-row: 2; }
-    .fg-node:nth-child(4) { grid-column: 2; grid-row: 2; }
-    .fg-node:nth-child(5) { grid-column: 1; grid-row: 3; }
-    .fg-node:nth-child(6) { grid-column: 2; grid-row: 3; }
-    .fg-node:nth-child(7) { grid-column: 1; grid-row: 4; }
-    .fg-node:nth-child(8) { grid-column: 2; grid-row: 4; }
+    .fg-node[data-guide-index="0"] { grid-column: 1; grid-row: 1; }
+    .fg-node[data-guide-index="1"] { grid-column: 2; grid-row: 1; }
+    .fg-node[data-guide-index="2"] { grid-column: 1; grid-row: 2; }
+    .fg-node[data-guide-index="3"] { grid-column: 2; grid-row: 2; }
+    .fg-node[data-guide-index="4"] { grid-column: 1; grid-row: 3; }
+    .fg-node[data-guide-index="5"] { grid-column: 2; grid-row: 3; }
+    .fg-node[data-guide-index="6"] { grid-column: 1; grid-row: 4; }
+    .fg-node[data-guide-index="7"] { grid-column: 2; grid-row: 4; }
     .fg-node { max-width: 148px; padding: 12px; gap: 8px; border-radius: 18px; }
+    .fg-node .fg-order { min-width: 22px; height: 22px; font-size: 10px; top: 5px; left: 5px; }
     .fg-node .fg-ico { width: 72px; height: 72px; border-radius: 18px; font-size: 36px; }
     .fg-node .fg-ico img { width: 60px; height: 60px; }
     .fg-node .fg-label { font-size: 13px; }
     .fg-node.is-locked .fg-ico { font-size: 34px; }
     .feature-guide-tip { right: 12px; bottom: 200px; }
+    .quick-start-modal { padding: 26px 16px 20px; }
+    .quick-start-title { font-size: 20px; }
+    .quick-start .canvas-onboard-actions { grid-template-columns: 1fr; }
   }
 
   /* ---------- Properties panel ---------- */
@@ -6060,12 +6065,14 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
         y: r.top - mapRect.top + r.height / 2,
       };
     });
-    // Reading-order path with a soft bend from step 4 → 5.
+    // Center-to-center path; L-bend when both axes change (row wrap).
     let d = `M ${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
     for (let i = 1; i < pts.length; i++) {
       const prev = pts[i - 1];
       const cur = pts[i];
-      if (i === 4) {
+      const dx = Math.abs(cur.x - prev.x);
+      const dy = Math.abs(cur.y - prev.y);
+      if (dx > 24 && dy > 24) {
         const midY = (prev.y + cur.y) / 2;
         d += ` L ${prev.x.toFixed(1)} ${midY.toFixed(1)}`;
         d += ` L ${cur.x.toFixed(1)} ${midY.toFixed(1)}`;
