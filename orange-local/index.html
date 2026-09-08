@@ -2390,12 +2390,24 @@
       opacity .38s cubic-bezier(.22, 1, .36, 1),
       transform .42s cubic-bezier(.22, 1, .36, 1);
   }
+  .pengsu-coach-dim {
+    display: none;
+  }
+  .pengsu-coach-stage {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
   .pengsu-coach.is-center {
-    left: 50%;
-    right: auto;
-    bottom: max(12vh, 72px);
+    inset: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     align-items: center;
-    transform: translate(-50%, 18px) scale(0.96);
+    justify-content: center;
+    transform: none;
   }
   .pengsu-coach.is-open {
     opacity: 1;
@@ -2403,7 +2415,27 @@
     pointer-events: auto;
   }
   .pengsu-coach.is-center.is-open {
-    transform: translate(-50%, 0) scale(1);
+    transform: none;
+  }
+  .pengsu-coach.is-center .pengsu-coach-dim {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: rgba(32, 38, 48, .58);
+    backdrop-filter: blur(1.5px);
+    pointer-events: auto;
+  }
+  .pengsu-coach.is-center .pengsu-coach-stage {
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: max(8vh, 36px);
+    transform: translateY(18px) scale(0.96);
+    transition: transform .42s cubic-bezier(.22, 1, .36, 1);
+    pointer-events: none;
+  }
+  .pengsu-coach.is-center.is-open .pengsu-coach-stage {
+    transform: translateY(0) scale(1);
   }
   .pengsu-coach[hidden] { display: none !important; }
   .pengsu-coach-card {
@@ -2418,10 +2450,35 @@
     border: 1px solid rgba(229, 231, 235, .95);
     margin-bottom: -27px;
     z-index: 1;
+    pointer-events: auto;
   }
   .pengsu-coach.is-center .pengsu-coach-card {
-    width: min(340px, calc(100vw - 48px));
-    text-align: center;
+    width: auto;
+    max-width: min(420px, calc(100vw - 40px));
+    margin-bottom: 10px;
+    padding: 14px 14px 14px 18px;
+    border-radius: 18px;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, .22),
+      0 2px 0 rgba(255,255,255,.7) inset;
+  }
+  .pengsu-coach.is-center .pengsu-coach-card::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    border-top: 12px solid #fff;
+    filter: drop-shadow(0 3px 2px rgba(0,0,0,.08));
   }
   .pengsu-coach-text {
     margin: 0 0 14px;
@@ -2432,7 +2489,13 @@
     color: #1F2328;
   }
   .pengsu-coach.is-center .pengsu-coach-text {
-    font-size: 16px;
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+    font-size: 15px;
+    font-weight: 650;
+    line-height: 1.4;
+    color: #2A2F38;
   }
   .onboard-title-mascot {
     display: none !important;
@@ -2444,7 +2507,8 @@
     gap: 8px;
   }
   .pengsu-coach.is-center .pengsu-coach-actions {
-    justify-content: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
   }
   .pengsu-coach-next {
     appearance: none;
@@ -2468,6 +2532,11 @@
   }
   .pengsu-coach-next:active {
     transform: translateY(0) scale(0.98);
+  }
+  .pengsu-coach.is-center .pengsu-coach-next {
+    padding: 10px 16px;
+    border-radius: 10px;
+    box-shadow: none;
   }
   .pengsu-coach-mascot-wrap {
     position: relative;
@@ -2494,6 +2563,7 @@
   .pengsu-coach.is-center .pengsu-coach-mascot {
     width: 210px;
     height: 222px;
+    filter: drop-shadow(0 16px 28px rgba(0, 0, 0, .28));
   }
   @keyframes pengsuCoachBob {
     0%, 100% { transform: translateY(0); }
@@ -2502,7 +2572,13 @@
   body.char-none .pengsu-coach { display: none !important; }
   @media (max-width: 640px) {
     .pengsu-coach { right: 14px; bottom: 14px; }
-    .pengsu-coach.is-center { bottom: 10vh; }
+    .pengsu-coach.is-center .pengsu-coach-card {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+      gap: 12px;
+    }
+    .pengsu-coach.is-center .pengsu-coach-actions { justify-content: center; }
     .pengsu-coach-mascot-wrap,
     .pengsu-coach-mascot { width: 138px; height: 147px; }
     .pengsu-coach.is-center .pengsu-coach-mascot-wrap,
@@ -3277,14 +3353,17 @@
   </div>
 
   <div class="pengsu-coach" id="pengsuCoach" hidden aria-live="polite">
-    <div class="pengsu-coach-card" role="dialog" aria-labelledby="pengsuCoachText">
-      <p class="pengsu-coach-text" id="pengsuCoachText">딱 1분만 시간을 내주실래요?</p>
-      <div class="pengsu-coach-actions">
-        <button class="pengsu-coach-next" type="button" id="pengsuCoachNext">알겠어요</button>
+    <div class="pengsu-coach-dim" id="pengsuCoachDim" aria-hidden="true"></div>
+    <div class="pengsu-coach-stage">
+      <div class="pengsu-coach-card" role="dialog" aria-labelledby="pengsuCoachText">
+        <p class="pengsu-coach-text" id="pengsuCoachText">Orange3의 주요기능을<br>소개해 드릴게요!</p>
+        <div class="pengsu-coach-actions">
+          <button class="pengsu-coach-next" type="button" id="pengsuCoachNext">확인</button>
+        </div>
       </div>
-    </div>
-    <div class="pengsu-coach-mascot-wrap" aria-hidden="true">
-      <img class="pengsu-coach-mascot" id="pengsuCoachMascot" src="assets/onboarding-pengsu-ai.png" alt="">
+      <div class="pengsu-coach-mascot-wrap" aria-hidden="true">
+        <img class="pengsu-coach-mascot" id="pengsuCoachMascot" src="assets/onboarding-pengsu-ai.png" alt="">
+      </div>
     </div>
   </div>
 
@@ -5745,8 +5824,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   function openPengsuHelper() {
     if (!pengsuCoach || characterMode === 'none') return;
-    if (pengsuCoachText) pengsuCoachText.textContent = '딱 1분만 시간을 내주실래요?';
-    if (pengsuCoachNext) pengsuCoachNext.textContent = '알겠어요';
+    if (pengsuCoachText) {
+      pengsuCoachText.innerHTML = 'Orange3의 주요기능을<br>소개해 드릴게요!';
+    }
+    if (pengsuCoachNext) pengsuCoachNext.textContent = '확인';
     pengsuCoach.classList.add('is-center');
     pengsuCoach.hidden = false;
     requestAnimationFrame(() => pengsuCoach.classList.add('is-open'));
