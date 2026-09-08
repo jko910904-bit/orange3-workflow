@@ -2024,14 +2024,15 @@
   .quick-start .canvas-onboard-action .action-desc {
     font-size: 14px;
   }
-  .quick-start .canvas-onboard-action.is-soft {
-    background: #F7F9FC;
-    border-style: dashed;
+  /* Recommended path: subtle emphasis only */
+  .quick-start .canvas-onboard-action.is-recommended {
+    background: color-mix(in srgb, var(--brand) 6%, #fff);
+    border-color: color-mix(in srgb, var(--brand) 32%, #E5E7EB);
   }
-  .quick-start .canvas-onboard-action.is-soft:hover,
-  .quick-start .canvas-onboard-action.is-soft:focus-visible {
-    background: #fff;
-    border-style: solid;
+  .quick-start .canvas-onboard-action.is-recommended:hover,
+  .quick-start .canvas-onboard-action.is-recommended:focus-visible {
+    background: #FAFCFF;
+    border-color: color-mix(in srgb, var(--brand) 40%, #E5E7EB);
   }
   @media (max-width: 820px) {
     .canvas-onboard-hero { flex-direction: column-reverse; text-align: center; }
