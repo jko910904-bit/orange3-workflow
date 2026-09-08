@@ -3229,39 +3229,11 @@
     pointer-events: none;
   }
   .spotlight-motion[hidden] { display: none !important; }
-  .spotlight-motion-icon {
-    width: 48px;
-    height: 48px;
-    object-fit: contain;
-    display: block;
-    transform-origin: 50% 60%;
-    filter: drop-shadow(0 6px 12px rgba(34, 125, 226, .18));
-    animation: spotlightIconFloat 2.6s ease-in-out infinite;
-  }
-  .spotlight-motion[data-motion="add"] .spotlight-motion-icon {
-    animation-name: spotlightIconPulse;
-  }
-  .spotlight-motion[data-motion="connect"] .spotlight-motion-icon {
-    display: none;
-  }
-  .spotlight-motion[data-motion="run"] .spotlight-motion-icon {
-    animation-name: spotlightIconPulse;
-  }
-  .spotlight-motion[data-motion="start"] .spotlight-motion-icon {
-    width: 52px;
-    height: 52px;
-    opacity: .96;
-    border-radius: 50%;
-    animation-name: spotlightIconSoftPulse;
-  }
   .spotlight-motion-connect {
-    display: none;
+    display: block;
     width: 132px;
     height: 52px;
     overflow: visible;
-  }
-  .spotlight-motion[data-motion="connect"] .spotlight-motion-connect {
-    display: block;
   }
   .spotlight-motion-connect .smc-port {
     fill: #fff;
@@ -3289,22 +3261,6 @@
     fill: var(--brand);
     opacity: 0;
     animation: spotlightConnectDot 1.7s cubic-bezier(.45, .05, .25, 1) infinite;
-  }
-  @keyframes spotlightIconFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-  }
-  @keyframes spotlightIconPulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.08); opacity: .92; }
-  }
-  @keyframes spotlightIconBob {
-    0%, 100% { transform: translateY(0) rotate(-1.5deg); }
-    50% { transform: translateY(-4px) rotate(1.5deg); }
-  }
-  @keyframes spotlightIconSoftPulse {
-    0%, 100% { transform: scale(1); opacity: .88; }
-    50% { transform: scale(1.05); opacity: 1; }
   }
   @keyframes spotlightConnectDraw {
     0% { stroke-dashoffset: 96; opacity: .35; }
@@ -4410,8 +4366,7 @@
       <p class="spotlight-step-label" id="spotlightStepLabel">STEP 1 / 8</p>
       <h3 class="spotlight-title" id="spotlightTitle"></h3>
       <p class="spotlight-body" id="spotlightBody"></p>
-      <div class="spotlight-motion" id="spotlightMotion" data-motion="start" aria-hidden="true" hidden>
-        <img class="spotlight-motion-icon" id="spotlightMotionIcon" src="assets/onboarding-pengsu-ai.png" alt="">
+      <div class="spotlight-motion" id="spotlightMotion" data-motion="connect" aria-hidden="true" hidden>
         <svg class="spotlight-motion-connect" id="spotlightMotionConnect" viewBox="0 0 140 56" aria-hidden="true">
           <circle class="smc-port is-out" cx="18" cy="28" r="9"/>
           <path class="smc-line" d="M28 28 C52 28, 88 28, 112 28"/>
@@ -7046,32 +7001,20 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   const spotlightTitle = document.getElementById('spotlightTitle');
   const spotlightBody = document.getElementById('spotlightBody');
   const spotlightMotion = document.getElementById('spotlightMotion');
-  const spotlightMotionIcon = document.getElementById('spotlightMotionIcon');
   const spotlightActions = document.getElementById('spotlightActions');
   const spotlightNext = document.getElementById('spotlightNext');
   const spotlightComplete = document.getElementById('spotlightComplete');
   const spotlightCompleteCta = document.getElementById('spotlightCompleteCta');
 
-  function setSpotlightMotion(stepId, motionImg) {
-    if (!spotlightMotion || !spotlightMotionIcon) return;
-    const preset = SPOTLIGHT_MOTION_BY_ID[stepId] || null;
-    const motion = preset?.motion || stepId || 'start';
-    const src = motionImg || preset?.src || '';
-    const isConnectLine = motion === 'connect';
-    if (!isConnectLine && !src) {
-      spotlightMotion.hidden = true;
-      spotlightMotionIcon.removeAttribute('src');
+  /** Only the connect step shows bottom tooltip motion (SVG line draw). */
+  function setSpotlightMotion(stepId) {
+    if (!spotlightMotion) return;
+    const showConnect = stepId === 'connect';
+    spotlightMotion.hidden = !showConnect;
+    if (showConnect) {
+      spotlightMotion.dataset.motion = 'connect';
+    } else {
       spotlightMotion.removeAttribute('data-motion');
-      return;
-    }
-    spotlightMotion.hidden = false;
-    spotlightMotion.dataset.motion = motion;
-    if (isConnectLine) {
-      spotlightMotionIcon.removeAttribute('src');
-      return;
-    }
-    if (spotlightMotionIcon.getAttribute('src') !== src) {
-      spotlightMotionIcon.src = src;
     }
   }
   const spotlightShades = spotlightTour
@@ -7107,20 +7050,12 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     return canvas ? [canvas] : [];
   }
 
-  const SPOTLIGHT_MOTION_BY_ID = {
-    start: { src: 'assets/onboarding-pengsu-ai.png', motion: 'start' },
-    add: { src: 'assets/guide/guide-add.png', motion: 'add' },
-    connect: { src: '', motion: 'connect' },
-    run: { src: 'assets/guide/guide-run.png', motion: 'run' },
-  };
-
   const SPOTLIGHT_STEPS = [
     {
       id: 'start',
       title: '시작해볼까요?',
       body: '위젯을 추가하고 연결하면\n자동실행으로 결과가 바로 열려요.',
       advance: 'next',
-      motionImg: 'assets/onboarding-pengsu-ai.png',
       target: () => document.getElementById('canvasWrap'),
     },
     {
@@ -7128,7 +7063,6 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       title: '위젯을 추가해 보세요',
       body: '파일과 산점도 위젯을\n더블클릭해 캔버스에 추가해 보세요.',
       advance: 'createNodes:file+scatter',
-      motionImg: 'assets/guide/guide-add.png',
       target: () => guideMissingWidgetTarget(),
       prepare() {
         setActiveMenu('widgets', '위젯');
@@ -7144,7 +7078,6 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       title: '위젯을 연결해 보세요',
       body: '파일 출력 포트에서 산점도 입력 포트로\n드래그해 연결해 보세요.',
       advance: 'link',
-      motionImg: '',
       target: () => document.getElementById('canvasWrap'),
       prepare() {
         ensureGuideFileScatterNodes();
@@ -7159,7 +7092,6 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       title: '자동실행으로 결과가 열려요',
       body: '연결되면 자동으로 실행돼요.\n상단 info에서 실행 모드를 확인할 수 있어요.',
       advance: 'next',
-      motionImg: 'assets/guide/guide-run.png',
       target: () => guideResultTargets(),
       prepare() {
         hideSettingsPopover();
@@ -7454,7 +7386,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (spotlightBody) {
       spotlightBody.textContent = '산점도 결과 팝업이\n바로 열렸어요.';
     }
-    setSpotlightMotion('run', 'assets/guide/guide-run.png');
+    setSpotlightMotion('run');
     if (spotlightStepLabel) {
       const total = SPOTLIGHT_STEPS.length;
       spotlightStepLabel.textContent = `STEP ${Math.min(spotlightIndex + 1, total)} / ${total}`;
@@ -7720,7 +7652,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (spotlightStepLabel) spotlightStepLabel.textContent = `STEP ${spotlightIndex + 1} / ${total}`;
     if (spotlightTitle) spotlightTitle.textContent = step.title;
     if (spotlightBody) spotlightBody.textContent = step.body;
-    setSpotlightMotion(step.id, step.motionImg);
+    setSpotlightMotion(step.id);
     const showNext = step.advance === 'next';
     if (spotlightActions) spotlightActions.hidden = false;
     if (spotlightNext) {
