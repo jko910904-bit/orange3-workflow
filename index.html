@@ -3271,16 +3271,53 @@
     animation-name: spotlightIconPulse;
   }
   .spotlight-motion[data-motion="connect"] .spotlight-motion-icon {
-    width: 72px;
-    animation-name: spotlightIconBob;
+    display: none;
   }
   .spotlight-motion[data-motion="run"] .spotlight-motion-icon {
     animation-name: spotlightIconPulse;
   }
   .spotlight-motion[data-motion="start"] .spotlight-motion-icon {
-    width: 44px;
-    opacity: .92;
+    width: 52px;
+    height: 52px;
+    opacity: .96;
+    border-radius: 50%;
     animation-name: spotlightIconSoftPulse;
+  }
+  .spotlight-motion-connect {
+    display: none;
+    width: 132px;
+    height: 52px;
+    overflow: visible;
+  }
+  .spotlight-motion[data-motion="connect"] .spotlight-motion-connect {
+    display: block;
+  }
+  .spotlight-motion-connect .smc-port {
+    fill: #fff;
+    stroke: var(--brand);
+    stroke-width: 2.5;
+  }
+  .spotlight-motion-connect .smc-port.is-out {
+    fill: color-mix(in srgb, var(--brand) 18%, #fff);
+  }
+  .spotlight-motion-connect .smc-port.is-in {
+    fill: color-mix(in srgb, #22C55E 16%, #fff);
+    stroke: #16A34A;
+  }
+  .spotlight-motion-connect .smc-line {
+    fill: none;
+    stroke: var(--brand);
+    stroke-width: 2.75;
+    stroke-linecap: round;
+    stroke-dasharray: 96;
+    stroke-dashoffset: 96;
+    animation: spotlightConnectDraw 1.7s cubic-bezier(.45, .05, .25, 1) infinite;
+    filter: drop-shadow(0 1px 2px rgba(34, 125, 226, .28));
+  }
+  .spotlight-motion-connect .smc-dot {
+    fill: var(--brand);
+    opacity: 0;
+    animation: spotlightConnectDot 1.7s cubic-bezier(.45, .05, .25, 1) infinite;
   }
   @keyframes spotlightIconFloat {
     0%, 100% { transform: translateY(0); }
@@ -3297,6 +3334,18 @@
   @keyframes spotlightIconSoftPulse {
     0%, 100% { transform: scale(1); opacity: .88; }
     50% { transform: scale(1.05); opacity: 1; }
+  }
+  @keyframes spotlightConnectDraw {
+    0% { stroke-dashoffset: 96; opacity: .35; }
+    18% { opacity: 1; }
+    55% { stroke-dashoffset: 0; opacity: 1; }
+    78% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: .2; }
+  }
+  @keyframes spotlightConnectDot {
+    0%, 48% { opacity: 0; transform: scale(.6); }
+    58%, 78% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(.85); }
   }
   .spotlight-actions {
     display: flex;
@@ -4391,7 +4440,13 @@
       <h3 class="spotlight-title" id="spotlightTitle"></h3>
       <p class="spotlight-body" id="spotlightBody"></p>
       <div class="spotlight-motion" id="spotlightMotion" data-motion="start" aria-hidden="true" hidden>
-        <img class="spotlight-motion-icon" id="spotlightMotionIcon" src="assets/guide/guide-sparkle.png" alt="">
+        <img class="spotlight-motion-icon" id="spotlightMotionIcon" src="assets/onboarding-pengsu-ai.png" alt="">
+        <svg class="spotlight-motion-connect" id="spotlightMotionConnect" viewBox="0 0 140 56" aria-hidden="true">
+          <circle class="smc-port is-out" cx="18" cy="28" r="9"/>
+          <path class="smc-line" d="M28 28 C52 28, 88 28, 112 28"/>
+          <circle class="smc-dot" cx="112" cy="28" r="3.5"/>
+          <circle class="smc-port is-in" cx="122" cy="28" r="9"/>
+        </svg>
       </div>
       <div class="spotlight-actions" id="spotlightActions">
         <button class="spotlight-next" type="button" id="spotlightNext">다음</button>
@@ -4416,10 +4471,6 @@
         </svg>
       </div>
     </div>
-  </div>
-
-  <div class="guide-finger-cue" id="guideFingerCue" hidden aria-hidden="true">
-    <img class="guide-finger-cue-img" src="assets/guide/guide-finger.png" alt="">
   </div>
 
   <div class="guide-finger-cue" id="guideFingerCue" hidden aria-hidden="true">
@@ -7037,9 +7088,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function setSpotlightMotion(stepId, motionImg) {
     if (!spotlightMotion || !spotlightMotionIcon) return;
     const preset = SPOTLIGHT_MOTION_BY_ID[stepId] || null;
-    const src = motionImg || preset?.src || '';
     const motion = preset?.motion || stepId || 'start';
-    if (!src) {
+    const src = motionImg || preset?.src || '';
+    const isConnectLine = motion === 'connect';
+    if (!isConnectLine && !src) {
       spotlightMotion.hidden = true;
       spotlightMotionIcon.removeAttribute('src');
       spotlightMotion.removeAttribute('data-motion');
@@ -7047,6 +7099,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     }
     spotlightMotion.hidden = false;
     spotlightMotion.dataset.motion = motion;
+    if (isConnectLine) {
+      spotlightMotionIcon.removeAttribute('src');
+      return;
+    }
     if (spotlightMotionIcon.getAttribute('src') !== src) {
       spotlightMotionIcon.src = src;
     }
@@ -7085,9 +7141,9 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   }
 
   const SPOTLIGHT_MOTION_BY_ID = {
-    start: { src: 'assets/guide/guide-sparkle.png', motion: 'start' },
+    start: { src: 'assets/onboarding-pengsu-ai.png', motion: 'start' },
     add: { src: 'assets/guide/guide-add.png', motion: 'add' },
-    connect: { src: 'assets/guide/guide-connect.png', motion: 'connect' },
+    connect: { src: '', motion: 'connect' },
     run: { src: 'assets/guide/guide-run.png', motion: 'run' },
   };
 
@@ -7097,7 +7153,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       title: '시작해볼까요?',
       body: '위젯을 추가하고 연결하면\n자동실행으로 결과가 바로 열려요.',
       advance: 'next',
-      motionImg: 'assets/guide/guide-sparkle.png',
+      motionImg: 'assets/onboarding-pengsu-ai.png',
       target: () => document.getElementById('canvasWrap'),
     },
     {
@@ -7121,7 +7177,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       title: '위젯을 연결해 보세요',
       body: '파일 출력 포트에서 산점도 입력 포트로\n드래그해 연결해 보세요.',
       advance: 'link',
-      motionImg: 'assets/guide/guide-connect.png',
+      motionImg: '',
       target: () => document.getElementById('canvasWrap'),
       prepare() {
         ensureGuideFileScatterNodes();
