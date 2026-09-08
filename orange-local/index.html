@@ -3145,6 +3145,153 @@
     .quick-start .canvas-onboard-action { min-height: 0; }
   }
 
+  /* ---------- Spotlight Guided Tutorial ---------- */
+  .spotlight-tour {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    pointer-events: none;
+  }
+  .spotlight-tour[hidden] { display: none !important; }
+  .spotlight-shade {
+    position: fixed;
+    background: rgba(20, 28, 48, .5);
+    backdrop-filter: blur(1px);
+    pointer-events: auto;
+    z-index: 120;
+  }
+  .spotlight-ring {
+    position: fixed;
+    z-index: 121;
+    border: 2px solid var(--brand);
+    border-radius: 14px;
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--brand) 22%, transparent),
+      0 8px 24px rgba(34, 125, 226, .18);
+    pointer-events: none;
+    transition: top .2s var(--ease), left .2s var(--ease), width .2s var(--ease), height .2s var(--ease);
+  }
+  .spotlight-tooltip {
+    position: fixed;
+    z-index: 122;
+    width: min(320px, calc(100vw - 32px));
+    background: #fff;
+    color: #1F2328;
+    border-radius: 16px;
+    padding: 16px 18px 14px;
+    border: 1px solid rgba(229, 231, 235, .95);
+    box-shadow:
+      0 1px 0 rgba(15, 42, 86, .04),
+      0 16px 40px rgba(20, 28, 48, .18);
+    pointer-events: auto;
+  }
+  .spotlight-tooltip[hidden] { display: none !important; }
+  .spotlight-step-label {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    color: var(--brand);
+  }
+  .spotlight-title {
+    margin: 0 0 8px;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--brand-dark);
+    line-height: 1.35;
+  }
+  .spotlight-body {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #5B6472;
+    white-space: pre-line;
+  }
+  .spotlight-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .spotlight-actions[hidden] { display: none !important; }
+  .spotlight-next {
+    appearance: none;
+    border: none;
+    background: var(--brand);
+    color: #fff;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    padding: 9px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(34, 125, 226, .22);
+  }
+  .spotlight-next:hover { background: var(--brand-dark); }
+  .spotlight-skip {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: #6B7280;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .spotlight-skip:hover { background: rgba(0,0,0,.05); color: #1F2328; }
+  .spotlight-complete {
+    position: fixed;
+    inset: 0;
+    z-index: 123;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(20, 28, 48, .48);
+    backdrop-filter: blur(2px);
+  }
+  .spotlight-complete[hidden] { display: none !important; }
+  .spotlight-complete-card {
+    width: min(420px, 100%);
+    background: #fff;
+    border-radius: 24px;
+    padding: 32px 28px 28px;
+    text-align: center;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, .28);
+    animation: quickStartIn .35s cubic-bezier(.22, 1, .36, 1);
+  }
+  .spotlight-complete-card h3 {
+    margin: 0 0 10px;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--brand-dark);
+  }
+  .spotlight-complete-card p {
+    margin: 0 0 22px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #5B6472;
+  }
+  .spotlight-complete-cta {
+    appearance: none;
+    border: none;
+    background: var(--brand);
+    color: #fff;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 12px 22px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(34, 125, 226, .22);
+  }
+  .spotlight-complete-cta:hover { background: var(--brand-dark); }
+
   /* ---------- Properties panel ---------- */
   .props,
   #props {
@@ -3600,7 +3747,7 @@
             <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
           </span>
         </button>
-        <button class="canvas-onboard-action" type="button" id="btnOnboardTemplates">
+        <button class="canvas-onboard-action is-recommended" type="button" id="btnOnboardTemplates">
           <span class="action-body">
             <span class="action-title-row">
               <span class="action-title">템플릿으로 시작하기</span>
@@ -3612,7 +3759,7 @@
             <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
           </span>
         </button>
-        <button class="canvas-onboard-action is-soft" type="button" id="btnOnboardJustStart">
+        <button class="canvas-onboard-action" type="button" id="btnOnboardJustStart">
           <span class="action-body">
             <span class="action-title-row">
               <span class="action-title">빈 화면에서 시작하기</span>
@@ -3623,6 +3770,30 @@
             <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
           </span>
         </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="spotlight-tour" id="spotlightTour" hidden aria-live="polite">
+    <div class="spotlight-shade" data-side="top"></div>
+    <div class="spotlight-shade" data-side="left"></div>
+    <div class="spotlight-shade" data-side="right"></div>
+    <div class="spotlight-shade" data-side="bottom"></div>
+    <div class="spotlight-ring" id="spotlightRing" hidden></div>
+    <div class="spotlight-tooltip" id="spotlightTooltip" role="dialog" aria-labelledby="spotlightTitle" hidden>
+      <p class="spotlight-step-label" id="spotlightStepLabel">STEP 1 / 8</p>
+      <h3 class="spotlight-title" id="spotlightTitle"></h3>
+      <p class="spotlight-body" id="spotlightBody"></p>
+      <div class="spotlight-actions" id="spotlightActions">
+        <button class="spotlight-skip" type="button" id="spotlightSkip">건너뛰기</button>
+        <button class="spotlight-next" type="button" id="spotlightNext">다음</button>
+      </div>
+    </div>
+    <div class="spotlight-complete" id="spotlightComplete" hidden>
+      <div class="spotlight-complete-card">
+        <h3>가이드를 모두 마쳤어요!</h3>
+        <p>이제 직접 Orange3로 분석을 시작해 보세요.</p>
+        <button class="spotlight-complete-cta" type="button" id="spotlightCompleteCta">시작하기</button>
       </div>
     </div>
   </div>
@@ -4269,6 +4440,7 @@
     closeOnboard();
     showHint(`${meta.label} 추가됨`);
     syncExecutionModeUI();
+    notifySpotlight('createNode', { type, node: n });
     return n;
   }
 
@@ -4593,6 +4765,7 @@
         showHint(t('exec.hintManualWait'));
       }
       syncExecutionModeUI();
+      notifySpotlight('link', { fromId, toId });
     }
   }
 
@@ -5234,12 +5407,16 @@
     }
     hideSettingsPopover();
     // Widgets opens the palette; other top rail items are select-only.
-    if (id === 'widgets') return;
+    if (id === 'widgets') {
+      notifySpotlight('menu', { id });
+      return;
+    }
     if (id === 'help') {
       showHint(lang === 'en' ? 'Help docs coming soon' : '도움말 문서를 준비 중입니다');
       return;
     }
     showHint(label || id);
+    notifySpotlight('menu', { id });
   }
 
   function createBlankWorkflow() {
@@ -5751,6 +5928,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       drawConnections();
     }, 900);
     if (!opts.silent) showHint(t('exec.hintAutoRun'));
+    notifySpotlight('run', opts);
     return true;
   }
 
@@ -5764,6 +5942,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       showHint(mode === 'auto' ? t('settings.execAuto') : t('settings.execManual'));
     }
     if (mode === 'auto' && nodes.length && !opts.skipRun) runWorkflow({ silent: true });
+    notifySpotlight('mode', { mode });
   }
 
   document.getElementById('btnRunNow')?.addEventListener('click', () => {
@@ -6029,6 +6208,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   let featureGuideBuilt = false;
   let featureGuideCompleting = false;
   let featureGuideMode = 'home'; // 'home' | 'tutorial'
+  var spotlightTourActive = false;
   const featureGuideNext = document.getElementById('featureGuideNext');
   const featureGuideCelebrate = document.getElementById('featureGuideCelebrate');
   const featureGuideBurst = document.getElementById('featureGuideBurst');
@@ -6071,6 +6251,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function closeOnboard() {
     if (onboardOverlay) onboardOverlay.hidden = true;
     canvasWrap?.classList.remove('is-onboarding');
+    // Keep spotlight tour alive when widgets are added during guided steps.
+    if (spotlightTourActive) return;
     closeFeatureGuide();
     closePengsuHelper();
     closeQuickStart();
@@ -6231,14 +6413,311 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     }
   }
 
+  /* ---------- Spotlight Guided Tutorial (on real canvas) ---------- */
+  let spotlightIndex = 0;
+  let spotlightRaf = 0;
+  const spotlightTour = document.getElementById('spotlightTour');
+  const spotlightRing = document.getElementById('spotlightRing');
+  const spotlightTooltip = document.getElementById('spotlightTooltip');
+  const spotlightStepLabel = document.getElementById('spotlightStepLabel');
+  const spotlightTitle = document.getElementById('spotlightTitle');
+  const spotlightBody = document.getElementById('spotlightBody');
+  const spotlightActions = document.getElementById('spotlightActions');
+  const spotlightNext = document.getElementById('spotlightNext');
+  const spotlightSkip = document.getElementById('spotlightSkip');
+  const spotlightComplete = document.getElementById('spotlightComplete');
+  const spotlightCompleteCta = document.getElementById('spotlightCompleteCta');
+  const spotlightShades = spotlightTour
+    ? [...spotlightTour.querySelectorAll('.spotlight-shade')]
+    : [];
+
+  const SPOTLIGHT_STEPS = [
+    {
+      id: 'start',
+      title: '시작해볼까요?',
+      body: 'Orange3 작업 화면에서 주요 기능을\n하나씩 따라가 볼게요.',
+      advance: 'next',
+      target: () => document.getElementById('canvasWrap'),
+    },
+    {
+      id: 'add',
+      title: '위젯을 추가해 보세요',
+      body: '왼쪽에서 파일 위젯을 더블클릭해\n캔버스에 추가해 보세요.',
+      advance: 'createNode',
+      target: () => document.querySelector('#categories .widget[data-type="file"]')
+        || document.getElementById('sidebar'),
+      prepare() {
+        setActiveMenu('widgets', '위젯');
+        setWidgetSidebarCollapsed(false);
+      },
+    },
+    {
+      id: 'connect',
+      title: '위젯을 연결해 보세요',
+      body: '출력 포트에서 입력 포트로 드래그해\n위젯을 연결해 보세요.',
+      advance: 'link',
+      target: () => document.getElementById('canvasWrap'),
+      prepare() {
+        // Ensure two linkable widgets so the user can focus on connecting.
+        if (nodes.length === 1) {
+          const first = nodes[0];
+          const secondType = first.type === 'file' ? 'data-table' : 'file';
+          if (ITEM_MAP[secondType]) {
+            const n = {
+              id: uid('n'),
+              type: secondType,
+              x: first.x + 220,
+              y: first.y,
+              name: ITEM_MAP[secondType].label,
+              notes: '',
+              sample: 100,
+            };
+            nodes.push(n);
+            lastPlacedNodeId = n.id;
+            renderNodes();
+            syncExecutionModeUI();
+          }
+        }
+      },
+    },
+    {
+      id: 'run',
+      title: '지금 실행해 보세요',
+      body: '연결이 끝나면 ‘지금 실행’ 버튼을 눌러\n분석 결과를 확인해 보세요.',
+      advance: 'run',
+      target: () => {
+        const btn = document.getElementById('btnRunNow');
+        if (btn && !btn.hidden) return btn;
+        return document.getElementById('execModeHeader');
+      },
+      prepare() {
+        setExecutionMode('manual', { silent: true, skipRun: true });
+      },
+    },
+    {
+      id: 'mode',
+      title: '실행 모드를 확인해 보세요',
+      body: '헤더의 실행 모드에서\n자동실행과 수동 실행을 바꿀 수 있어요.',
+      advance: 'next',
+      target: () => document.getElementById('execModeHeader')
+        || document.getElementById('execModeBadge'),
+    },
+    {
+      id: 'dataset',
+      title: '분석 데이터셋을 열어보세요',
+      body: '왼쪽 메뉴에서 분석 데이터셋을\n선택해 보세요.',
+      advance: 'menu:datasets',
+      target: () => document.querySelector('[data-menu="datasets"]'),
+    },
+    {
+      id: 'template',
+      title: '템플릿을 살펴보세요',
+      body: '왼쪽 메뉴에서 워크플로우 템플릿을\n선택해 보세요.',
+      advance: 'menu:templates',
+      target: () => document.querySelector('[data-menu="templates"]'),
+    },
+    {
+      id: 'done',
+      title: '거의 다 왔어요',
+      body: '마지막 단계입니다. 완료를 눌러\n가이드를 마무리해 보세요.',
+      advance: 'next',
+      target: () => document.getElementById('canvasWrap'),
+    },
+  ];
+
+  function notifySpotlight(kind, payload = {}) {
+    if (!spotlightTourActive) return;
+    const step = SPOTLIGHT_STEPS[spotlightIndex];
+    if (!step) return;
+    const adv = step.advance;
+    if (adv === 'createNode' && kind === 'createNode') {
+      advanceSpotlightTour();
+      return;
+    }
+    if (adv === 'link' && kind === 'link') {
+      advanceSpotlightTour();
+      return;
+    }
+    if (adv === 'run' && kind === 'run' && !payload.silent) {
+      advanceSpotlightTour();
+      return;
+    }
+    if (adv === 'mode' && kind === 'mode') {
+      advanceSpotlightTour();
+      return;
+    }
+    if (typeof adv === 'string' && adv.startsWith('menu:') && kind === 'menu') {
+      const want = adv.slice(5);
+      if (payload.id === want) advanceSpotlightTour();
+    }
+  }
+
+  function getSpotlightPad(el) {
+    if (!el) return 10;
+    if (el.classList?.contains('widget')) return 8;
+    if (el.classList?.contains('rail-item') || el.matches?.('[data-menu]')) return 6;
+    if (el.id === 'btnRunNow' || el.id === 'execModeHeader') return 6;
+    return 10;
+  }
+
+  function layoutSpotlight(target) {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    let rect;
+    if (target && target.getBoundingClientRect) {
+      rect = target.getBoundingClientRect();
+      if (rect.width < 2 || rect.height < 2) rect = null;
+    }
+    if (!rect) {
+      rect = { left: vw * 0.2, top: vh * 0.2, width: vw * 0.6, height: vh * 0.5, right: vw * 0.8, bottom: vh * 0.7 };
+    }
+    const pad = getSpotlightPad(target);
+    const left = Math.max(8, rect.left - pad);
+    const top = Math.max(8, rect.top - pad);
+    const right = Math.min(vw - 8, rect.right + pad);
+    const bottom = Math.min(vh - 8, rect.bottom + pad);
+    const width = Math.max(24, right - left);
+    const height = Math.max(24, bottom - top);
+
+    const bySide = Object.fromEntries(spotlightShades.map(s => [s.dataset.side, s]));
+    if (bySide.top) Object.assign(bySide.top.style, { left: '0px', top: '0px', width: '100%', height: `${top}px` });
+    if (bySide.left) Object.assign(bySide.left.style, { left: '0px', top: `${top}px`, width: `${left}px`, height: `${height}px` });
+    if (bySide.right) Object.assign(bySide.right.style, { left: `${right}px`, top: `${top}px`, width: `${Math.max(0, vw - right)}px`, height: `${height}px` });
+    if (bySide.bottom) Object.assign(bySide.bottom.style, { left: '0px', top: `${bottom}px`, width: '100%', height: `${Math.max(0, vh - bottom)}px` });
+
+    if (spotlightRing) {
+      spotlightRing.hidden = false;
+      Object.assign(spotlightRing.style, {
+        left: `${left}px`,
+        top: `${top}px`,
+        width: `${width}px`,
+        height: `${height}px`,
+      });
+    }
+
+    if (spotlightTooltip && !spotlightTooltip.hidden) {
+      const tipW = spotlightTooltip.offsetWidth || 320;
+      const tipH = spotlightTooltip.offsetHeight || 160;
+      let tipLeft = left + width + 16;
+      let tipTop = top;
+      if (tipLeft + tipW > vw - 12) tipLeft = left - tipW - 16;
+      if (tipLeft < 12) tipLeft = Math.max(12, (vw - tipW) / 2);
+      if (tipTop + tipH > vh - 12) tipTop = Math.max(12, vh - tipH - 12);
+      if (tipTop < 12) tipTop = 12;
+      // Prefer below when side placement is cramped
+      if (tipLeft < left && tipLeft + tipW > left) {
+        tipTop = bottom + 14;
+        tipLeft = Math.min(Math.max(12, left), vw - tipW - 12);
+        if (tipTop + tipH > vh - 12) tipTop = Math.max(12, top - tipH - 14);
+      }
+      Object.assign(spotlightTooltip.style, {
+        left: `${tipLeft}px`,
+        top: `${tipTop}px`,
+      });
+    }
+  }
+
+  function refreshSpotlightLayout() {
+    if (!spotlightTourActive) return;
+    const step = SPOTLIGHT_STEPS[spotlightIndex];
+    const target = step?.target?.() || null;
+    layoutSpotlight(target);
+  }
+
+  function scheduleSpotlightLayout() {
+    cancelAnimationFrame(spotlightRaf);
+    spotlightRaf = requestAnimationFrame(() => {
+      refreshSpotlightLayout();
+      // second pass after fonts/layout settle
+      requestAnimationFrame(refreshSpotlightLayout);
+    });
+  }
+
+  function renderSpotlightStep() {
+    if (!spotlightTourActive || !spotlightTour) return;
+    const total = SPOTLIGHT_STEPS.length;
+    const step = SPOTLIGHT_STEPS[spotlightIndex];
+    if (!step) {
+      finishSpotlightTour();
+      return;
+    }
+    if (spotlightComplete) spotlightComplete.hidden = true;
+    if (spotlightTooltip) spotlightTooltip.hidden = false;
+    if (spotlightStepLabel) spotlightStepLabel.textContent = `STEP ${spotlightIndex + 1} / ${total}`;
+    if (spotlightTitle) spotlightTitle.textContent = step.title;
+    if (spotlightBody) spotlightBody.textContent = step.body;
+    const showNext = step.advance === 'next';
+    if (spotlightActions) spotlightActions.hidden = false;
+    if (spotlightNext) {
+      spotlightNext.hidden = !showNext;
+      spotlightNext.textContent = step.id === 'done' ? '완료' : '다음';
+    }
+    try { step.prepare?.(); } catch (_) { /* ignore prepare errors */ }
+    // Wait a tick for prepare (sidebar open / catalog render)
+    setTimeout(scheduleSpotlightLayout, 40);
+    scheduleSpotlightLayout();
+  }
+
+  function advanceSpotlightTour() {
+    if (!spotlightTourActive) return;
+    if (advanceSpotlightTour._lock) return;
+    advanceSpotlightTour._lock = true;
+    setTimeout(() => { advanceSpotlightTour._lock = false; }, 350);
+    if (spotlightIndex >= SPOTLIGHT_STEPS.length - 1) {
+      finishSpotlightTour();
+      return;
+    }
+    spotlightIndex += 1;
+    renderSpotlightStep();
+  }
+
+  function finishSpotlightTour() {
+    // Hide interactive shades/tooltip; show completion card
+    spotlightShades.forEach(s => { s.style.display = 'none'; });
+    if (spotlightRing) spotlightRing.hidden = true;
+    if (spotlightTooltip) spotlightTooltip.hidden = true;
+    if (spotlightComplete) spotlightComplete.hidden = false;
+  }
+
+  function stopSpotlightTour({ openQuick = false } = {}) {
+    spotlightTourActive = false;
+    cancelAnimationFrame(spotlightRaf);
+    if (spotlightTour) spotlightTour.hidden = true;
+    if (spotlightComplete) spotlightComplete.hidden = true;
+    if (spotlightTooltip) spotlightTooltip.hidden = true;
+    if (spotlightRing) spotlightRing.hidden = true;
+    spotlightShades.forEach(s => {
+      s.style.display = '';
+      s.removeAttribute('style');
+    });
+    if (openQuick) openQuickStart();
+  }
+
+  function startSpotlightTour(startAt = 0) {
+    if (!spotlightTour) return;
+    closePengsuHelper({ immediate: true });
+    if (featureGuide) {
+      featureGuide.hidden = true;
+      featureGuide.classList.remove('is-complete', 'is-home');
+    }
+    closeQuickStart();
+    spotlightTourActive = true;
+    spotlightIndex = Math.max(0, Math.min(startAt, SPOTLIGHT_STEPS.length - 1));
+    spotlightTour.hidden = false;
+    if (spotlightComplete) spotlightComplete.hidden = true;
+    spotlightShades.forEach(s => { s.style.display = ''; });
+    renderSpotlightStep();
+  }
+
   function startFeatureGuideTutorial() {
+    // Leave Guide Home and run spotlight tutorial on the real workspace.
     featureGuideMode = 'tutorial';
-    featureGuide?.classList.remove('is-home');
-    if (featureGuideProgress) featureGuideProgress.hidden = false;
-    setFeatureGuideStep(0);
+    if (featureGuide) featureGuide.hidden = true;
+    startSpotlightTour(0);
   }
 
   function setFeatureGuideStep(index) {
+    // Legacy in-modal tutorial path (kept for demos). Prefer spotlight tour.
     featureGuideMode = 'tutorial';
     featureGuide?.classList.remove('is-home');
     const total = FEATURE_GUIDE_STEPS.length;
@@ -6248,7 +6727,6 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       completeFeatureGuide();
       return;
     }
-    // Tutorial progress starts at 1/8 for step 1 (index 0).
     const progress = featureGuideIndex + 1;
     if (featureGuideProgress) featureGuideProgress.hidden = false;
     if (featureGuideProgressBar) {
@@ -6465,6 +6943,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   btnLogin?.addEventListener('click', openAuth);
   btnLogout?.addEventListener('click', () => {
     setUser(null);
+    stopSpotlightTour();
     closeOnboard();
     renderAuth({ deferOnboard: true });
     showHint('로그아웃되었습니다');
@@ -6492,6 +6971,18 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   });
   window.addEventListener('resize', () => {
     if (featureGuide && !featureGuide.hidden) updateFeatureGuidePath();
+    if (spotlightTourActive) scheduleSpotlightLayout();
+  });
+
+  spotlightNext?.addEventListener('click', () => {
+    if (!spotlightTourActive) return;
+    advanceSpotlightTour();
+  });
+  spotlightSkip?.addEventListener('click', () => {
+    stopSpotlightTour({ openQuick: true });
+  });
+  spotlightCompleteCta?.addEventListener('click', () => {
+    stopSpotlightTour({ openQuick: true });
   });
 
   // Expose guide helpers for demos / automated screenshots
@@ -6501,6 +6992,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     completeFeatureGuide,
     showFeatureGuideHome,
     startFeatureGuideTutorial,
+    startSpotlightTour,
+    stopSpotlightTour,
     openQuickStart,
     closeQuickStart,
     updateFeatureGuidePath,
