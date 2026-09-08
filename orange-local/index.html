@@ -1697,7 +1697,7 @@
     gap: 0;
   }
   .canvas-onboard-hero {
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex; align-items: center; justify-content: center;
     gap: 20px;
     width: 100%;
     margin-bottom: 48px;
@@ -1705,34 +1705,21 @@
   .canvas-onboard-copy {
     flex: 1; min-width: 0;
     width: 100%;
-    text-align: left;
+    text-align: center;
   }
   .onboard-title-row {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    justify-content: center;
+    gap: 14px;
     width: 100%;
-  }
-  .onboard-title-block {
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-  .canvas-onboard-copy h2 {
-    margin: 0;
-    font-size: clamp(32px, 4vw, 44px);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    color: var(--brand-dark);
-    line-height: 1.25;
-  }
-  .canvas-onboard-copy h2 .onboard-title-text {
-    display: inline;
   }
   .onboard-mascot-wrap {
     position: relative;
     flex: 0 0 auto;
-    margin-left: auto;
+    margin: 72px 0 0;
+    padding-top: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1747,9 +1734,9 @@
   }
   .onboard-guide-bubble {
     position: absolute;
-    left: -6px;
-    top: 6%;
-    transform: translateX(-100%);
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, calc(-100% - 6px));
     z-index: 2;
     margin: 0;
     padding: 12px 14px 14px;
@@ -1761,11 +1748,12 @@
     letter-spacing: -0.02em;
     line-height: 1.35;
     width: max-content;
-    max-width: min(220px, 42vw);
+    max-width: min(280px, 78vw);
     display: flex;
     flex-direction: column;
     align-items: stretch;
     gap: 10px;
+    text-align: center;
     box-shadow:
       0 1px 0 rgba(15, 42, 86, .04),
       0 10px 24px rgba(34, 125, 226, .14);
@@ -1773,22 +1761,22 @@
   .onboard-guide-bubble::after {
     content: '';
     position: absolute;
-    left: 100%;
-    top: 42%;
-    transform: translateY(-50%);
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-    border-left: 10px solid #fff;
-    filter: drop-shadow(2px 0 1px rgba(20, 28, 48, .06));
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 10px solid #fff;
+    filter: drop-shadow(0 2px 1px rgba(20, 28, 48, .06));
   }
   .onboard-guide-prompt {
     margin: 0;
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 800;
     color: var(--brand-dark);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     line-height: 1.35;
     white-space: normal;
   }
@@ -1796,7 +1784,7 @@
     appearance: none;
     -webkit-appearance: none;
     margin: 0;
-    padding: 4px 8px;
+    padding: 8px 12px;
     border: none;
     border-radius: 10px;
     background: var(--brand);
@@ -1877,7 +1865,8 @@
     padding-left: 0;
   }
   .canvas-onboard-copy .onboard-title-sub {
-    margin: 8px 0 0;
+    margin: 0;
+    max-width: 36em;
     font-size: 18px;
     line-height: 1.5;
     color: #5B6472;
@@ -2130,30 +2119,12 @@
     white-space: nowrap;
   }
   @media (max-width: 820px) {
-    .canvas-onboard-hero { flex-direction: column-reverse; text-align: center; }
+    .canvas-onboard-hero { flex-direction: column; text-align: center; }
     .canvas-onboard-copy { text-align: center; }
-    .onboard-title-row { flex-direction: column-reverse; align-items: center; }
-    .onboard-mascot-wrap { margin-left: 0; }
+    .onboard-title-row { align-items: center; }
+    .onboard-mascot-wrap { margin-top: 64px; }
     .onboard-guide-bubble {
-      left: 50%;
-      top: -6px;
-      transform: translate(-50%, -100%);
-      white-space: normal;
       max-width: min(260px, 86vw);
-      text-align: center;
-    }
-    .onboard-guide-bubble::after {
-      left: 50%;
-      top: 100%;
-      transform: translateX(-50%);
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 10px solid #fff;
-      border-bottom: none;
-      filter: drop-shadow(0 2px 1px rgba(20, 28, 48, .06));
-    }
-    .onboard-guide-prompt {
-      white-space: normal;
     }
     .canvas-onboard-media { width: min(220px, 55vw); }
     .canvas-onboard-steps,
@@ -4126,19 +4097,16 @@
             <div class="canvas-onboard-hero">
               <div class="canvas-onboard-copy">
                 <div class="onboard-title-row">
-                  <div class="onboard-title-block">
-                    <h2><span class="onboard-title-text">데이터 분석을 시작해볼까요?</span></h2>
-                    <p class="onboard-title-sub">위젯을 추가하고 연결하여 데이터 분석 워크플로우를 완성해보세요.</p>
-                  </div>
                   <div class="onboard-mascot-wrap">
                     <div class="onboard-guide-bubble" role="group" aria-label="펭수 가이드">
-                      <p class="onboard-guide-prompt">펭수와 함께 자세히 알아볼까요?</p>
+                      <p class="onboard-guide-prompt">데이터 분석을 시작해볼까요?</p>
                       <button type="button" class="onboard-guide-btn" id="btnOnboardGuide">
-                        가이드 보기
+                        가이드 알아보기
                       </button>
                     </div>
                     <img class="onboard-title-mascot" id="onboardMascot" src="assets/onboarding-pengsu-ai.png" alt="">
                   </div>
+                  <p class="onboard-title-sub">위젯을 추가하고 연결하여 데이터 분석 워크플로우를 완성해보세요.</p>
                 </div>
               </div>
             </div>
@@ -6998,7 +6966,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     onboardOverlay.hidden = false;
     onboardOverlay.setAttribute('aria-hidden', 'false');
     canvasWrap?.classList.add('is-onboarding');
-    // Entry to the guide is the "가이드 보기" button next to Pengsu.
+    // Entry to the guide is the "가이드 알아보기" button next to Pengsu.
     closePengsuHelper({ immediate: true });
   }
 
