@@ -2605,21 +2605,21 @@
   .feature-guide-modal {
     position: relative;
     z-index: 1;
-    width: min(720px, 100%);
+    width: min(1040px, 100%);
     background: #2B3340;
     color: #fff;
-    border-radius: 20px;
-    padding: 28px 28px 32px;
+    border-radius: 24px;
+    padding: 36px 40px 40px;
     box-shadow: 0 24px 64px rgba(0, 0, 0, .35);
   }
   .feature-guide-close {
     position: absolute;
-    top: 14px;
-    right: 14px;
-    width: 36px;
-    height: 36px;
+    top: 16px;
+    right: 16px;
+    width: 42px;
+    height: 42px;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     background: transparent;
     color: rgba(255,255,255,.78);
     cursor: pointer;
@@ -2629,13 +2629,13 @@
   }
   .feature-guide-close:hover { background: rgba(255,255,255,.08); color: #fff; }
   .feature-guide-close svg {
-    width: 18px; height: 18px;
+    width: 20px; height: 20px;
     stroke: currentColor; fill: none;
     stroke-width: 2; stroke-linecap: round;
   }
   .feature-guide-title {
-    margin: 0 40px 16px 0;
-    font-size: 22px;
+    margin: 0 48px 20px 0;
+    font-size: 28px;
     font-weight: 750;
     letter-spacing: -0.03em;
     text-align: center;
@@ -2644,12 +2644,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 28px;
+    gap: 12px;
+    margin-bottom: 32px;
   }
   .feature-guide-progress-track {
-    width: min(220px, 46vw);
-    height: 6px;
+    width: min(280px, 46vw);
+    height: 8px;
     border-radius: 999px;
     background: rgba(255,255,255,.14);
     overflow: hidden;
@@ -2662,19 +2662,19 @@
     transition: width .28s ease;
   }
   .feature-guide-progress-label {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 700;
     color: rgba(255,255,255,.72);
-    min-width: 34px;
+    min-width: 40px;
   }
   .feature-guide-map {
     position: relative;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-template-rows: auto auto;
-    gap: 20px 18px;
+    gap: 28px 24px;
     min-height: 0;
-    padding: 8px 4px 4px;
+    padding: 12px 8px 8px;
     transition: opacity .35s ease, transform .35s ease;
   }
   .feature-guide-map.is-hiding {
@@ -2688,19 +2688,19 @@
     appearance: none;
     border: 2px dashed rgba(255,255,255,.28);
     background: rgba(255,255,255,.04);
-    border-radius: 16px;
+    border-radius: 22px;
     width: 100%;
     aspect-ratio: 1;
-    max-width: 108px;
+    max-width: 216px;
     margin: 0 auto;
-    padding: 8px;
+    padding: 14px;
     cursor: pointer;
     color: rgba(255,255,255,.55);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 10px;
     transition: transform .18s, background .18s, border-color .18s, color .18s, box-shadow .18s;
   }
   .fg-node:nth-child(1) { grid-column: 1; grid-row: 1; }
@@ -2712,24 +2712,24 @@
   .fg-node:nth-child(7) { grid-column: 3; grid-row: 2; }
   .fg-node:nth-child(8) { grid-column: 4; grid-row: 2; }
   .fg-node .fg-ico {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
+    width: 84px;
+    height: 84px;
+    border-radius: 20px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     background: rgba(255,255,255,.08);
-    font-size: 22px;
+    font-size: 44px;
     line-height: 1;
   }
   .fg-node .fg-ico img {
-    width: 36px;
-    height: 36px;
+    width: 72px;
+    height: 72px;
     object-fit: contain;
     display: block;
   }
   .fg-node .fg-label {
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 700;
     letter-spacing: -0.02em;
     text-align: center;
@@ -2739,7 +2739,7 @@
     cursor: default;
     opacity: .72;
   }
-  .fg-node.is-locked .fg-ico { font-size: 20px; color: rgba(255,255,255,.35); }
+  .fg-node.is-locked .fg-ico { font-size: 40px; color: rgba(255,255,255,.35); }
   .fg-node.is-done {
     border-style: solid;
     border-color: rgba(126, 211, 33, .55);
@@ -2763,15 +2763,15 @@
   .fg-bubble {
     position: absolute;
     left: 50%;
-    bottom: calc(100% + 10px);
+    bottom: calc(100% + 12px);
     transform: translateX(-50%);
-    min-width: 140px;
-    max-width: 200px;
+    min-width: 160px;
+    max-width: 240px;
     background: #fff;
     color: #1F2328;
-    border-radius: 12px;
-    padding: 10px 12px;
-    font-size: 13px;
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-size: 14px;
     font-weight: 650;
     letter-spacing: -0.02em;
     line-height: 1.35;
@@ -2790,10 +2790,10 @@
   }
   .feature-guide-tip {
     position: absolute;
-    right: 28px;
-    bottom: 210px;
+    right: 40px;
+    bottom: 280px;
     z-index: 2;
-    width: min(260px, calc(100vw - 48px));
+    width: min(300px, calc(100vw - 48px));
     background: #fff;
     border-radius: 14px;
     padding: 14px 16px;
@@ -2819,8 +2819,8 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 10px;
-    margin-top: 22px;
+    gap: 12px;
+    margin-top: 28px;
   }
   .feature-guide-foot[hidden] { display: none !important; }
   .feature-guide-next {
@@ -2900,19 +2900,32 @@
     100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
   }
   .feature-guide.is-complete .feature-guide-modal {
-    min-height: 320px;
+    min-height: 520px;
     animation: fgModalGlow .8s ease;
   }
   @keyframes fgModalGlow {
     0%, 100% { box-shadow: 0 24px 64px rgba(0, 0, 0, .35); }
     40% { box-shadow: 0 0 0 3px rgba(126, 211, 33, .55), 0 24px 64px rgba(0, 0, 0, .35); }
   }
+  @media (max-width: 1100px) {
+    .feature-guide-modal { padding: 28px 22px 32px; width: min(960px, 100%); }
+    .feature-guide-map { gap: 20px 16px; }
+    .fg-node { max-width: 180px; }
+    .fg-node .fg-ico { width: 72px; height: 72px; border-radius: 18px; font-size: 38px; }
+    .fg-node .fg-ico img { width: 60px; height: 60px; }
+    .fg-node .fg-label { font-size: 14px; }
+    .feature-guide-tip { right: 22px; bottom: 240px; }
+  }
   @media (max-width: 720px) {
-    .feature-guide-modal { padding: 22px 16px 24px; }
+    .feature-guide-modal { padding: 22px 14px 24px; }
+    .feature-guide-title { font-size: 22px; margin: 0 40px 14px 0; }
     .feature-guide-map { gap: 14px 10px; }
-    .fg-node { max-width: 84px; }
-    .fg-node .fg-label { font-size: 11px; }
-    .feature-guide-tip { right: 14px; bottom: 180px; }
+    .fg-node { max-width: 168px; padding: 10px; gap: 8px; border-radius: 18px; }
+    .fg-node .fg-ico { width: 68px; height: 68px; border-radius: 16px; font-size: 34px; }
+    .fg-node .fg-ico img { width: 56px; height: 56px; }
+    .fg-node .fg-label { font-size: 12px; }
+    .fg-node.is-locked .fg-ico { font-size: 32px; }
+    .feature-guide-tip { right: 12px; bottom: 200px; }
   }
 
   /* ---------- Properties panel ---------- */
