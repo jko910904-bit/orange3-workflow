@@ -764,8 +764,9 @@
     letter-spacing: -0.01em;
   }
   .widget.is-focused {
-    background: rgba(34, 125, 226, .06);
-    border-color: rgba(34, 125, 226, .16);
+    background: rgba(34, 125, 226, .1);
+    border-color: rgba(34, 125, 226, .42);
+    box-shadow: 0 0 0 2px rgba(34, 125, 226, .14);
   }
 
   /* Selected widget info card — removed from UI */
@@ -2755,6 +2756,56 @@
   .feature-guide.is-home .fg-node.is-locked {
     opacity: 1;
   }
+  .feature-guide.is-home .fg-node.is-featured {
+    border-style: solid;
+    border-color: rgba(34, 125, 226, .45);
+    background: rgba(34, 125, 226, .08);
+    box-shadow: 0 8px 22px rgba(34, 125, 226, .14);
+  }
+  .feature-guide.is-home .fg-node.is-featured .fg-order {
+    background: var(--brand);
+    color: #fff;
+  }
+  .feature-guide-result-preview {
+    display: none;
+    justify-content: center;
+    margin: 0 0 18px;
+  }
+  .feature-guide.is-home .feature-guide-result-preview {
+    display: flex;
+  }
+  .feature-guide-result-preview[hidden] { display: none !important; }
+  .feature-guide-result-preview-card {
+    width: min(420px, 100%);
+    background: #fff;
+    border: 1px solid rgba(229, 231, 235, .95);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(20, 28, 48, .14);
+    animation: quickStartIn .35s cubic-bezier(.22, 1, .36, 1);
+  }
+  .feature-guide-result-preview-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 12px;
+    background: #FAFBFC;
+    border-bottom: 1px solid rgba(229, 231, 235, .95);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #1F2328;
+  }
+  .feature-guide-result-preview-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 180px;
+    object-fit: contain;
+    object-position: center top;
+    background: #F3F4F6;
+  }
   .feature-guide-progress-track {
     width: min(280px, 46vw);
     height: 8px;
@@ -3759,12 +3810,18 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
       </button>
       <h2 class="feature-guide-title" id="featureGuideTitle">Orange3 주요기능 알아보기</h2>
-      <p class="feature-guide-sub">순서대로 따라가며 Orange3의 핵심 기능을 알아보세요.</p>
+      <p class="feature-guide-sub">파일과 산점도로 간단한 분석 흐름을 만들고, 결과 창까지 확인해 보세요.</p>
       <div class="feature-guide-progress" id="featureGuideProgress">
         <div class="feature-guide-progress-track">
           <div class="feature-guide-progress-bar" id="featureGuideProgressBar"></div>
         </div>
         <span class="feature-guide-progress-label" id="featureGuideProgressLabel">0/6</span>
+      </div>
+      <div class="feature-guide-result-preview" id="featureGuideResultPreview" hidden>
+        <div class="feature-guide-result-preview-card" aria-label="산점도 결과 미리보기">
+          <div class="feature-guide-result-preview-head">Scatter Plot - Orange</div>
+          <img src="assets/results/scatter-plot-orange.png" alt="산점도 분석 결과">
+        </div>
       </div>
       <div class="feature-guide-map" id="featureGuideMap" aria-label="기능 로드맵"></div>
       <div class="feature-guide-foot">
@@ -6447,7 +6504,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   function clearFeatureGuideNodeStates() {
     featureGuideMap?.querySelectorAll('.fg-node').forEach(btn => {
-      btn.classList.remove('is-active', 'is-done', 'is-locked', 'is-clickable');
+      btn.classList.remove('is-active', 'is-done', 'is-locked', 'is-clickable', 'is-featured');
       btn.querySelector('.fg-bubble')?.remove();
     });
   }
@@ -6463,6 +6520,20 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (featureGuideProgressLabel) featureGuideProgressLabel.textContent = `0/${FEATURE_GUIDE_STEPS.length}`;
     if (featureGuideTip) featureGuideTip.hidden = true;
     clearFeatureGuideNodeStates();
+    // Highlight File + Scatter as the featured path, with result preview above.
+    featureGuideMap?.querySelectorAll('.fg-node').forEach(btn => {
+      const idx = Number(btn.dataset.guideIndex);
+      const step = FEATURE_GUIDE_STEPS[idx];
+      if (step?.id === 'file' || step?.id === 'scatter') {
+        btn.classList.add('is-featured');
+      }
+    });
+    const preview = document.getElementById('featureGuideResultPreview');
+    if (preview) preview.hidden = false;
+    // Keep catalog defaults: File + Scatter focused, Data/Visualize open.
+    clearWidgetFlowDetail();
+    setActiveMenu('widgets', '위젯');
+    setWidgetSidebarCollapsed(false);
     const foot = featureGuideNext?.closest('.feature-guide-foot');
     if (foot) foot.hidden = false;
     if (featureGuideNext) {
@@ -6788,6 +6859,9 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function startFeatureGuideTutorial() {
     // Leave Guide Home and run spotlight tutorial on the real workspace.
     featureGuideMode = 'tutorial';
+    const preview = document.getElementById('featureGuideResultPreview');
+    if (preview) preview.hidden = true;
+    featureGuide?.classList.remove('is-home');
     if (featureGuide) featureGuide.hidden = true;
     startSpotlightTour(0);
   }
@@ -6796,6 +6870,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     // Legacy in-modal tutorial path (kept for demos). Prefer spotlight tour.
     featureGuideMode = 'tutorial';
     featureGuide?.classList.remove('is-home');
+    const preview = document.getElementById('featureGuideResultPreview');
+    if (preview) preview.hidden = true;
     const total = FEATURE_GUIDE_STEPS.length;
     featureGuideIndex = Math.max(0, Math.min(index, total - 1));
     const step = FEATURE_GUIDE_STEPS[featureGuideIndex];
@@ -7087,6 +7163,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     stopSpotlightTour,
     openQuickStart,
     closeQuickStart,
+    openResultPopup,
+    closeResultPopup,
     updateFeatureGuidePath,
     openOnboard,
     closeOnboard,
