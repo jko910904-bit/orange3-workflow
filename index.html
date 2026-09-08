@@ -2455,16 +2455,21 @@
     border: 1px solid #F0B7B7;
   }
 
-  /* ---------- Info toast ---------- */
+  /* ---------- Info toast (viewport center) ---------- */
   .hint-bar {
-    position: absolute; left: 50%; bottom: 80px; transform: translateX(-50%);
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    bottom: auto;
+    transform: translate(-50%, -50%) scale(0.96);
     background: rgba(30,32,38,0.82); color: #fff;
-    padding: 8px 14px; border-radius: 999px; font-size: 12px;
+    padding: 10px 18px; border-radius: 999px; font-size: 13px;
     backdrop-filter: blur(10px); pointer-events: none;
     opacity: 0; transition: opacity .25s, transform .25s var(--ease);
-    white-space: nowrap; z-index: 6;
+    white-space: nowrap; z-index: 140;
+    box-shadow: 0 12px 32px rgba(20, 24, 40, .28);
   }
-  .hint-bar.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .hint-bar.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
   /* ---------- Pengsu tutorial coach ---------- */
   .pengsu-coach {
@@ -2521,8 +2526,8 @@
   }
   .pengsu-coach.is-center .pengsu-coach-stage {
     align-items: center;
-    justify-content: flex-end;
-    padding-bottom: max(8vh, 36px);
+    justify-content: center;
+    padding-bottom: 0;
     transform: translateY(18px) scale(0.96);
     transition: transform .42s cubic-bezier(.22, 1, .36, 1);
     pointer-events: none;
