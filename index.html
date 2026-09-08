@@ -7139,26 +7139,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   }
 
   function showFeatureGuideHome() {
-    featureGuideMode = 'home';
-    featureGuideIndex = 0;
-    featureGuideCompleting = false;
-    featureGuide?.classList.add('is-home');
-    featureGuide?.classList.remove('is-complete');
-    if (featureGuideProgress) featureGuideProgress.hidden = true;
-    if (featureGuideProgressBar) featureGuideProgressBar.style.width = '0%';
-    if (featureGuideProgressLabel) featureGuideProgressLabel.textContent = `0/${FEATURE_GUIDE_STEPS.length}`;
-    if (featureGuideTip) featureGuideTip.hidden = true;
-    clearFeatureGuideNodeStates();
-    // Keep catalog defaults: File + Scatter focused, Data/Visualize open.
-    clearWidgetFlowDetail();
-    setActiveMenu('widgets', '위젯');
-    setWidgetSidebarCollapsed(false);
-    const foot = featureGuideNext?.closest('.feature-guide-foot');
-    if (foot) foot.hidden = false;
-    if (featureGuideNext) {
-      featureGuideNext.textContent = '가이드 시작';
-      featureGuideNext.disabled = false;
-    }
+    // Guide Home overview removed: jump straight into the spotlight tutorial.
+    startFeatureGuideTutorial();
   }
 
   /* ---------- Spotlight Guided Tutorial (on real canvas) ---------- */
@@ -7921,7 +7903,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   }
 
   function startFeatureGuideTutorial() {
-    // Leave Guide Home and run spotlight tutorial on the real workspace.
+    // Skip the old Guide Home overview; run spotlight on the real workspace.
     featureGuideMode = 'tutorial';
     featureGuide?.classList.remove('is-home');
     if (featureGuide) featureGuide.hidden = true;
@@ -8054,44 +8036,44 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   }
 
   function openFeatureGuide(startIndex = null) {
-    if (!featureGuide) return;
     closePengsuHelper({ immediate: true });
     featureGuideCompleting = false;
-    featureGuide.classList.remove('is-complete');
+    if (featureGuide) featureGuide.classList.remove('is-complete', 'is-home');
     if (featureGuideCelebrate) {
       featureGuideCelebrate.classList.remove('is-on');
       featureGuideCelebrate.hidden = true;
     }
     if (featureGuideBurst) featureGuideBurst.innerHTML = '';
-    featureGuideBuilt = false;
-    if (featureGuideMap) {
-      featureGuideMap.innerHTML = '';
-      featureGuideMap.hidden = false;
-      featureGuideMap.classList.remove('is-hiding');
-    }
-    buildFeatureGuide();
-    featureGuide.hidden = false;
-    const foot = featureGuideNext?.closest('.feature-guide-foot');
-    if (foot) foot.hidden = false;
-    // Default: guide home overview. Pass a number to jump into tutorial.
+    // No Guide Home overview — go straight into the spotlight tutorial.
+    // Optional numeric startIndex is reserved for the legacy in-modal path.
     if (typeof startIndex === 'number') {
+      if (!featureGuide) return;
+      featureGuideBuilt = false;
+      if (featureGuideMap) {
+        featureGuideMap.innerHTML = '';
+        featureGuideMap.hidden = false;
+        featureGuideMap.classList.remove('is-hiding');
+      }
+      buildFeatureGuide();
+      featureGuide.hidden = false;
+      const foot = featureGuideNext?.closest('.feature-guide-foot');
+      if (foot) foot.hidden = false;
       featureGuideMode = 'tutorial';
-      featureGuide.classList.remove('is-home');
       setFeatureGuideStep(startIndex);
-    } else {
-      showFeatureGuideHome();
+      requestAnimationFrame(() => updateFeatureGuidePath());
+      return;
     }
-    requestAnimationFrame(() => updateFeatureGuidePath());
+    startFeatureGuideTutorial();
   }
 
   function advancePengsuHelper() {
-    // Intro (centered Pengsu) → open roadmap home; Pengsu hides.
+    // Intro (centered Pengsu) → spotlight tutorial; Pengsu hides.
     if (featureGuide && !featureGuide.hidden) {
       if (featureGuideMode === 'home') startFeatureGuideTutorial();
       else advanceFeatureGuide();
       return;
     }
-    openFeatureGuide();
+    startFeatureGuideTutorial();
   }
 
   function selectOnboardStep(step) {
@@ -8162,7 +8144,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   // Steps 1–3 are informational only; guide entry is the Pengsu CTA button.
 
   document.getElementById('btnOnboardGuide')?.addEventListener('click', () => {
-    openFeatureGuide();
+    startFeatureGuideTutorial();
   });
 
   pengsuCoachNext?.addEventListener('click', () => advancePengsuHelper());
