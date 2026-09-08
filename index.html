@@ -3335,9 +3335,7 @@
   }
   .result-popup.is-spotlighted .result-popup-window {
     pointer-events: auto;
-    box-shadow:
-      0 16px 48px rgba(20, 28, 48, .38),
-      0 2px 8px rgba(20, 28, 48, .16);
+    filter: drop-shadow(0 14px 28px rgba(20, 28, 48, .32));
   }
   .result-popup-window {
     position: relative;
@@ -3346,9 +3344,8 @@
     background: transparent;
     border-radius: 0;
     border: none;
-    box-shadow:
-      0 10px 28px rgba(20, 28, 48, .28),
-      0 2px 6px rgba(20, 28, 48, .12);
+    box-shadow: none;
+    filter: drop-shadow(0 10px 22px rgba(20, 28, 48, .28));
     overflow: visible;
     line-height: 0;
     animation: quickStartIn .35s cubic-bezier(.22, 1, .36, 1);
