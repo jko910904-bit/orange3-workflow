@@ -2064,33 +2064,32 @@
     font-size: 14px;
   }
 
-  /* Figma-style floating toolbar */
+  /* Floating pill toolbar (bottom) */
   .toolbar {
-    position: absolute; left: 50%; bottom: 20px;
+    position: absolute; left: 50%; bottom: 22px;
     transform: translateX(-50%);
     z-index: 8;
-    display: flex; align-items: center; gap: 2px;
-    height: 48px; padding: 6px 8px;
-    background: rgba(255,255,255,0.94);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(0,0,0,0.06);
-    border-radius: 14px;
+    display: flex; align-items: center; gap: 4px;
+    height: 52px; padding: 6px 10px;
+    background: #fff;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    border-radius: 999px;
     box-shadow:
-      0 2px 4px rgba(20,24,40,0.04),
-      0 12px 32px rgba(20,24,40,0.12);
+      0 1px 2px rgba(20, 24, 40, 0.04),
+      0 10px 28px rgba(20, 24, 40, 0.12);
   }
   .toolbar .divider {
-    width: 1px; height: 22px; background: rgba(0,0,0,0.08); margin: 0 5px; flex-shrink: 0;
+    width: 1px; height: 22px; background: rgba(15, 23, 42, 0.1); margin: 0 6px; flex-shrink: 0;
   }
   .tool-icon {
     width: 36px; height: 36px; border: none; background: transparent;
-    border-radius: 10px; color: #444; cursor: pointer;
+    border-radius: 10px; color: #3A3F4A; cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center;
     transition: background 150ms ease-out, color 150ms ease-out, transform 150ms ease-out;
   }
-  .tool-icon:hover { background: #F6F8FC; color: #1A1A1A; }
+  .tool-icon:hover { background: #F3F5F8; color: #151A22; }
   .tool-icon.active {
-    color: var(--brand-dark);
+    color: var(--brand);
     background: var(--brand-soft);
   }
   .tool-icon.active:hover { background: #D7E7F9; color: var(--brand-dark); }
@@ -2123,26 +2122,26 @@
     display: flex; align-items: stretch;
   }
   .tool-group .tool-main {
-    width: 36px; height: 36px;
+    width: 32px; height: 36px;
   }
   .tool-group .tool-more {
-    width: 14px; height: 36px; margin-left: -2px;
-    border: none; background: transparent; color: #888; cursor: pointer;
+    width: 14px; height: 36px; margin-left: -4px;
+    border: none; background: transparent; color: #8B919C; cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center;
     border-radius: 0 10px 10px 0;
     padding: 0;
   }
-  .tool-group .tool-more:hover { background: #F6F8FC; color: #1A1A1A; }
+  .tool-group .tool-more:hover { background: #F3F5F8; color: #151A22; }
   .tool-group.open .tool-more,
   .tool-group.active-group .tool-more { color: inherit; }
   .tool-group.active-group .tool-main {
-    color: var(--brand-dark); background: var(--brand-soft);
+    color: var(--brand); background: var(--brand-soft);
     border-radius: 10px 0 0 10px;
   }
   .tool-group.active-group .tool-more {
-    color: var(--brand-dark); background: var(--brand-soft);
+    color: var(--brand); background: var(--brand-soft);
   }
-  .tool-group.active-group .tool-more:hover { background: #D6E8F2; }
+  .tool-group.active-group .tool-more:hover { background: #D7E7F9; }
   .tool-group .tool-more .ui-ico-img {
     width: 10px; height: 10px;
   }
@@ -2151,14 +2150,13 @@
     stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
   }
   .tool-flyout {
-    position: absolute; left: 50%; bottom: calc(100% + 10px);
+    position: absolute; left: 50%; bottom: calc(100% + 12px);
     transform: translateX(-50%) translateY(4px);
     display: flex; flex-direction: column; gap: 2px;
     min-width: 148px; padding: 6px;
-    background: rgba(255,255,255,0.96);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(0,0,0,0.06);
-    border-radius: 12px;
+    background: #fff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 14px;
     box-shadow:
       0 2px 4px rgba(20,24,40,0.04),
       0 14px 36px rgba(20,24,40,0.14);
@@ -2170,6 +2168,22 @@
     opacity: 1; pointer-events: auto;
     transform: translateX(-50%) translateY(0);
   }
+  .tool-group .tool-flyout.tool-flyout-end {
+    left: auto;
+    right: 0;
+    transform: translateY(4px);
+  }
+  .tool-group.open .tool-flyout.tool-flyout-end {
+    transform: translateY(0);
+  }
+  .tool-group[data-group="more"] .tool-main {
+    width: 36px;
+    border-radius: 10px;
+  }
+  .tool-group[data-group="more"].open .tool-main {
+    background: #F3F5F8;
+    color: #151A22;
+  }
   .tool-flyout-item {
     border: none; background: transparent; cursor: pointer;
     display: flex; align-items: center; gap: 10px;
@@ -2179,7 +2193,7 @@
   }
   .tool-flyout-item:hover { background: rgba(0,0,0,0.05); }
   .tool-flyout-item.active {
-    background: #F0F0F0; color: #111; font-weight: 650;
+    background: var(--brand-soft); color: var(--brand-dark); font-weight: 650;
   }
   .tool-flyout-item svg {
     width: 16px; height: 16px; flex-shrink: 0;
@@ -2187,17 +2201,35 @@
     stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
   }
 
+  .toolbar-zoom {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 0 2px;
+  }
+  .toolbar-zoom .zoom-val {
+    min-width: 48px;
+    text-align: center;
+    color: #3A3F4A;
+    font-size: 13px;
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    user-select: none;
+    line-height: 1;
+  }
+
   .view-controls {
     position: absolute; top: 14px; right: 14px; z-index: 8;
   }
   .nav-panel {
     width: 188px;
-    background: rgba(255,255,255,.72);
+    background: rgba(255,255,255,.92);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255,255,255,.65);
+    border: 1px solid rgba(15, 23, 42, 0.06);
     border-radius: 14px;
-    box-shadow: 0 16px 32px rgba(15,23,42,.08);
+    box-shadow: 0 12px 28px rgba(15,23,42,.08);
     overflow: hidden;
     display: flex; flex-direction: column;
   }
@@ -2222,34 +2254,6 @@
     position: absolute; border: 1.5px solid rgba(34,125,226,.85);
     background: rgba(34,125,226,.1); border-radius: 3px;
     pointer-events: none;
-  }
-  .nav-bar {
-    display: flex; align-items: center; gap: 2px;
-    padding: 6px 8px;
-    border-top: 1px solid rgba(0,0,0,0.06);
-    background: rgba(255,255,255,0.72);
-  }
-  .nav-bar .nav-btn {
-    width: 28px; height: 28px; border: none; background: transparent;
-    border-radius: 8px; color: #555; cursor: pointer;
-    display: inline-flex; align-items: center; justify-content: center;
-    transition: background .15s, color .15s;
-  }
-  .nav-bar .nav-btn:hover { background: rgba(0,0,0,0.05); color: #1A1A1A; }
-  .nav-bar .nav-btn svg,
-  .nav-bar .nav-btn .ui-ico-img {
-    width: 15px; height: 15px;
-  }
-  .nav-bar .nav-btn svg {
-    stroke: currentColor; fill: none;
-    stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
-  }
-  .nav-bar .zoom-val {
-    flex: 1; text-align: center;
-    color: #555; font-size: 14px; font-weight: 650;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.01em;
-    user-select: none;
   }
 
   /* ---------- Workspace ---------- */
@@ -3346,14 +3350,26 @@
 
           <div class="divider"></div>
 
-          <div class="tool-group" data-group="shape">
-            <button class="tool-icon tool-main" type="button" data-tool="rect" title="도형">
-              <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="1.5"/></svg>
+          <div class="tool-group" data-group="draw">
+            <button class="tool-icon tool-main" type="button" data-tool="arrow" title="화살표">
+              <svg viewBox="0 0 24 24"><path d="M4 12h14"/><path d="M14 7.5 18.5 12 14 16.5"/></svg>
             </button>
-            <button class="tool-more" type="button" title="도형 더보기" aria-label="도형 더보기">
+            <button class="tool-more" type="button" title="그리기 더보기" aria-label="그리기 더보기">
               <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div class="tool-flyout">
+              <button class="tool-flyout-item" type="button" data-tool="arrow">
+                <svg viewBox="0 0 24 24"><path d="M4 12h14"/><path d="M14 7.5 18.5 12 14 16.5"/></svg>
+                <span>화살표</span>
+              </button>
+              <button class="tool-flyout-item" type="button" data-tool="line">
+                <svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
+                <span>선</span>
+              </button>
+              <button class="tool-flyout-item" type="button" data-tool="draw">
+                <svg viewBox="0 0 24 24"><path d="M14.5 5.5 18.5 9.5"/><path d="M5 19.5 7.2 12.8 16.2 3.8a2 2 0 0 1 2.8 0l1.2 1.2a2 2 0 0 1 0 2.8L11.2 16.8 5 19.5Z"/></svg>
+                <span>펜</span>
+              </button>
               <button class="tool-flyout-item" type="button" data-tool="rect">
                 <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="1.5"/></svg>
                 <span>사각형</span>
@@ -3369,42 +3385,26 @@
             </div>
           </div>
 
-          <div class="tool-group" data-group="draw">
-            <button class="tool-icon tool-main" type="button" data-tool="draw" title="그리기">
-              <svg viewBox="0 0 24 24"><path d="M14.5 5.5 18.5 9.5"/><path d="M5 19.5 7.2 12.8 16.2 3.8a2 2 0 0 1 2.8 0l1.2 1.2a2 2 0 0 1 0 2.8L11.2 16.8 5 19.5Z"/></svg>
+          <div class="tool-group" data-group="text">
+            <button class="tool-icon tool-main" type="button" data-tool="text" title="텍스트">
+              <svg viewBox="0 0 24 24"><path d="M5 6.5h14"/><path d="M12 6.5v12"/><path d="M8.5 18.5h7"/></svg>
             </button>
-            <button class="tool-more" type="button" title="그리기 더보기" aria-label="그리기 더보기">
+            <button class="tool-more" type="button" title="텍스트 더보기" aria-label="텍스트 더보기">
               <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div class="tool-flyout">
-              <button class="tool-flyout-item" type="button" data-tool="draw">
-                <svg viewBox="0 0 24 24"><path d="M14.5 5.5 18.5 9.5"/><path d="M5 19.5 7.2 12.8 16.2 3.8a2 2 0 0 1 2.8 0l1.2 1.2a2 2 0 0 1 0 2.8L11.2 16.8 5 19.5Z"/></svg>
-                <span>펜</span>
-              </button>
-              <button class="tool-flyout-item" type="button" data-tool="arrow">
-                <svg viewBox="0 0 24 24"><path d="M4 12h14"/><path d="M14 7.5 18.5 12 14 16.5"/></svg>
-                <span>화살표</span>
-              </button>
-              <button class="tool-flyout-item" type="button" data-tool="line">
-                <svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
-                <span>선</span>
+              <button class="tool-flyout-item" type="button" data-tool="text">
+                <svg viewBox="0 0 24 24"><path d="M5 6.5h14"/><path d="M12 6.5v12"/><path d="M8.5 18.5h7"/></svg>
+                <span>텍스트</span>
               </button>
             </div>
           </div>
 
-          <div class="divider"></div>
-
-          <button class="tool-icon" type="button" data-tool="text" title="텍스트">
-            <svg viewBox="0 0 24 24"><path d="M5 6.5h14"/><path d="M12 6.5v12"/><path d="M8.5 18.5h7"/></svg>
-          </button>
           <button class="tool-icon" type="button" data-tool="image" title="이미지">
             <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.4"/><path d="M4.5 16.5 9 12.5l3 2.5 3.5-4 4 5.5"/></svg>
           </button>
           <button class="tool-icon" type="button" data-tool="eraser" title="지우개">
             <svg viewBox="0 0 24 24"><path d="M15.5 5.5 19 9l-8.5 8.5H7L4.5 15 15.5 5.5Z"/><path d="M6 19.5h13"/></svg>
-          </button>
-          <button class="tool-icon" type="button" data-tool="connect" title="연결">
-            <svg viewBox="0 0 24 24"><circle cx="6.5" cy="7" r="2"/><circle cx="17.5" cy="7" r="2"/><circle cx="12" cy="17" r="2"/><path d="M8.2 8.2 10.5 15.2M15.8 8.2 13.5 15.2"/></svg>
           </button>
 
           <div class="divider"></div>
@@ -3415,23 +3415,41 @@
           <button class="tool-icon" type="button" id="btnRedo" title="다시 실행">
             <svg viewBox="0 0 24 24"><path d="M15 14h5V9"/><path d="M20 14a8 8 0 1 0-2.3 5.7"/></svg>
           </button>
+
+          <div class="divider"></div>
+
+          <div class="toolbar-zoom">
+            <button class="tool-icon" type="button" id="btnZoomOut" title="축소">
+              <svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg>
+            </button>
+            <div class="zoom-val" id="zoomVal">100%</div>
+            <button class="tool-icon" type="button" id="btnZoomIn" title="확대">
+              <svg viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg>
+            </button>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="tool-group" data-group="more">
+            <button class="tool-icon tool-main" type="button" id="btnToolbarMore" title="더보기" aria-label="더보기">
+              <svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"/></svg>
+            </button>
+            <div class="tool-flyout tool-flyout-end">
+              <button class="tool-flyout-item" type="button" data-tool="connect">
+                <svg viewBox="0 0 24 24"><circle cx="6.5" cy="7" r="2"/><circle cx="17.5" cy="7" r="2"/><circle cx="12" cy="17" r="2"/><path d="M8.2 8.2 10.5 15.2M15.8 8.2 13.5 15.2"/></svg>
+                <span>연결</span>
+              </button>
+              <button class="tool-flyout-item" type="button" id="btnFit" data-action="fit">
+                <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+                <span>화면에 맞춤</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         <div class="view-controls">
           <div class="nav-panel" id="navPanel">
             <div class="nav-map" id="minimap" title="클릭/드래그로 이동"></div>
-            <div class="nav-bar">
-              <button class="nav-btn" type="button" id="btnZoomOut" title="축소">
-                <svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg>
-              </button>
-              <div class="zoom-val" id="zoomVal">100%</div>
-              <button class="nav-btn" type="button" id="btnZoomIn" title="확대">
-                <svg viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg>
-              </button>
-              <button class="nav-btn" type="button" id="btnFit" title="맞춤">
-                <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -5424,8 +5442,8 @@
 
   let activeTool = 'select';
   const TOOL_GROUPS = {
-    shape: ['rect', 'diamond', 'ellipse'],
-    draw: ['draw', 'arrow', 'line'],
+    draw: ['arrow', 'line', 'draw', 'rect', 'diamond', 'ellipse'],
+    text: ['text'],
   };
   const TOOL_ICONS = {
     rect: '<svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="1.5"/></svg>',
@@ -5434,13 +5452,14 @@
     draw: '<svg viewBox="0 0 24 24"><path d="M14.5 5.5 18.5 9.5"/><path d="M5 19.5 7.2 12.8 16.2 3.8a2 2 0 0 1 2.8 0l1.2 1.2a2 2 0 0 1 0 2.8L11.2 16.8 5 19.5Z"/></svg>',
     arrow: '<svg viewBox="0 0 24 24"><path d="M4 12h14"/><path d="M14 7.5 18.5 12 14 16.5"/></svg>',
     line: '<svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>',
+    text: '<svg viewBox="0 0 24 24"><path d="M5 6.5h14"/><path d="M12 6.5v12"/><path d="M8.5 18.5h7"/></svg>',
   };
   const TOOL_LABELS = {
     pan: '이동', select: '선택', rect: '사각형', diamond: '마름모',
     ellipse: '원', arrow: '화살표', line: '선', draw: '펜', text: '텍스트',
     eraser: '지우개', image: '이미지', connect: '연결',
   };
-  const groupLastTool = { shape: 'rect', draw: 'draw' };
+  const groupLastTool = { draw: 'arrow', text: 'text' };
 
   function findToolGroup(tool) {
     return Object.keys(TOOL_GROUPS).find(g => TOOL_GROUPS[g].includes(tool)) || null;
@@ -5459,17 +5478,24 @@
     });
     document.querySelectorAll('#toolbar .tool-group').forEach(wrap => {
       const g = wrap.dataset.group;
+      if (g === 'more') {
+        wrap.classList.toggle('active-group', activeTool === 'connect');
+        wrap.querySelectorAll('.tool-flyout-item[data-tool]').forEach(item => {
+          item.classList.toggle('active', item.dataset.tool === activeTool);
+        });
+        return;
+      }
       const isActive = group === g;
       wrap.classList.toggle('active-group', isActive);
       const main = wrap.querySelector('.tool-main');
-      const current = groupLastTool[g] || TOOL_GROUPS[g][0];
-      if (main) {
+      const current = groupLastTool[g] || TOOL_GROUPS[g]?.[0];
+      if (main && current) {
         main.dataset.tool = current;
-        main.innerHTML = TOOL_ICONS[current] || '';
+        main.innerHTML = TOOL_ICONS[current] || main.innerHTML;
         main.title = TOOL_LABELS[current] || g;
         main.classList.toggle('active', false);
       }
-      wrap.querySelectorAll('.tool-flyout-item').forEach(item => {
+      wrap.querySelectorAll('.tool-flyout-item[data-tool]').forEach(item => {
         item.classList.toggle('active', item.dataset.tool === current && isActive);
       });
     });
@@ -5493,7 +5519,14 @@
   document.querySelectorAll('#toolbar .tool-group').forEach(wrap => {
     const main = wrap.querySelector('.tool-main');
     const more = wrap.querySelector('.tool-more');
+    const isMoreMenu = wrap.dataset.group === 'more';
     main?.addEventListener('click', () => {
+      if (isMoreMenu || !main.dataset.tool) {
+        const willOpen = !wrap.classList.contains('open');
+        closeToolFlyouts(wrap);
+        wrap.classList.toggle('open', willOpen);
+        return;
+      }
       setActiveTool(main.dataset.tool);
     });
     more?.addEventListener('click', e => {
@@ -5505,7 +5538,12 @@
     wrap.querySelectorAll('.tool-flyout-item').forEach(item => {
       item.addEventListener('click', e => {
         e.stopPropagation();
-        setActiveTool(item.dataset.tool);
+        if (item.dataset.action === 'fit' || item.id === 'btnFit') {
+          closeToolFlyouts();
+          fitView();
+          return;
+        }
+        if (item.dataset.tool) setActiveTool(item.dataset.tool);
       });
     });
   });
