@@ -3353,11 +3353,6 @@
     line-height: 0;
     animation: quickStartIn .35s cubic-bezier(.22, 1, .36, 1);
   }
-  .result-popup.is-spotlighted .result-popup-window {
-    box-shadow:
-      0 12px 36px rgba(20, 28, 48, .32),
-      0 2px 8px rgba(20, 28, 48, .14);
-  }
   .result-popup-title-sr {
     position: absolute;
     width: 1px;
@@ -6859,8 +6854,9 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     const el = document.getElementById('resultPopup');
     if (!el || !canvasWrap) return;
     const wrap = canvasWrap.getBoundingClientRect();
+    const spotlighted = el.classList.contains('is-spotlighted');
     // Keep width modest so the full Orange window fits without letterboxed white bars.
-    const popupW = Math.min(560, Math.max(280, Math.min(wrap.width - 28, wrap.height * 1.15)));
+    const popupW = Math.min(520, Math.max(280, Math.min(wrap.width - 28, wrap.height * 1.05)));
     let left = Math.max(12, wrap.width * 0.36);
     let top = Math.max(12, wrap.height * 0.06);
     const scatterEl = guideScatterNodeEl();
@@ -6880,8 +6876,14 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     }
     top = Math.min(top, Math.max(12, wrap.height - 100));
     el.style.width = `${Math.round(popupW)}px`;
-    el.style.left = `${Math.round(left)}px`;
-    el.style.top = `${Math.round(top)}px`;
+    if (spotlighted) {
+      // Fixed above the dim overlay — use viewport coordinates.
+      el.style.left = `${Math.round(wrap.left + left)}px`;
+      el.style.top = `${Math.round(wrap.top + top)}px`;
+    } else {
+      el.style.left = `${Math.round(left)}px`;
+      el.style.top = `${Math.round(top)}px`;
+    }
   }
 
   function openResultPopup({ spotlighted = false } = {}) {
@@ -7074,18 +7076,38 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function refreshSpotlightLayout() {
     if (!spotlightTourActive) return;
     if (spotlightResultReveal) {
-      // Soft dim around the Orange window only; hide ring so it isn't a second chrome/frame.
-      const popup = document.getElementById('resultPopup');
-      layoutSpotlight(popup && !popup.hidden ? popup : guideResultTargets());
-      if (spotlightRing) spotlightRing.hidden = true;
-      // Soften shades during result so the window feels on-canvas, not trapped in a hole
-      spotlightShades.forEach(s => {
-        s.style.background = 'rgba(20, 28, 48, .42)';
-        s.style.backdropFilter = 'blur(0.5px)';
+      // Full soft dim with NO cutout hole — a hole reads as a second white frame around the Orange window.
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const bySide = Object.fromEntries(spotlightShades.map(s => [s.dataset.side, s]));
+      if (bySide.top) {
+        bySide.top.style.display = '';
+        Object.assign(bySide.top.style, {
+          left: '0px', top: '0px', width: '100%', height: `${vh}px`,
+          background: 'rgba(20, 28, 48, .38)',
+          backdropFilter: 'blur(0.5px)',
+        });
+      }
+      ['left', 'right', 'bottom'].forEach(side => {
+        if (!bySide[side]) return;
+        bySide[side].style.display = 'none';
       });
+      if (spotlightRing) spotlightRing.hidden = true;
+      // Keep tooltip viewport-centered (shared with other steps).
+      if (spotlightTooltip && !spotlightTooltip.hidden) {
+        Object.assign(spotlightTooltip.style, {
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)',
+          right: 'auto',
+          bottom: 'auto',
+        });
+      }
+      positionResultPopupOnCanvas();
       return;
     }
     spotlightShades.forEach(s => {
+      s.style.display = '';
       s.style.background = '';
       s.style.backdropFilter = '';
     });
