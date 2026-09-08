@@ -2455,21 +2455,10 @@
     border: 1px solid #F0B7B7;
   }
 
-  /* ---------- Info toast (viewport center) ---------- */
+  /* ---------- Info toast disabled (user: remove toasts) ---------- */
   .hint-bar {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    bottom: auto;
-    transform: translate(-50%, -50%) scale(0.96);
-    background: rgba(30,32,38,0.82); color: #fff;
-    padding: 10px 18px; border-radius: 999px; font-size: 13px;
-    backdrop-filter: blur(10px); pointer-events: none;
-    opacity: 0; transition: opacity .25s, transform .25s var(--ease);
-    white-space: nowrap; z-index: 140;
-    box-shadow: 0 12px 32px rgba(20, 24, 40, .28);
+    display: none !important;
   }
-  .hint-bar.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
   /* ---------- Pengsu tutorial coach ---------- */
   .pengsu-coach {
@@ -3662,7 +3651,8 @@
         <!-- Floor stays clean: onboarding lives in Pengsu / feature-guide / quick-start popups -->
         <div class="canvas-onboard" id="onboardOverlay" hidden aria-hidden="true"></div>
 
-        <div class="hint-bar" id="hintBar"></div>
+        <!-- hintBar kept for API compatibility; toasts are disabled -->
+        <div class="hint-bar" id="hintBar" hidden aria-hidden="true"></div>
 
         <div class="result-popup" id="resultPopup" hidden>
           <div class="result-popup-window" role="dialog" aria-modal="true" aria-labelledby="resultPopupTitle">
@@ -4424,7 +4414,6 @@
   const propsEl = document.getElementById('props');
   const propsInner = document.getElementById('propsInner');
   const zoomVal = document.getElementById('zoomVal');
-  const hintBar = document.getElementById('hintBar');
   const minimap = document.getElementById('minimap');
 
   /* ========== Sidebar catalog ========== */
@@ -5032,15 +5021,9 @@
     applyTransform();
   }
 
-  /* ========== Hints ========== */
-  let hintTimer = null;
-  function showHint(text) {
-    hintBar.textContent = text;
-    hintBar.classList.add('show');
-    clearTimeout(hintTimer);
-    hintTimer = setTimeout(hideHint, 2800);
-  }
-  function hideHint() { hintBar.classList.remove('show'); }
+  /* ========== Hints (toasts disabled) ========== */
+  function showHint(_text) { /* no-op: toast UI removed */ }
+  function hideHint() { /* no-op */ }
 
   /* ========== Events ========== */
   window.addEventListener('mousemove', e => {
