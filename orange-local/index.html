@@ -3236,31 +3236,25 @@
     overflow: visible;
   }
   .spotlight-motion-connect .smc-port {
-    fill: #fff;
-    stroke: var(--brand);
-    stroke-width: 2.5;
+    stroke-width: 2;
   }
+  /* File (data) out = red square; Scatter (visualize) in = green square */
   .spotlight-motion-connect .smc-port.is-out {
-    fill: color-mix(in srgb, var(--brand) 18%, #fff);
+    fill: #E86A4A;
+    stroke: #C94F33;
   }
   .spotlight-motion-connect .smc-port.is-in {
-    fill: color-mix(in srgb, #22C55E 16%, #fff);
-    stroke: #16A34A;
+    fill: #3DB85C;
+    stroke: #2F9A4A;
   }
   .spotlight-motion-connect .smc-line {
     fill: none;
-    stroke: var(--brand);
-    stroke-width: 2.75;
-    stroke-linecap: round;
+    stroke: #9CA3AF;
+    stroke-width: 2.5;
+    stroke-linecap: square;
     stroke-dasharray: 96;
     stroke-dashoffset: 96;
     animation: spotlightConnectDraw 1.7s cubic-bezier(.45, .05, .25, 1) infinite;
-    filter: drop-shadow(0 1px 2px rgba(34, 125, 226, .28));
-  }
-  .spotlight-motion-connect .smc-dot {
-    fill: var(--brand);
-    opacity: 0;
-    animation: spotlightConnectDot 1.7s cubic-bezier(.45, .05, .25, 1) infinite;
   }
   @keyframes spotlightConnectDraw {
     0% { stroke-dashoffset: 96; opacity: .35; }
@@ -3268,11 +3262,6 @@
     55% { stroke-dashoffset: 0; opacity: 1; }
     78% { stroke-dashoffset: 0; opacity: 1; }
     100% { stroke-dashoffset: 0; opacity: .2; }
-  }
-  @keyframes spotlightConnectDot {
-    0%, 48% { opacity: 0; transform: scale(.6); }
-    58%, 78% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; transform: scale(.85); }
   }
   .spotlight-actions {
     display: flex;
@@ -3365,11 +3354,10 @@
   }
   .guide-connect-demo-path {
     fill: none;
-    stroke: var(--brand);
+    stroke: #9CA3AF;
     stroke-width: 2.5;
-    stroke-linecap: round;
+    stroke-linecap: square;
     opacity: 0.92;
-    filter: drop-shadow(0 1px 2px rgba(34, 125, 226, .25));
   }
   .guide-connect-demo-cursor {
     position: fixed;
@@ -3389,15 +3377,19 @@
   }
   .guide-connect-demo-hotspot {
     position: fixed;
-    width: 18px;
-    height: 18px;
-    margin: -9px 0 0 -9px;
-    border-radius: 50%;
-    border: 2px solid color-mix(in srgb, var(--brand) 70%, #fff);
-    background: color-mix(in srgb, var(--brand) 28%, transparent);
+    width: 14px;
+    height: 14px;
+    margin: -7px 0 0 -7px;
+    border-radius: 2px;
+    border: 2px solid #C94F33;
+    background: #E86A4A;
     opacity: 0;
     pointer-events: none;
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 12%, transparent);
+    box-shadow: none;
+  }
+  .guide-connect-demo-hotspot.is-target {
+    border-color: #2F9A4A;
+    background: #3DB85C;
   }
 
   /* Analysis result = one polished Scatter Plot window (HTML chrome, not screenshot-in-modal) */
@@ -4368,10 +4360,9 @@
       <p class="spotlight-body" id="spotlightBody"></p>
       <div class="spotlight-motion" id="spotlightMotion" data-motion="connect" aria-hidden="true" hidden>
         <svg class="spotlight-motion-connect" id="spotlightMotionConnect" viewBox="0 0 140 56" aria-hidden="true">
-          <circle class="smc-port is-out" cx="18" cy="28" r="9"/>
+          <rect class="smc-port is-out" x="9" y="19" width="18" height="18" rx="2"/>
           <path class="smc-line" d="M28 28 C52 28, 88 28, 112 28"/>
-          <circle class="smc-dot" cx="112" cy="28" r="3.5"/>
-          <circle class="smc-port is-in" cx="122" cy="28" r="9"/>
+          <rect class="smc-port is-in" x="113" y="19" width="18" height="18" rx="2"/>
         </svg>
       </div>
       <div class="spotlight-actions" id="spotlightActions">
@@ -4390,6 +4381,7 @@
         <path class="guide-connect-demo-path" id="guideConnectDemoPath" d="" />
       </svg>
       <div class="guide-connect-demo-hotspot" id="guideConnectDemoHot"></div>
+      <div class="guide-connect-demo-hotspot is-target" id="guideConnectDemoHotTarget"></div>
       <div class="guide-connect-demo-cursor" id="guideConnectDemoCursor">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path fill="#fff" stroke="#1F2328" stroke-width="1.2" stroke-linejoin="round"
@@ -7149,6 +7141,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   const guideConnectDemoCursor = document.getElementById('guideConnectDemoCursor');
   const guideConnectDemoPath = document.getElementById('guideConnectDemoPath');
   const guideConnectDemoHot = document.getElementById('guideConnectDemoHot');
+  const guideConnectDemoHotTarget = document.getElementById('guideConnectDemoHotTarget');
 
   function guideConnectEase(t) {
     // Smoothstep — feels like a natural mouse drag
@@ -7191,6 +7184,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     }
     if (guideConnectDemoPath) guideConnectDemoPath.setAttribute('d', '');
     if (guideConnectDemoHot) guideConnectDemoHot.style.opacity = '0';
+    if (guideConnectDemoHotTarget) guideConnectDemoHotTarget.style.opacity = '0';
   }
 
   function tickGuideConnectDemo(now) {
@@ -7261,6 +7255,12 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       guideConnectDemoHot.style.left = `${from.x}px`;
       guideConnectDemoHot.style.top = `${from.y}px`;
       guideConnectDemoHot.style.opacity = String(hotOpacity);
+    }
+    if (guideConnectDemoHotTarget) {
+      guideConnectDemoHotTarget.style.left = `${to.x}px`;
+      guideConnectDemoHotTarget.style.top = `${to.y}px`;
+      // Target square appears with the line; no trailing endpoint dot on the tip
+      guideConnectDemoHotTarget.style.opacity = String(pathOpacity > 0.2 ? Math.min(1, pathOpacity) : 0);
     }
     if (guideConnectDemoPath) {
       if (t > 0.02 && pathOpacity > 0.02) {
