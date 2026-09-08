@@ -6327,6 +6327,18 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (featureGuide && !featureGuide.hidden) updateFeatureGuidePath();
   });
 
+  // Expose guide helpers for demos / automated screenshots
+  Object.assign(window, {
+    openFeatureGuide,
+    closeFeatureGuide,
+    completeFeatureGuide,
+    openQuickStart,
+    closeQuickStart,
+    updateFeatureGuidePath,
+    openOnboard,
+    closeOnboard,
+  });
+
   document.getElementById('quickStartClose')?.addEventListener('click', () => closeQuickStart());
   document.getElementById('quickStartBackdrop')?.addEventListener('click', () => closeQuickStart());
 
