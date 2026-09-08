@@ -3201,19 +3201,6 @@
     box-shadow: 0 6px 16px rgba(34, 125, 226, .22);
   }
   .spotlight-next:hover { background: var(--brand-dark); }
-  .spotlight-skip {
-    appearance: none;
-    border: none;
-    background: transparent;
-    color: #6B7280;
-    font: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 9px 10px;
-    border-radius: 10px;
-    cursor: pointer;
-  }
-  .spotlight-skip:hover { background: rgba(0,0,0,.05); color: #1F2328; }
   .spotlight-complete {
     position: fixed;
     inset: 0;
@@ -3878,7 +3865,6 @@
       <h3 class="spotlight-title" id="spotlightTitle"></h3>
       <p class="spotlight-body" id="spotlightBody"></p>
       <div class="spotlight-actions" id="spotlightActions">
-        <button class="spotlight-skip" type="button" id="spotlightSkip">건너뛰기</button>
         <button class="spotlight-next" type="button" id="spotlightNext">다음</button>
       </div>
     </div>
@@ -6491,7 +6477,6 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   const spotlightBody = document.getElementById('spotlightBody');
   const spotlightActions = document.getElementById('spotlightActions');
   const spotlightNext = document.getElementById('spotlightNext');
-  const spotlightSkip = document.getElementById('spotlightSkip');
   const spotlightComplete = document.getElementById('spotlightComplete');
   const spotlightCompleteCta = document.getElementById('spotlightCompleteCta');
   const spotlightShades = spotlightTour
@@ -7213,9 +7198,6 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       return;
     }
     advanceSpotlightTour();
-  });
-  spotlightSkip?.addEventListener('click', () => {
-    stopSpotlightTour({ openQuick: true });
   });
   spotlightCompleteCta?.addEventListener('click', () => {
     stopSpotlightTour({ openQuick: true });
