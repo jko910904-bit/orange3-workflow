@@ -1230,6 +1230,35 @@
     70% { opacity: .25; transform: scale(1.2); }
     100% { opacity: 0; transform: scale(1.28); }
   }
+  /* Guide STEP 4: clay finger pointing at 자동실행모드 badge */
+  .guide-finger-cue {
+    position: fixed;
+    z-index: 140;
+    width: 56px;
+    height: 62px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    pointer-events: none;
+    user-select: none;
+    transform: translate(-50%, 0);
+    filter: drop-shadow(0 8px 14px rgba(15, 42, 86, .28));
+    will-change: transform;
+  }
+  .guide-finger-cue[hidden] { display: none !important; }
+  .guide-finger-cue-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform-origin: 50% 10%;
+    animation: guideFingerBob 1.15s ease-in-out infinite;
+  }
+  @keyframes guideFingerBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
   .exec-mode-run-btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     width: auto; height: 42px;
@@ -4389,6 +4418,10 @@
     </div>
   </div>
 
+  <div class="guide-finger-cue" id="guideFingerCue" hidden aria-hidden="true">
+    <img class="guide-finger-cue-img" src="assets/guide/guide-finger.png" alt="">
+  </div>
+
 <div class="splash" id="splash" aria-busy="true" aria-label="로딩 중">
   <div class="splash-bubbles" aria-hidden="true">
   <div class="splash-bubble b1 tone-orange"><img src="assets/splash/image-embedding.png" alt=""></div>
@@ -7374,13 +7407,52 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     el.style.maxHeight = '';
   }
 
+  function positionGuideFingerCue() {
+    const cue = document.getElementById('guideFingerCue');
+    const badge = document.getElementById('execModeBadge');
+    if (!cue || cue.hidden || !badge) return;
+    const rect = badge.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    const cueW = cue.offsetWidth || 56;
+    const cueH = cue.offsetHeight || 62;
+    // Point up at the badge from just below its center.
+    const left = rect.left + rect.width / 2;
+    const top = rect.bottom + 6;
+    cue.style.left = `${Math.round(left)}px`;
+    cue.style.top = `${Math.round(top)}px`;
+    // Keep on-screen if badge is near the bottom edge.
+    if (top + cueH > window.innerHeight - 8) {
+      cue.style.top = `${Math.round(rect.top - cueH - 6)}px`;
+      cue.dataset.flip = '1';
+    } else {
+      delete cue.dataset.flip;
+    }
+    void cueW;
+  }
+
   function setExecModeGuideEmphasis(on) {
     const badge = document.getElementById('execModeBadge');
     const header = document.getElementById('execModeHeader');
     const tabs = document.querySelector('.tabs');
+    const cue = document.getElementById('guideFingerCue');
     badge?.classList.toggle('is-emphasized', !!on);
     header?.classList.toggle('is-guide-focus', !!on);
     tabs?.classList.toggle('is-guide-elevated', !!on);
+    if (cue) {
+      cue.hidden = !on;
+      cue.setAttribute('aria-hidden', on ? 'false' : 'true');
+      if (on) {
+        // Layout after paint so badge emphasis metrics are ready.
+        requestAnimationFrame(() => {
+          positionGuideFingerCue();
+          requestAnimationFrame(positionGuideFingerCue);
+        });
+      } else {
+        cue.style.left = '';
+        cue.style.top = '';
+        delete cue.dataset.flip;
+      }
+    }
   }
 
   function revealGuideResult() {
@@ -7624,6 +7696,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       // Position result window first, then park the STEP alert beside it (not centered).
       positionResultPopupOnCanvas();
       positionSpotlightTooltipBesideResult();
+      positionGuideFingerCue();
       return;
     }
     spotlightShades.forEach(s => {
@@ -8010,6 +8083,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (spotlightTourActive) scheduleSpotlightLayout();
     // Reposition connect demo against fresh port rects (loop continues).
     if (guideConnectDemoActive) guideConnectDemoStart = 0;
+    positionGuideFingerCue();
   });
 
   spotlightNext?.addEventListener('click', () => {
