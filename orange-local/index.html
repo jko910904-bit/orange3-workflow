@@ -768,40 +768,8 @@
     border-color: rgba(34, 125, 226, .16);
   }
 
-  /* Selected widget info card (name + description only) */
-  .widget-flow-detail {
-    margin: 0 12px 10px;
-    padding: 12px;
-    border-radius: 12px;
-    background: #F7F8FA;
-    border: 1px solid rgba(15, 23, 42, .06);
-  }
-  .widget-flow-detail[hidden] { display: none !important; }
-  .widget-flow-detail-top {
-    display: flex; align-items: flex-start; gap: 10px;
-  }
-  .widget-flow-detail-ico { flex-shrink: 0; }
-  .widget-flow-detail-ico .icon-tile {
-    width: 40px; height: 40px; border-radius: 12px;
-  }
-  .widget-flow-detail-ico .icon-tile svg { width: 20px; height: 20px; }
-  .widget-flow-detail-ico .icon-tile img {
-    width: 40px; height: 40px; object-fit: contain;
-  }
-  .widget-flow-detail-meta { min-width: 0; flex: 1; }
-  .widget-flow-detail-name {
-    font-size: 14px; font-weight: 700; color: var(--text);
-    letter-spacing: -0.01em;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  .widget-flow-detail-desc {
-    margin: 4px 0 0;
-    font-size: 12px; font-weight: 500; color: var(--muted);
-    line-height: 1.45;
-  }
-  .widget-flow-detail-desc[hidden] { display: none !important; }
-  .widget-flow-detail-kicker,
-  #widgetFlowDetailIndicator { display: none !important; }
+  /* Selected widget info card — removed from UI */
+  .widget-flow-detail { display: none !important; }
 
   /* ---------- Glass squircle icon tiles ---------- */
   .icon-tile {
@@ -2810,7 +2778,7 @@
   .feature-guide-map {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-template-rows: auto auto;
     gap: 28px 24px;
     min-height: 0;
@@ -2894,11 +2862,9 @@
   .fg-node[data-guide-index="0"] { grid-column: 1; grid-row: 1; }
   .fg-node[data-guide-index="1"] { grid-column: 2; grid-row: 1; }
   .fg-node[data-guide-index="2"] { grid-column: 3; grid-row: 1; }
-  .fg-node[data-guide-index="3"] { grid-column: 4; grid-row: 1; }
-  .fg-node[data-guide-index="4"] { grid-column: 1; grid-row: 2; }
-  .fg-node[data-guide-index="5"] { grid-column: 2; grid-row: 2; }
-  .fg-node[data-guide-index="6"] { grid-column: 3; grid-row: 2; }
-  .fg-node[data-guide-index="7"] { grid-column: 4; grid-row: 2; }
+  .fg-node[data-guide-index="3"] { grid-column: 1; grid-row: 2; }
+  .fg-node[data-guide-index="4"] { grid-column: 2; grid-row: 2; }
+  .fg-node[data-guide-index="5"] { grid-column: 3; grid-row: 2; }
   .fg-node .fg-ico {
     width: 84px;
     height: 84px;
@@ -3121,7 +3087,7 @@
     .feature-guide-sub { font-size: 14px; margin-bottom: 16px; }
     .feature-guide-map {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-template-rows: repeat(4, auto);
+      grid-template-rows: repeat(3, auto);
       gap: 16px 14px;
     }
     .fg-node[data-guide-index="0"] { grid-column: 1; grid-row: 1; }
@@ -3130,8 +3096,6 @@
     .fg-node[data-guide-index="3"] { grid-column: 2; grid-row: 2; }
     .fg-node[data-guide-index="4"] { grid-column: 1; grid-row: 3; }
     .fg-node[data-guide-index="5"] { grid-column: 2; grid-row: 3; }
-    .fg-node[data-guide-index="6"] { grid-column: 1; grid-row: 4; }
-    .fg-node[data-guide-index="7"] { grid-column: 2; grid-row: 4; }
     .fg-node { max-width: 148px; padding: 12px; gap: 8px; border-radius: 18px; }
     .fg-node .fg-order { min-width: 22px; height: 22px; font-size: 10px; top: 5px; left: 5px; }
     .fg-node .fg-ico { width: 72px; height: 72px; border-radius: 18px; font-size: 36px; }
@@ -3253,6 +3217,7 @@
     padding: 24px;
     background: rgba(20, 28, 48, .48);
     backdrop-filter: blur(2px);
+    pointer-events: auto;
   }
   .spotlight-complete[hidden] { display: none !important; }
   .spotlight-complete-card {
@@ -3291,6 +3256,96 @@
     box-shadow: 0 8px 18px rgba(34, 125, 226, .22);
   }
   .spotlight-complete-cta:hover { background: var(--brand-dark); }
+
+  /* Analysis result popup (scatter plot preview) */
+  .result-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 125;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(20, 28, 48, .48);
+    backdrop-filter: blur(2px);
+  }
+  .result-popup[hidden] { display: none !important; }
+  .result-popup-modal {
+    position: relative;
+    width: min(920px, 100%);
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, .28);
+    overflow: hidden;
+    animation: quickStartIn .35s cubic-bezier(.22, 1, .36, 1);
+  }
+  .result-popup-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(229, 231, 235, .95);
+    background: #FAFBFC;
+  }
+  .result-popup-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    color: #1F2328;
+  }
+  .result-popup-close {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #6B7280;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .result-popup-close:hover { background: rgba(0,0,0,.05); color: #1F2328; }
+  .result-popup-close svg {
+    width: 18px; height: 18px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2; stroke-linecap: round;
+  }
+  .result-popup-body {
+    padding: 0;
+    line-height: 0;
+    background: #F3F4F6;
+  }
+  .result-popup-body img {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: min(70vh, 640px);
+    object-fit: contain;
+    background: #fff;
+  }
+  .result-popup-foot {
+    display: flex;
+    justify-content: flex-end;
+    padding: 14px 16px 16px;
+    border-top: 1px solid rgba(229, 231, 235, .95);
+  }
+  .result-popup-next {
+    appearance: none;
+    border: none;
+    background: var(--brand);
+    color: #fff;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 10px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(34, 125, 226, .22);
+  }
+  .result-popup-next:hover { background: var(--brand-dark); }
 
   /* ---------- Properties panel ---------- */
   .props,
@@ -3709,7 +3764,7 @@
         <div class="feature-guide-progress-track">
           <div class="feature-guide-progress-bar" id="featureGuideProgressBar"></div>
         </div>
-        <span class="feature-guide-progress-label" id="featureGuideProgressLabel">0/8</span>
+        <span class="feature-guide-progress-label" id="featureGuideProgressLabel">0/6</span>
       </div>
       <div class="feature-guide-map" id="featureGuideMap" aria-label="기능 로드맵"></div>
       <div class="feature-guide-foot">
@@ -3794,6 +3849,23 @@
         <h3>가이드를 모두 마쳤어요!</h3>
         <p>이제 직접 Orange3로 분석을 시작해 보세요.</p>
         <button class="spotlight-complete-cta" type="button" id="spotlightCompleteCta">시작하기</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-popup" id="resultPopup" hidden>
+    <div class="result-popup-modal" role="dialog" aria-modal="true" aria-labelledby="resultPopupTitle">
+      <div class="result-popup-head">
+        <h2 class="result-popup-title" id="resultPopupTitle">Scatter Plot - Orange</h2>
+        <button class="result-popup-close" type="button" id="resultPopupClose" aria-label="닫기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+      <div class="result-popup-body">
+        <img src="assets/results/scatter-plot-orange.png" alt="산점도 분석 결과">
+      </div>
+      <div class="result-popup-foot">
+        <button class="result-popup-next" type="button" id="resultPopupNext">다음</button>
       </div>
     </div>
   </div>
@@ -4275,35 +4347,30 @@
   /* ========== Sidebar catalog ========== */
   const catBox = document.getElementById('categories');
   const widgetFlowDetail = document.getElementById('widgetFlowDetail');
-  let focusedWidgetType = null;
+  const DEFAULT_FOCUSED_WIDGETS = new Set(['file', 'scatter']);
+  let focusedWidgetTypes = new Set(DEFAULT_FOCUSED_WIDGETS);
 
   function showWidgetFlowDetail(type) {
-    const meta = ITEM_MAP[type];
-    if (!meta || !widgetFlowDetail) return;
-    focusedWidgetType = type;
-    widgetFlowDetail.hidden = false;
-    const icoHost = document.getElementById('widgetFlowDetailIco');
-    const nameEl = document.getElementById('widgetFlowDetailName');
-    const descEl = document.getElementById('widgetFlowDetailDesc');
-    if (icoHost) {
-      icoHost.innerHTML = '';
-      icoHost.appendChild(makeIco(meta.icon, '', meta.tile, meta.img));
+    // Description panel removed — only keep selection highlight.
+    if (!type || !ITEM_MAP[type]) return;
+    focusedWidgetTypes = new Set([type]);
+    // Keep File + Scatter highlighted together as the guide path.
+    if (type === 'file' || type === 'scatter') {
+      focusedWidgetTypes.add('file');
+      focusedWidgetTypes.add('scatter');
     }
-    if (nameEl) nameEl.textContent = meta.label;
-    if (descEl) {
-      const visible = visibleWidgetDescription(meta);
-      descEl.textContent = visible;
-      descEl.hidden = !visible;
-    }
+    if (widgetFlowDetail) widgetFlowDetail.hidden = true;
     catBox?.querySelectorAll('.widget').forEach(el => {
-      el.classList.toggle('is-focused', el.dataset.type === type);
+      el.classList.toggle('is-focused', focusedWidgetTypes.has(el.dataset.type));
     });
   }
 
   function clearWidgetFlowDetail() {
-    focusedWidgetType = null;
+    focusedWidgetTypes = new Set(DEFAULT_FOCUSED_WIDGETS);
     if (widgetFlowDetail) widgetFlowDetail.hidden = true;
-    catBox?.querySelectorAll('.widget.is-focused').forEach(el => el.classList.remove('is-focused'));
+    catBox?.querySelectorAll('.widget').forEach(el => {
+      el.classList.toggle('is-focused', focusedWidgetTypes.has(el.dataset.type));
+    });
   }
 
   function renderCatalog(filter = '') {
@@ -4314,7 +4381,8 @@
       const items = cat.items.filter(it => !q || it.label.toLowerCase().includes(q));
       if (!items.length) return;
       const wrap = document.createElement('div');
-      const collapsed = !q && cat.id !== 'data';
+      const openByDefault = cat.id === 'data' || cat.id === 'visualize';
+      const collapsed = !q && !openByDefault;
       wrap.className = `cat ${cat.tone}${collapsed ? ' collapsed' : ''}`;
       wrap.style.setProperty('--cat-soft', cat.soft);
       wrap.style.setProperty('--accent', cat.color);
@@ -4330,7 +4398,7 @@
       items.forEach(it => {
         const portType = portTypeOf(it.id);
         const w = document.createElement('div');
-        w.className = 'widget' + (focusedWidgetType === it.id ? ' is-focused' : '');
+        w.className = 'widget' + (focusedWidgetTypes.has(it.id) ? ' is-focused' : '');
         w.draggable = true;
         w.dataset.type = it.id;
         w.dataset.portType = portType;
@@ -4368,7 +4436,6 @@
       wrap.appendChild(grid);
       catBox.appendChild(wrap);
     });
-    if (focusedWidgetType && ITEM_MAP[focusedWidgetType]) showWidgetFlowDetail(focusedWidgetType);
   }
   renderCatalog();
 
@@ -6147,52 +6214,38 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       onboard: null,
     },
     {
-      id: 'add',
-      label: '위젯 추가',
-      tip: '왼쪽 패널에서 위젯을 더블클릭해 올려보세요.',
-      bubble: '위젯을 더블클릭하면 왼쪽에 정렬돼요',
-      icon: '📦',
+      id: 'file',
+      label: '파일',
+      tip: '파일 위젯을 더블클릭해 올려보세요.',
+      bubble: '파일 위젯으로 데이터를 불러와요',
+      iconImg: 'assets/widgets/file.png',
+      icon: '📄',
+      onboard: 'add',
+    },
+    {
+      id: 'scatter',
+      label: '산점도',
+      tip: '산점도 위젯을 추가해 보세요.',
+      bubble: '산점도로 결과를 시각화해요',
+      iconImg: 'assets/widgets/scatter-plot.png',
+      icon: '⬤',
       onboard: 'add',
     },
     {
       id: 'connect',
-      label: '위젯 연결',
-      tip: '출력 포트에서 입력 포트로 드래그해 연결해요.',
+      label: '연결',
+      tip: '파일과 산점도를 포트로 연결해요.',
       bubble: '포트끼리 연결하면 데이터가 흘러가요',
       icon: '🔗',
       onboard: 'connect',
     },
     {
       id: 'run',
-      label: '지금 실행',
-      tip: '연결이 끝나면 ‘지금 실행’으로 결과를 확인해요.',
-      bubble: '지금 실행으로 결과를 확인해 보세요',
+      label: '실행',
+      tip: '지금 실행으로 산점도 결과를 확인해요.',
+      bubble: '실행하면 결과 창이 열려요',
       icon: '▶',
       onboard: 'run',
-    },
-    {
-      id: 'mode',
-      label: '실행 모드',
-      tip: '자동실행모드와 수동 실행을 바꿀 수 있어요.',
-      bubble: '헤더에서 실행 모드를 바꿀 수 있어요',
-      icon: '⚙',
-      onboard: null,
-    },
-    {
-      id: 'dataset',
-      label: '분석 데이터셋',
-      tip: '왼쪽 메뉴의 분석 데이터셋으로 샘플을 불러와요.',
-      bubble: '데이터셋으로 바로 실습을 시작할 수 있어요',
-      icon: '📊',
-      onboard: null,
-    },
-    {
-      id: 'template',
-      label: '템플릿',
-      tip: '준비된 워크플로우 템플릿으로 빠르게 시작해요.',
-      bubble: '템플릿으로 분석 흐름을 바로 구성해요',
-      icon: '🧩',
-      onboard: null,
     },
     {
       id: 'done',
@@ -6301,6 +6354,11 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       if (step.icon === 'pengsu') {
         const img = document.createElement('img');
         img.src = 'assets/onboarding-pengsu-ai.png';
+        img.alt = '';
+        ico.appendChild(img);
+      } else if (step.iconImg) {
+        const img = document.createElement('img');
+        img.src = step.iconImg;
         img.alt = '';
         ico.appendChild(img);
       } else {
@@ -6435,55 +6493,52 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     {
       id: 'start',
       title: '시작해볼까요?',
-      body: 'Orange3 작업 화면에서 주요 기능을\n하나씩 따라가 볼게요.',
+      body: '파일 위젯과 산점도로\n간단한 분석 흐름을 만들어 볼게요.',
       advance: 'next',
       target: () => document.getElementById('canvasWrap'),
     },
     {
-      id: 'add',
-      title: '위젯을 추가해 보세요',
-      body: '왼쪽에서 파일 위젯을 더블클릭해\n캔버스에 추가해 보세요.',
-      advance: 'createNode',
+      id: 'file',
+      title: '파일 위젯을 추가해 보세요',
+      body: '데이터 카테고리의 파일 위젯을\n더블클릭해 캔버스에 추가해 보세요.',
+      advance: 'createNode:file',
       target: () => document.querySelector('#categories .widget[data-type="file"]')
         || document.getElementById('sidebar'),
       prepare() {
         setActiveMenu('widgets', '위젯');
         setWidgetSidebarCollapsed(false);
+        showWidgetFlowDetail('file');
+      },
+    },
+    {
+      id: 'scatter',
+      title: '산점도 위젯을 추가해 보세요',
+      body: '시각화 카테고리의 산점도 위젯을\n더블클릭해 캔버스에 추가해 보세요.',
+      advance: 'createNode:scatter',
+      target: () => document.querySelector('#categories .widget[data-type="scatter"]')
+        || document.getElementById('sidebar'),
+      prepare() {
+        setActiveMenu('widgets', '위젯');
+        setWidgetSidebarCollapsed(false);
+        showWidgetFlowDetail('scatter');
+        // Expand visualize if somehow collapsed
+        document.querySelector('#categories .cat.green')?.classList.remove('collapsed');
       },
     },
     {
       id: 'connect',
       title: '위젯을 연결해 보세요',
-      body: '출력 포트에서 입력 포트로 드래그해\n위젯을 연결해 보세요.',
+      body: '파일 출력 포트에서 산점도 입력 포트로\n드래그해 연결해 보세요.',
       advance: 'link',
       target: () => document.getElementById('canvasWrap'),
       prepare() {
-        // Ensure two linkable widgets so the user can focus on connecting.
-        if (nodes.length === 1) {
-          const first = nodes[0];
-          const secondType = first.type === 'file' ? 'data-table' : 'file';
-          if (ITEM_MAP[secondType]) {
-            const n = {
-              id: uid('n'),
-              type: secondType,
-              x: first.x + 220,
-              y: first.y,
-              name: ITEM_MAP[secondType].label,
-              notes: '',
-              sample: 100,
-            };
-            nodes.push(n);
-            lastPlacedNodeId = n.id;
-            renderNodes();
-            syncExecutionModeUI();
-          }
-        }
+        ensureGuideFileScatterNodes();
       },
     },
     {
       id: 'run',
       title: '지금 실행해 보세요',
-      body: '연결이 끝나면 ‘지금 실행’ 버튼을 눌러\n분석 결과를 확인해 보세요.',
+      body: '‘지금 실행’을 누르면\n산점도 결과 창이 열려요.',
       advance: 'run',
       target: () => {
         const btn = document.getElementById('btnRunNow');
@@ -6495,51 +6550,71 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       },
     },
     {
-      id: 'mode',
-      title: '실행 모드를 확인해 보세요',
-      body: '헤더의 실행 모드에서\n자동실행과 수동 실행을 바꿀 수 있어요.',
-      advance: 'next',
-      target: () => document.getElementById('execModeHeader')
-        || document.getElementById('execModeBadge'),
-    },
-    {
-      id: 'dataset',
-      title: '분석 데이터셋을 열어보세요',
-      body: '왼쪽 메뉴에서 분석 데이터셋을\n선택해 보세요.',
-      advance: 'menu:datasets',
-      target: () => document.querySelector('[data-menu="datasets"]'),
-    },
-    {
-      id: 'template',
-      title: '템플릿을 살펴보세요',
-      body: '왼쪽 메뉴에서 워크플로우 템플릿을\n선택해 보세요.',
-      advance: 'menu:templates',
-      target: () => document.querySelector('[data-menu="templates"]'),
-    },
-    {
       id: 'done',
-      title: '거의 다 왔어요',
-      body: '마지막 단계입니다. 완료를 눌러\n가이드를 마무리해 보세요.',
+      title: '가이드를 마무리할까요?',
+      body: '결과까지 확인했어요.\n완료를 눌러 다음으로 이동해 보세요.',
       advance: 'next',
       target: () => document.getElementById('canvasWrap'),
     },
   ];
+
+  function ensureGuideFileScatterNodes() {
+    const hasFile = nodes.some(n => n.type === 'file');
+    const hasScatter = nodes.some(n => n.type === 'scatter');
+    if (!hasFile && ITEM_MAP.file) {
+      nodes.push({
+        id: uid('n'), type: 'file', x: 80, y: 200,
+        name: ITEM_MAP.file.label, notes: '', sample: 100,
+      });
+    }
+    if (!hasScatter && ITEM_MAP.scatter) {
+      const fileNode = nodes.find(n => n.type === 'file');
+      nodes.push({
+        id: uid('n'), type: 'scatter',
+        x: (fileNode?.x || 80) + 240, y: fileNode?.y || 200,
+        name: ITEM_MAP.scatter.label, notes: '', sample: 100,
+      });
+    }
+    lastPlacedNodeId = nodes[nodes.length - 1]?.id || null;
+    renderNodes();
+    syncExecutionModeUI();
+  }
+
+  function openResultPopup() {
+    const el = document.getElementById('resultPopup');
+    if (!el) return;
+    el.hidden = false;
+  }
+
+  function closeResultPopup() {
+    const el = document.getElementById('resultPopup');
+    if (!el) return;
+    el.hidden = true;
+  }
 
   function notifySpotlight(kind, payload = {}) {
     if (!spotlightTourActive) return;
     const step = SPOTLIGHT_STEPS[spotlightIndex];
     if (!step) return;
     const adv = step.advance;
-    if (adv === 'createNode' && kind === 'createNode') {
-      advanceSpotlightTour();
-      return;
+    if (kind === 'createNode') {
+      if (adv === 'createNode') {
+        advanceSpotlightTour();
+        return;
+      }
+      if (typeof adv === 'string' && adv.startsWith('createNode:')) {
+        const want = adv.slice('createNode:'.length);
+        if (!payload.type || payload.type === want) advanceSpotlightTour();
+        return;
+      }
     }
     if (adv === 'link' && kind === 'link') {
       advanceSpotlightTour();
       return;
     }
     if (adv === 'run' && kind === 'run' && !payload.silent) {
-      advanceSpotlightTour();
+      openResultPopup();
+      // Stay on run until result popup continues, or advance after showing
       return;
     }
     if (adv === 'mode' && kind === 'mode') {
@@ -6682,6 +6757,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function stopSpotlightTour({ openQuick = false } = {}) {
     spotlightTourActive = false;
     cancelAnimationFrame(spotlightRaf);
+    closeResultPopup();
     if (spotlightTour) spotlightTour.hidden = true;
     if (spotlightComplete) spotlightComplete.hidden = true;
     if (spotlightTooltip) spotlightTooltip.hidden = true;
@@ -6983,6 +7059,21 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   });
   spotlightCompleteCta?.addEventListener('click', () => {
     stopSpotlightTour({ openQuick: true });
+  });
+
+  document.getElementById('resultPopupClose')?.addEventListener('click', () => {
+    closeResultPopup();
+    if (spotlightTourActive) advanceSpotlightTour();
+  });
+  document.getElementById('resultPopupNext')?.addEventListener('click', () => {
+    closeResultPopup();
+    if (spotlightTourActive) advanceSpotlightTour();
+  });
+  document.getElementById('resultPopup')?.addEventListener('click', e => {
+    if (e.target?.id === 'resultPopup') {
+      closeResultPopup();
+      if (spotlightTourActive) advanceSpotlightTour();
+    }
   });
 
   // Expose guide helpers for demos / automated screenshots
