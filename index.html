@@ -6654,6 +6654,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     const el = document.getElementById('resultPopup');
     if (!el) return;
     el.classList.toggle('is-spotlighted', !!spotlighted);
+    const foot = el.querySelector('.result-popup-foot');
+    if (foot) foot.hidden = !!spotlighted;
     el.hidden = false;
     positionResultPopupOnCanvas();
     // Second pass after image/layout settles
@@ -6665,6 +6667,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (!el) return;
     el.hidden = true;
     el.classList.remove('is-spotlighted');
+    const foot = el.querySelector('.result-popup-foot');
+    if (foot) foot.hidden = false;
     el.style.left = '';
     el.style.top = '';
     el.style.width = '';
