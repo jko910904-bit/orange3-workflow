@@ -1746,36 +1746,34 @@
     filter: drop-shadow(0 8px 18px rgba(20,24,40,.12));
   }
   .onboard-guide-bubble {
-    appearance: none;
-    -webkit-appearance: none;
     position: absolute;
     left: -6px;
-    top: 10%;
+    top: 6%;
     transform: translateX(-100%);
     z-index: 2;
     margin: 0;
-    padding: 10px 14px;
+    padding: 12px 14px 14px;
     border: 1px solid rgba(229, 231, 235, .95);
     border-radius: 16px;
     background: #fff;
     color: var(--brand-dark);
     font: inherit;
-    font-size: 14px;
-    font-weight: 700;
     letter-spacing: -0.02em;
-    line-height: 1.3;
+    line-height: 1.35;
     white-space: nowrap;
-    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
     box-shadow:
       0 1px 0 rgba(15, 42, 86, .04),
       0 10px 24px rgba(34, 125, 226, .14);
-    transition: transform .18s, box-shadow .18s, background .18s, border-color .18s;
   }
   .onboard-guide-bubble::after {
     content: '';
     position: absolute;
     left: 100%;
-    top: 50%;
+    top: 42%;
     transform: translateY(-50%);
     width: 0;
     height: 0;
@@ -1784,20 +1782,43 @@
     border-left: 10px solid #fff;
     filter: drop-shadow(2px 0 1px rgba(20, 28, 48, .06));
   }
-  .onboard-guide-bubble:hover {
-    background: #FAFCFF;
-    border-color: color-mix(in srgb, var(--brand) 40%, #E5E7EB);
-    box-shadow: 0 12px 28px rgba(34, 125, 226, .18);
-    transform: translateX(-100%) translateY(-1px);
+  .onboard-guide-prompt {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--brand-dark);
+    letter-spacing: -0.02em;
+    line-height: 1.35;
   }
-  .onboard-guide-bubble:focus {
+  .onboard-guide-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    margin: 0;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 10px;
+    background: var(--brand);
+    color: #fff;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background .18s, transform .15s, box-shadow .18s;
+  }
+  .onboard-guide-btn:hover {
+    background: var(--brand-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(34, 125, 226, .28);
+  }
+  .onboard-guide-btn:focus {
     outline: none;
   }
-  .onboard-guide-bubble:focus-visible {
-    border-color: var(--brand);
+  .onboard-guide-btn:focus-visible {
     box-shadow:
-      0 0 0 3px color-mix(in srgb, var(--brand) 22%, transparent),
-      0 10px 24px rgba(34, 125, 226, .14);
+      0 0 0 3px color-mix(in srgb, var(--brand) 28%, transparent),
+      0 6px 14px rgba(34, 125, 226, .22);
   }
   body.char-none .onboard-mascot-wrap {
     display: none !important;
@@ -1884,8 +1905,6 @@
     margin-bottom: 56px;
   }
   .canvas-onboard-step {
-    appearance: none;
-    -webkit-appearance: none;
     font: inherit;
     width: 100%;
     background: #fff;
@@ -1894,16 +1913,11 @@
     padding: 24px 20px 22px;
     text-align: left;
     min-height: 144px;
-    cursor: pointer;
-    transition: border-color .18s, box-shadow .18s, background .18s, transform .15s;
+    cursor: default;
+    pointer-events: none;
+    box-sizing: border-box;
   }
-  .canvas-onboard-step:hover {
-    border-color: color-mix(in srgb, var(--brand) 40%, #E5E7EB);
-    box-shadow: 0 10px 24px rgba(34,125,226,.14);
-    transform: translateY(-2px);
-  }
-  .canvas-onboard-step.is-selected,
-  .canvas-onboard-step[aria-pressed="true"] {
+  .canvas-onboard-step.is-selected {
     border-color: var(--brand);
     background: var(--brand-soft);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 16%, transparent);
@@ -1950,10 +1964,10 @@
     transition: border-color .18s, box-shadow .18s, background .18s, transform .15s, color .15s;
   }
   .canvas-onboard-action:hover {
-    border-color: color-mix(in srgb, var(--brand) 40%, #E5E7EB);
-    box-shadow: 0 10px 24px rgba(34,125,226,.14);
-    transform: translateY(-2px);
-    background: #FAFCFF;
+    border-color: rgba(229, 231, 235, .9);
+    box-shadow: none;
+    transform: none;
+    background: #fff;
   }
   .canvas-onboard-action:focus {
     outline: none;
@@ -2019,9 +2033,9 @@
     stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
   }
   .canvas-onboard-action:hover .action-arrow {
-    background: color-mix(in srgb, var(--brand) 18%, #fff);
-    color: var(--brand-dark);
-    transform: translateX(2px);
+    background: var(--brand-soft);
+    color: var(--brand);
+    transform: none;
   }
 
   /* Quick Start follow-up popup (after feature guide) */
@@ -2122,6 +2136,9 @@
       left: 50%;
       top: -6px;
       transform: translate(-50%, -100%);
+      white-space: normal;
+      max-width: min(260px, 86vw);
+      text-align: center;
     }
     .onboard-guide-bubble::after {
       left: 50%;
@@ -2133,8 +2150,8 @@
       border-bottom: none;
       filter: drop-shadow(0 2px 1px rgba(20, 28, 48, .06));
     }
-    .onboard-guide-bubble:hover {
-      transform: translate(-50%, calc(-100% - 1px));
+    .onboard-guide-prompt {
+      white-space: normal;
     }
     .canvas-onboard-media { width: min(220px, 55vw); }
     .canvas-onboard-steps,
@@ -4112,36 +4129,39 @@
                     <p class="onboard-title-sub">위젯을 추가하고 연결하여 데이터 분석 워크플로우를 완성해보세요.</p>
                   </div>
                   <div class="onboard-mascot-wrap">
-                    <button type="button" class="onboard-guide-bubble" id="btnOnboardGuide">
-                      가이드 알아보기
-                    </button>
+                    <div class="onboard-guide-bubble" role="group" aria-label="펭수 가이드">
+                      <p class="onboard-guide-prompt">펭수와 함께 자세히 알아볼까요?</p>
+                      <button type="button" class="onboard-guide-btn" id="btnOnboardGuide">
+                        가이드 보기
+                      </button>
+                    </div>
                     <img class="onboard-title-mascot" id="onboardMascot" src="assets/onboarding-pengsu-ai.png" alt="">
                   </div>
                 </div>
               </div>
             </div>
-            <div class="canvas-onboard-steps" role="group" aria-label="시작 단계 선택">
-              <button class="canvas-onboard-step" type="button" data-onboard-step="add" aria-pressed="false">
+            <div class="canvas-onboard-steps" role="list" aria-label="시작 단계 안내">
+              <div class="canvas-onboard-step" role="listitem" data-onboard-step="add">
                 <div class="step-head">
                   <span class="step-num">1</span>
                   <span class="step-title">위젯 추가하기</span>
                 </div>
                 <p class="step-desc">필요한 위젯을 선택하거나 캔버스로 드래그하여 배치합니다.</p>
-              </button>
-              <button class="canvas-onboard-step" type="button" data-onboard-step="connect" aria-pressed="false">
+              </div>
+              <div class="canvas-onboard-step" role="listitem" data-onboard-step="connect">
                 <div class="step-head">
                   <span class="step-num">2</span>
                   <span class="step-title">위젯 연결하기</span>
                 </div>
                 <p class="step-desc">위젯과 위젯을 선으로 연결해서 분석 흐름을 구성합니다.</p>
-              </button>
-              <button class="canvas-onboard-step" type="button" data-onboard-step="run" aria-pressed="false">
+              </div>
+              <div class="canvas-onboard-step" role="listitem" data-onboard-step="run">
                 <div class="step-head">
                   <span class="step-num">3</span>
                   <span class="step-title">결과 확인하기</span>
                 </div>
                 <p class="step-desc">‘지금 실행’ 버튼을 눌러 분석 결과를 확인합니다.</p>
-              </button>
+              </div>
             </div>
             <div class="canvas-onboard-quick">
               <h3 class="canvas-onboard-quick-title">빠르게 시작하기</h3>
@@ -6952,14 +6972,13 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   function openOnboard() {
     if (!onboardOverlay) return;
-    onboardSteps.forEach(btn => {
-      btn.classList.remove('is-selected');
-      btn.setAttribute('aria-pressed', 'false');
+    onboardSteps.forEach(el => {
+      el.classList.remove('is-selected');
     });
     onboardOverlay.hidden = false;
     onboardOverlay.setAttribute('aria-hidden', 'false');
     canvasWrap?.classList.add('is-onboarding');
-    // Entry to the guide is the "가이드 알아보기" bubble next to Pengsu.
+    // Entry to the guide is the "가이드 보기" button next to Pengsu.
     closePengsuHelper({ immediate: true });
   }
 
@@ -8074,10 +8093,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   }
 
   function selectOnboardStep(step) {
-    onboardSteps.forEach(btn => {
-      const on = btn.dataset.onboardStep === step;
-      btn.classList.toggle('is-selected', on);
-      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    onboardSteps.forEach(el => {
+      el.classList.toggle('is-selected', el.dataset.onboardStep === step);
     });
     showHint(ONBOARD_HINTS[step] || '위젯을 드래그해 분석을 시작해 보세요');
   }
@@ -8140,11 +8157,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     showHint('로그아웃되었습니다');
   });
 
-  onboardSteps.forEach(btn => {
-    btn.addEventListener('click', () => {
-      selectOnboardStep(btn.dataset.onboardStep);
-    });
-  });
+  // Steps 1–3 are informational only; guide entry is the Pengsu CTA button.
 
   document.getElementById('btnOnboardGuide')?.addEventListener('click', () => {
     openFeatureGuide();
