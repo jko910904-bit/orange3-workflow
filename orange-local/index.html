@@ -3150,6 +3150,9 @@
   .spotlight-tooltip {
     position: fixed;
     z-index: 122;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     width: min(320px, calc(100vw - 32px));
     background: #fff;
     color: #1F2328;
@@ -3326,7 +3329,15 @@
   }
   .result-popup[hidden] { display: none !important; }
   .result-popup.is-spotlighted {
-    z-index: 46;
+    position: fixed;
+    z-index: 125;
+    pointer-events: none;
+  }
+  .result-popup.is-spotlighted .result-popup-window {
+    pointer-events: auto;
+    box-shadow:
+      0 16px 48px rgba(20, 28, 48, .38),
+      0 2px 8px rgba(20, 28, 48, .16);
   }
   .result-popup-window {
     position: relative;
@@ -7035,24 +7046,15 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       });
     }
 
+    // Tooltip stays viewport-centered for all spotlight steps (정중앙).
+    // Ring/shades still track the target; do not offset the card beside the hole.
     if (spotlightTooltip && !spotlightTooltip.hidden) {
-      const tipW = spotlightTooltip.offsetWidth || 320;
-      const tipH = spotlightTooltip.offsetHeight || 160;
-      let tipLeft = left + width + 16;
-      let tipTop = top;
-      if (tipLeft + tipW > vw - 12) tipLeft = left - tipW - 16;
-      if (tipLeft < 12) tipLeft = Math.max(12, (vw - tipW) / 2);
-      if (tipTop + tipH > vh - 12) tipTop = Math.max(12, vh - tipH - 12);
-      if (tipTop < 12) tipTop = 12;
-      // Prefer below when side placement is cramped
-      if (tipLeft < left && tipLeft + tipW > left) {
-        tipTop = bottom + 14;
-        tipLeft = Math.min(Math.max(12, left), vw - tipW - 12);
-        if (tipTop + tipH > vh - 12) tipTop = Math.max(12, top - tipH - 14);
-      }
       Object.assign(spotlightTooltip.style, {
-        left: `${tipLeft}px`,
-        top: `${tipTop}px`,
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+        right: 'auto',
+        bottom: 'auto',
       });
     }
   }
