@@ -2766,46 +2766,6 @@
     background: var(--brand);
     color: #fff;
   }
-  .feature-guide-result-preview {
-    display: none;
-    justify-content: center;
-    margin: 0 0 18px;
-  }
-  .feature-guide.is-home .feature-guide-result-preview {
-    display: flex;
-  }
-  .feature-guide-result-preview[hidden] { display: none !important; }
-  .feature-guide-result-preview-card {
-    width: min(420px, 100%);
-    background: #fff;
-    border: 1px solid rgba(229, 231, 235, .95);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 16px 40px rgba(20, 28, 48, .14);
-    animation: quickStartIn .35s cubic-bezier(.22, 1, .36, 1);
-  }
-  .feature-guide-result-preview-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 10px 12px;
-    background: #FAFBFC;
-    border-bottom: 1px solid rgba(229, 231, 235, .95);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: #1F2328;
-  }
-  .feature-guide-result-preview-card img {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: 180px;
-    object-fit: contain;
-    object-position: center top;
-    background: #F3F4F6;
-  }
   .feature-guide-progress-track {
     width: min(280px, 46vw);
     height: 8px;
@@ -2829,9 +2789,9 @@
   .feature-guide-map {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: auto auto;
-    gap: 28px 24px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: auto;
+    gap: 28px 20px;
     min-height: 0;
     padding: 18px 8px 8px;
     transition: opacity .35s ease, transform .35s ease;
@@ -2913,9 +2873,7 @@
   .fg-node[data-guide-index="0"] { grid-column: 1; grid-row: 1; }
   .fg-node[data-guide-index="1"] { grid-column: 2; grid-row: 1; }
   .fg-node[data-guide-index="2"] { grid-column: 3; grid-row: 1; }
-  .fg-node[data-guide-index="3"] { grid-column: 1; grid-row: 2; }
-  .fg-node[data-guide-index="4"] { grid-column: 2; grid-row: 2; }
-  .fg-node[data-guide-index="5"] { grid-column: 3; grid-row: 2; }
+  .fg-node[data-guide-index="3"] { grid-column: 4; grid-row: 1; }
   .fg-node .fg-ico {
     width: 84px;
     height: 84px;
@@ -3138,15 +3096,13 @@
     .feature-guide-sub { font-size: 14px; margin-bottom: 16px; }
     .feature-guide-map {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-template-rows: repeat(3, auto);
+      grid-template-rows: repeat(2, auto);
       gap: 16px 14px;
     }
     .fg-node[data-guide-index="0"] { grid-column: 1; grid-row: 1; }
     .fg-node[data-guide-index="1"] { grid-column: 2; grid-row: 1; }
     .fg-node[data-guide-index="2"] { grid-column: 1; grid-row: 2; }
     .fg-node[data-guide-index="3"] { grid-column: 2; grid-row: 2; }
-    .fg-node[data-guide-index="4"] { grid-column: 1; grid-row: 3; }
-    .fg-node[data-guide-index="5"] { grid-column: 2; grid-row: 3; }
     .fg-node { max-width: 148px; padding: 12px; gap: 8px; border-radius: 18px; }
     .fg-node .fg-order { min-width: 22px; height: 22px; font-size: 10px; top: 5px; left: 5px; }
     .fg-node .fg-ico { width: 72px; height: 72px; border-radius: 18px; font-size: 36px; }
@@ -3321,6 +3277,23 @@
     backdrop-filter: blur(2px);
   }
   .result-popup[hidden] { display: none !important; }
+  /* During spotlight: no extra dim — hole frames widget + popup together */
+  .result-popup.is-spotlighted {
+    z-index: 119;
+    background: transparent;
+    backdrop-filter: none;
+    pointer-events: none;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 24px 36px 24px 24px;
+  }
+  .result-popup.is-spotlighted .result-popup-modal {
+    pointer-events: auto;
+    width: min(640px, calc(100vw - 48px));
+  }
+  .result-popup.is-spotlighted .result-popup-body img {
+    max-height: min(52vh, 420px);
+  }
   .result-popup-modal {
     position: relative;
     width: min(920px, 100%);
@@ -3810,18 +3783,12 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
       </button>
       <h2 class="feature-guide-title" id="featureGuideTitle">Orange3 주요기능 알아보기</h2>
-      <p class="feature-guide-sub">파일과 산점도로 간단한 분석 흐름을 만들고, 결과 창까지 확인해 보세요.</p>
+      <p class="feature-guide-sub">순서대로 따라가며 Orange3의 핵심 기능을 알아보세요.</p>
       <div class="feature-guide-progress" id="featureGuideProgress">
         <div class="feature-guide-progress-track">
           <div class="feature-guide-progress-bar" id="featureGuideProgressBar"></div>
         </div>
-        <span class="feature-guide-progress-label" id="featureGuideProgressLabel">0/6</span>
-      </div>
-      <div class="feature-guide-result-preview" id="featureGuideResultPreview" hidden>
-        <div class="feature-guide-result-preview-card" aria-label="산점도 결과 미리보기">
-          <div class="feature-guide-result-preview-head">Scatter Plot - Orange</div>
-          <img src="assets/results/scatter-plot-orange.png" alt="산점도 분석 결과">
-        </div>
+        <span class="feature-guide-progress-label" id="featureGuideProgressLabel">0/4</span>
       </div>
       <div class="feature-guide-map" id="featureGuideMap" aria-label="기능 로드맵"></div>
       <div class="feature-guide-foot">
@@ -4603,6 +4570,7 @@
       el.style.top = n.y + 'px';
       el.style.setProperty('--accent', meta.color);
       el.dataset.id = n.id;
+      el.dataset.type = n.type;
       el.dataset.portType = portType;
 
       const body = document.createElement('div');
@@ -6271,27 +6239,18 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       onboard: null,
     },
     {
-      id: 'file',
-      label: '파일',
-      tip: '파일 위젯을 더블클릭해 올려보세요.',
-      bubble: '파일 위젯으로 데이터를 불러와요',
-      iconImg: 'assets/widgets/file.png',
-      icon: '📄',
-      onboard: 'add',
-    },
-    {
-      id: 'scatter',
-      label: '산점도',
-      tip: '산점도 위젯을 추가해 보세요.',
-      bubble: '산점도로 결과를 시각화해요',
-      iconImg: 'assets/widgets/scatter-plot.png',
-      icon: '⬤',
+      id: 'add',
+      label: '위젯 추가',
+      tip: '파일과 산점도 위젯을 추가해 보세요.',
+      bubble: '위젯을 캔버스에 올려보세요',
+      iconImg: 'assets/icon-widgets-orange.png',
+      icon: '📦',
       onboard: 'add',
     },
     {
       id: 'connect',
-      label: '연결',
-      tip: '파일과 산점도를 포트로 연결해요.',
+      label: '위젯 연결',
+      tip: '위젯 포트를 서로 연결해요.',
       bubble: '포트끼리 연결하면 데이터가 흘러가요',
       icon: '🔗',
       onboard: 'connect',
@@ -6299,19 +6258,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     {
       id: 'run',
       label: '실행',
-      tip: '지금 실행으로 산점도 결과를 확인해요.',
-      bubble: '실행하면 결과 창이 열려요',
+      tip: '자동실행으로 결과를 확인해요.',
+      bubble: '자동실행하면 결과가 열려요',
       icon: '▶',
       onboard: 'run',
-    },
-    {
-      id: 'done',
-      label: '완료',
-      tip: '완료!',
-      bubble: '완료!',
-      icon: '✓',
-      onboard: null,
-      isComplete: true,
     },
   ];
   let featureGuideIndex = 0;
@@ -6431,7 +6381,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
         if (featureGuideCompleting) return;
         if (featureGuideMode !== 'tutorial') return;
         if (idx > featureGuideIndex + 1) return;
-        if (step.isComplete || idx === FEATURE_GUIDE_STEPS.length - 1) {
+        if (step.isComplete) {
           if (idx <= featureGuideIndex + 1) completeFeatureGuide();
           return;
         }
@@ -6520,16 +6470,6 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (featureGuideProgressLabel) featureGuideProgressLabel.textContent = `0/${FEATURE_GUIDE_STEPS.length}`;
     if (featureGuideTip) featureGuideTip.hidden = true;
     clearFeatureGuideNodeStates();
-    // Highlight File + Scatter as the featured path, with result preview above.
-    featureGuideMap?.querySelectorAll('.fg-node').forEach(btn => {
-      const idx = Number(btn.dataset.guideIndex);
-      const step = FEATURE_GUIDE_STEPS[idx];
-      if (step?.id === 'file' || step?.id === 'scatter') {
-        btn.classList.add('is-featured');
-      }
-    });
-    const preview = document.getElementById('featureGuideResultPreview');
-    if (preview) preview.hidden = false;
     // Keep catalog defaults: File + Scatter focused, Data/Visualize open.
     clearWidgetFlowDetail();
     setActiveMenu('widgets', '위젯');
@@ -6545,6 +6485,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   /* ---------- Spotlight Guided Tutorial (on real canvas) ---------- */
   let spotlightIndex = 0;
   let spotlightRaf = 0;
+  let spotlightResultReveal = false;
   const spotlightTour = document.getElementById('spotlightTour');
   const spotlightRing = document.getElementById('spotlightRing');
   const spotlightTooltip = document.getElementById('spotlightTooltip');
@@ -6560,40 +6501,63 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     ? [...spotlightTour.querySelectorAll('.spotlight-shade')]
     : [];
 
+  function guideMissingWidgetTarget() {
+    const needFile = !nodes.some(n => n.type === 'file');
+    const needScatter = !nodes.some(n => n.type === 'scatter');
+    if (needFile) {
+      return document.querySelector('#categories .widget[data-type="file"]')
+        || document.getElementById('sidebar');
+    }
+    if (needScatter) {
+      document.querySelector('#categories .cat.green')?.classList.remove('collapsed');
+      return document.querySelector('#categories .widget[data-type="scatter"]')
+        || document.getElementById('sidebar');
+    }
+    return document.getElementById('canvasWrap');
+  }
+
+  function guideScatterNodeEl() {
+    const scatter = nodes.find(n => n.type === 'scatter');
+    if (!scatter) return null;
+    return document.querySelector(`#nodesLayer .node[data-id="${scatter.id}"]`);
+  }
+
+  function guideResultTargets() {
+    const targets = [];
+    const scatterEl = guideScatterNodeEl();
+    if (scatterEl) targets.push(scatterEl);
+    const modal = document.querySelector('#resultPopup .result-popup-modal');
+    if (modal && !document.getElementById('resultPopup')?.hidden) targets.push(modal);
+    // Also include file node so the workflow stays in view
+    const file = nodes.find(n => n.type === 'file');
+    if (file) {
+      const fileEl = document.querySelector(`#nodesLayer .node[data-id="${file.id}"]`);
+      if (fileEl) targets.unshift(fileEl);
+    }
+    return targets.length ? targets : [document.getElementById('canvasWrap')];
+  }
+
   const SPOTLIGHT_STEPS = [
     {
       id: 'start',
       title: '시작해볼까요?',
-      body: '파일 위젯과 산점도로\n간단한 분석 흐름을 만들어 볼게요.',
+      body: '위젯을 추가하고 연결한 뒤\n자동실행으로 결과를 확인해 볼게요.',
       advance: 'next',
       target: () => document.getElementById('canvasWrap'),
     },
     {
-      id: 'file',
-      title: '파일 위젯을 추가해 보세요',
-      body: '데이터 카테고리의 파일 위젯을\n더블클릭해 캔버스에 추가해 보세요.',
-      advance: 'createNode:file',
-      target: () => document.querySelector('#categories .widget[data-type="file"]')
-        || document.getElementById('sidebar'),
+      id: 'add',
+      title: '위젯을 추가해 보세요',
+      body: '파일과 산점도 위젯을\n더블클릭해 캔버스에 추가해 보세요.',
+      advance: 'createNodes:file+scatter',
+      target: () => guideMissingWidgetTarget(),
       prepare() {
         setActiveMenu('widgets', '위젯');
         setWidgetSidebarCollapsed(false);
-        showWidgetFlowDetail('file');
-      },
-    },
-    {
-      id: 'scatter',
-      title: '산점도 위젯을 추가해 보세요',
-      body: '시각화 카테고리의 산점도 위젯을\n더블클릭해 캔버스에 추가해 보세요.',
-      advance: 'createNode:scatter',
-      target: () => document.querySelector('#categories .widget[data-type="scatter"]')
-        || document.getElementById('sidebar'),
-      prepare() {
-        setActiveMenu('widgets', '위젯');
-        setWidgetSidebarCollapsed(false);
-        showWidgetFlowDetail('scatter');
-        // Expand visualize if somehow collapsed
+        clearWidgetFlowDetail();
         document.querySelector('#categories .cat.green')?.classList.remove('collapsed');
+        const needFile = !nodes.some(n => n.type === 'file');
+        showWidgetFlowDetail(needFile ? 'file' : 'scatter');
       },
     },
     {
@@ -6604,28 +6568,24 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       target: () => document.getElementById('canvasWrap'),
       prepare() {
         ensureGuideFileScatterNodes();
-      },
-    },
-    {
-      id: 'run',
-      title: '지금 실행해 보세요',
-      body: '‘지금 실행’을 누르면\n산점도 결과 창이 열려요.',
-      advance: 'run',
-      target: () => {
-        const btn = document.getElementById('btnRunNow');
-        if (btn && !btn.hidden) return btn;
-        return document.getElementById('execModeHeader');
-      },
-      prepare() {
         setExecutionMode('manual', { silent: true, skipRun: true });
       },
     },
     {
-      id: 'done',
-      title: '가이드를 마무리할까요?',
-      body: '결과까지 확인했어요.\n완료를 눌러 다음으로 이동해 보세요.',
-      advance: 'next',
-      target: () => document.getElementById('canvasWrap'),
+      id: 'run',
+      title: '자동실행으로 결과를 확인해요',
+      body: '설정에서 자동 실행을 켜면\n위젯 결과 창이 바로 열려요.',
+      advance: 'mode:auto',
+      target: () => document.querySelector('#settingsPopover [data-exec-mode="auto"]')
+        || document.querySelector('[data-menu="settings"]')
+        || document.getElementById('execModeHeader'),
+      prepare() {
+        ensureGuideFileScatterNodes();
+        ensureGuideFileScatterLink();
+        setExecutionMode('manual', { silent: true, skipRun: true });
+        const settingsBtn = document.querySelector('[data-menu="settings"]');
+        if (settingsBtn) showSettingsPopover(settingsBtn);
+      },
     },
   ];
 
@@ -6651,9 +6611,24 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     syncExecutionModeUI();
   }
 
-  function openResultPopup() {
+  function ensureGuideFileScatterLink() {
+    ensureGuideFileScatterNodes();
+    const fileNode = nodes.find(n => n.type === 'file');
+    const scatterNode = nodes.find(n => n.type === 'scatter');
+    if (!fileNode || !scatterNode) return;
+    const exists = connections.some(c => c.from === fileNode.id && c.to === scatterNode.id);
+    if (!exists) {
+      connections.push({ id: uid('c'), from: fileNode.id, to: scatterNode.id, label: '' });
+      renderNodes();
+      drawConnections();
+      syncExecutionModeUI();
+    }
+  }
+
+  function openResultPopup({ spotlighted = false } = {}) {
     const el = document.getElementById('resultPopup');
     if (!el) return;
+    el.classList.toggle('is-spotlighted', !!spotlighted);
     el.hidden = false;
   }
 
@@ -6661,16 +6636,45 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     const el = document.getElementById('resultPopup');
     if (!el) return;
     el.hidden = true;
+    el.classList.remove('is-spotlighted');
+  }
+
+  function revealGuideResult() {
+    hideSettingsPopover();
+    ensureGuideFileScatterLink();
+    openResultPopup({ spotlighted: true });
+    spotlightResultReveal = true;
+    if (spotlightTitle) spotlightTitle.textContent = '결과가 열렸어요!';
+    if (spotlightBody) spotlightBody.textContent = '산점도 위젯과 결과 창을\n함께 확인해 보세요.';
+    if (spotlightActions) spotlightActions.hidden = false;
+    if (spotlightNext) {
+      spotlightNext.hidden = false;
+      spotlightNext.textContent = '완료';
+    }
+    scheduleSpotlightLayout();
   }
 
   function notifySpotlight(kind, payload = {}) {
     if (!spotlightTourActive) return;
+    if (spotlightResultReveal) return;
     const step = SPOTLIGHT_STEPS[spotlightIndex];
     if (!step) return;
     const adv = step.advance;
     if (kind === 'createNode') {
       if (adv === 'createNode') {
         advanceSpotlightTour();
+        return;
+      }
+      if (adv === 'createNodes:file+scatter') {
+        const hasFile = nodes.some(n => n.type === 'file');
+        const hasScatter = nodes.some(n => n.type === 'scatter');
+        if (hasFile && hasScatter) {
+          advanceSpotlightTour();
+          return;
+        }
+        // Retarget to the still-missing widget
+        try { step.prepare?.(); } catch (_) { /* ignore */ }
+        scheduleSpotlightLayout();
         return;
       }
       if (typeof adv === 'string' && adv.startsWith('createNode:')) {
@@ -6683,9 +6687,12 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       advanceSpotlightTour();
       return;
     }
+    if (adv === 'mode:auto' && kind === 'mode' && payload.mode === 'auto') {
+      revealGuideResult();
+      return;
+    }
     if (adv === 'run' && kind === 'run' && !payload.silent) {
-      openResultPopup();
-      // Stay on run until result popup continues, or advance after showing
+      revealGuideResult();
       return;
     }
     if (adv === 'mode' && kind === 'mode') {
@@ -6700,20 +6707,40 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   function getSpotlightPad(el) {
     if (!el) return 10;
+    if (Array.isArray(el)) return 14;
     if (el.classList?.contains('widget')) return 8;
     if (el.classList?.contains('rail-item') || el.matches?.('[data-menu]')) return 6;
     if (el.id === 'btnRunNow' || el.id === 'execModeHeader') return 6;
+    if (el.classList?.contains('result-popup-modal') || el.classList?.contains('node')) return 12;
+    if (el.matches?.('[data-exec-mode]')) return 8;
     return 10;
+  }
+
+  function unionSpotlightRect(targets) {
+    const list = (Array.isArray(targets) ? targets : [targets]).filter(Boolean);
+    let left = Infinity;
+    let top = Infinity;
+    let right = -Infinity;
+    let bottom = -Infinity;
+    let any = false;
+    list.forEach(el => {
+      if (!el?.getBoundingClientRect) return;
+      const r = el.getBoundingClientRect();
+      if (r.width < 2 || r.height < 2) return;
+      any = true;
+      left = Math.min(left, r.left);
+      top = Math.min(top, r.top);
+      right = Math.max(right, r.right);
+      bottom = Math.max(bottom, r.bottom);
+    });
+    if (!any) return null;
+    return { left, top, right, bottom, width: right - left, height: bottom - top };
   }
 
   function layoutSpotlight(target) {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    let rect;
-    if (target && target.getBoundingClientRect) {
-      rect = target.getBoundingClientRect();
-      if (rect.width < 2 || rect.height < 2) rect = null;
-    }
+    let rect = unionSpotlightRect(target);
     if (!rect) {
       rect = { left: vw * 0.2, top: vh * 0.2, width: vw * 0.6, height: vh * 0.5, right: vw * 0.8, bottom: vh * 0.7 };
     }
@@ -6765,6 +6792,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   function refreshSpotlightLayout() {
     if (!spotlightTourActive) return;
+    if (spotlightResultReveal) {
+      layoutSpotlight(guideResultTargets());
+      return;
+    }
     const step = SPOTLIGHT_STEPS[spotlightIndex];
     const target = step?.target?.() || null;
     layoutSpotlight(target);
@@ -6819,6 +6850,9 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   function finishSpotlightTour() {
     // Hide interactive shades/tooltip; show completion card
+    closeResultPopup();
+    hideSettingsPopover();
+    spotlightResultReveal = false;
     spotlightShades.forEach(s => { s.style.display = 'none'; });
     if (spotlightRing) spotlightRing.hidden = true;
     if (spotlightTooltip) spotlightTooltip.hidden = true;
@@ -6827,8 +6861,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   function stopSpotlightTour({ openQuick = false } = {}) {
     spotlightTourActive = false;
+    spotlightResultReveal = false;
     cancelAnimationFrame(spotlightRaf);
     closeResultPopup();
+    hideSettingsPopover();
     if (spotlightTour) spotlightTour.hidden = true;
     if (spotlightComplete) spotlightComplete.hidden = true;
     if (spotlightTooltip) spotlightTooltip.hidden = true;
@@ -6848,7 +6884,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       featureGuide.classList.remove('is-complete', 'is-home');
     }
     closeQuickStart();
+    closeResultPopup();
+    hideSettingsPopover();
     spotlightTourActive = true;
+    spotlightResultReveal = false;
     spotlightIndex = Math.max(0, Math.min(startAt, SPOTLIGHT_STEPS.length - 1));
     spotlightTour.hidden = false;
     if (spotlightComplete) spotlightComplete.hidden = true;
@@ -6859,8 +6898,6 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function startFeatureGuideTutorial() {
     // Leave Guide Home and run spotlight tutorial on the real workspace.
     featureGuideMode = 'tutorial';
-    const preview = document.getElementById('featureGuideResultPreview');
-    if (preview) preview.hidden = true;
     featureGuide?.classList.remove('is-home');
     if (featureGuide) featureGuide.hidden = true;
     startSpotlightTour(0);
@@ -6870,8 +6907,6 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     // Legacy in-modal tutorial path (kept for demos). Prefer spotlight tour.
     featureGuideMode = 'tutorial';
     featureGuide?.classList.remove('is-home');
-    const preview = document.getElementById('featureGuideResultPreview');
-    if (preview) preview.hidden = true;
     const total = FEATURE_GUIDE_STEPS.length;
     featureGuideIndex = Math.max(0, Math.min(index, total - 1));
     const step = FEATURE_GUIDE_STEPS[featureGuideIndex];
@@ -6968,7 +7003,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       return;
     }
     const next = featureGuideIndex + 1;
-    if (next >= FEATURE_GUIDE_STEPS.length - 1) {
+    if (next >= FEATURE_GUIDE_STEPS.length) {
       completeFeatureGuide();
       return;
     }
@@ -7128,6 +7163,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   spotlightNext?.addEventListener('click', () => {
     if (!spotlightTourActive) return;
+    if (spotlightResultReveal) {
+      finishSpotlightTour();
+      return;
+    }
     advanceSpotlightTour();
   });
   spotlightSkip?.addEventListener('click', () => {
@@ -7139,16 +7178,19 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   document.getElementById('resultPopupClose')?.addEventListener('click', () => {
     closeResultPopup();
-    if (spotlightTourActive) advanceSpotlightTour();
+    if (spotlightTourActive && spotlightResultReveal) finishSpotlightTour();
+    else if (spotlightTourActive) advanceSpotlightTour();
   });
   document.getElementById('resultPopupNext')?.addEventListener('click', () => {
     closeResultPopup();
-    if (spotlightTourActive) advanceSpotlightTour();
+    if (spotlightTourActive && spotlightResultReveal) finishSpotlightTour();
+    else if (spotlightTourActive) advanceSpotlightTour();
   });
   document.getElementById('resultPopup')?.addEventListener('click', e => {
     if (e.target?.id === 'resultPopup') {
       closeResultPopup();
-      if (spotlightTourActive) advanceSpotlightTour();
+      if (spotlightTourActive && spotlightResultReveal) finishSpotlightTour();
+      else if (spotlightTourActive) advanceSpotlightTour();
     }
   });
 
