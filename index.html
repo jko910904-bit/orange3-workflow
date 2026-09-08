@@ -2812,6 +2812,11 @@
     color: #1F2328;
   }
   body.char-none .feature-guide-tip { display: none !important; }
+  .fg-node.is-complete-slot.is-active,
+  .fg-node.is-complete-slot.is-done {
+    border-color: #7ED321;
+    background: rgba(126, 211, 33, .22);
+  }
   .feature-guide-foot {
     display: flex;
     align-items: center;
@@ -2819,6 +2824,7 @@
     gap: 10px;
     margin-top: 22px;
   }
+  .feature-guide-foot[hidden] { display: none !important; }
   .feature-guide-next {
     appearance: none;
     border: none;
@@ -2859,7 +2865,7 @@
     background: rgba(255,255,255,.96);
     color: #1F2328;
     border-radius: 18px;
-    padding: 22px 28px;
+    padding: 28px 40px;
     text-align: center;
     box-shadow: 0 18px 48px rgba(0,0,0,.28);
     transform: scale(0.84);
@@ -2867,15 +2873,9 @@
   }
   .fg-celebrate-card strong {
     display: block;
-    font-size: 22px;
+    font-size: 30px;
     font-weight: 800;
     letter-spacing: -0.03em;
-    margin-bottom: 6px;
-  }
-  .fg-celebrate-card span {
-    font-size: 14px;
-    color: #5B6472;
-    font-weight: 600;
   }
   .fg-celebrate-burst {
     position: absolute;
@@ -3388,7 +3388,6 @@
         <div class="fg-celebrate-burst" id="featureGuideBurst" aria-hidden="true"></div>
         <div class="fg-celebrate-card">
           <strong>완료!</strong>
-          <span>주요기능 8단계를 모두 살펴봤어요</span>
         </div>
       </div>
     </div>
@@ -5766,12 +5765,13 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       onboard: null,
     },
     {
-      id: 'save',
-      label: '저장·열기',
-      tip: '작업한 워크플로우는 저장하고 다시 열 수 있어요.',
-      bubble: '저장해 두면 다음에 이어서 할 수 있어요',
-      icon: '💾',
+      id: 'done',
+      label: '완료',
+      tip: '완료!',
+      bubble: '완료!',
+      icon: '✓',
       onboard: null,
+      isComplete: true,
     },
   ];
   let featureGuideIndex = 0;
@@ -5854,7 +5854,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     FEATURE_GUIDE_STEPS.forEach((step, idx) => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'fg-node';
+      btn.className = 'fg-node' + (step.isComplete ? ' is-complete-slot' : '');
       btn.dataset.guideIndex = String(idx);
       const ico = document.createElement('span');
       ico.className = 'fg-ico';
@@ -5874,6 +5874,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       btn.addEventListener('click', () => {
         if (featureGuideCompleting) return;
         if (idx > featureGuideIndex + 1) return;
+        if (step.isComplete || idx === FEATURE_GUIDE_STEPS.length - 1) {
+          if (idx <= featureGuideIndex + 1) completeFeatureGuide();
+          return;
+        }
         if (idx === featureGuideIndex) {
           advanceFeatureGuide();
           return;
@@ -5886,10 +5890,14 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   }
 
   function setFeatureGuideStep(index) {
-    featureGuideIndex = Math.max(0, Math.min(index, FEATURE_GUIDE_STEPS.length - 1));
-    const step = FEATURE_GUIDE_STEPS[featureGuideIndex];
     const total = FEATURE_GUIDE_STEPS.length;
-    const progress = featureGuideIndex; // 0/8 at start of step 1
+    featureGuideIndex = Math.max(0, Math.min(index, total - 1));
+    const step = FEATURE_GUIDE_STEPS[featureGuideIndex];
+    if (step?.isComplete) {
+      completeFeatureGuide();
+      return;
+    }
+    const progress = featureGuideIndex;
     if (featureGuideProgressBar) {
       featureGuideProgressBar.style.width = `${(progress / total) * 100}%`;
     }
@@ -5912,8 +5920,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     });
     if (featureGuideTip) featureGuideTip.hidden = true;
     if (step.onboard) selectOnboardStep(step.onboard);
+    const foot = featureGuideNext?.closest('.feature-guide-foot');
+    if (foot) foot.hidden = false;
     if (featureGuideNext) {
-      featureGuideNext.textContent = featureGuideIndex >= total - 1 ? '완료' : '다음';
+      featureGuideNext.textContent = '다음';
       featureGuideNext.disabled = featureGuideCompleting;
     }
   }
@@ -5938,24 +5948,30 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (!featureGuide || featureGuideCompleting) return;
     featureGuideCompleting = true;
     const total = FEATURE_GUIDE_STEPS.length;
+    featureGuideIndex = total - 1;
     if (featureGuideProgressBar) featureGuideProgressBar.style.width = '100%';
     if (featureGuideProgressLabel) featureGuideProgressLabel.textContent = `${total}/${total}`;
-    featureGuideMap?.querySelectorAll('.fg-node').forEach((btn) => {
+    featureGuideMap?.querySelectorAll('.fg-node').forEach((btn, idx) => {
       btn.classList.add('is-done');
-      btn.classList.remove('is-active', 'is-locked');
+      btn.classList.toggle('is-active', idx === total - 1);
+      btn.classList.remove('is-locked');
       btn.querySelector('.fg-bubble')?.remove();
+      if (idx === total - 1) {
+        const bubble = document.createElement('div');
+        bubble.className = 'fg-bubble';
+        bubble.textContent = '완료!';
+        btn.appendChild(bubble);
+      }
     });
-    if (featureGuideNext) {
-      featureGuideNext.textContent = '완료';
-      featureGuideNext.disabled = true;
-    }
+    const foot = featureGuideNext?.closest('.feature-guide-foot');
+    if (foot) foot.hidden = true;
     featureGuide.classList.add('is-complete');
     if (featureGuideCelebrate) {
       featureGuideCelebrate.hidden = false;
       requestAnimationFrame(() => featureGuideCelebrate.classList.add('is-on'));
     }
     spawnGuideConfetti();
-    showHint('주요기능 가이드 완료!');
+    showHint('완료!');
     setTimeout(() => {
       closeFeatureGuide();
       featureGuideCompleting = false;
@@ -5964,11 +5980,12 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   function advanceFeatureGuide() {
     if (!featureGuide || featureGuide.hidden || featureGuideCompleting) return;
-    if (featureGuideIndex >= FEATURE_GUIDE_STEPS.length - 1) {
+    const next = featureGuideIndex + 1;
+    if (next >= FEATURE_GUIDE_STEPS.length - 1) {
       completeFeatureGuide();
       return;
     }
-    setFeatureGuideStep(featureGuideIndex + 1);
+    setFeatureGuideStep(next);
   }
 
   function openFeatureGuide(startIndex = 0) {
@@ -5981,8 +5998,12 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       featureGuideCelebrate.hidden = true;
     }
     if (featureGuideBurst) featureGuideBurst.innerHTML = '';
+    featureGuideBuilt = false;
+    if (featureGuideMap) featureGuideMap.innerHTML = '';
     buildFeatureGuide();
     featureGuide.hidden = false;
+    const foot = featureGuideNext?.closest('.feature-guide-foot');
+    if (foot) foot.hidden = false;
     setFeatureGuideStep(startIndex);
   }
 
