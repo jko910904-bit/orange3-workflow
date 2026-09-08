@@ -7210,6 +7210,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     }
     top = Math.min(top, Math.max(12, wrap.height - 120));
     el.style.width = `${Math.round(popupW)}px`;
+    el.style.height = `${Math.round(popupH)}px`;
     el.style.maxHeight = `${Math.round(popupH)}px`;
     if (spotlighted) {
       // Fixed above the dim overlay — use viewport coordinates.
@@ -7239,6 +7240,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     el.style.left = '';
     el.style.top = '';
     el.style.width = '';
+    el.style.height = '';
     el.style.maxHeight = '';
   }
 
