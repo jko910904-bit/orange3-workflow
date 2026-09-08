@@ -1729,14 +1729,91 @@
   .canvas-onboard-copy h2 .onboard-title-text {
     display: inline;
   }
+  .onboard-mascot-wrap {
+    position: relative;
+    flex: 0 0 auto;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .onboard-title-mascot {
     width: clamp(140px, 17.5vw, 190px);
     height: auto;
     flex: 0 0 auto;
     display: block;
     object-fit: contain;
-    margin-left: auto;
     filter: drop-shadow(0 8px 18px rgba(20,24,40,.12));
+  }
+  .onboard-guide-bubble {
+    appearance: none;
+    -webkit-appearance: none;
+    position: absolute;
+    left: -6px;
+    top: 10%;
+    transform: translateX(-100%);
+    z-index: 2;
+    margin: 0;
+    padding: 10px 14px;
+    border: 1px solid rgba(229, 231, 235, .95);
+    border-radius: 16px;
+    background: #fff;
+    color: var(--brand-dark);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow:
+      0 1px 0 rgba(15, 42, 86, .04),
+      0 10px 24px rgba(34, 125, 226, .14);
+    transition: transform .18s, box-shadow .18s, background .18s, border-color .18s;
+  }
+  .onboard-guide-bubble::after {
+    content: '';
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 10px solid #fff;
+    filter: drop-shadow(2px 0 1px rgba(20, 28, 48, .06));
+  }
+  .onboard-guide-bubble:hover {
+    background: #FAFCFF;
+    border-color: color-mix(in srgb, var(--brand) 40%, #E5E7EB);
+    box-shadow: 0 12px 28px rgba(34, 125, 226, .18);
+    transform: translateX(-100%) translateY(-1px);
+  }
+  .onboard-guide-bubble:focus {
+    outline: none;
+  }
+  .onboard-guide-bubble:focus-visible {
+    border-color: var(--brand);
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--brand) 22%, transparent),
+      0 10px 24px rgba(34, 125, 226, .14);
+  }
+  body.char-none .onboard-mascot-wrap {
+    display: none !important;
+  }
+  .canvas-onboard-quick {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .canvas-onboard-quick-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--brand-dark);
+    text-align: center;
   }
   .theme-tabs {
     display: flex;
@@ -2040,7 +2117,25 @@
     .canvas-onboard-hero { flex-direction: column-reverse; text-align: center; }
     .canvas-onboard-copy { text-align: center; }
     .onboard-title-row { flex-direction: column-reverse; align-items: center; }
-    .onboard-title-mascot { margin-left: 0; }
+    .onboard-mascot-wrap { margin-left: 0; }
+    .onboard-guide-bubble {
+      left: 50%;
+      top: -6px;
+      transform: translate(-50%, -100%);
+    }
+    .onboard-guide-bubble::after {
+      left: 50%;
+      top: 100%;
+      transform: translateX(-50%);
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 10px solid #fff;
+      border-bottom: none;
+      filter: drop-shadow(0 2px 1px rgba(20, 28, 48, .06));
+    }
+    .onboard-guide-bubble:hover {
+      transform: translate(-50%, calc(-100% - 1px));
+    }
     .canvas-onboard-media { width: min(220px, 55vw); }
     .canvas-onboard-steps,
     .canvas-onboard-actions { grid-template-columns: 1fr; }
@@ -2616,9 +2711,6 @@
     font-weight: 650;
     line-height: 1.4;
     color: #2A2F38;
-  }
-  .onboard-title-mascot {
-    display: none !important;
   }
   .pengsu-coach-actions {
     display: flex;
@@ -4010,8 +4102,72 @@
           <div id="nodesLayer"></div>
         </div>
 
-        <!-- Floor stays clean: onboarding lives in Pengsu / feature-guide / quick-start popups -->
-        <div class="canvas-onboard" id="onboardOverlay" hidden aria-hidden="true"></div>
+        <div class="canvas-onboard" id="onboardOverlay" hidden aria-hidden="true">
+          <div class="canvas-onboard-inner" aria-label="실습 시작 가이드">
+            <div class="canvas-onboard-hero">
+              <div class="canvas-onboard-copy">
+                <div class="onboard-title-row">
+                  <div class="onboard-title-block">
+                    <h2><span class="onboard-title-text">데이터 분석을 시작해볼까요?</span></h2>
+                    <p class="onboard-title-sub">위젯을 추가하고 연결하여 데이터 분석 워크플로우를 완성해보세요.</p>
+                  </div>
+                  <div class="onboard-mascot-wrap">
+                    <button type="button" class="onboard-guide-bubble" id="btnOnboardGuide">
+                      가이드 알아보기
+                    </button>
+                    <img class="onboard-title-mascot" id="onboardMascot" src="assets/onboarding-pengsu-ai.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="canvas-onboard-steps" role="group" aria-label="시작 단계 선택">
+              <button class="canvas-onboard-step" type="button" data-onboard-step="add" aria-pressed="false">
+                <div class="step-head">
+                  <span class="step-num">1</span>
+                  <span class="step-title">위젯 추가하기</span>
+                </div>
+                <p class="step-desc">필요한 위젯을 선택하거나 캔버스로 드래그하여 배치합니다.</p>
+              </button>
+              <button class="canvas-onboard-step" type="button" data-onboard-step="connect" aria-pressed="false">
+                <div class="step-head">
+                  <span class="step-num">2</span>
+                  <span class="step-title">위젯 연결하기</span>
+                </div>
+                <p class="step-desc">위젯과 위젯을 선으로 연결해서 분석 흐름을 구성합니다.</p>
+              </button>
+              <button class="canvas-onboard-step" type="button" data-onboard-step="run" aria-pressed="false">
+                <div class="step-head">
+                  <span class="step-num">3</span>
+                  <span class="step-title">결과 확인하기</span>
+                </div>
+                <p class="step-desc">‘지금 실행’ 버튼을 눌러 분석 결과를 확인합니다.</p>
+              </button>
+            </div>
+            <div class="canvas-onboard-quick">
+              <h3 class="canvas-onboard-quick-title">빠르게 시작하기</h3>
+              <div class="canvas-onboard-actions">
+                <button class="canvas-onboard-action" type="button" id="btnFloorOnboardLoad">
+                  <span class="action-body">
+                    <span class="action-title">이전 작업 불러오기</span>
+                    <p class="action-desc">저장한 워크플로우를 열어 이어서 작업합니다.</p>
+                  </span>
+                  <span class="action-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+                  </span>
+                </button>
+                <button class="canvas-onboard-action" type="button" id="btnFloorOnboardTemplates">
+                  <span class="action-body">
+                    <span class="action-title">템플릿 둘러보기</span>
+                    <p class="action-desc">준비된 분석 템플릿으로 빠르게 시작합니다.</p>
+                  </span>
+                  <span class="action-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- hintBar kept for API compatibility; toasts are disabled -->
         <div class="hint-bar" id="hintBar" hidden aria-hidden="true"></div>
@@ -6795,18 +6951,23 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   }
 
   function openOnboard() {
-    // Keep the canvas floor clean — guides live in overlay popups only.
-    if (onboardOverlay) onboardOverlay.hidden = true;
-    canvasWrap?.classList.remove('is-onboarding');
+    if (!onboardOverlay) return;
     onboardSteps.forEach(btn => {
       btn.classList.remove('is-selected');
       btn.setAttribute('aria-pressed', 'false');
     });
-    openPengsuHelper();
+    onboardOverlay.hidden = false;
+    onboardOverlay.setAttribute('aria-hidden', 'false');
+    canvasWrap?.classList.add('is-onboarding');
+    // Entry to the guide is the "가이드 알아보기" bubble next to Pengsu.
+    closePengsuHelper({ immediate: true });
   }
 
   function closeOnboard() {
-    if (onboardOverlay) onboardOverlay.hidden = true;
+    if (onboardOverlay) {
+      onboardOverlay.hidden = true;
+      onboardOverlay.setAttribute('aria-hidden', 'true');
+    }
     canvasWrap?.classList.remove('is-onboarding');
     // Keep spotlight tour alive when widgets are added during guided steps.
     if (spotlightTourActive) return;
@@ -7714,6 +7875,11 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function startSpotlightTour(startAt = 0) {
     if (!spotlightTour) return;
     closePengsuHelper({ immediate: true });
+    if (onboardOverlay) {
+      onboardOverlay.hidden = true;
+      onboardOverlay.setAttribute('aria-hidden', 'true');
+    }
+    canvasWrap?.classList.remove('is-onboarding');
     if (featureGuide) {
       featureGuide.hidden = true;
       featureGuide.classList.remove('is-complete', 'is-home');
@@ -7980,6 +8146,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     });
   });
 
+  document.getElementById('btnOnboardGuide')?.addEventListener('click', () => {
+    openFeatureGuide();
+  });
+
   pengsuCoachNext?.addEventListener('click', () => advancePengsuHelper());
   featureGuideNext?.addEventListener('click', () => {
     if (featureGuideMode === 'home') startFeatureGuideTutorial();
@@ -8061,6 +8231,16 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     closeQuickStart();
     closeOnboard();
     showHint('위젯을 드래그하거나 더블클릭해 분석을 시작해 보세요');
+  });
+
+  document.getElementById('btnFloorOnboardLoad')?.addEventListener('click', () => {
+    loadPreviousWorkflow();
+  });
+
+  document.getElementById('btnFloorOnboardTemplates')?.addEventListener('click', () => {
+    closeOnboard();
+    setActiveMenu('templates', 'Templates');
+    showHint('템플릿 메뉴에서 원하는 분석을 골라 보세요');
   });
 
   function loadPreviousWorkflow() {
