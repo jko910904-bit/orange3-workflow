@@ -1190,6 +1190,43 @@
     pointer-events: none;
     user-select: none;
     box-shadow: none;
+    position: relative;
+    transform-origin: center center;
+  }
+  /* Guide STEP 4: lift header above spotlight dim so 자동실행모드 stays readable */
+  .tabs.is-guide-elevated {
+    z-index: 128;
+  }
+  .exec-mode-header.is-guide-focus {
+    z-index: 1;
+  }
+  .exec-mode-badge.is-emphasized {
+    background: #227DE2;
+    color: #fff;
+    box-shadow:
+      0 0 0 0 rgba(34, 125, 226, .55),
+      0 0 18px rgba(34, 125, 226, .65),
+      0 4px 14px rgba(15, 42, 86, .28);
+    animation: execBadgeBob 1.6s ease-in-out infinite;
+  }
+  .exec-mode-badge.is-emphasized::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, .85);
+    box-shadow: 0 0 0 3px rgba(34, 125, 226, .35);
+    pointer-events: none;
+    animation: execBadgePulseRing 1.6s ease-out infinite;
+  }
+  @keyframes execBadgeBob {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+  }
+  @keyframes execBadgePulseRing {
+    0% { opacity: .95; transform: scale(0.96); }
+    70% { opacity: 0; transform: scale(1.18); }
+    100% { opacity: 0; transform: scale(1.22); }
   }
   .exec-mode-run-btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -7157,11 +7194,22 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     el.style.maxHeight = '';
   }
 
+  function setExecModeGuideEmphasis(on) {
+    const badge = document.getElementById('execModeBadge');
+    const header = document.getElementById('execModeHeader');
+    const tabs = document.querySelector('.tabs');
+    badge?.classList.toggle('is-emphasized', !!on);
+    header?.classList.toggle('is-guide-focus', !!on);
+    tabs?.classList.toggle('is-guide-elevated', !!on);
+  }
+
   function revealGuideResult() {
     hideSettingsPopover();
     ensureGuideFileScatterLink();
     openResultPopup({ spotlighted: true });
     spotlightResultReveal = true;
+    // Highlight 자동실행모드 — explains why the result popup opened automatically.
+    setExecModeGuideEmphasis(true);
     if (spotlightTitle) spotlightTitle.textContent = '결과가 열렸어요!';
     if (spotlightBody) {
       spotlightBody.textContent = '산점도 결과 팝업이\n바로 열렸어요.';
@@ -7458,6 +7506,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     // Hide interactive shades/tooltip; show completion card
     closeResultPopup();
     hideSettingsPopover();
+    setExecModeGuideEmphasis(false);
     spotlightResultReveal = false;
     spotlightShades.forEach(s => {
       s.style.display = 'none';
@@ -7475,6 +7524,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     cancelAnimationFrame(spotlightRaf);
     closeResultPopup();
     hideSettingsPopover();
+    setExecModeGuideEmphasis(false);
     if (spotlightTour) spotlightTour.hidden = true;
     if (spotlightComplete) spotlightComplete.hidden = true;
     if (spotlightTooltip) spotlightTooltip.hidden = true;
@@ -7496,6 +7546,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     closeQuickStart();
     closeResultPopup();
     hideSettingsPopover();
+    setExecModeGuideEmphasis(false);
     // Guide always uses auto-run as the default (info tip explains the mode).
     setExecutionMode('auto', { silent: true, skipRun: true });
     spotlightTourActive = true;
