@@ -3264,64 +3264,61 @@
   }
   .spotlight-complete-cta:hover { background: var(--brand-dark); }
 
-  /* Analysis result popup (scatter plot preview) */
+  /* Analysis result window — floats on the canvas (not a nested modal overlay) */
   .result-popup {
-    position: fixed;
-    inset: 0;
-    z-index: 125;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    background: rgba(20, 28, 48, .48);
-    backdrop-filter: blur(2px);
+    position: absolute;
+    z-index: 45;
+    left: 42%;
+    top: 10%;
+    width: min(560px, calc(100% - 40px));
+    max-width: 560px;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    display: block;
+    pointer-events: none;
   }
   .result-popup[hidden] { display: none !important; }
-  /* During spotlight: no extra dim — hole frames widget + popup together */
   .result-popup.is-spotlighted {
-    z-index: 119;
-    background: transparent;
-    backdrop-filter: none;
-    pointer-events: none;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 24px 36px 24px 24px;
-  }
-  .result-popup.is-spotlighted .result-popup-modal {
-    pointer-events: auto;
-    width: min(640px, calc(100vw - 48px));
-  }
-  .result-popup.is-spotlighted .result-popup-body img {
-    max-height: min(52vh, 420px);
+    z-index: 45;
   }
   .result-popup-modal {
     position: relative;
-    width: min(920px, 100%);
+    width: 100%;
+    pointer-events: auto;
     background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 24px 64px rgba(0, 0, 0, .28);
+    border-radius: 16px;
+    border: 1px solid rgba(229, 231, 235, .95);
+    box-shadow:
+      0 1px 0 rgba(15, 42, 86, .04),
+      0 18px 48px rgba(20, 28, 48, .22);
     overflow: hidden;
     animation: quickStartIn .35s cubic-bezier(.22, 1, .36, 1);
+  }
+  .result-popup.is-spotlighted .result-popup-modal {
+    box-shadow:
+      0 0 0 2px color-mix(in srgb, var(--brand) 35%, transparent),
+      0 18px 48px rgba(20, 28, 48, .22);
   }
   .result-popup-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 14px 16px;
+    padding: 12px 14px;
     border-bottom: 1px solid rgba(229, 231, 235, .95);
     background: #FAFBFC;
   }
   .result-popup-title {
     margin: 0;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 750;
     letter-spacing: -0.02em;
     color: #1F2328;
   }
   .result-popup-close {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border: none;
     border-radius: 10px;
     background: transparent;
@@ -3333,7 +3330,7 @@
   }
   .result-popup-close:hover { background: rgba(0,0,0,.05); color: #1F2328; }
   .result-popup-close svg {
-    width: 18px; height: 18px;
+    width: 16px; height: 16px;
     stroke: currentColor; fill: none;
     stroke-width: 2; stroke-linecap: round;
   }
@@ -3346,14 +3343,14 @@
     width: 100%;
     height: auto;
     display: block;
-    max-height: min(70vh, 640px);
+    max-height: min(48vh, 380px);
     object-fit: contain;
     background: #fff;
   }
   .result-popup-foot {
     display: flex;
     justify-content: flex-end;
-    padding: 14px 16px 16px;
+    padding: 12px 14px 14px;
     border-top: 1px solid rgba(229, 231, 235, .95);
   }
   .result-popup-next {
@@ -3362,12 +3359,12 @@
     background: var(--brand);
     color: #fff;
     font: inherit;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
-    padding: 10px 18px;
-    border-radius: 12px;
+    padding: 9px 16px;
+    border-radius: 11px;
     cursor: pointer;
-    box-shadow: 0 8px 18px rgba(34, 125, 226, .22);
+    box-shadow: 0 6px 14px rgba(34, 125, 226, .2);
   }
   .result-popup-next:hover { background: var(--brand-dark); }
 
@@ -3611,6 +3608,23 @@
         <div class="canvas-onboard" id="onboardOverlay" hidden aria-hidden="true"></div>
 
         <div class="hint-bar" id="hintBar"></div>
+
+        <div class="result-popup" id="resultPopup" hidden>
+          <div class="result-popup-modal" role="dialog" aria-modal="true" aria-labelledby="resultPopupTitle">
+            <div class="result-popup-head">
+              <h2 class="result-popup-title" id="resultPopupTitle">Scatter Plot - Orange</h2>
+              <button class="result-popup-close" type="button" id="resultPopupClose" aria-label="닫기">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+              </button>
+            </div>
+            <div class="result-popup-body">
+              <img src="assets/results/scatter-plot-orange.png" alt="산점도 분석 결과">
+            </div>
+            <div class="result-popup-foot">
+              <button class="result-popup-next" type="button" id="resultPopupNext">다음</button>
+            </div>
+          </div>
+        </div>
 
         <div class="toolbar" id="toolbar">
           <button class="tool-icon" type="button" data-tool="pan" title="이동">
@@ -3873,23 +3887,6 @@
         <h3>가이드를 모두 마쳤어요!</h3>
         <p>이제 직접 Orange3로 분석을 시작해 보세요.</p>
         <button class="spotlight-complete-cta" type="button" id="spotlightCompleteCta">시작하기</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="result-popup" id="resultPopup" hidden>
-    <div class="result-popup-modal" role="dialog" aria-modal="true" aria-labelledby="resultPopupTitle">
-      <div class="result-popup-head">
-        <h2 class="result-popup-title" id="resultPopupTitle">Scatter Plot - Orange</h2>
-        <button class="result-popup-close" type="button" id="resultPopupClose" aria-label="닫기">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
-        </button>
-      </div>
-      <div class="result-popup-body">
-        <img src="assets/results/scatter-plot-orange.png" alt="산점도 분석 결과">
-      </div>
-      <div class="result-popup-foot">
-        <button class="result-popup-next" type="button" id="resultPopupNext">다음</button>
       </div>
     </div>
   </div>
@@ -6524,16 +6521,15 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   function guideResultTargets() {
     const targets = [];
-    const scatterEl = guideScatterNodeEl();
-    if (scatterEl) targets.push(scatterEl);
-    const modal = document.querySelector('#resultPopup .result-popup-modal');
-    if (modal && !document.getElementById('resultPopup')?.hidden) targets.push(modal);
-    // Also include file node so the workflow stays in view
     const file = nodes.find(n => n.type === 'file');
     if (file) {
       const fileEl = document.querySelector(`#nodesLayer .node[data-id="${file.id}"]`);
-      if (fileEl) targets.unshift(fileEl);
+      if (fileEl) targets.push(fileEl);
     }
+    const scatterEl = guideScatterNodeEl();
+    if (scatterEl) targets.push(scatterEl);
+    const popup = document.getElementById('resultPopup');
+    if (popup && !popup.hidden) targets.push(popup);
     return targets.length ? targets : [document.getElementById('canvasWrap')];
   }
 
@@ -6541,7 +6537,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     {
       id: 'start',
       title: '시작해볼까요?',
-      body: '위젯을 추가하고 연결한 뒤\n자동실행으로 결과를 확인해 볼게요.',
+      body: '위젯을 추가하고 연결하면\n자동실행으로 결과가 바로 열려요.',
       advance: 'next',
       target: () => document.getElementById('canvasWrap'),
     },
@@ -6568,23 +6564,23 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       target: () => document.getElementById('canvasWrap'),
       prepare() {
         ensureGuideFileScatterNodes();
-        setExecutionMode('manual', { silent: true, skipRun: true });
+        // Keep auto-run as the default — no mode picker in the guide.
+        setExecutionMode('auto', { silent: true, skipRun: true });
       },
     },
     {
       id: 'run',
-      title: '자동실행으로 결과를 확인해요',
-      body: '설정에서 자동 실행을 켜면\n위젯 결과 창이 바로 열려요.',
-      advance: 'mode:auto',
-      target: () => document.querySelector('#settingsPopover [data-exec-mode="auto"]')
-        || document.querySelector('[data-menu="settings"]')
-        || document.getElementById('execModeHeader'),
+      title: '자동실행으로 결과가 열려요',
+      body: '연결되면 자동으로 실행돼요.\n상단 info에서 실행 모드를 확인할 수 있어요.',
+      advance: 'next',
+      target: () => guideResultTargets(),
       prepare() {
+        hideSettingsPopover();
         ensureGuideFileScatterNodes();
         ensureGuideFileScatterLink();
-        setExecutionMode('manual', { silent: true, skipRun: true });
-        const settingsBtn = document.querySelector('[data-menu="settings"]');
-        if (settingsBtn) showSettingsPopover(settingsBtn);
+        setExecutionMode('auto', { silent: true, skipRun: true });
+        // Default auto-run: open the canvas result window immediately.
+        revealGuideResult();
       },
     },
   ];
@@ -6625,11 +6621,43 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     }
   }
 
+  function positionResultPopupOnCanvas() {
+    const el = document.getElementById('resultPopup');
+    if (!el || !canvasWrap) return;
+    const wrap = canvasWrap.getBoundingClientRect();
+    const popupW = Math.min(560, Math.max(280, wrap.width - 40));
+    let left = Math.max(16, wrap.width * 0.38);
+    let top = Math.max(16, wrap.height * 0.1);
+    const scatterEl = guideScatterNodeEl();
+    const file = nodes.find(n => n.type === 'file');
+    const fileEl = file
+      ? document.querySelector(`#nodesLayer .node[data-id="${file.id}"]`)
+      : null;
+    const anchor = scatterEl || fileEl;
+    if (anchor) {
+      const r = anchor.getBoundingClientRect();
+      // Place to the right of the widget cluster, still inside the canvas.
+      left = r.right - wrap.left + 28;
+      top = Math.max(16, r.top - wrap.top - 12);
+      if (left + popupW > wrap.width - 16) {
+        left = Math.max(16, wrap.width - popupW - 16);
+        top = Math.min(wrap.height - 80, r.bottom - wrap.top + 20);
+      }
+    }
+    top = Math.min(top, Math.max(16, wrap.height - 120));
+    el.style.width = `${popupW}px`;
+    el.style.left = `${Math.round(left)}px`;
+    el.style.top = `${Math.round(top)}px`;
+  }
+
   function openResultPopup({ spotlighted = false } = {}) {
     const el = document.getElementById('resultPopup');
     if (!el) return;
     el.classList.toggle('is-spotlighted', !!spotlighted);
     el.hidden = false;
+    positionResultPopupOnCanvas();
+    // Second pass after image/layout settles
+    requestAnimationFrame(positionResultPopupOnCanvas);
   }
 
   function closeResultPopup() {
@@ -6637,6 +6665,9 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (!el) return;
     el.hidden = true;
     el.classList.remove('is-spotlighted');
+    el.style.left = '';
+    el.style.top = '';
+    el.style.width = '';
   }
 
   function revealGuideResult() {
@@ -6645,12 +6676,20 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     openResultPopup({ spotlighted: true });
     spotlightResultReveal = true;
     if (spotlightTitle) spotlightTitle.textContent = '결과가 열렸어요!';
-    if (spotlightBody) spotlightBody.textContent = '산점도 위젯과 결과 창을\n함께 확인해 보세요.';
+    if (spotlightBody) {
+      spotlightBody.textContent = '산점도 위젯과 결과 창을\n함께 확인해 보세요.';
+    }
+    if (spotlightStepLabel) {
+      const total = SPOTLIGHT_STEPS.length;
+      spotlightStepLabel.textContent = `STEP ${Math.min(spotlightIndex + 1, total)} / ${total}`;
+    }
     if (spotlightActions) spotlightActions.hidden = false;
     if (spotlightNext) {
       spotlightNext.hidden = false;
       spotlightNext.textContent = '완료';
     }
+    // Wait for popup layout then frame widgets + canvas window together
+    setTimeout(scheduleSpotlightLayout, 60);
     scheduleSpotlightLayout();
   }
 
@@ -6886,6 +6925,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     closeQuickStart();
     closeResultPopup();
     hideSettingsPopover();
+    // Guide always uses auto-run as the default (info tip explains the mode).
+    setExecutionMode('auto', { silent: true, skipRun: true });
     spotlightTourActive = true;
     spotlightResultReveal = false;
     spotlightIndex = Math.max(0, Math.min(startAt, SPOTLIGHT_STEPS.length - 1));
@@ -7185,13 +7226,6 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     closeResultPopup();
     if (spotlightTourActive && spotlightResultReveal) finishSpotlightTour();
     else if (spotlightTourActive) advanceSpotlightTour();
-  });
-  document.getElementById('resultPopup')?.addEventListener('click', e => {
-    if (e.target?.id === 'resultPopup') {
-      closeResultPopup();
-      if (spotlightTourActive && spotlightResultReveal) finishSpotlightTour();
-      else if (spotlightTourActive) advanceSpotlightTour();
-    }
   });
 
   // Expose guide helpers for demos / automated screenshots
