@@ -1966,10 +1966,10 @@
     transition: border-color .18s, box-shadow .18s, background .18s, transform .15s, color .15s;
   }
   .canvas-onboard-action:hover {
-    border-color: rgba(229, 231, 235, .9);
-    box-shadow: none;
-    transform: none;
-    background: #fff;
+    border-color: color-mix(in srgb, var(--brand) 40%, #E5E7EB);
+    box-shadow: 0 10px 24px rgba(34,125,226,.14);
+    transform: translateY(-2px);
+    background: #FAFCFF;
   }
   .canvas-onboard-action:focus {
     outline: none;
@@ -2035,9 +2035,9 @@
     stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
   }
   .canvas-onboard-action:hover .action-arrow {
-    background: var(--brand-soft);
-    color: var(--brand);
-    transform: none;
+    background: color-mix(in srgb, var(--brand) 18%, #fff);
+    color: var(--brand-dark);
+    transform: translateX(2px);
   }
 
   /* Quick Start follow-up popup (after feature guide) */
@@ -6176,7 +6176,7 @@
     notifySpotlight('menu', { id });
   }
 
-  function createBlankWorkflow() {
+  function createBlankWorkflow({ renameTab = true } = {}) {
     nodes = [];
     connections = [];
     selectedNodeId = null;
@@ -6184,9 +6184,24 @@
     lastPlacedNodeId = null;
     renderNodes();
     syncExecutionModeUI();
-    const activeTab = tabsList?.querySelector('.tab.active .tab-label');
-    if (activeTab) activeTab.textContent = lang === 'en' ? 'Blank tab' : '빈 탭';
+    if (renameTab) {
+      const activeTab = tabsList?.querySelector('.tab.active .tab-label');
+      if (activeTab) activeTab.textContent = lang === 'en' ? 'Blank tab' : '빈 탭';
+    }
     showHint(lang === 'en' ? 'New blank workflow' : '새 빈 워크플로');
+  }
+
+  /** Empty-tab landing: clear canvas and show only the classic onboard screen. */
+  function showEmptyCanvasOnboard() {
+    createBlankWorkflow({ renameTab: false });
+    stopSpotlightTour({ openQuick: false });
+    closeFeatureGuide();
+    closeQuickStart();
+    closePengsuHelper({ immediate: true });
+    closeResultPopup();
+    closeOpenDialog();
+    hideSettingsPopover();
+    if (getUser()) openOnboard();
   }
 
   function saveWorkflowOws() {
@@ -6571,7 +6586,10 @@ function createBlankTab(activate = true) {
   btn.className = `tab ${color}`;
   btn.innerHTML = `<span class="tab-shade" aria-hidden="true"></span><span class="tab-label">${blankTabLabel()}</span>${tabCloseHtml()}`;
   tabsList.appendChild(btn);
-  if (activate) activateTab(btn);
+  if (activate) {
+    activateTab(btn);
+    showEmptyCanvasOnboard();
+  }
   return btn;
 }
 
