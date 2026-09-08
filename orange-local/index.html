@@ -3256,6 +3256,60 @@
   }
   .spotlight-complete-cta:hover { background: var(--brand-dark); }
 
+  /* Guide connect demo — animated cursor dragging File → Scatter */
+  .guide-connect-demo {
+    position: fixed;
+    inset: 0;
+    z-index: 121;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .guide-connect-demo[hidden] { display: none !important; }
+  .guide-connect-demo-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .guide-connect-demo-path {
+    fill: none;
+    stroke: var(--brand);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    opacity: 0.92;
+    filter: drop-shadow(0 1px 2px rgba(34, 125, 226, .25));
+  }
+  .guide-connect-demo-cursor {
+    position: fixed;
+    width: 28px;
+    height: 28px;
+    margin: 0;
+    transform: translate(-4px, -2px);
+    opacity: 0;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 4px rgba(20, 28, 48, .35));
+    will-change: left, top, opacity, transform;
+  }
+  .guide-connect-demo-cursor svg {
+    width: 28px;
+    height: 28px;
+    display: block;
+  }
+  .guide-connect-demo-hotspot {
+    position: fixed;
+    width: 18px;
+    height: 18px;
+    margin: -9px 0 0 -9px;
+    border-radius: 50%;
+    border: 2px solid color-mix(in srgb, var(--brand) 70%, #fff);
+    background: color-mix(in srgb, var(--brand) 28%, transparent);
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 12%, transparent);
+  }
+
   /* Analysis result = the Orange window itself floating on the canvas (no nested dialog chrome) */
   .result-popup {
     position: absolute;
@@ -3337,9 +3391,9 @@
     width: 100%;
     height: auto;
     display: block;
-    max-height: min(62vh, 520px);
-    object-fit: contain;
-    background: #fff;
+    max-height: none;
+    object-fit: unset;
+    background: transparent;
     border-radius: 0;
     pointer-events: none;
     user-select: none;
@@ -3877,6 +3931,18 @@
         <h3>가이드를 모두 마쳤어요!</h3>
         <p>이제 직접 Orange3로 분석을 시작해 보세요.</p>
         <button class="spotlight-complete-cta" type="button" id="spotlightCompleteCta">시작하기</button>
+      </div>
+    </div>
+    <div class="guide-connect-demo" id="guideConnectDemo" hidden aria-hidden="true">
+      <svg class="guide-connect-demo-svg" xmlns="http://www.w3.org/2000/svg">
+        <path class="guide-connect-demo-path" id="guideConnectDemoPath" d="" />
+      </svg>
+      <div class="guide-connect-demo-hotspot" id="guideConnectDemoHot"></div>
+      <div class="guide-connect-demo-cursor" id="guideConnectDemoCursor">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#fff" stroke="#1F2328" stroke-width="1.2" stroke-linejoin="round"
+            d="M5.2 3.4 18.6 12.1c.55.36.38 1.2-.28 1.3l-5.1.78 1.9 5.55c.18.52-.36.98-.82.72L5.05 15.2c-.5-.28-.46-1.02.07-1.24l4.55-1.9-4.2-6.4c-.32-.48.08-1.12.73-1.26z"/>
+        </svg>
       </div>
     </div>
   </div>
@@ -6557,6 +6623,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
         ensureGuideFileScatterNodes();
         // Keep auto-run as the default — no mode picker in the guide.
         setExecutionMode('auto', { silent: true, skipRun: true });
+        // Loop a mouse-drag demo from File out → Scatter in until the user links for real.
+        startGuideConnectDemo();
       },
     },
     {
@@ -6612,13 +6680,178 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     }
   }
 
+  /* ---------- Guide connect mouse demo (File → Scatter) ---------- */
+  let guideConnectDemoActive = false;
+  let guideConnectDemoRaf = 0;
+  let guideConnectDemoStart = 0;
+  const GUIDE_CONNECT_LOOP_MS = 2800;
+  const guideConnectDemoEl = document.getElementById('guideConnectDemo');
+  const guideConnectDemoCursor = document.getElementById('guideConnectDemoCursor');
+  const guideConnectDemoPath = document.getElementById('guideConnectDemoPath');
+  const guideConnectDemoHot = document.getElementById('guideConnectDemoHot');
+
+  function guideConnectEase(t) {
+    // Smoothstep — feels like a natural mouse drag
+    return t * t * (3 - 2 * t);
+  }
+
+  function guideConnectPortCenters() {
+    const file = nodes.find(n => n.type === 'file');
+    const scatter = nodes.find(n => n.type === 'scatter');
+    if (!file || !scatter) return null;
+    if (connections.some(c => c.from === file.id && c.to === scatter.id)) return null;
+    const outEl = document.querySelector(`#nodesLayer .node[data-id="${file.id}"] .port.out`);
+    const inEl = document.querySelector(`#nodesLayer .node[data-id="${scatter.id}"] .port.in`);
+    if (!outEl || !inEl) return null;
+    const a = outEl.getBoundingClientRect();
+    const b = inEl.getBoundingClientRect();
+    if (a.width < 2 || b.width < 2) return null;
+    return {
+      from: { x: a.left + a.width / 2, y: a.top + a.height / 2 },
+      to: { x: b.left + b.width / 2, y: b.top + b.height / 2 },
+    };
+  }
+
+  function guideConnectBezierScreen(a, b) {
+    const dx = Math.max(60, Math.abs(b.x - a.x) * 0.45);
+    return `M ${a.x} ${a.y} C ${a.x + dx} ${a.y}, ${b.x - dx} ${b.y}, ${b.x} ${b.y}`;
+  }
+
+  function stopGuideConnectDemo() {
+    guideConnectDemoActive = false;
+    if (guideConnectDemoRaf) {
+      cancelAnimationFrame(guideConnectDemoRaf);
+      guideConnectDemoRaf = 0;
+    }
+    guideConnectDemoStart = 0;
+    if (guideConnectDemoEl) guideConnectDemoEl.hidden = true;
+    if (guideConnectDemoCursor) {
+      guideConnectDemoCursor.style.opacity = '0';
+      guideConnectDemoCursor.style.transform = 'translate(-4px, -2px) scale(1)';
+    }
+    if (guideConnectDemoPath) guideConnectDemoPath.setAttribute('d', '');
+    if (guideConnectDemoHot) guideConnectDemoHot.style.opacity = '0';
+  }
+
+  function tickGuideConnectDemo(now) {
+    if (!guideConnectDemoActive) return;
+    const ports = guideConnectPortCenters();
+    if (!ports) {
+      // Linked already, or nodes missing — stop quietly.
+      stopGuideConnectDemo();
+      return;
+    }
+    if (!guideConnectDemoStart) guideConnectDemoStart = now;
+    const elapsed = (now - guideConnectDemoStart) % GUIDE_CONNECT_LOOP_MS;
+    const { from, to } = ports;
+
+    // Phases: appear → drag → hold → fade → pause
+    let cursorOpacity = 0;
+    let pathOpacity = 0;
+    let hotOpacity = 0;
+    let t = 0; // 0 at from, 1 at to
+    let press = 1;
+
+    if (elapsed < 280) {
+      cursorOpacity = elapsed / 280;
+      hotOpacity = cursorOpacity * 0.85;
+      t = 0;
+      press = 1 - 0.06 * cursorOpacity;
+    } else if (elapsed < 1400) {
+      const u = (elapsed - 280) / 1120;
+      t = guideConnectEase(u);
+      cursorOpacity = 1;
+      pathOpacity = 0.35 + 0.65 * t;
+      hotOpacity = 0.55;
+      press = 0.94;
+    } else if (elapsed < 1850) {
+      t = 1;
+      cursorOpacity = 1;
+      pathOpacity = 1;
+      hotOpacity = 0.9;
+      press = 0.92;
+    } else if (elapsed < 2300) {
+      const u = (elapsed - 1850) / 450;
+      t = 1;
+      cursorOpacity = 1 - u;
+      pathOpacity = 1 - u;
+      hotOpacity = 0.5 * (1 - u);
+      press = 0.94 + 0.06 * u;
+    } else {
+      t = 0;
+      cursorOpacity = 0;
+      pathOpacity = 0;
+      hotOpacity = 0;
+      press = 1;
+    }
+
+    const x = from.x + (to.x - from.x) * t;
+    const y = from.y + (to.y - from.y) * t;
+    // Slight arc so the drag doesn't look perfectly rigid
+    const arc = Math.sin(Math.PI * t) * Math.min(18, Math.abs(to.x - from.x) * 0.06);
+    const cy = y - arc;
+
+    if (guideConnectDemoCursor) {
+      guideConnectDemoCursor.style.left = `${x}px`;
+      guideConnectDemoCursor.style.top = `${cy}px`;
+      guideConnectDemoCursor.style.opacity = String(cursorOpacity);
+      guideConnectDemoCursor.style.transform = `translate(-4px, -2px) scale(${press})`;
+    }
+    if (guideConnectDemoHot) {
+      guideConnectDemoHot.style.left = `${from.x}px`;
+      guideConnectDemoHot.style.top = `${from.y}px`;
+      guideConnectDemoHot.style.opacity = String(hotOpacity);
+    }
+    if (guideConnectDemoPath) {
+      if (t > 0.02 && pathOpacity > 0.02) {
+        const tip = { x, y: cy };
+        guideConnectDemoPath.setAttribute('d', guideConnectBezierScreen(from, tip));
+        guideConnectDemoPath.style.opacity = String(pathOpacity);
+      } else {
+        guideConnectDemoPath.setAttribute('d', '');
+      }
+    }
+
+    guideConnectDemoRaf = requestAnimationFrame(tickGuideConnectDemo);
+  }
+
+  function startGuideConnectDemo() {
+    stopGuideConnectDemo();
+    if (!guideConnectDemoEl || !spotlightTourActive) return;
+    // Ensure DOM ports exist after prepare/render
+    const kick = () => {
+      if (!spotlightTourActive) return;
+      const step = SPOTLIGHT_STEPS[spotlightIndex];
+      if (!step || step.id !== 'connect') return;
+      if (!guideConnectPortCenters()) {
+        // Nodes may still be painting — retry once
+        setTimeout(() => {
+          if (!spotlightTourActive) return;
+          if (SPOTLIGHT_STEPS[spotlightIndex]?.id !== 'connect') return;
+          if (!guideConnectPortCenters()) return;
+          guideConnectDemoActive = true;
+          guideConnectDemoEl.hidden = false;
+          guideConnectDemoStart = 0;
+          guideConnectDemoRaf = requestAnimationFrame(tickGuideConnectDemo);
+        }, 80);
+        return;
+      }
+      guideConnectDemoActive = true;
+      guideConnectDemoEl.hidden = false;
+      guideConnectDemoStart = 0;
+      guideConnectDemoRaf = requestAnimationFrame(tickGuideConnectDemo);
+    };
+    requestAnimationFrame(kick);
+  }
+
   function positionResultPopupOnCanvas() {
     const el = document.getElementById('resultPopup');
     if (!el || !canvasWrap) return;
     const wrap = canvasWrap.getBoundingClientRect();
-    const popupW = Math.min(640, Math.max(300, wrap.width - 36));
-    let left = Math.max(16, wrap.width * 0.34);
-    let top = Math.max(16, wrap.height * 0.08);
+    // Keep width modest so the full Orange window fits without letterboxed white bars.
+    const popupW = Math.min(560, Math.max(280, Math.min(wrap.width - 28, wrap.height * 1.15)));
+    let left = Math.max(12, wrap.width * 0.36);
+    let top = Math.max(12, wrap.height * 0.06);
     const scatterEl = guideScatterNodeEl();
     const file = nodes.find(n => n.type === 'file');
     const fileEl = file
@@ -6627,16 +6860,15 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     const anchor = scatterEl || fileEl;
     if (anchor) {
       const r = anchor.getBoundingClientRect();
-      // Place to the right of the widget cluster, still inside the canvas.
-      left = r.right - wrap.left + 24;
-      top = Math.max(16, r.top - wrap.top - 8);
-      if (left + popupW > wrap.width - 12) {
-        left = Math.max(12, wrap.width - popupW - 12);
-        top = Math.min(wrap.height - 80, r.bottom - wrap.top + 16);
+      left = r.right - wrap.left + 20;
+      top = Math.max(12, r.top - wrap.top - 4);
+      if (left + popupW > wrap.width - 10) {
+        left = Math.max(10, wrap.width - popupW - 10);
+        top = Math.min(wrap.height - 80, r.bottom - wrap.top + 12);
       }
     }
-    top = Math.min(top, Math.max(16, wrap.height - 140));
-    el.style.width = `${popupW}px`;
+    top = Math.min(top, Math.max(12, wrap.height - 100));
+    el.style.width = `${Math.round(popupW)}px`;
     el.style.left = `${Math.round(left)}px`;
     el.style.top = `${Math.round(top)}px`;
   }
@@ -6716,6 +6948,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       }
     }
     if (adv === 'link' && kind === 'link') {
+      stopGuideConnectDemo();
       advanceSpotlightTour();
       return;
     }
@@ -6744,7 +6977,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (el.classList?.contains('rail-item') || el.matches?.('[data-menu]')) return 6;
     if (el.id === 'btnRunNow' || el.id === 'execModeHeader') return 6;
     if (el.id === 'canvasWrap') return 8;
-    if (el.classList?.contains('result-popup-window') || el.classList?.contains('result-popup') || el.classList?.contains('node')) return 12;
+    if (el.classList?.contains('result-popup') || el.id === 'resultPopup') return 4;
+    if (el.classList?.contains('result-popup-window') || el.classList?.contains('node')) return 10;
     if (el.matches?.('[data-exec-mode]')) return 8;
     return 10;
   }
@@ -6857,6 +7091,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   function renderSpotlightStep() {
     if (!spotlightTourActive || !spotlightTour) return;
+    // Leave any prior step demos (e.g. connect cursor) before preparing the next step.
+    stopGuideConnectDemo();
     const total = SPOTLIGHT_STEPS.length;
     const step = SPOTLIGHT_STEPS[spotlightIndex];
     if (!step) {
@@ -6895,6 +7131,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   function finishSpotlightTour() {
     // Hide interactive shades/tooltip; show completion card
+    stopGuideConnectDemo();
     closeResultPopup();
     hideSettingsPopover();
     spotlightResultReveal = false;
@@ -6911,6 +7148,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function stopSpotlightTour({ openQuick = false } = {}) {
     spotlightTourActive = false;
     spotlightResultReveal = false;
+    stopGuideConnectDemo();
     cancelAnimationFrame(spotlightRaf);
     closeResultPopup();
     hideSettingsPopover();
@@ -7210,6 +7448,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   window.addEventListener('resize', () => {
     if (featureGuide && !featureGuide.hidden) updateFeatureGuidePath();
     if (spotlightTourActive) scheduleSpotlightLayout();
+    // Reposition connect demo against fresh port rects (loop continues).
+    if (guideConnectDemoActive) guideConnectDemoStart = 0;
   });
 
   spotlightNext?.addEventListener('click', () => {
