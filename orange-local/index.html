@@ -3263,7 +3263,7 @@
   .guide-connect-demo {
     position: fixed;
     inset: 0;
-    z-index: 121;
+    z-index: 123;
     pointer-events: none;
     overflow: hidden;
   }
@@ -7046,16 +7046,28 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       });
     }
 
-    // Tooltip stays viewport-centered for all spotlight steps (정중앙).
-    // Ring/shades still track the target; do not offset the card beside the hole.
+    // Default: viewport-centered tooltip (정중앙). Canvas-focused steps
+    // (connect demo, start, run) pin to bottom-center so widgets stay visible.
     if (spotlightTooltip && !spotlightTooltip.hidden) {
-      Object.assign(spotlightTooltip.style, {
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
-        right: 'auto',
-        bottom: 'auto',
-      });
+      const stepId = SPOTLIGHT_STEPS[spotlightIndex]?.id;
+      const clearCanvas = stepId === 'connect' || stepId === 'start' || stepId === 'run';
+      if (clearCanvas) {
+        Object.assign(spotlightTooltip.style, {
+          left: '50%',
+          top: 'auto',
+          bottom: '28px',
+          transform: 'translateX(-50%)',
+          right: 'auto',
+        });
+      } else {
+        Object.assign(spotlightTooltip.style, {
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)',
+          right: 'auto',
+          bottom: 'auto',
+        });
+      }
     }
   }
 
