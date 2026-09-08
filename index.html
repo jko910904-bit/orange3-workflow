@@ -1926,16 +1926,12 @@
     position: relative;
     z-index: 1;
     width: min(1040px, 100%);
-    min-height: 520px;
     background: #fff;
     color: #1F2328;
     border-radius: 24px;
     padding: 36px 40px 40px;
     box-shadow: 0 24px 64px rgba(0, 0, 0, .28);
     animation: quickStartIn .35s cubic-bezier(.22, 1, .36, 1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
   @keyframes quickStartIn {
     from { opacity: 0; transform: translateY(12px) scale(0.96); }
@@ -1971,7 +1967,7 @@
     text-align: center;
   }
   .quick-start-sub {
-    margin: 0 0 28px;
+    margin: 0 0 22px;
     font-size: 15px;
     line-height: 1.5;
     color: #5B6472;
@@ -1982,8 +1978,7 @@
     gap: 16px;
   }
   .quick-start .canvas-onboard-action {
-    min-height: 132px;
-    padding: 22px 20px;
+    padding: 20px 18px;
     align-items: flex-start;
   }
   .quick-start .canvas-onboard-action .action-title {
@@ -2008,7 +2003,7 @@
     .canvas-onboard-media { width: min(220px, 55vw); }
     .canvas-onboard-steps,
     .canvas-onboard-actions { grid-template-columns: 1fr; }
-    .quick-start-modal { padding: 28px 22px 32px; width: min(960px, 100%); min-height: 460px; }
+    .quick-start-modal { padding: 28px 22px 32px; width: min(960px, 100%); }
     .quick-start .canvas-onboard-actions { grid-template-columns: 1fr; gap: 12px; }
     .quick-start .canvas-onboard-action { min-height: 0; }
   }
@@ -3094,7 +3089,7 @@
     .fg-node .fg-label { font-size: 13px; }
     .fg-node.is-locked .fg-ico { font-size: 34px; }
     .feature-guide-tip { right: 12px; bottom: 200px; }
-    .quick-start-modal { padding: 26px 16px 24px; min-height: 0; }
+    .quick-start-modal { padding: 26px 16px 24px; }
     .quick-start-title { font-size: 20px; }
     .quick-start .canvas-onboard-actions { grid-template-columns: 1fr; }
     .quick-start .canvas-onboard-action { min-height: 0; }
