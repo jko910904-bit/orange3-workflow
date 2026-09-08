@@ -2417,25 +2417,15 @@
     line-height: 1.45;
     color: #1F2328;
   }
+  .onboard-title-mascot {
+    display: none !important;
+  }
   .pengsu-coach-actions {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 8px;
   }
-  .pengsu-coach-skip {
-    appearance: none;
-    border: none;
-    background: transparent;
-    color: #8B93A1;
-    font: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 8px 10px;
-    border-radius: 10px;
-    cursor: pointer;
-  }
-  .pengsu-coach-skip:hover { color: #5B6472; background: rgba(15, 23, 42, .04); }
   .pengsu-coach-next {
     appearance: none;
     border: none;
@@ -2926,8 +2916,7 @@
     <div class="pengsu-coach-card" role="dialog" aria-labelledby="pengsuCoachText">
       <p class="pengsu-coach-text" id="pengsuCoachText">딱 1분만 시간을 내주실래요?</p>
       <div class="pengsu-coach-actions">
-        <button class="pengsu-coach-skip" type="button" id="pengsuCoachSkip">나중에</button>
-        <button class="pengsu-coach-next" type="button" id="pengsuCoachNext">다음</button>
+        <button class="pengsu-coach-next" type="button" id="pengsuCoachNext">알겠어요</button>
       </div>
     </div>
     <div class="pengsu-coach-mascot-wrap" aria-hidden="true">
@@ -4075,7 +4064,6 @@
     };
     nodes.push(n);
     selectNode(n.id);
-    closePengsuCoach();
     closeOnboard();
     showHint(`${meta.label} 추가됨`);
   });
@@ -5087,7 +5075,6 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (!file) return;
     const name = file.name.replace(/\.(ows|json)$/i, '') || 'Opened Workflow';
     closeOpenDialog();
-    closePengsuCoach();
     closeOnboard();
     if (tabsList) {
       const color = TAB_COLORS[(tabSeq - 1) % TAB_COLORS.length];
@@ -5195,30 +5182,8 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   const pengsuCoach = document.getElementById('pengsuCoach');
   const pengsuCoachText = document.getElementById('pengsuCoachText');
   const pengsuCoachNext = document.getElementById('pengsuCoachNext');
-  const pengsuCoachSkip = document.getElementById('pengsuCoachSkip');
   const pengsuCoachMascot = document.getElementById('pengsuCoachMascot');
-  const PENGSU_COACH_STEPS = [
-    {
-      text: '딱 1분만 시간을 내주실래요?',
-      next: '다음',
-    },
-    {
-      text: '왼쪽에서 위젯을 골라 캔버스에 올려볼까요?',
-      next: '다음',
-      highlight: 'add',
-    },
-    {
-      text: '포트끼리 연결하면 데이터가 흘러가요!',
-      next: '다음',
-      highlight: 'connect',
-    },
-    {
-      text: '준비됐으면 ‘지금 실행’으로 결과를 확인해 보세요!',
-      next: '시작하기',
-      highlight: 'run',
-    },
-  ];
-  let pengsuCoachStep = 0;
+  const PENGSU_HELPER_TEXT = '딱 1분만 시간을 내주실래요?';
 
   function getUser() {
     try { return JSON.parse(localStorage.getItem(AUTH_KEY) || 'null'); }
@@ -5250,50 +5215,30 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     });
     onboardOverlay.hidden = false;
     canvasWrap?.classList.add('is-onboarding');
+    openPengsuHelper();
   }
 
   function closeOnboard() {
     if (!onboardOverlay) return;
     onboardOverlay.hidden = true;
     canvasWrap?.classList.remove('is-onboarding');
+    closePengsuHelper();
   }
 
-  function renderPengsuCoachStep() {
-    const step = PENGSU_COACH_STEPS[pengsuCoachStep];
-    if (!step) return;
-    if (pengsuCoachText) pengsuCoachText.textContent = step.text;
-    if (pengsuCoachNext) pengsuCoachNext.textContent = step.next;
-    if (step.highlight) selectOnboardStep(step.highlight);
-  }
-
-  function openPengsuCoach(startStep = 0) {
-    if (!pengsuCoach) return;
-    if (characterMode === 'none') {
-      openOnboard();
-      return;
-    }
-    pengsuCoachStep = startStep;
-    renderPengsuCoachStep();
+  function openPengsuHelper() {
+    if (!pengsuCoach || characterMode === 'none') return;
+    if (pengsuCoachText) pengsuCoachText.textContent = PENGSU_HELPER_TEXT;
+    if (pengsuCoachNext) pengsuCoachNext.textContent = '알겠어요';
     pengsuCoach.hidden = false;
     requestAnimationFrame(() => pengsuCoach.classList.add('is-open'));
   }
 
-  function closePengsuCoach({ openGuide = false } = {}) {
+  function closePengsuHelper() {
     if (!pengsuCoach) return;
     pengsuCoach.classList.remove('is-open');
     const hide = () => { pengsuCoach.hidden = true; };
     pengsuCoach.addEventListener('transitionend', hide, { once: true });
     setTimeout(hide, 420);
-    if (openGuide) openOnboard();
-  }
-
-  function advancePengsuCoach() {
-    if (pengsuCoachStep >= PENGSU_COACH_STEPS.length - 1) {
-      closePengsuCoach({ openGuide: true });
-      return;
-    }
-    pengsuCoachStep += 1;
-    renderPengsuCoachStep();
   }
 
   function selectOnboardStep(step) {
@@ -5307,8 +5252,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
   function maybeShowOnboard() {
     if (!getUser()) return;
-    // Lead with Pengsu intro coach; full guide opens after "시작하기".
-    openPengsuCoach(0);
+    openOnboard();
   }
 
   function renderAuthUI() {
@@ -5358,7 +5302,6 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   btnLogin?.addEventListener('click', openAuth);
   btnLogout?.addEventListener('click', () => {
     setUser(null);
-    closePengsuCoach();
     closeOnboard();
     renderAuth({ deferOnboard: true });
     showHint('로그아웃되었습니다');
@@ -5370,22 +5313,19 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     });
   });
 
-  pengsuCoachNext?.addEventListener('click', () => advancePengsuCoach());
-  pengsuCoachSkip?.addEventListener('click', () => closePengsuCoach({ openGuide: true }));
+  pengsuCoachNext?.addEventListener('click', () => closePengsuHelper());
 
   document.getElementById('btnOnboardLoad')?.addEventListener('click', () => {
     loadPreviousWorkflow();
   });
 
   document.getElementById('btnOnboardTemplates')?.addEventListener('click', () => {
-    closePengsuCoach();
     closeOnboard();
     setActiveMenu('templates', 'Templates');
     showHint('템플릿 메뉴에서 원하는 분석을 골라 보세요');
   });
 
   function loadPreviousWorkflow() {
-    closePengsuCoach();
     closeOnboard();
     nodes = [
       { id: 'n1', type: 'file', x: 60, y: 200, name: ITEM_MAP.file.label, notes: '', sample: 100 },
@@ -5499,7 +5439,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       }
       coachImg.hidden = hide;
     }
-    if (hide && pengsuCoach && !pengsuCoach.hidden) closePengsuCoach();
+    if (hide && pengsuCoach && !pengsuCoach.hidden) closePengsuHelper();
     document.body.classList.toggle('char-none', hide);
     syncThemeTabs();
     return conf;
