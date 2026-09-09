@@ -98,6 +98,8 @@
     min-width: 0; flex: 1;
     user-select: none;
     line-height: 0;
+    /* Match .rail-item horizontal padding so logo lines up with icons */
+    padding-left: 12px;
   }
   .rail-logo .logo-full {
     display: block;
@@ -114,8 +116,8 @@
     height: auto;
     min-height: calc(1.15em * 2);
     max-height: calc(1.15em * 2);
-    padding: 0 12px 0 2px;
-    /* Two lines × 10 characters; left-aligned, vertically centered */
+    padding: 0;
+    /* Two lines × 10 characters; left-aligned with icons, vertically centered */
     width: 10em;
     max-width: 10em;
     font-size: 16px; font-weight: 800; letter-spacing: -0.02em;
@@ -194,7 +196,7 @@
     font-family: inherit; font-size: 14px; font-weight: 650;
     text-align: left;
     white-space: nowrap;
-    line-height: 1.25;
+    line-height: 1;
     transition: background .18s var(--ease), color .18s, box-shadow .18s;
   }
   .rail-item[hidden],
@@ -208,6 +210,7 @@
     height: auto;
     padding: 10px 6px 8px;
     justify-content: center;
+    align-items: center;
     gap: 6px;
     text-align: center;
     white-space: normal;
@@ -216,10 +219,11 @@
   }
   .rail-item .ri-ico {
     width: 22px; height: 22px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
+    display: inline-flex; align-items: center; justify-content: center;
     border-radius: 8px;
     background: transparent;
     transition: background .18s, color .18s;
+    line-height: 0;
   }
   .rail.collapsed .rail-item .ri-ico {
     width: 28px; height: 28px; border-radius: 10px;
@@ -227,6 +231,7 @@
   .rail-item .ri-ico svg {
     width: 20px; height: 20px; stroke: currentColor; fill: none;
     stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+    display: block;
   }
   .rail.collapsed .rail-item .ri-ico svg {
     width: 22px; height: 22px;
@@ -242,7 +247,12 @@
     text-overflow: ellipsis;
     opacity: 1;
     max-width: none;
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1.2;
+    min-height: 22px; /* match .ri-ico so label centers on icon */
+    margin: 0;
+    padding: 0;
   }
   .rail.collapsed .rail-item .ri-label {
     display: -webkit-box;
