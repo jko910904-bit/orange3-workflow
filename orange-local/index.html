@@ -768,39 +768,13 @@
     border-color: rgba(34, 125, 226, .42);
     box-shadow: 0 0 0 2px rgba(34, 125, 226, .14);
   }
-  /* Guide: same white glow ring as 자동실행모드 emphasis */
+  /* Guide add: keep catalog selection quiet — white glow lives on .spotlight-ring */
   body.is-guide-adding .widget.is-focused {
     position: relative;
     z-index: 2;
-    background: transparent;
-    border-color: transparent;
+    background: rgba(34, 125, 226, .08);
+    border-color: rgba(34, 125, 226, .28);
     box-shadow: none;
-  }
-  body.is-guide-adding .widget.is-focused .icon-tile {
-    position: relative;
-    border: 1.5px solid rgba(255, 255, 255, .95);
-    box-shadow:
-      0 0 0 3px rgba(34, 125, 226, .55),
-      0 0 0 7px rgba(255, 255, 255, .55),
-      0 0 22px rgba(255, 255, 255, .75),
-      0 6px 18px rgba(15, 42, 86, .35);
-    animation: execBadgeBob 1.6s ease-in-out infinite;
-    transform-origin: center center;
-  }
-  body.is-guide-adding .widget.is-focused .icon-tile::after {
-    content: '';
-    position: absolute;
-    inset: -8px;
-    border-radius: 20px;
-    border: 2px solid rgba(255, 255, 255, .95);
-    box-shadow: 0 0 12px rgba(255, 255, 255, .65);
-    background: none;
-    filter: none;
-    left: auto; right: auto; top: auto; height: auto;
-    opacity: 1;
-    pointer-events: none;
-    z-index: 3;
-    animation: execBadgePulseRing 1.6s ease-out infinite;
   }
 
   /* Selected widget info card — removed from UI */
@@ -2515,35 +2489,14 @@
       0 10px 24px rgba(34, 125, 226, .22);
     transform: translateY(-1px);
   }
-  /* Guide / add: same white glow ring as 자동실행모드 emphasis */
+  /* Canvas node: no per-icon white ring — spotlight-ring carries the glow */
   .node.is-emphasized {
     z-index: 6;
   }
   .node.is-emphasized .icon-tile {
-    position: relative;
-    border: 1.5px solid rgba(255, 255, 255, .95);
     box-shadow:
-      0 0 0 3px rgba(34, 125, 226, .55),
-      0 0 0 7px rgba(255, 255, 255, .55),
-      0 0 22px rgba(255, 255, 255, .75),
-      0 6px 18px rgba(15, 42, 86, .35);
-    animation: execBadgeBob 1.6s ease-in-out infinite;
-    transform-origin: center center;
-  }
-  .node.is-emphasized .icon-tile::after {
-    content: '';
-    position: absolute;
-    inset: -8px;
-    border-radius: 24px;
-    border: 2px solid rgba(255, 255, 255, .95);
-    box-shadow: 0 0 12px rgba(255, 255, 255, .65);
-    background: none;
-    filter: none;
-    left: auto; right: auto; top: auto; height: auto;
-    opacity: 1;
-    pointer-events: none;
-    z-index: 3;
-    animation: execBadgePulseRing 1.6s ease-out infinite;
+      0 0 0 2px color-mix(in srgb, var(--brand) 28%, transparent),
+      0 8px 18px rgba(34, 125, 226, .16);
   }
   .node .body {
     position: relative;
@@ -3334,11 +3287,29 @@
     z-index: 121;
     border: 2px solid var(--brand);
     border-radius: 14px;
+    background: color-mix(in srgb, var(--brand) 08%, rgba(255, 255, 255, .35));
     box-shadow:
-      0 0 0 4px color-mix(in srgb, var(--brand) 22%, transparent),
+      0 0 0 3px rgba(34, 125, 226, .55),
+      0 0 0 7px rgba(255, 255, 255, .55),
+      0 0 22px rgba(255, 255, 255, .75),
       0 8px 24px rgba(34, 125, 226, .18);
     pointer-events: none;
     transition: top .2s var(--ease), left .2s var(--ease), width .2s var(--ease), height .2s var(--ease);
+  }
+  /* White outer pulse on the large spotlight rectangle (not the widget chrome) */
+  .spotlight-ring::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 18px;
+    border: 2px solid rgba(255, 255, 255, .95);
+    box-shadow: 0 0 12px rgba(255, 255, 255, .65);
+    pointer-events: none;
+    animation: execBadgePulseRing 1.6s ease-out infinite;
+  }
+  .spotlight-ring.is-emphasized {
+    animation: execBadgeBob 1.6s ease-in-out infinite;
+    transform-origin: center center;
   }
   .spotlight-tooltip {
     position: fixed;
@@ -7652,7 +7623,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       spotlightNext.textContent = '완료';
     }
     // Soft canvas cutout — no branded ring that reads as a second frame
-    if (spotlightRing) spotlightRing.hidden = true;
+    if (spotlightRing) { spotlightRing.hidden = true; spotlightRing.classList.remove('is-emphasized'); }
     // Wait for popup layout then dim around the canvas
     setTimeout(scheduleSpotlightLayout, 60);
     scheduleSpotlightLayout();
@@ -7867,7 +7838,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
         if (!bySide[side]) return;
         bySide[side].style.display = 'none';
       });
-      if (spotlightRing) spotlightRing.hidden = true;
+      if (spotlightRing) { spotlightRing.hidden = true; spotlightRing.classList.remove('is-emphasized'); }
       // Position result window first, then park the STEP alert beside it (not centered).
       positionResultPopupOnCanvas();
       positionSpotlightTooltipBesideResult();
@@ -7947,7 +7918,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       s.style.background = '';
       s.style.backdropFilter = '';
     });
-    if (spotlightRing) spotlightRing.hidden = true;
+    if (spotlightRing) { spotlightRing.hidden = true; spotlightRing.classList.remove('is-emphasized'); }
     if (spotlightTooltip) spotlightTooltip.hidden = true;
     if (spotlightComplete) spotlightComplete.hidden = false;
   }
@@ -7963,7 +7934,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (spotlightTour) spotlightTour.hidden = true;
     if (spotlightComplete) spotlightComplete.hidden = true;
     if (spotlightTooltip) spotlightTooltip.hidden = true;
-    if (spotlightRing) spotlightRing.hidden = true;
+    if (spotlightRing) { spotlightRing.hidden = true; spotlightRing.classList.remove('is-emphasized'); }
     spotlightShades.forEach(s => {
       s.style.display = '';
       s.removeAttribute('style');
