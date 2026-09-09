@@ -66,8 +66,8 @@
 
   /* ---------- Rail: collapsed = icon column, expanded = horizontal rows ---------- */
   .rail {
-    /* Expanded width reserves ~20 logo characters + toggle + padding */
-    width: 380px;
+    /* Expanded width: 10 logo chars/line + toggle + padding */
+    width: 260px;
     background: #fff;
     border-right: 1px solid var(--border);
     display: flex;
@@ -107,17 +107,24 @@
     object-fit: contain;
   }
   .rail-logo .logo-placeholder {
-    display: inline-flex; align-items: center;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     box-sizing: content-box;
-    height: 36px; padding: 0 4px;
-    /* Reserve space for up to 20 characters */
-    width: 20em;
-    max-width: 20em;
+    height: auto;
+    min-height: calc(1.15em * 2);
+    max-height: calc(1.15em * 2);
+    padding: 0 4px;
+    /* Two lines × 10 characters each */
+    width: 10em;
+    max-width: 10em;
     font-size: 16px; font-weight: 800; letter-spacing: -0.02em;
-    color: var(--text); line-height: 1;
-    white-space: nowrap;
+    color: var(--text);
+    line-height: 1.15;
+    white-space: normal;
     overflow: hidden;
-    text-overflow: ellipsis;
+    word-break: break-all;
+    overflow-wrap: anywhere;
   }
   .rail.collapsed .rail-logo { display: none; }
   .rail-toggle {
