@@ -4470,17 +4470,6 @@
       <h2 class="quick-start-title" id="quickStartTitle">빠르게 시작하기</h2>
       <p class="quick-start-sub">이제 직접 시작해 볼까요? 원하는 시작 방법을 선택해 주세요.</p>
       <div class="canvas-onboard-actions" role="group" aria-label="시작 방법 선택">
-        <button class="canvas-onboard-action" type="button" id="btnOnboardLoad">
-          <span class="action-body">
-            <span class="action-title-row">
-              <span class="action-title">이어서 작업하기</span>
-            </span>
-            <p class="action-desc">저장한 워크플로우를 불러와 계속 작업해요.</p>
-          </span>
-          <span class="action-arrow" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
-          </span>
-        </button>
         <button class="canvas-onboard-action" type="button" id="btnOnboardTemplates">
           <span class="action-body">
             <span class="action-title-row">
@@ -4493,12 +4482,12 @@
             <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
           </span>
         </button>
-        <button class="canvas-onboard-action" type="button" id="btnOnboardJustStart">
+        <button class="canvas-onboard-action" type="button" id="btnOnboardPractice">
           <span class="action-body">
             <span class="action-title-row">
-              <span class="action-title">빈 화면에서 시작하기</span>
+              <span class="action-title">실습 시작하기</span>
             </span>
-            <p class="action-desc">필요한 위젯을 직접 추가하며 시작해요.</p>
+            <p class="action-desc">빈 캔버스에서 위젯을 추가해 실습해요.</p>
           </span>
           <span class="action-arrow" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
@@ -8216,11 +8205,6 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   document.getElementById('quickStartClose')?.addEventListener('click', () => closeQuickStart());
   document.getElementById('quickStartBackdrop')?.addEventListener('click', () => closeQuickStart());
 
-  document.getElementById('btnOnboardLoad')?.addEventListener('click', () => {
-    closeQuickStart();
-    loadPreviousWorkflow();
-  });
-
   document.getElementById('btnOnboardTemplates')?.addEventListener('click', () => {
     closeQuickStart();
     closeOnboard();
@@ -8228,10 +8212,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     showHint('템플릿 메뉴에서 원하는 분석을 골라 보세요');
   });
 
-  document.getElementById('btnOnboardJustStart')?.addEventListener('click', () => {
-    closeQuickStart();
-    closeOnboard();
-    showHint('위젯을 드래그하거나 더블클릭해 분석을 시작해 보세요');
+  document.getElementById('btnOnboardPractice')?.addEventListener('click', () => {
+    // Practice entry: blank canvas + classic 실습 시작 가이드 onboard.
+    showEmptyCanvasOnboard();
+    showHint('위젯을 드래그하거나 더블클릭해 실습을 시작해 보세요');
   });
 
   document.getElementById('btnFloorOnboardLoad')?.addEventListener('click', () => {
