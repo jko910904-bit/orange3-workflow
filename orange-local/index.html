@@ -1131,9 +1131,6 @@
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
-  .tab-add-code {
-    font-size: 13px; font-weight: 600; opacity: .92;
-  }
   .tab-add-plus {
     font-size: 20px; font-weight: 300; line-height: 1;
   }
@@ -1142,6 +1139,36 @@
     color: #fff;
     opacity: .78;
     transform: scale(1.04);
+  }
+  .tabs-scroll-btn {
+    flex-shrink: 0;
+    width: 28px; height: 30px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 8px 8px 0 0;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: inherit; font-size: 16px; font-weight: 600;
+    line-height: 1;
+    opacity: .9;
+    transition: opacity .15s, background .15s, transform .15s;
+  }
+  .tabs-scroll-btn:hover {
+    opacity: 1;
+    background: rgba(255,255,255,.12);
+  }
+  .tabs-scroll-btn:disabled {
+    opacity: .35;
+    cursor: default;
+    background: transparent;
+  }
+  .tabs-scroll-btn svg {
+    width: 16px; height: 16px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
   }
 
   .tabs-actions {
@@ -4185,8 +4212,13 @@
           </span>
         </button>
       </div>
+      <button class="tabs-scroll-btn" type="button" id="btnTabsScrollLeft" title="탭 왼쪽으로" aria-label="탭 왼쪽으로">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
+      <button class="tabs-scroll-btn" type="button" id="btnTabsScrollRight" title="탭 오른쪽으로" aria-label="탭 오른쪽으로">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
       <button class="tab-add" type="button" title="탭 추가" aria-label="탭 추가">
-        <span class="tab-add-code">&lt;&gt;</span>
         <span class="tab-add-plus">＋</span>
         <span class="tab-add-label">추가하기</span>
       </button>
