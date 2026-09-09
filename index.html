@@ -3287,17 +3287,24 @@
     z-index: 121;
     border: 2px solid var(--brand);
     border-radius: 14px;
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--brand) 22%, transparent),
+      0 8px 24px rgba(34, 125, 226, .18);
+    pointer-events: none;
+    transition: top .2s var(--ease), left .2s var(--ease), width .2s var(--ease), height .2s var(--ease);
+  }
+  /* Strong white glow only when highlighting File / Scatter widget areas */
+  .spotlight-ring.is-emphasized {
     background: color-mix(in srgb, var(--brand) 08%, rgba(255, 255, 255, .35));
     box-shadow:
       0 0 0 3px rgba(34, 125, 226, .55),
       0 0 0 7px rgba(255, 255, 255, .55),
       0 0 22px rgba(255, 255, 255, .75),
       0 8px 24px rgba(34, 125, 226, .18);
-    pointer-events: none;
-    transition: top .2s var(--ease), left .2s var(--ease), width .2s var(--ease), height .2s var(--ease);
+    animation: execBadgeBob 1.6s ease-in-out infinite;
+    transform-origin: center center;
   }
-  /* White outer pulse on the large spotlight rectangle (not the widget chrome) */
-  .spotlight-ring::after {
+  .spotlight-ring.is-emphasized::after {
     content: '';
     position: absolute;
     inset: -8px;
@@ -3306,10 +3313,6 @@
     box-shadow: 0 0 12px rgba(255, 255, 255, .65);
     pointer-events: none;
     animation: execBadgePulseRing 1.6s ease-out infinite;
-  }
-  .spotlight-ring.is-emphasized {
-    animation: execBadgeBob 1.6s ease-in-out infinite;
-    transform-origin: center center;
   }
   .spotlight-tooltip {
     position: fixed;
@@ -7784,6 +7787,15 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     });
   }
 
+  function isFileOrScatterSpotlightTarget(target) {
+    const list = (Array.isArray(target) ? target : [target]).filter(Boolean);
+    return list.some(el => {
+      const type = el.dataset?.type;
+      if (type !== 'file' && type !== 'scatter') return false;
+      return el.classList?.contains('widget') || el.classList?.contains('node');
+    });
+  }
+
   function layoutSpotlight(target) {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
@@ -7807,7 +7819,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
     if (spotlightRing) {
       spotlightRing.hidden = false;
-      spotlightRing.classList.add('is-emphasized');
+      spotlightRing.classList.toggle('is-emphasized', isFileOrScatterSpotlightTarget(target));
       Object.assign(spotlightRing.style, {
         left: `${left}px`,
         top: `${top}px`,
