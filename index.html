@@ -2188,11 +2188,16 @@
     display: none;
   }
   .auth-avatar {
-    width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    background: #fff; color: var(--brand-dark);
-    font-size: 14px; font-weight: 750;
+    width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: color-mix(in srgb, var(--brand) 12%, #F3F4F6);
+    color: var(--brand-dark);
     overflow: hidden;
+  }
+  .auth-avatar svg {
+    width: 16px; height: 16px;
+    stroke: currentColor; fill: none;
+    stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
   }
   .auth-avatar img {
     width: 100%; height: 100%;
@@ -4053,6 +4058,9 @@
 
     <div class="rail-section" id="railAuth">
       <div class="auth-user" id="authUser" hidden>
+        <span class="auth-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 19.2c1.4-3.1 3.7-4.7 6.5-4.7s5.1 1.6 6.5 4.7"/></svg>
+        </span>
         <div class="auth-meta">
           <div class="auth-name" id="authName"></div>
         </div>
