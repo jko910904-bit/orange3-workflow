@@ -768,27 +768,39 @@
     border-color: rgba(34, 125, 226, .42);
     box-shadow: 0 0 0 2px rgba(34, 125, 226, .14);
   }
-  /* Guide: pulse emphasis while prompting which catalog widget to add */
+  /* Guide: same white glow ring as 자동실행모드 emphasis */
   body.is-guide-adding .widget.is-focused {
     position: relative;
     z-index: 2;
-    background: rgba(34, 125, 226, .16);
-    border-color: rgba(34, 125, 226, .55);
-    box-shadow:
-      0 0 0 2px rgba(34, 125, 226, .28),
-      0 0 0 6px rgba(34, 125, 226, .12),
-      0 8px 18px rgba(34, 125, 226, .18);
-    animation: widgetGuidePulse 1.55s ease-in-out infinite;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
   }
   body.is-guide-adding .widget.is-focused .icon-tile {
-    transform: scale(1.04);
+    position: relative;
+    border: 1.5px solid rgba(255, 255, 255, .95);
     box-shadow:
-      0 0 0 2px color-mix(in srgb, var(--brand) 35%, transparent),
-      0 6px 16px rgba(34, 125, 226, .22);
+      0 0 0 3px rgba(34, 125, 226, .55),
+      0 0 0 7px rgba(255, 255, 255, .55),
+      0 0 22px rgba(255, 255, 255, .75),
+      0 6px 18px rgba(15, 42, 86, .35);
+    animation: execBadgeBob 1.6s ease-in-out infinite;
+    transform-origin: center center;
   }
-  @keyframes widgetGuidePulse {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-2px) scale(1.03); }
+  body.is-guide-adding .widget.is-focused .icon-tile::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, .95);
+    box-shadow: 0 0 12px rgba(255, 255, 255, .65);
+    background: none;
+    filter: none;
+    left: auto; right: auto; top: auto; height: auto;
+    opacity: 1;
+    pointer-events: none;
+    z-index: 3;
+    animation: execBadgePulseRing 1.6s ease-out infinite;
   }
 
   /* Selected widget info card — removed from UI */
@@ -2503,30 +2515,35 @@
       0 10px 24px rgba(34, 125, 226, .22);
     transform: translateY(-1px);
   }
-  /* Guide / add: emphasize a widget when it appears on the canvas */
+  /* Guide / add: same white glow ring as 자동실행모드 emphasis */
   .node.is-emphasized {
     z-index: 6;
-    animation: nodeAppearPop 0.45s cubic-bezier(.2, .9, .25, 1) both;
   }
   .node.is-emphasized .icon-tile {
+    position: relative;
+    border: 1.5px solid rgba(255, 255, 255, .95);
     box-shadow:
-      0 0 0 3px color-mix(in srgb, var(--brand) 45%, transparent),
-      0 0 0 8px color-mix(in srgb, var(--brand) 16%, transparent),
-      0 10px 22px rgba(34, 125, 226, .28);
-    animation: nodeEmphasizeGlow 1.55s ease-in-out infinite;
+      0 0 0 3px rgba(34, 125, 226, .55),
+      0 0 0 7px rgba(255, 255, 255, .55),
+      0 0 22px rgba(255, 255, 255, .75),
+      0 6px 18px rgba(15, 42, 86, .35);
+    animation: execBadgeBob 1.6s ease-in-out infinite;
+    transform-origin: center center;
   }
-  .node.is-emphasized .title {
-    color: var(--brand-dark);
-    font-weight: 700;
-  }
-  @keyframes nodeAppearPop {
-    0% { opacity: 0; transform: scale(0.82); }
-    70% { opacity: 1; transform: scale(1.06); }
-    100% { opacity: 1; transform: scale(1); }
-  }
-  @keyframes nodeEmphasizeGlow {
-    0%, 100% { filter: brightness(1); }
-    50% { filter: brightness(1.06); }
+  .node.is-emphasized .icon-tile::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 24px;
+    border: 2px solid rgba(255, 255, 255, .95);
+    box-shadow: 0 0 12px rgba(255, 255, 255, .65);
+    background: none;
+    filter: none;
+    left: auto; right: auto; top: auto; height: auto;
+    opacity: 1;
+    pointer-events: none;
+    z-index: 3;
+    animation: execBadgePulseRing 1.6s ease-out infinite;
   }
   .node .body {
     position: relative;
