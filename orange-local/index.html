@@ -1191,14 +1191,8 @@
     padding: 0 16px 10px;
     flex-shrink: 0;
   }
-  /* When widget panel is collapsed/hidden, tabs can use the full header width */
-  .main:has(#sidebar.is-collapsed) .tabs-actions,
-  .main:has(#sidebar.is-hidden) .tabs-actions {
-    flex: 0 0 auto;
-    width: auto;
-    max-width: none;
-    margin-left: auto;
-  }
+  /* Keep tabs-actions fixed at 300px even when the widget panel collapses,
+     so <> / 추가하기 stay aligned to the panel edge and do not slide right. */
   .tabs-divider {
     width: 1px; height: 28px; flex-shrink: 0;
     background: rgba(255,255,255,.38);
