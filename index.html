@@ -1718,11 +1718,15 @@
   .onboard-mascot-wrap {
     position: relative;
     flex: 0 0 auto;
-    margin: 72px 0 0;
+    margin: 0;
     padding-top: 0;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: max-content;
+    max-width: 100%;
   }
   .onboard-title-mascot {
     width: clamp(140px, 17.5vw, 190px);
@@ -1733,10 +1737,7 @@
     filter: drop-shadow(0 8px 18px rgba(20,24,40,.12));
   }
   .onboard-guide-bubble {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translate(-50%, calc(-100% - 8px));
+    position: relative;
     z-index: 2;
     margin: 0;
     padding: 16px 18px;
@@ -1748,7 +1749,8 @@
     letter-spacing: -0.02em;
     line-height: 1.45;
     width: max-content;
-    max-width: min(320px, 88vw);
+    max-width: min(340px, 52vw);
+    flex: 0 1 auto;
     display: block;
     text-align: left;
     box-shadow:
@@ -1758,19 +1760,19 @@
   .onboard-guide-bubble::after {
     content: '';
     position: absolute;
-    left: 50%;
-    top: 100%;
-    transform: translateX(-50%);
+    left: 0;
+    top: 50%;
+    transform: translate(-100%, -50%);
     width: 0;
     height: 0;
-    border-left: 9px solid transparent;
-    border-right: 9px solid transparent;
-    border-top: 10px solid #fff;
-    filter: drop-shadow(0 2px 1px rgba(20, 28, 48, .06));
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 10px solid #fff;
+    filter: drop-shadow(-1px 1px 1px rgba(20, 28, 48, .06));
   }
   .onboard-guide-prompt {
     margin: 0;
-    font-size: 15px;
+    font-size: 19px;
     font-weight: 600;
     color: #333;
     letter-spacing: -0.02em;
@@ -2117,12 +2119,16 @@
     .canvas-onboard-hero { flex-direction: column; text-align: center; }
     .canvas-onboard-copy { text-align: center; }
     .onboard-title-row { align-items: center; }
-    .onboard-mascot-wrap { margin-top: 64px; }
+    .onboard-mascot-wrap {
+      margin-top: 0;
+      gap: 10px;
+      flex-wrap: nowrap;
+    }
     .onboard-guide-bubble {
-      max-width: min(300px, 90vw);
+      max-width: min(260px, 48vw);
       padding: 14px 16px;
     }
-    .onboard-guide-prompt { font-size: 14px; }
+    .onboard-guide-prompt { font-size: 18px; }
     .onboard-guide-btn {
       margin-left: 6px;
       padding: 4px 9px;
@@ -4101,13 +4107,13 @@
               <div class="canvas-onboard-copy">
                 <div class="onboard-title-row">
                   <div class="onboard-mascot-wrap">
+                    <img class="onboard-title-mascot" id="onboardMascot" src="assets/onboarding-pengsu-ai.png" alt="">
                     <div class="onboard-guide-bubble" role="group" aria-label="펭수 가이드">
                       <p class="onboard-guide-prompt">
                         데이터 분석을<br>
                         시작해볼까요?<button type="button" class="onboard-guide-btn" id="btnOnboardGuide">가이드 알아보기</button>
                       </p>
                     </div>
-                    <img class="onboard-title-mascot" id="onboardMascot" src="assets/onboarding-pengsu-ai.png" alt="">
                   </div>
                 </div>
               </div>
