@@ -962,7 +962,7 @@
 
   .tabs {
     min-height: 64px; height: 64px; display: flex; align-items: flex-end;
-    padding: 16px 16px 0;
+    padding: 16px 0 0;
     background: var(--brand);
     gap: 0;
     border-bottom: none;
@@ -971,9 +971,12 @@
   }
   .tabs-list {
     display: flex; align-items: flex-end;
-    gap: 8px; min-width: 0; overflow-x: auto;
+    gap: 0;
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
     scrollbar-width: none;
-    padding: 0;
+    padding: 0 0 0 16px;
   }
   .tabs-list::-webkit-scrollbar { display: none; }
 
@@ -995,6 +998,9 @@
     z-index: 1;
     transition: color var(--motion);
   }
+  .tab + .tab {
+    margin-left: 0;
+  }
   .tab:hover { z-index: 3; color: #fff; }
   .tab:hover .tab-shade {
     box-shadow:
@@ -1010,7 +1016,7 @@
   }
   .tab.active:hover { color: var(--brand-dark); }
 
-  /* solid fill + folder ears */
+  /* solid fill — flush edges, no folder-ear gaps between tabs */
   .tab-shade {
     position: absolute;
     inset: 0;
@@ -1020,6 +1026,7 @@
     border-radius: 8px 8px 0 0;
     border: 1px solid rgba(255,255,255,.22);
     border-bottom: none;
+    border-right-color: transparent;
     box-shadow:
       inset 0 1px 0 rgba(255,255,255,.28),
       0 -2px 8px rgba(20,24,40,.06);
@@ -1027,21 +1034,13 @@
     -webkit-backdrop-filter: blur(16px) saturate(1.18);
     transition: background var(--motion), box-shadow var(--motion), border-color var(--motion);
   }
+  .tab:last-child .tab-shade,
+  .tab.active .tab-shade {
+    border-right-color: rgba(255,255,255,.22);
+  }
   .tab-shade::before,
   .tab-shade::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    width: 8px;
-    height: 8px;
-  }
-  .tab-shade::before {
-    left: -8px;
-    background: radial-gradient(circle at 0 0, transparent 7.5px, var(--tab-bg) 8px);
-  }
-  .tab-shade::after {
-    right: -8px;
-    background: radial-gradient(circle at 100% 0, transparent 7.5px, var(--tab-bg) 8px);
+    content: none;
   }
 
   .tab.tab-blue,
@@ -1092,14 +1091,15 @@
 
   .tab-add {
     position: relative; z-index: 2;
-    margin: 0 0 0 8px;
-    width: 26px; height: 30px;
+    margin: 0;
+    flex-shrink: 0;
+    width: 30px; height: 30px;
     border: none;
     background: transparent; color: #fff; cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center;
-    font-size: 25px; font-weight: 300; line-height: 1;
+    font-size: 22px; font-weight: 300; line-height: 1;
+    border-radius: 8px 8px 0 0;
     transition: color .2s, opacity .2s, transform .2s;
-    flex-shrink: 0;
     box-shadow: none;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -1112,8 +1112,22 @@
   }
 
   .tabs-actions {
-    margin-left: auto; display: flex; align-items: center; gap: 10px;
-    padding: 0 0 10px 0; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+    flex: 0 0 300px;
+    width: 300px;
+    max-width: 300px;
+    box-sizing: border-box;
+    margin-left: 0;
+    padding: 0 16px 10px;
+    flex-shrink: 0;
+  }
+  /* When widget panel is collapsed/hidden, tabs can use the full header width */
+  .main:has(#sidebar.is-collapsed) .tabs-actions,
+  .main:has(#sidebar.is-hidden) .tabs-actions {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: none;
+    margin-left: auto;
   }
   .tabs-divider {
     width: 1px; height: 28px; flex-shrink: 0;
