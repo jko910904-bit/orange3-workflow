@@ -1718,15 +1718,11 @@
   .onboard-mascot-wrap {
     position: relative;
     flex: 0 0 auto;
-    margin: 0;
+    margin: 72px 0 0;
     padding-top: 0;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 14px;
-    width: max-content;
-    max-width: 100%;
   }
   .onboard-title-mascot {
     width: clamp(140px, 17.5vw, 190px);
@@ -1737,46 +1733,48 @@
     filter: drop-shadow(0 8px 18px rgba(20,24,40,.12));
   }
   .onboard-guide-bubble {
-    position: relative;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, calc(-100% - 8px));
     z-index: 2;
     margin: 0;
-    padding: 14px 16px;
+    padding: 16px 18px;
     border: none;
-    border-radius: 18px;
+    border-radius: 16px;
     background: #fff;
-    color: var(--brand-dark);
+    color: #333;
     font: inherit;
     letter-spacing: -0.02em;
-    line-height: 1.4;
+    line-height: 1.45;
     width: max-content;
-    max-width: min(340px, 52vw);
-    flex: 0 1 auto;
+    max-width: min(320px, 88vw);
     display: block;
     text-align: left;
     box-shadow:
-      0 1px 0 rgba(15, 42, 86, .04),
-      0 10px 24px rgba(34, 125, 226, .14);
+      0 2px 8px rgba(20, 24, 40, .08),
+      0 12px 28px rgba(20, 24, 40, .12);
   }
   .onboard-guide-bubble::after {
     content: '';
     position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translate(-100%, -50%);
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-    border-right: 10px solid #fff;
-    filter: drop-shadow(-1px 1px 1px rgba(20, 28, 48, .06));
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 10px solid #fff;
+    filter: drop-shadow(0 2px 1px rgba(20, 28, 48, .06));
   }
   .onboard-guide-prompt {
     margin: 0;
     font-size: 15px;
-    font-weight: 700;
-    color: #2A2F38;
-    letter-spacing: -0.03em;
-    line-height: 1.45;
+    font-weight: 600;
+    color: #333;
+    letter-spacing: -0.02em;
+    line-height: 1.55;
     white-space: normal;
     text-align: left;
   }
@@ -1788,9 +1786,9 @@
     justify-content: center;
     vertical-align: middle;
     margin: 0 0 0 8px;
-    padding: 6px 12px;
+    padding: 5px 10px;
     border: none;
-    border-radius: 999px;
+    border-radius: 8px;
     background: var(--brand);
     color: #fff;
     font: inherit;
@@ -1798,6 +1796,7 @@
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.2;
+    white-space: nowrap;
     cursor: pointer;
     transition: background .18s, transform .15s, box-shadow .18s;
   }
@@ -2118,20 +2117,17 @@
     .canvas-onboard-hero { flex-direction: column; text-align: center; }
     .canvas-onboard-copy { text-align: center; }
     .onboard-title-row { align-items: center; }
-    .onboard-mascot-wrap {
-      margin-top: 0;
-      gap: 10px;
-      flex-wrap: nowrap;
-    }
+    .onboard-mascot-wrap { margin-top: 64px; }
     .onboard-guide-bubble {
-      max-width: min(260px, 48vw);
-      padding: 12px 14px;
+      max-width: min(300px, 90vw);
+      padding: 14px 16px;
     }
     .onboard-guide-prompt { font-size: 14px; }
     .onboard-guide-btn {
       margin-left: 6px;
-      padding: 5px 10px;
+      padding: 4px 9px;
       font-size: 12px;
+      border-radius: 7px;
     }
     .canvas-onboard-media { width: min(220px, 55vw); }
     .canvas-onboard-steps,
@@ -4105,13 +4101,13 @@
               <div class="canvas-onboard-copy">
                 <div class="onboard-title-row">
                   <div class="onboard-mascot-wrap">
-                    <img class="onboard-title-mascot" id="onboardMascot" src="assets/onboarding-pengsu-ai.png" alt="">
                     <div class="onboard-guide-bubble" role="group" aria-label="펭수 가이드">
                       <p class="onboard-guide-prompt">
                         데이터 분석을<br>
                         시작해볼까요?<button type="button" class="onboard-guide-btn" id="btnOnboardGuide">가이드 알아보기</button>
                       </p>
                     </div>
+                    <img class="onboard-title-mascot" id="onboardMascot" src="assets/onboarding-pengsu-ai.png" alt="">
                   </div>
                 </div>
               </div>
