@@ -5238,8 +5238,10 @@
     closeOnboard();
     showHint(`${meta.label} 추가됨`);
     syncExecutionModeUI();
-    // Pop + glow when a widget lands on the canvas (especially during the guide).
-    requestAnimationFrame(() => emphasizeCanvasNode(n.id));
+    // Pop + glow when File / Scatter land on the canvas during the guide.
+    if (type === 'file' || type === 'scatter') {
+      requestAnimationFrame(() => emphasizeCanvasNode(n.id));
+    }
     notifySpotlight('createNode', { type, node: n });
     return n;
   }
