@@ -768,6 +768,28 @@
     border-color: rgba(34, 125, 226, .42);
     box-shadow: 0 0 0 2px rgba(34, 125, 226, .14);
   }
+  /* Guide: pulse emphasis while prompting which catalog widget to add */
+  body.is-guide-adding .widget.is-focused {
+    position: relative;
+    z-index: 2;
+    background: rgba(34, 125, 226, .16);
+    border-color: rgba(34, 125, 226, .55);
+    box-shadow:
+      0 0 0 2px rgba(34, 125, 226, .28),
+      0 0 0 6px rgba(34, 125, 226, .12),
+      0 8px 18px rgba(34, 125, 226, .18);
+    animation: widgetGuidePulse 1.55s ease-in-out infinite;
+  }
+  body.is-guide-adding .widget.is-focused .icon-tile {
+    transform: scale(1.04);
+    box-shadow:
+      0 0 0 2px color-mix(in srgb, var(--brand) 35%, transparent),
+      0 6px 16px rgba(34, 125, 226, .22);
+  }
+  @keyframes widgetGuidePulse {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-2px) scale(1.03); }
+  }
 
   /* Selected widget info card — removed from UI */
   .widget-flow-detail { display: none !important; }
@@ -2480,6 +2502,31 @@
       0 0 0 3px color-mix(in srgb, var(--brand) 35%, transparent),
       0 10px 24px rgba(34, 125, 226, .22);
     transform: translateY(-1px);
+  }
+  /* Guide / add: emphasize a widget when it appears on the canvas */
+  .node.is-emphasized {
+    z-index: 6;
+    animation: nodeAppearPop 0.45s cubic-bezier(.2, .9, .25, 1) both;
+  }
+  .node.is-emphasized .icon-tile {
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--brand) 45%, transparent),
+      0 0 0 8px color-mix(in srgb, var(--brand) 16%, transparent),
+      0 10px 22px rgba(34, 125, 226, .28);
+    animation: nodeEmphasizeGlow 1.55s ease-in-out infinite;
+  }
+  .node.is-emphasized .title {
+    color: var(--brand-dark);
+    font-weight: 700;
+  }
+  @keyframes nodeAppearPop {
+    0% { opacity: 0; transform: scale(0.82); }
+    70% { opacity: 1; transform: scale(1.06); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes nodeEmphasizeGlow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.06); }
   }
   .node .body {
     position: relative;
@@ -4986,6 +5033,29 @@
   let linking = null; // { nodeId, startSide: 'in'|'out', x, y }
   let dropType = null;
   let lastPlacedNodeId = null;
+  const emphasizedNodeIds = new Set();
+  const emphasizeNodeTimers = new Map();
+
+  function emphasizeCanvasNode(id, ms = 2400) {
+    if (!id) return;
+    emphasizedNodeIds.add(id);
+    const prev = emphasizeNodeTimers.get(id);
+    if (prev) clearTimeout(prev);
+    const el = document.querySelector(`#nodesLayer .node[data-id="${id}"]`);
+    if (el) el.classList.add('is-emphasized');
+    else renderNodes();
+    const timer = setTimeout(() => {
+      emphasizedNodeIds.delete(id);
+      emphasizeNodeTimers.delete(id);
+      document.querySelector(`#nodesLayer .node[data-id="${id}"]`)
+        ?.classList.remove('is-emphasized');
+    }, ms);
+    emphasizeNodeTimers.set(id, timer);
+  }
+
+  function setGuideAddingEmphasis(on) {
+    document.body.classList.toggle('is-guide-adding', !!on);
+  }
 
   const NODE_W = 108;
   const NODE_H = 100;
@@ -5177,6 +5247,8 @@
     closeOnboard();
     showHint(`${meta.label} 추가됨`);
     syncExecutionModeUI();
+    // Pop + glow when a widget lands on the canvas (especially during the guide).
+    requestAnimationFrame(() => emphasizeCanvasNode(n.id));
     notifySpotlight('createNode', { type, node: n });
     return n;
   }
@@ -5211,7 +5283,9 @@
       const meta = metaOf(n);
       const portType = meta?.portType || portTypeOf(n.type);
       const el = document.createElement('div');
-      el.className = 'node' + (selectedNodeId === n.id ? ' selected' : '');
+      el.className = 'node'
+        + (selectedNodeId === n.id ? ' selected' : '')
+        + (emphasizedNodeIds.has(n.id) ? ' is-emphasized' : '');
       el.style.left = n.x + 'px';
       el.style.top = n.y + 'px';
       el.style.setProperty('--accent', meta.color);
@@ -7211,12 +7285,17 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       advance: 'createNodes:file+scatter',
       target: () => guideMissingWidgetTarget(),
       prepare() {
+        setGuideAddingEmphasis(true);
         setActiveMenu('widgets', '위젯');
         setWidgetSidebarCollapsed(false);
         clearWidgetFlowDetail();
         document.querySelector('#categories .cat.green')?.classList.remove('collapsed');
         const needFile = !nodes.some(n => n.type === 'file');
         showWidgetFlowDetail(needFile ? 'file' : 'scatter');
+        // Already-placed guide widgets stay emphasized on the canvas too.
+        nodes.forEach(n => {
+          if (n.type === 'file' || n.type === 'scatter') emphasizeCanvasNode(n.id, 2800);
+        });
       },
     },
     {
@@ -7226,9 +7305,13 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       advance: 'link',
       target: () => document.getElementById('canvasWrap'),
       prepare() {
+        setGuideAddingEmphasis(false);
         ensureGuideFileScatterNodes();
         // Keep auto-run as the default — no mode picker in the guide.
         setExecutionMode('auto', { silent: true, skipRun: true });
+        nodes.forEach(n => {
+          if (n.type === 'file' || n.type === 'scatter') emphasizeCanvasNode(n.id, 2600);
+        });
         // Loop a mouse-drag demo from File out → Scatter in until the user links for real.
         startGuideConnectDemo();
       },
@@ -7240,6 +7323,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       advance: 'next',
       target: () => guideResultTargets(),
       prepare() {
+        setGuideAddingEmphasis(false);
         hideSettingsPopover();
         ensureGuideFileScatterNodes();
         ensureGuideFileScatterLink();
@@ -7795,6 +7879,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (!spotlightTourActive || !spotlightTour) return;
     // Leave any prior step demos (e.g. connect cursor) before preparing the next step.
     stopGuideConnectDemo();
+    setGuideAddingEmphasis(false);
     const total = SPOTLIGHT_STEPS.length;
     const step = SPOTLIGHT_STEPS[spotlightIndex];
     if (!step) {
@@ -7835,6 +7920,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function finishSpotlightTour() {
     // Hide interactive shades/tooltip; show completion card
     stopGuideConnectDemo();
+    setGuideAddingEmphasis(false);
     closeResultPopup();
     hideSettingsPopover();
     setExecModeGuideEmphasis(false);
