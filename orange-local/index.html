@@ -1115,22 +1115,32 @@
     position: relative; z-index: 2;
     margin: 0;
     flex-shrink: 0;
-    width: 30px; height: 30px;
+    width: auto; min-width: 30px; height: 30px;
+    padding: 0 12px;
+    gap: 6px;
     border: none;
     background: transparent; color: #fff; cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center;
-    font-size: 22px; font-weight: 300; line-height: 1;
+    font-family: inherit; font-size: 14px; font-weight: 500; line-height: 1;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
     border-radius: 8px 8px 0 0;
     transition: color .2s, opacity .2s, transform .2s;
     box-shadow: none;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
+  .tab-add-code {
+    font-size: 13px; font-weight: 600; opacity: .92;
+  }
+  .tab-add-plus {
+    font-size: 20px; font-weight: 300; line-height: 1;
+  }
   .tab-add:hover {
     background: transparent;
     color: #fff;
     opacity: .78;
-    transform: scale(1.08);
+    transform: scale(1.04);
   }
 
   .tabs-actions {
@@ -4174,7 +4184,11 @@
           </span>
         </button>
       </div>
-      <button class="tab-add" type="button" title="탭 추가">＋</button>
+      <button class="tab-add" type="button" title="탭 추가" aria-label="탭 추가">
+        <span class="tab-add-code">&lt;&gt;</span>
+        <span class="tab-add-plus">＋</span>
+        <span class="tab-add-label">추가하기</span>
+      </button>
       <div class="tabs-actions">
         <div class="exec-mode-header" id="execModeHeader">
           <div class="exec-mode-label-wrap">
