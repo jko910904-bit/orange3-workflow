@@ -2171,11 +2171,21 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    gap: 6px;
+    flex-shrink: 0;
   }
-  .rail.collapsed #railAuth { align-items: center; }
+  .rail.collapsed #railAuth {
+    align-items: center;
+    border-top: none;
+    padding-top: 8px;
+  }
   .auth-user {
-    display: flex; align-items: center; justify-content: flex-end; gap: 10px;
-    padding: 0; min-width: 0; max-width: 220px;
+    display: flex; align-items: center; justify-content: flex-start; gap: 8px;
+    padding: 6px 10px; min-width: 0; width: 100%;
+    box-sizing: border-box;
+  }
+  .rail.collapsed .auth-user {
+    display: none;
   }
   .auth-avatar {
     width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
@@ -2198,7 +2208,7 @@
   .auth-user-ico {
     width: 16px; height: 16px; flex-shrink: 0;
     display: inline-flex; align-items: center; justify-content: center;
-    color: rgba(255,255,255,.92);
+    color: var(--muted);
   }
   .auth-user-ico svg {
     width: 16px; height: 16px;
@@ -2206,13 +2216,16 @@
     stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
   }
   .auth-name {
-    font-size: 14px; font-weight: 500; color: #fff;
+    font-size: 13px; font-weight: 600; color: var(--text);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    max-width: 100%;
   }
-  #btnLogin .ri-label {
+  #btnLogin .ri-label,
+  #btnLogout .ri-label {
     font-size: inherit;
   }
-  .rail.collapsed #btnLogin .ri-label {
+  .rail.collapsed #btnLogin .ri-label,
+  .rail.collapsed #btnLogout .ri-label {
     font-size: 14px;
   }
 
@@ -4039,6 +4052,15 @@
     <div class="rail-section" id="railBottom"></div>
 
     <div class="rail-section" id="railAuth">
+      <div class="auth-user" id="authUser" hidden>
+        <div class="auth-meta">
+          <div class="auth-name" id="authName"></div>
+        </div>
+      </div>
+      <button class="rail-item" type="button" id="btnLogout" hidden title="로그아웃" aria-label="로그아웃">
+        <span class="ri-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 12H5"/><path d="M9 7l-5 5 5 5"/><path d="M11 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6"/></svg></span>
+        <span class="ri-label" data-i18n="auth.logout">로그아웃</span>
+      </button>
       <button class="rail-item" type="button" id="btnLogin" title="Login">
         <span class="ri-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 12h9"/><path d="M15 7l5 5-5 5"/><path d="M13 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h6"/></svg></span>
         <span class="ri-label" data-i18n="auth.login">로그인</span>
@@ -4128,15 +4150,6 @@
             <button type="button" class="exec-mode-run-btn" id="btnRunNow" hidden data-i18n="exec.runNow">▶ 지금 실행</button>
           </span>
         </div>
-        <div class="auth-user" id="authUser" hidden>
-          <span class="tabs-divider" aria-hidden="true"></span>
-          <div class="auth-meta">
-            <div class="auth-name" id="authName"></div>
-          </div>
-        </div>
-        <button class="tabs-logout" type="button" id="btnLogout" hidden title="로그아웃" aria-label="로그아웃">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 12H5"/><path d="M9 7l-5 5 5 5"/><path d="M11 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6"/></svg>
-        </button>
       </div>
     </div>
 
@@ -8174,9 +8187,9 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     const user = getUser();
     const loggedIn = !!user;
     const railAuth = document.getElementById('railAuth');
+    if (railAuth) railAuth.hidden = false;
     if (authUserEl) authUserEl.hidden = !loggedIn;
-    btnLogin.hidden = loggedIn;
-    if (railAuth) railAuth.hidden = loggedIn;
+    if (btnLogin) btnLogin.hidden = loggedIn;
     if (btnLogout) btnLogout.hidden = !loggedIn;
     if (loggedIn && authUserEl) {
       const name = user.id === AUTH_FIXED_ID
@@ -8185,6 +8198,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       const nameEl = document.getElementById('authName');
       if (nameEl) nameEl.textContent = name;
       authUserEl.title = name;
+      if (btnLogout) btnLogout.title = `${name} · 로그아웃`;
       if (user.name !== name) setUser({ ...user, name });
     }
   }
