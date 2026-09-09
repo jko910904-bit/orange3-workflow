@@ -6783,6 +6783,34 @@ document.querySelector('.tab-add')?.addEventListener('click', () => {
   createBlankTab(true);
 });
 
+(function setupTabsScrollButtons() {
+  const list = document.getElementById('tabsList');
+  const btnLeft = document.getElementById('btnTabsScrollLeft');
+  const btnRight = document.getElementById('btnTabsScrollRight');
+  if (!list || !btnLeft || !btnRight) return;
+
+  const STEP = 160;
+
+  function syncTabsScrollButtons() {
+    const max = Math.max(0, list.scrollWidth - list.clientWidth);
+    const left = list.scrollLeft;
+    btnLeft.disabled = left <= 1;
+    btnRight.disabled = left >= max - 1;
+  }
+
+  btnLeft.addEventListener('click', () => {
+    list.scrollBy({ left: -STEP, behavior: 'smooth' });
+  });
+  btnRight.addEventListener('click', () => {
+    list.scrollBy({ left: STEP, behavior: 'smooth' });
+  });
+  list.addEventListener('scroll', syncTabsScrollButtons, { passive: true });
+  window.addEventListener('resize', syncTabsScrollButtons);
+  const mo = new MutationObserver(() => requestAnimationFrame(syncTabsScrollButtons));
+  mo.observe(list, { childList: true, subtree: true });
+  requestAnimationFrame(syncTabsScrollButtons);
+})();
+
 /* initial tab already in DOM counts as #1 */
 tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
