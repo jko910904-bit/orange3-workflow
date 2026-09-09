@@ -768,40 +768,13 @@
     border-color: rgba(34, 125, 226, .42);
     box-shadow: 0 0 0 2px rgba(34, 125, 226, .14);
   }
-  /* Guide: same white glow ring as 자동실행모드 emphasis */
+  /* Guide add: keep catalog selection quiet — white glow lives on .spotlight-ring */
   body.is-guide-adding .widget.is-focused {
     position: relative;
     z-index: 2;
-    background: transparent;
-    border-color: transparent;
+    background: rgba(34, 125, 226, .08);
+    border-color: rgba(34, 125, 226, .28);
     box-shadow: none;
-  }
-  body.is-guide-adding .widget.is-focused .icon-tile {
-    overflow: visible;
-    border: 1.5px solid rgba(255, 255, 255, .95);
-    box-shadow:
-      0 0 0 3px rgba(34, 125, 226, .55),
-      0 0 0 7px rgba(255, 255, 255, .55),
-      0 0 22px rgba(255, 255, 255, .75),
-      0 6px 18px rgba(15, 42, 86, .35);
-    animation: execBadgeBob 1.6s ease-in-out infinite;
-    transform-origin: center center;
-  }
-  body.is-guide-adding .widget.is-focused::after {
-    content: '';
-    position: absolute;
-    /* ring around the icon tile (not the label) */
-    left: 50%;
-    top: 6px;
-    width: 68px;
-    height: 68px;
-    margin-left: -34px;
-    border-radius: 20px;
-    border: 2px solid rgba(255, 255, 255, .95);
-    box-shadow: 0 0 12px rgba(255, 255, 255, .65);
-    pointer-events: none;
-    z-index: 3;
-    animation: execBadgePulseRing 1.6s ease-out infinite;
   }
 
   /* Selected widget info card — removed from UI */
@@ -2516,34 +2489,14 @@
       0 10px 24px rgba(34, 125, 226, .22);
     transform: translateY(-1px);
   }
-  /* Guide / add: same white glow ring as 자동실행모드 emphasis */
+  /* Canvas node: no per-icon white ring — spotlight-ring carries the glow */
   .node.is-emphasized {
     z-index: 6;
   }
-  .node.is-emphasized .body {
-    position: relative;
-  }
   .node.is-emphasized .icon-tile {
-    overflow: visible;
-    border: 1.5px solid rgba(255, 255, 255, .95);
     box-shadow:
-      0 0 0 3px rgba(34, 125, 226, .55),
-      0 0 0 7px rgba(255, 255, 255, .55),
-      0 0 22px rgba(255, 255, 255, .75),
-      0 6px 18px rgba(15, 42, 86, .35);
-    animation: execBadgeBob 1.6s ease-in-out infinite;
-    transform-origin: center center;
-  }
-  .node.is-emphasized .body::after {
-    content: '';
-    position: absolute;
-    inset: -8px;
-    border-radius: 24px;
-    border: 2px solid rgba(255, 255, 255, .95);
-    box-shadow: 0 0 12px rgba(255, 255, 255, .65);
-    pointer-events: none;
-    z-index: 4;
-    animation: execBadgePulseRing 1.6s ease-out infinite;
+      0 0 0 2px color-mix(in srgb, var(--brand) 28%, transparent),
+      0 8px 18px rgba(34, 125, 226, .16);
   }
   .node .body {
     position: relative;
@@ -3334,11 +3287,29 @@
     z-index: 121;
     border: 2px solid var(--brand);
     border-radius: 14px;
+    background: color-mix(in srgb, var(--brand) 08%, rgba(255, 255, 255, .35));
     box-shadow:
-      0 0 0 4px color-mix(in srgb, var(--brand) 22%, transparent),
+      0 0 0 3px rgba(34, 125, 226, .55),
+      0 0 0 7px rgba(255, 255, 255, .55),
+      0 0 22px rgba(255, 255, 255, .75),
       0 8px 24px rgba(34, 125, 226, .18);
     pointer-events: none;
     transition: top .2s var(--ease), left .2s var(--ease), width .2s var(--ease), height .2s var(--ease);
+  }
+  /* White outer pulse on the large spotlight rectangle (not the widget chrome) */
+  .spotlight-ring::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 18px;
+    border: 2px solid rgba(255, 255, 255, .95);
+    box-shadow: 0 0 12px rgba(255, 255, 255, .65);
+    pointer-events: none;
+    animation: execBadgePulseRing 1.6s ease-out infinite;
+  }
+  .spotlight-ring.is-emphasized {
+    animation: execBadgeBob 1.6s ease-in-out infinite;
+    transform-origin: center center;
   }
   .spotlight-tooltip {
     position: fixed;
@@ -7836,6 +7807,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
 
     if (spotlightRing) {
       spotlightRing.hidden = false;
+      spotlightRing.classList.add('is-emphasized');
       Object.assign(spotlightRing.style, {
         left: `${left}px`,
         top: `${top}px`,
