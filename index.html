@@ -1936,7 +1936,7 @@
   .canvas-onboard-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 24px;
   }
   .canvas-onboard-action {
     appearance: none;
@@ -1950,7 +1950,7 @@
     background: #fff;
     border: 1px solid rgba(229, 231, 235, .9);
     border-radius: 16px;
-    padding: 18px 18px;
+    padding: 24px 20px 22px;
     text-align: left;
     cursor: pointer;
     transition: border-color .18s, box-shadow .18s, background .18s, transform .15s, color .15s;
@@ -1980,12 +1980,13 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 6px;
+    margin-bottom: 12px;
   }
   .canvas-onboard-action .action-title {
     display: block;
     font-size: 22px; font-weight: 600;
     color: #1F2328; letter-spacing: -0.02em;
+    margin-bottom: 12px;
   }
   .canvas-onboard-action .action-title-row .action-title {
     margin-bottom: 0;
@@ -2006,7 +2007,7 @@
   }
   .canvas-onboard-action .action-desc {
     margin: 0;
-    font-size: 14px; line-height: 1.5;
+    font-size: 15px; line-height: 1.5;
     color: #5B6472; font-weight: 400;
   }
   .canvas-onboard-action .action-arrow {
@@ -2103,7 +2104,7 @@
     gap: 12px;
   }
   .quick-start .canvas-onboard-action {
-    padding: 18px 20px;
+    padding: 24px 20px 22px;
     align-items: center;
     min-height: 0;
   }
@@ -2112,12 +2113,12 @@
     font-weight: 600;
   }
   .quick-start .canvas-onboard-action .action-title-row {
-    margin-bottom: 6px;
+    margin-bottom: 12px;
     flex-wrap: nowrap;
   }
   .quick-start .canvas-onboard-action .action-desc {
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: 15px;
+    line-height: 1.5;
     white-space: nowrap;
   }
   @media (max-width: 820px) {
@@ -3244,8 +3245,8 @@
     .quick-start-modal { padding: 26px 16px 24px; width: min(560px, 100%); }
     .quick-start-title { font-size: 20px; }
     .quick-start .canvas-onboard-actions { grid-template-columns: 1fr; }
-    .quick-start .canvas-onboard-action { min-height: 0; padding: 16px 14px; }
-    .quick-start .canvas-onboard-action .action-desc { font-size: 13px; }
+    .quick-start .canvas-onboard-action { min-height: 0; padding: 24px 20px 22px; }
+    .quick-start .canvas-onboard-action .action-desc { font-size: 15px; }
   }
 
   /* ---------- Spotlight Guided Tutorial ---------- */
