@@ -2542,7 +2542,7 @@
     opacity: 1;
   }
   .conn-path.temp {
-    stroke: var(--brand);
+    stroke: #F0A03A;
     stroke-width: 2.5;
     opacity: 0.95;
   }
@@ -2641,33 +2641,43 @@
     color: var(--brand); font-weight: 600; font-size: 14px;
   }
 
+  #nodesLayer .port,
   .port {
     position: absolute; width: 12px; height: 12px; border-radius: 50%;
-    background: #fff; border: 2px solid var(--orange);
+    background: #fff !important;
+    border: 2px solid #F0A03A !important;
     top: 50%; transform: translateY(-50%);
-    cursor: crosshair; z-index: 3;
+    cursor: crosshair; z-index: 8;
     opacity: 1;
+    box-shadow: none;
     transition: transform var(--motion), border-color var(--motion), background var(--motion), box-shadow var(--motion), opacity var(--motion);
   }
   .port.in { left: -7px; }
   .port.out { right: -7px; }
+  #nodesLayer .port:hover,
+  #nodesLayer .port.hot,
   .port:hover, .port.hot {
     transform: translateY(-50%) scale(1.2);
-    border-color: var(--orange);
-    background: var(--orange-soft);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--orange) 18%, transparent);
+    border-color: #F0A03A !important;
+    background: #FFF3E4 !important;
+    box-shadow: 0 0 0 3px rgba(240, 160, 58, .22) !important;
   }
+  #nodesLayer .port.is-connected,
   .port.is-connected {
-    border-color: var(--orange);
-    background: var(--orange);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--orange) 16%, transparent);
+    border-color: #F0A03A !important;
+    background: #F0A03A !important;
+    box-shadow: 0 0 0 2px rgba(240, 160, 58, .22) !important;
   }
+  #nodesLayer .port.is-connected:hover,
+  #nodesLayer .port.is-connected.hot,
   .port.is-connected:hover, .port.is-connected.hot {
-    background: var(--cat-orange-icon);
-    border-color: var(--cat-orange-icon);
+    background: #C97F1F !important;
+    border-color: #C97F1F !important;
   }
+  #nodesLayer .node.selected .port:not(.is-connected),
   .node.selected .port:not(.is-connected) {
-    border-color: var(--orange);
+    border-color: #F0A03A !important;
+    background: #fff !important;
   }
 
   .conn-path.is-empty {
@@ -5398,6 +5408,8 @@
         portIn.dataset.side = 'in';
         portIn.dataset.node = n.id;
         portIn.title = '입력';
+        portIn.style.borderColor = '#F0A03A';
+        portIn.style.background = inConnected ? '#F0A03A' : '#fff';
         body.appendChild(portIn);
       }
       if (hasOut) {
@@ -5406,6 +5418,8 @@
         portOut.dataset.side = 'out';
         portOut.dataset.node = n.id;
         portOut.title = '출력';
+        portOut.style.borderColor = '#F0A03A';
+        portOut.style.background = outConnected ? '#F0A03A' : '#fff';
         body.appendChild(portOut);
       }
 
@@ -5573,8 +5587,22 @@
       path.classList.add('conn-path');
       if (connectionTransferState(c) === 'empty') path.classList.add('is-empty');
 
+      const mkDot = (pt, filled) => {
+        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        dot.setAttribute('cx', pt.x);
+        dot.setAttribute('cy', pt.y);
+        dot.setAttribute('r', filled ? 5 : 4.5);
+        dot.setAttribute('fill', filled ? '#F0A03A' : '#fff');
+        dot.setAttribute('stroke', '#F0A03A');
+        dot.setAttribute('stroke-width', '2');
+        dot.classList.add('conn-port-dot');
+        return dot;
+      };
+
       g.appendChild(hit);
       g.appendChild(path);
+      g.appendChild(mkDot(a, true));
+      g.appendChild(mkDot(b, true));
       connSvg.appendChild(g);
 
       if (isMeaningfulConnLabel(c.label)) {
@@ -5596,6 +5624,7 @@
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('d', bezier(a, b));
         path.classList.add('conn-path', 'temp');
+    path.setAttribute('stroke', '#F0A03A');
         connSvg.appendChild(path);
       }
     }
