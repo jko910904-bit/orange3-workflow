@@ -134,11 +134,13 @@ button {
   top: var(--spacing-8);
 }
 
-/* ---------- Header ---------- */
+/* ---------- Header (practice-tool blue chrome) ---------- */
 .header {
+  --header-blue: #1e88e5;
+  --header-blue-deep: #1565c0;
   height: 56px;
-  background: var(--color-grey-0);
-  border-bottom: 1px solid var(--color-grey-300);
+  background: var(--header-blue);
+  border-bottom: 1px solid var(--header-blue-deep);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -146,6 +148,7 @@ button {
   position: sticky;
   top: 0;
   z-index: 20;
+  color: #fff;
 }
 
 .header-left {
@@ -158,7 +161,7 @@ button {
 .header-title {
   font-size: 16px;
   font-weight: 600;
-  color: var(--color-grey-900);
+  color: #fff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -167,25 +170,70 @@ button {
 .header-right {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: 12px;
   flex-shrink: 0;
+}
+
+.header-right .btn-primary {
+  background: var(--header-blue-deep);
+  border-color: var(--header-blue-deep);
+  color: #fff;
+}
+
+.header-right .btn-primary:hover {
+  background: #0d47a1;
+  border-color: #0d47a1;
 }
 
 .divider-v {
   width: 1px;
   height: 20px;
-  background: var(--color-grey-300);
-  margin: 0 6px;
+  background: rgba(255, 255, 255, 0.35);
+  margin: 0 2px;
 }
 
+.admin-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.logout-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.logout-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* legacy aliases kept for responsive rules */
 .admin-chip {
   display: flex;
   align-items: center;
   gap: var(--spacing-8);
-  padding: 0 10px;
-  height: var(--control-height);
-  border-radius: var(--radius-8);
-  color: var(--color-grey-900);
+  color: #fff;
   font-size: 13px;
   font-weight: 500;
 }
@@ -194,8 +242,8 @@ button {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: var(--color-primary-100);
-  color: var(--color-primary-500);
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -210,19 +258,19 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-grey-700);
+  color: #fff;
   position: relative;
   background: transparent;
   border: none;
 }
 
 .icon-btn:hover {
-  background: var(--color-primary-100);
-  color: var(--color-primary-500);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
 }
 
 .icon-btn:focus-visible {
-  outline: 2px solid var(--color-primary-500);
+  outline: 2px solid #fff;
   outline-offset: 2px;
 }
 
@@ -2264,17 +2312,16 @@ button {
           AI 실습 도구 바로가기
         </a>
         <span class="divider-v" aria-hidden="true"></span>
-        <div class="admin-chip">
-          <span class="avatar" aria-hidden="true">김</span>
-          김교육(admin)
+        <div class="admin-user">
+          <span class="admin-name">김교육님</span>
+          <button type="button" class="logout-btn" aria-label="로그아웃">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+              <path d="M16 17l5-5-5-5" />
+              <path d="M21 12H9" />
+            </svg>
+          </button>
         </div>
-        <button type="button" class="icon-btn" aria-label="로그아웃">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
-            <path d="M16 17l5-5-5-5" />
-            <path d="M21 12H9" />
-          </svg>
-        </button>
       </div>
     </header>
 
