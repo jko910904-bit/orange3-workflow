@@ -2643,7 +2643,7 @@
 
   .port {
     position: absolute; width: 12px; height: 12px; border-radius: 50%;
-    background: #fff; border: 2px solid #B8BCC4;
+    background: #fff; border: 2px solid var(--orange);
     top: 50%; transform: translateY(-50%);
     cursor: crosshair; z-index: 3;
     opacity: 1;
@@ -2653,21 +2653,21 @@
   .port.out { right: -7px; }
   .port:hover, .port.hot {
     transform: translateY(-50%) scale(1.2);
-    border-color: var(--brand);
-    background: var(--brand-soft);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 18%, transparent);
+    border-color: var(--orange);
+    background: var(--orange-soft);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--orange) 18%, transparent);
   }
   .port.is-connected {
-    border-color: var(--brand);
-    background: var(--brand);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 16%, transparent);
+    border-color: var(--orange);
+    background: var(--orange);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--orange) 16%, transparent);
   }
   .port.is-connected:hover, .port.is-connected.hot {
-    background: var(--brand-dark);
-    border-color: var(--brand-dark);
+    background: var(--cat-orange-icon);
+    border-color: var(--cat-orange-icon);
   }
   .node.selected .port:not(.is-connected) {
-    border-color: color-mix(in srgb, var(--accent, var(--brand)) 70%, #B8BCC4);
+    border-color: var(--orange);
   }
 
   .conn-path.is-empty {
