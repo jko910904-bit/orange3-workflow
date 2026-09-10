@@ -2431,17 +2431,22 @@
   .tool-group.open .tool-flyout.tool-flyout-end {
     transform: translateY(0);
   }
-  .tool-group[data-group="more"] .tool-main {
+  .toolbar .tool-group[data-group="more"] .tool-main,
+  .toolbar #btnToolbarMore {
     width: 36px;
     height: 36px;
-    border-radius: 8px;
-    border: 1.5px solid transparent;
+    padding: 0;
+    border-radius: 8px !important;
+    border: 1.5px solid #1F2328 !important;
+    background: #fff !important;
+    color: #151A22;
     box-sizing: border-box;
   }
-  .tool-group[data-group="more"].open .tool-main {
-    background: #fff;
+  .toolbar .tool-group[data-group="more"].open .tool-main,
+  .toolbar .tool-group[data-group="more"].open #btnToolbarMore {
+    background: #fff !important;
     color: #151A22;
-    border-color: #1F2328;
+    border-color: #1F2328 !important;
   }
   .tool-flyout.canvas-menu {
     min-width: 248px;
