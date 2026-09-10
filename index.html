@@ -1005,8 +1005,9 @@
     gap: 0;
     flex: 1;
     min-width: 0;
-    overflow: hidden;
-    padding: 0 0 0 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 0 4px;
   }
   .tabs-list::-webkit-scrollbar { display: none; }
 
@@ -1244,6 +1245,40 @@
     background: rgba(255,255,255,.12);
     color: #fff;
     opacity: 1;
+  }
+  .tabs-scroll-btn {
+    flex-shrink: 0;
+    align-self: flex-end;
+    width: 22px; min-width: 22px; height: 22px;
+    margin: 0 4px 4px;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: inherit;
+    line-height: 1;
+    opacity: .9;
+    transition: opacity .15s, background .15s;
+  }
+  .tabs-scroll-btn:first-of-type {
+    margin-left: 10px;
+  }
+  .tabs-scroll-btn:hover {
+    opacity: 1;
+    background: rgba(255,255,255,.12);
+  }
+  .tabs-scroll-btn:disabled {
+    opacity: .35;
+    cursor: default;
+    background: transparent;
+  }
+  .tabs-scroll-btn svg {
+    width: 14px; height: 14px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
   }
 
   .tabs-divider {
@@ -4139,6 +4174,9 @@
 
   <div class="main">
     <div class="tabs">
+      <button class="tabs-scroll-btn" type="button" id="btnTabsScrollLeft" title="탭 왼쪽으로" aria-label="탭 왼쪽으로">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
       <div class="tabs-list" id="tabsList">
         <button class="tab tab-blue active" type="button">
           <span class="tab-shade" aria-hidden="true"></span>
@@ -4165,6 +4203,9 @@
           <span class="tab-add-plus">+</span>
         </button>
       </div>
+      <button class="tabs-scroll-btn" type="button" id="btnTabsScrollRight" title="탭 오른쪽으로" aria-label="탭 오른쪽으로">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
       <div class="tabs-end">
         <div class="exec-mode-header" id="execModeHeader">
           <div class="exec-mode-label-wrap">
@@ -6739,6 +6780,34 @@ tabsList?.addEventListener('click', e => {
 document.querySelector('.tab-add')?.addEventListener('click', () => {
   createBlankTab(true);
 });
+
+(function setupTabsScrollButtons() {
+  const list = document.getElementById('tabsList');
+  const btnLeft = document.getElementById('btnTabsScrollLeft');
+  const btnRight = document.getElementById('btnTabsScrollRight');
+  if (!list || !btnLeft || !btnRight) return;
+
+  const STEP = 160;
+
+  function syncTabsScrollButtons() {
+    const max = Math.max(0, list.scrollWidth - list.clientWidth);
+    const left = list.scrollLeft;
+    btnLeft.disabled = left <= 1;
+    btnRight.disabled = left >= max - 1;
+  }
+
+  btnLeft.addEventListener('click', () => {
+    list.scrollBy({ left: -STEP, behavior: 'smooth' });
+  });
+  btnRight.addEventListener('click', () => {
+    list.scrollBy({ left: STEP, behavior: 'smooth' });
+  });
+  list.addEventListener('scroll', syncTabsScrollButtons, { passive: true });
+  window.addEventListener('resize', syncTabsScrollButtons);
+  const mo = new MutationObserver(() => requestAnimationFrame(syncTabsScrollButtons));
+  mo.observe(list, { childList: true, subtree: true });
+  requestAnimationFrame(syncTabsScrollButtons);
+})();
 
 /* initial tab already in DOM counts as #1 */
 tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
