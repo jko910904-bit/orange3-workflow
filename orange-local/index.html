@@ -2195,6 +2195,41 @@
     transform: translateX(2px);
   }
 
+  .canvas-wrap.canvas-bg-ink .canvas-onboard-quick-title {
+    color: #fff;
+  }
+  .canvas-wrap.canvas-bg-ink .canvas-onboard-copy p {
+    color: rgba(255,255,255,.72);
+  }
+  .canvas-wrap.canvas-bg-ink .canvas-onboard-step,
+  .canvas-wrap.canvas-bg-ink .canvas-onboard-action {
+    background: #5A5A5A;
+    border-color: rgba(255,255,255,.12);
+  }
+  .canvas-wrap.canvas-bg-ink .canvas-onboard-step.is-selected,
+  .canvas-wrap.canvas-bg-ink .canvas-onboard-action:hover,
+  .canvas-wrap.canvas-bg-ink .canvas-onboard-action:focus-visible {
+    background: #636363;
+    border-color: color-mix(in srgb, var(--brand) 55%, #fff);
+    box-shadow: 0 10px 24px rgba(0,0,0,.22);
+  }
+  .canvas-wrap.canvas-bg-ink .canvas-onboard-step .step-title,
+  .canvas-wrap.canvas-bg-ink .canvas-onboard-action .action-title {
+    color: #fff;
+  }
+  .canvas-wrap.canvas-bg-ink .canvas-onboard-step .step-desc,
+  .canvas-wrap.canvas-bg-ink .canvas-onboard-action .action-desc {
+    color: rgba(255,255,255,.72);
+  }
+  .canvas-wrap.canvas-bg-ink .canvas-onboard-action .action-arrow {
+    background: color-mix(in srgb, var(--brand) 28%, #4A4A4A);
+    color: #fff;
+  }
+  .canvas-wrap.canvas-bg-ink .canvas-onboard-action:hover .action-arrow {
+    background: var(--brand);
+    color: #fff;
+  }
+
   /* Quick Start follow-up popup (after feature guide) */
   .quick-start {
     position: fixed;
