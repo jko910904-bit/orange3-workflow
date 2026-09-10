@@ -2770,6 +2770,15 @@
     white-space: nowrap; max-width: 108px;
     overflow: hidden; text-overflow: ellipsis;
     margin-top: -4px;
+    color: var(--text);
+  }
+  .canvas-wrap.canvas-bg-ink .node .title {
+    color: #fff;
+  }
+  .canvas-wrap.canvas-bg-ink .conn-label {
+    color: #fff;
+    background: rgba(40,40,40,0.92);
+    border-color: rgba(255,255,255,0.12);
   }
   .node .badge {
     display: inline-block; margin-left: 2px;
@@ -6944,6 +6953,7 @@
     const viewControls = document.getElementById('viewControls');
     if (viewControls) viewControls.hidden = !canvasPrefs.minimap;
     canvasWrap.classList.toggle('no-conn-anim', !canvasPrefs.anim);
+    canvasWrap.classList.toggle('canvas-bg-ink', canvasPrefs.bg === 'ink');
     document.querySelectorAll('[data-canvas-bg]').forEach(btn => {
       btn.classList.toggle('is-on', btn.dataset.canvasBg === canvasPrefs.bg);
     });
