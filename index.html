@@ -199,9 +199,7 @@
     line-height: 1;
     transition: background .18s var(--ease), color .18s, box-shadow .18s;
   }
-  .rail-item[hidden],
-  .auth-user[hidden],
-  #railAuth[hidden] { display: none !important; }
+  .rail-item[hidden] { display: none !important; }
   /* Collapsed: current vertical icon stack */
   .rail.collapsed .rail-item {
     flex-direction: column;
@@ -1139,9 +1137,10 @@
     align-items: center;
     justify-content: flex-end;
     align-self: stretch;
-    flex: 0 0 300px;
-    width: 300px;
-    max-width: 300px;
+    flex: 0 0 auto;
+    width: max-content;
+    min-width: 300px;
+    max-width: none;
     /* Cancel .tabs top padding — center in the full 64px blue strip */
     margin-top: -16px;
     height: 64px;
@@ -1151,6 +1150,49 @@
     box-sizing: border-box;
     flex-shrink: 0;
   }
+  .header-auth {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    min-width: 0;
+    color: #fff;
+  }
+  .header-auth-name {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: rgba(255,255,255,.95);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 148px;
+  }
+  .header-auth-name[hidden] { display: none !important; }
+  .header-auth-btn {
+    appearance: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    cursor: pointer;
+    opacity: .92;
+    transition: opacity .15s;
+  }
+  .header-auth-btn:hover {
+    opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .header-auth-btn[hidden] { display: none !important; }
   /* Spacing restored: nav (<> / 추가하기) sits left of the fixed 300px
      blue column; exec controls stay on the right. Both are vertically
      centered in the blue header strip above the widget panel. */
@@ -1405,26 +1447,6 @@
   .exec-mode-run-btn[hidden],
   .exec-mode-badge[hidden] {
     display: none !important;
-  }
-  .tabs-logout {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 42px; min-height: 42px; padding: 0;
-    border: 1px solid rgba(255,255,255,.45);
-    border-radius: 11px;
-    background: transparent;
-    color: #fff;
-    font-size: 14px; font-weight: 700;
-    cursor: pointer;
-    transition: background .18s, border-color .18s;
-  }
-  .tabs-logout:hover {
-    background: rgba(255,255,255,.14);
-  }
-  .tabs-logout[hidden] { display: none !important; }
-  .tabs-logout svg {
-    width: 18px; height: 18px;
-    stroke: currentColor; fill: none;
-    stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
   }
   .btn-ghost {
     background: transparent; border: 1px solid var(--border); font-weight: 600;
@@ -2284,76 +2306,6 @@
   .canvas-wrap.is-onboarding .toolbar,
   .canvas-wrap.is-onboarding .view-controls {
     display: none !important;
-  }
-
-  #railAuth {
-    border-top: 1px solid var(--border);
-    padding-top: 10px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 6px;
-    flex-shrink: 0;
-  }
-  .rail.collapsed #railAuth {
-    align-items: center;
-    border-top: none;
-    padding-top: 8px;
-  }
-  .auth-user {
-    display: flex; align-items: center; justify-content: flex-start; gap: 8px;
-    padding: 6px 10px; min-width: 0; width: 100%;
-    box-sizing: border-box;
-  }
-  .rail.collapsed .auth-user {
-    display: none;
-  }
-  .auth-avatar {
-    width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
-    display: inline-flex; align-items: center; justify-content: center;
-    background: color-mix(in srgb, var(--brand) 12%, #F3F4F6);
-    color: var(--brand-dark);
-    overflow: hidden;
-  }
-  .auth-avatar svg {
-    width: 16px; height: 16px;
-    stroke: currentColor; fill: none;
-    stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
-  }
-  .auth-avatar img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center 20%;
-    display: block;
-  }
-  .auth-meta {
-    min-width: 0; flex: 1;
-    display: inline-flex; align-items: center; gap: 6px;
-    text-align: left;
-  }
-  .auth-user-ico {
-    width: 16px; height: 16px; flex-shrink: 0;
-    display: inline-flex; align-items: center; justify-content: center;
-    color: var(--muted);
-  }
-  .auth-user-ico svg {
-    width: 16px; height: 16px;
-    stroke: currentColor; fill: none;
-    stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
-  }
-  .auth-name {
-    font-size: 13px; font-weight: 600; color: var(--text);
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    max-width: 100%;
-  }
-  #btnLogin .ri-label,
-  #btnLogout .ri-label {
-    font-size: inherit;
-  }
-  .rail.collapsed #btnLogin .ri-label,
-  .rail.collapsed #btnLogout .ri-label {
-    font-size: 14px;
   }
 
   /* Floating pill toolbar (bottom) */
@@ -4177,25 +4129,6 @@
     <div class="rail-scroll" id="railMenu"></div>
 
     <div class="rail-section" id="railBottom"></div>
-
-    <div class="rail-section" id="railAuth">
-      <div class="auth-user" id="authUser" hidden>
-        <span class="auth-avatar" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 19.2c1.4-3.1 3.7-4.7 6.5-4.7s5.1 1.6 6.5 4.7"/></svg>
-        </span>
-        <div class="auth-meta">
-          <div class="auth-name" id="authName"></div>
-        </div>
-      </div>
-      <button class="rail-item" type="button" id="btnLogout" hidden title="로그아웃" aria-label="로그아웃">
-        <span class="ri-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 12H5"/><path d="M9 7l-5 5 5 5"/><path d="M11 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6"/></svg></span>
-        <span class="ri-label" data-i18n="auth.logout">로그아웃</span>
-      </button>
-      <button class="rail-item" type="button" id="btnLogin" title="Login">
-        <span class="ri-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 12h9"/><path d="M15 7l5 5-5 5"/><path d="M13 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h6"/></svg></span>
-        <span class="ri-label" data-i18n="auth.login">로그인</span>
-      </button>
-    </div>
   </nav>
 
   <div class="rail-flyout" id="railFlyout" hidden></div>
@@ -4292,6 +4225,11 @@
             </span>
             <button type="button" class="exec-mode-run-btn" id="btnRunNow" hidden data-i18n="exec.runNow">▶ 지금 실행</button>
           </span>
+        </div>
+        <div class="header-auth" id="headerAuth">
+          <span class="header-auth-name" id="authName" hidden></span>
+          <button class="header-auth-btn" type="button" id="btnLogout" hidden data-i18n="auth.logout">로그아웃</button>
+          <button class="header-auth-btn" type="button" id="btnLogin" data-i18n="auth.login">로그인</button>
         </div>
       </div>
     </div>
@@ -7126,9 +7064,9 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   const authOverlay = document.getElementById('authOverlay');
   const authForm = document.getElementById('authForm');
   const authError = document.getElementById('authError');
-  const authUserEl = document.getElementById('authUser');
   const btnLogin = document.getElementById('btnLogin');
   const btnLogout = document.getElementById('btnLogout');
+  const authNameEl = document.getElementById('authName');
   const onboardOverlay = document.getElementById('onboardOverlay');
   const onboardSteps = [...document.querySelectorAll('[data-onboard-step]')];
   const ONBOARD_HINTS = {
@@ -8357,20 +8295,23 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   function renderAuthUI() {
     const user = getUser();
     const loggedIn = !!user;
-    const railAuth = document.getElementById('railAuth');
-    if (railAuth) railAuth.hidden = false;
-    if (authUserEl) authUserEl.hidden = !loggedIn;
     if (btnLogin) btnLogin.hidden = loggedIn;
     if (btnLogout) btnLogout.hidden = !loggedIn;
-    if (loggedIn && authUserEl) {
-      const name = user.id === AUTH_FIXED_ID
-        ? AUTH_DISPLAY_NAME
-        : (user.name || user.id || 'User');
-      const nameEl = document.getElementById('authName');
-      if (nameEl) nameEl.textContent = name;
-      authUserEl.title = name;
-      if (btnLogout) btnLogout.title = `${name} · 로그아웃`;
-      if (user.name !== name) setUser({ ...user, name });
+    if (authNameEl) {
+      if (loggedIn) {
+        const name = user.id === AUTH_FIXED_ID
+          ? AUTH_DISPLAY_NAME
+          : (user.name || user.id || 'User');
+        authNameEl.hidden = false;
+        authNameEl.textContent = name;
+        authNameEl.title = name;
+        if (btnLogout) btnLogout.title = `${name} · 로그아웃`;
+        if (user.name !== name) setUser({ ...user, name });
+      } else {
+        authNameEl.hidden = true;
+        authNameEl.textContent = '';
+        authNameEl.removeAttribute('title');
+      }
     }
   }
 
