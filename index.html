@@ -6741,6 +6741,7 @@ function activateTab(tab) {
   if (!tab || !tabsList) return;
   tabsList.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   tab.classList.add('active');
+  tab.scrollIntoView({ inline: 'nearest', block: 'nearest' });
   showHint(tab.querySelector('.tab-label')?.textContent.trim() || '빈 탭');
 }
 
