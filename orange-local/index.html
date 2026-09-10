@@ -1275,6 +1275,14 @@
     cursor: default;
     background: transparent;
   }
+  .tabs-scroll-btn svg {
+    width: 14px; height: 14px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
   .tabs-scroll-btn[hidden] { display: none !important; }
   .tabs:not(.is-tab-overflow) .tabs-list {
     padding-left: 16px;
@@ -4184,7 +4192,7 @@
   <div class="main">
     <div class="tabs">
       <button class="tabs-scroll-btn" type="button" id="btnTabsScrollLeft" title="탭 왼쪽으로" aria-label="탭 왼쪽으로" hidden>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
       </button>
       <div class="tabs-list" id="tabsList">
         <button class="tab tab-blue active" type="button">
@@ -4213,7 +4221,7 @@
         </button>
       </div>
       <button class="tabs-scroll-btn" type="button" id="btnTabsScrollRight" title="탭 오른쪽으로" aria-label="탭 오른쪽으로" hidden>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
       </button>
       <div class="tabs-end">
         <div class="exec-mode-header" id="execModeHeader">
