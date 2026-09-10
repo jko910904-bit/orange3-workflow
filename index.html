@@ -23,8 +23,8 @@
     --green-soft: #EAF6EA;
     --pink: #E07AB5;
     --pink-soft: #FCEEF6;
-    --yellow: #E8B84A;
-    --yellow-soft: #FFF8E6;
+    --yellow: #C4CC5A;
+    --yellow-soft: #F3F6E8;
     --cyan: #5BB8C8;
     --cyan-soft: #E8F7F9;
     --slate: #7A8FA8;
@@ -35,7 +35,7 @@
     --cat-orange-icon: #C97F1F;
     --cat-green-icon: #3F9B3F;
     --cat-pink-icon: #C24E90;
-    --text: #1A1A1A;
+    --text: #666666;
     --muted: #7A7A7A;
     --line: #C8C8C8;
     --border: #ECECEC;
@@ -482,7 +482,7 @@
   .settings-heading {
     font-size: 14px;
     font-weight: 750;
-    color: #1F2328;
+    color: #666666;
     margin-bottom: 10px;
     letter-spacing: -0.01em;
   }
@@ -530,7 +530,7 @@
     font-family: inherit;
     font-size: 14px;
     font-weight: 600;
-    color: #1F2328;
+    color: #666666;
     cursor: pointer;
   }
   .settings-select-wrap select:focus {
@@ -691,7 +691,7 @@
     padding: 16px 16px 8px;
     font-weight: 600; font-size: 15px;
     display: flex; align-items: center; gap: 10px;
-    color: #1F2328;
+    color: #666666;
   }
   .sidebar-header .sidebar-title {
     display: flex; align-items: baseline; gap: 8px; min-width: 0;
@@ -733,7 +733,7 @@
     cursor: pointer; user-select: none;
     font-weight: 700; font-size: 15px;
     letter-spacing: -0.01em;
-    color: var(--accent, #1F2328);
+    color: var(--accent, #666666);
     background: transparent;
     border-radius: 0;
     border: none;
@@ -973,9 +973,9 @@
     --tile-icon: var(--cat-pink-icon);
   }
   .icon-yellow {
-    --tile-a: #FFFBF0; --tile-b: #F5EDD0;
-    --tile-border-color: rgba(232,184,74,.24); --tile-shadow: rgba(232,184,74,.12);
-    --tile-icon: #C99720;
+    --tile-a: #F4F7EC; --tile-b: #E4EBC8;
+    --tile-border-color: rgba(180, 200, 80, .28); --tile-shadow: rgba(180, 200, 80, .12);
+    --tile-icon: #8BA83A;
   }
   .icon-cyan {
     --tile-a: #F0F8FA; --tile-b: #D8EBEF;
@@ -1334,7 +1334,7 @@
     padding: 14px 16px;
     border-radius: 12px;
     background: #fff;
-    color: #1F2328;
+    color: #666666;
     box-shadow: 0 12px 28px rgba(15, 23, 42, .18);
     text-align: left;
     font-size: 12px;
@@ -2090,7 +2090,7 @@
   }
   .canvas-onboard-step .step-title {
     font-size: 22px; font-weight: 600;
-    color: #1F2328; letter-spacing: -0.02em;
+    color: #666666; letter-spacing: -0.02em;
   }
   .canvas-onboard-step .step-desc {
     margin: 0;
@@ -2149,7 +2149,7 @@
   .canvas-onboard-action .action-title {
     display: block;
     font-size: 22px; font-weight: 600;
-    color: #1F2328; letter-spacing: -0.02em;
+    color: #666666; letter-spacing: -0.02em;
     margin-bottom: 12px;
   }
   .canvas-onboard-action .action-title-row .action-title {
@@ -2217,7 +2217,7 @@
     z-index: 1;
     width: min(560px, 100%);
     background: #fff;
-    color: #1F2328;
+    color: #666666;
     border-radius: 24px;
     padding: 36px 40px 40px;
     box-shadow: 0 24px 64px rgba(0, 0, 0, .28);
@@ -2242,7 +2242,7 @@
     align-items: center;
     justify-content: center;
   }
-  .quick-start-close:hover { background: rgba(0,0,0,.05); color: #1F2328; }
+  .quick-start-close:hover { background: rgba(0,0,0,.05); color: #666666; }
   .quick-start-close svg {
     width: 18px; height: 18px;
     stroke: currentColor; fill: none;
@@ -2338,11 +2338,11 @@
   }
   .tool-icon {
     width: 36px; height: 36px; border: none; background: transparent;
-    border-radius: 10px; color: #3A3F4A; cursor: pointer;
+    border-radius: 10px; color: #666666; cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center;
     transition: background 150ms ease-out, color 150ms ease-out, transform 150ms ease-out;
   }
-  .tool-icon:hover { background: #F3F5F8; color: #151A22; }
+  .tool-icon:hover { background: #F3F5F8; color: #666666; }
   .tool-icon.active {
     color: var(--brand);
     background: var(--brand-soft);
@@ -2386,7 +2386,7 @@
     border-radius: 0 10px 10px 0;
     padding: 0;
   }
-  .tool-group .tool-more:hover { background: #F3F5F8; color: #151A22; }
+  .tool-group .tool-more:hover { background: #F3F5F8; color: #666666; }
   .tool-group.open .tool-more,
   .tool-group.active-group .tool-more { color: inherit; }
   .tool-group.active-group .tool-main {
@@ -2437,16 +2437,16 @@
     height: 36px;
     padding: 0;
     border-radius: 8px !important;
-    border: 1.5px solid #1F2328 !important;
+    border: 1.5px solid #666666 !important;
     background: #fff !important;
-    color: #151A22;
+    color: #666666;
     box-sizing: border-box;
   }
   .toolbar .tool-group[data-group="more"].open .tool-main,
   .toolbar .tool-group[data-group="more"].open #btnToolbarMore {
     background: #fff !important;
-    color: #151A22;
-    border-color: #1F2328 !important;
+    color: #666666;
+    border-color: #666666 !important;
   }
   .tool-flyout.canvas-menu {
     min-width: 248px;
@@ -2499,7 +2499,7 @@
     font-family: inherit;
     font-size: 14px;
     font-weight: 550;
-    color: #1F2328;
+    color: #666666;
     text-align: left;
     cursor: pointer;
   }
@@ -2568,7 +2568,7 @@
     border: none; background: transparent; cursor: pointer;
     display: flex; align-items: center; gap: 10px;
     width: 100%; padding: 8px 10px; border-radius: 8px;
-    color: #333; font-family: inherit; font-size: 14px; font-weight: 550;
+    color: #666666; font-family: inherit; font-size: 14px; font-weight: 550;
     text-align: left;
   }
   .tool-flyout-item:hover { background: rgba(0,0,0,0.05); }
@@ -2590,7 +2590,7 @@
   .toolbar-zoom .zoom-val {
     min-width: 48px;
     text-align: center;
-    color: #3A3F4A;
+    color: #666666;
     font-size: 13px;
     font-weight: 650;
     font-variant-numeric: tabular-nums;
@@ -2677,7 +2677,7 @@
     opacity: 1;
   }
   .conn-path.temp {
-    stroke: var(--brand);
+    stroke: var(--orange);
     stroke-width: 2.5;
     opacity: 0.95;
   }
@@ -2780,7 +2780,7 @@
   .port {
     position: absolute; width: 12px; height: 12px; border-radius: 50%;
     background: #fff !important;
-    border: 2px solid var(--brand) !important;
+    border: 2px solid var(--orange) !important;
     top: 50%; transform: translateY(-50%);
     cursor: crosshair; z-index: 8;
     opacity: 1;
@@ -2793,25 +2793,25 @@
   #nodesLayer .port.hot,
   .port:hover, .port.hot {
     transform: translateY(-50%) scale(1.2);
-    border-color: var(--brand) !important;
-    background: var(--brand-soft) !important;
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 22%, transparent) !important;
+    border-color: var(--orange) !important;
+    background: var(--orange-soft) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--orange) 22%, transparent) !important;
   }
   #nodesLayer .port.is-connected,
   .port.is-connected {
-    border-color: var(--brand) !important;
-    background: var(--brand) !important;
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 22%, transparent) !important;
+    border-color: var(--orange) !important;
+    background: var(--orange) !important;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--orange) 22%, transparent) !important;
   }
   #nodesLayer .port.is-connected:hover,
   #nodesLayer .port.is-connected.hot,
   .port.is-connected:hover, .port.is-connected.hot {
-    background: var(--brand-dark) !important;
-    border-color: var(--brand-dark) !important;
+    background: #C97F1F !important;
+    border-color: #C97F1F !important;
   }
   #nodesLayer .node.selected .port:not(.is-connected),
   .node.selected .port:not(.is-connected) {
-    border-color: var(--brand) !important;
+    border-color: var(--orange) !important;
     background: #fff !important;
   }
 
@@ -2967,7 +2967,7 @@
     font-weight: 600;
     letter-spacing: -0.02em;
     line-height: 1.45;
-    color: #1F2328;
+    color: #666666;
   }
   .pengsu-coach.is-center .pengsu-coach-text {
     margin: 0;
@@ -3085,7 +3085,7 @@
     z-index: 1;
     width: min(1040px, 100%);
     background: #fff;
-    color: #1F2328;
+    color: #666666;
     border-radius: 24px;
     padding: 36px 40px 40px;
     box-shadow: 0 24px 64px rgba(0, 0, 0, .28);
@@ -3106,7 +3106,7 @@
     align-items: center;
     justify-content: center;
   }
-  .feature-guide-close:hover { background: rgba(0,0,0,.05); color: #1F2328; }
+  .feature-guide-close:hover { background: rgba(0,0,0,.05); color: #666666; }
   .feature-guide-close svg {
     width: 18px; height: 18px;
     stroke: currentColor; fill: none;
@@ -3289,7 +3289,7 @@
     letter-spacing: -0.02em;
     text-align: center;
     line-height: 1.25;
-    color: #1F2328;
+    color: #666666;
   }
   .fg-node.is-locked {
     cursor: default;
@@ -3301,7 +3301,7 @@
     border-style: solid;
     border-color: rgba(126, 211, 33, .55);
     background: rgba(126, 211, 33, .1);
-    color: #1F2328;
+    color: #666666;
   }
   .fg-node.is-active {
     border-style: solid;
@@ -3331,7 +3331,7 @@
     min-width: 160px;
     max-width: 240px;
     background: #fff;
-    color: #1F2328;
+    color: #666666;
     border-radius: 14px;
     padding: 12px 14px;
     font-size: 14px;
@@ -3370,7 +3370,7 @@
     font-weight: 650;
     letter-spacing: -0.02em;
     line-height: 1.4;
-    color: #1F2328;
+    color: #666666;
   }
   body.char-none .feature-guide-tip { display: none !important; }
   .fg-node.is-complete-slot.is-active,
@@ -3424,7 +3424,7 @@
     position: relative;
     z-index: 2;
     background: rgba(255,255,255,.96);
-    color: #1F2328;
+    color: #666666;
     border-radius: 18px;
     padding: 28px 40px;
     text-align: center;
@@ -3563,7 +3563,7 @@
     transform: translate(-50%, -50%);
     width: min(320px, calc(100vw - 32px));
     background: #fff;
-    color: #1F2328;
+    color: #666666;
     border-radius: 16px;
     padding: 16px 18px 14px;
     border: 1px solid rgba(229, 231, 235, .95);
@@ -3843,7 +3843,7 @@
     margin: 0;
     font-size: 13px;
     font-weight: 650;
-    color: #1F2328;
+    color: #666666;
     letter-spacing: -0.01em;
     white-space: nowrap;
     overflow: hidden;
@@ -3930,7 +3930,7 @@
     border-radius: 7px;
     background: #fff;
     font-size: 11px;
-    color: #1F2328;
+    color: #666666;
     box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
   }
   .sp-select .sp-type {
@@ -4854,7 +4854,7 @@
       <div class="guide-connect-demo-cursor" id="guideConnectDemoCursor">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <!-- Classic mouse arrow pointer -->
-          <path fill="#fff" stroke="#1F2328" stroke-width="1.35" stroke-linejoin="round" stroke-linecap="round"
+          <path fill="#fff" stroke="#666666" stroke-width="1.35" stroke-linejoin="round" stroke-linecap="round"
             d="M5 3.2 5 18.4l3.9-3.7 2.35 5.55 2.55-1.08-2.35-5.5H17.8L5 3.2Z"/>
         </svg>
       </div>
@@ -5086,7 +5086,7 @@
       ]
     },
     {
-      id: 'transform', name: '변환', tone: 'orange', color: '#E8A04A', soft: '#FBF6EE', tile: 'icon-orange',
+      id: 'transform', name: '변환', tone: 'yellow', color: '#C4CC5A', soft: '#F3F6E8', tile: 'icon-yellow',
       img: W('select-columns'),
       items: [
         { id: 'sampler', label: '데이터 샘플러', icon: 'sampler', img: W('data-sampler'), desc: '데이터를 무작위로 샘플링합니다.' },
@@ -5585,8 +5585,8 @@
         portIn.dataset.side = 'in';
         portIn.dataset.node = n.id;
         portIn.title = '입력';
-        portIn.style.borderColor = '#227DE2';
-        portIn.style.background = inConnected ? '#227DE2' : '#fff';
+        portIn.style.borderColor = '#F0A03A';
+        portIn.style.background = inConnected ? '#F0A03A' : '#fff';
         body.appendChild(portIn);
       }
       if (hasOut) {
@@ -5595,8 +5595,8 @@
         portOut.dataset.side = 'out';
         portOut.dataset.node = n.id;
         portOut.title = '출력';
-        portOut.style.borderColor = '#227DE2';
-        portOut.style.background = outConnected ? '#227DE2' : '#fff';
+        portOut.style.borderColor = '#F0A03A';
+        portOut.style.background = outConnected ? '#F0A03A' : '#fff';
         body.appendChild(portOut);
       }
 
@@ -5769,8 +5769,8 @@
         dot.setAttribute('cx', pt.x);
         dot.setAttribute('cy', pt.y);
         dot.setAttribute('r', filled ? 5 : 4.5);
-        dot.setAttribute('fill', filled ? '#227DE2' : '#fff');
-        dot.setAttribute('stroke', '#227DE2');
+        dot.setAttribute('fill', filled ? '#F0A03A' : '#fff');
+        dot.setAttribute('stroke', '#F0A03A');
         dot.setAttribute('stroke-width', '2');
         dot.classList.add('conn-port-dot');
         return dot;
@@ -5801,7 +5801,7 @@
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('d', bezier(a, b));
         path.classList.add('conn-path', 'temp');
-        path.setAttribute('stroke', '#227DE2');
+        path.setAttribute('stroke', '#F0A03A');
         connSvg.appendChild(path);
       }
     }
