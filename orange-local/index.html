@@ -2433,11 +2433,131 @@
   }
   .tool-group[data-group="more"] .tool-main {
     width: 36px;
-    border-radius: 10px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1.5px solid transparent;
+    box-sizing: border-box;
   }
   .tool-group[data-group="more"].open .tool-main {
-    background: #F3F5F8;
+    background: #fff;
     color: #151A22;
+    border-color: #1F2328;
+  }
+  .tool-flyout.canvas-menu {
+    min-width: 248px;
+    width: 248px;
+    padding: 14px 14px 10px;
+    gap: 0;
+    border-radius: 16px;
+  }
+  .canvas-menu-label {
+    font-size: 13px;
+    font-weight: 650;
+    color: #4B5563;
+    margin: 0 0 8px;
+  }
+  .canvas-bg-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px;
+  }
+  .canvas-bg-chip {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border-radius: 6px;
+    border: 1.5px solid rgba(15, 23, 42, 0.12);
+    cursor: pointer;
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+  .canvas-bg-chip.is-on {
+    border-color: #F97316;
+    box-shadow: 0 0 0 1px #F97316;
+  }
+  .canvas-menu-sep {
+    height: 1px;
+    background: rgba(15, 23, 42, 0.08);
+    margin: 4px 0 8px;
+  }
+  .canvas-menu-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 36px;
+    padding: 4px 0;
+    border: none;
+    background: none;
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 550;
+    color: #1F2328;
+    text-align: left;
+    cursor: pointer;
+  }
+  .canvas-menu-row[data-action="reset"] {
+    color: #E85A2A;
+    font-weight: 650;
+  }
+  .canvas-menu-row svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .canvas-menu-row-left {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+  .canvas-menu-mute {
+    color: #9CA3AF;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .canvas-switch {
+    width: 40px;
+    height: 24px;
+    flex-shrink: 0;
+    border: none;
+    padding: 0;
+    border-radius: 999px;
+    background: #D1D5DB;
+    position: relative;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .canvas-switch.is-on {
+    background: #F0A03A;
+  }
+  .canvas-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(15,23,42,.18);
+    transition: transform .15s;
+  }
+  .canvas-switch.is-on::after {
+    transform: translateX(16px);
+  }
+  .canvas-wrap.no-conn-anim .conn-path {
+    stroke: #C8CCD4;
+  }
+  .canvas-wrap.no-conn-anim .connectors.is-running .conn-path {
+    stroke: #C8CCD4;
   }
   .tool-flyout-item {
     border: none; background: transparent; cursor: pointer;
@@ -4480,6 +4600,9 @@
           <button class="tool-icon" type="button" data-tool="image" title="이미지">
             <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.4"/><path d="M4.5 16.5 9 12.5l3 2.5 3.5-4 4 5.5"/></svg>
           </button>
+          <button class="tool-icon" type="button" data-tool="connect" title="연결">
+            <svg viewBox="0 0 24 24"><circle cx="6.5" cy="7" r="2"/><circle cx="17.5" cy="7" r="2"/><circle cx="12" cy="17" r="2"/><path d="M8.2 8.2 10.5 15.2M15.8 8.2 13.5 15.2"/></svg>
+          </button>
           <button class="tool-icon" type="button" data-tool="eraser" title="지우개">
             <svg viewBox="0 0 24 24"><path d="M15.5 5.5 19 9l-8.5 8.5H7L4.5 15 15.5 5.5Z"/><path d="M6 19.5h13"/></svg>
           </button>
@@ -4511,20 +4634,59 @@
             <button class="tool-icon tool-main" type="button" id="btnToolbarMore" title="더보기" aria-label="더보기">
               <svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"/></svg>
             </button>
-            <div class="tool-flyout tool-flyout-end">
-              <button class="tool-flyout-item" type="button" data-tool="connect">
-                <svg viewBox="0 0 24 24"><circle cx="6.5" cy="7" r="2"/><circle cx="17.5" cy="7" r="2"/><circle cx="12" cy="17" r="2"/><path d="M8.2 8.2 10.5 15.2M15.8 8.2 13.5 15.2"/></svg>
-                <span>연결</span>
+            <div class="tool-flyout tool-flyout-end canvas-menu">
+              <div class="canvas-menu-label">캔버스 배경</div>
+              <div class="canvas-bg-row" role="group" aria-label="캔버스 배경">
+                <button class="canvas-bg-chip is-on" type="button" data-canvas-bg="white" style="background:#FFFFFF" title="흰색" aria-label="흰색"></button>
+                <button class="canvas-bg-chip" type="button" data-canvas-bg="mist" style="background:#F4F5F7" title="연한 회색" aria-label="연한 회색"></button>
+                <button class="canvas-bg-chip" type="button" data-canvas-bg="blue" style="background:#EEF2F7" title="연한 파랑" aria-label="연한 파랑"></button>
+                <button class="canvas-bg-chip" type="button" data-canvas-bg="cream" style="background:#FBF6EE" title="아이보리" aria-label="아이보리"></button>
+                <button class="canvas-bg-chip" type="button" data-canvas-bg="gray" style="background:#E8EAED" title="회색" aria-label="회색"></button>
+                <button class="canvas-bg-chip" type="button" data-canvas-bg="ink" style="background:#1B1F24" title="검정" aria-label="검정"></button>
+              </div>
+              <div class="canvas-menu-sep"></div>
+              <div class="canvas-menu-row" data-pref="minimap">
+                <span>미니맵 표시</span>
+                <button class="canvas-switch" type="button" id="prefMinimap" aria-label="미니맵 표시"></button>
+              </div>
+              <div class="canvas-menu-row" data-pref="grid">
+                <span>캔버스 격자 표시</span>
+                <button class="canvas-switch is-on" type="button" id="prefGrid" aria-label="캔버스 격자 표시"></button>
+              </div>
+              <div class="canvas-menu-row" data-pref="fitOnOpen">
+                <span>열 때 화면에 맞춤</span>
+                <button class="canvas-switch" type="button" id="prefFitOnOpen" aria-label="열 때 화면에 맞춤"></button>
+              </div>
+              <div class="canvas-menu-row" data-pref="anim">
+                <span>연결선 애니메이션</span>
+                <button class="canvas-switch is-on" type="button" id="prefAnim" aria-label="연결선 애니메이션"></button>
+              </div>
+              <div class="canvas-menu-sep"></div>
+              <button class="canvas-menu-row" type="button" data-action="workflow-info">
+                <span class="canvas-menu-row-left">
+                  <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+                  워크플로우 정보
+                </span>
+                <span class="canvas-menu-mute" id="prefWorkflowInfoState">꺼짐</span>
               </button>
-              <button class="tool-flyout-item" type="button" id="btnFit" data-action="fit">
-                <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
-                <span>화면에 맞춤</span>
+              <div class="canvas-menu-sep"></div>
+              <button class="canvas-menu-row" type="button" id="btnFit" data-action="fit">
+                <span class="canvas-menu-row-left">
+                  <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+                  화면에 맞춤
+                </span>
+              </button>
+              <button class="canvas-menu-row" type="button" data-action="reset">
+                <span class="canvas-menu-row-left">
+                  <svg viewBox="0 0 24 24"><path d="M9 14H4V9"/><path d="M4 14a8 8 0 1 1 2.3 5.7"/></svg>
+                  캔버스 초기화
+                </span>
               </button>
             </div>
           </div>
         </div>
 
-        <div class="view-controls">
+        <div class="view-controls" id="viewControls" hidden>
           <div class="nav-panel" id="navPanel">
             <div class="nav-map" id="minimap" title="클릭/드래그로 이동"></div>
           </div>
@@ -6721,6 +6883,7 @@
         if (item.dataset.tool) setActiveTool(item.dataset.tool);
       });
     });
+    wrap.querySelector('.canvas-menu')?.addEventListener('click', e => e.stopPropagation());
   });
 
   document.addEventListener('click', e => {
@@ -6733,7 +6896,89 @@
   document.getElementById('btnZoomOut').onclick = () => setZoom(zoom / 1.12);
   document.getElementById('btnRedo')?.addEventListener('click', () => showHint('다시 실행'));
   document.getElementById('btnUndo')?.addEventListener('click', () => showHint('실행 취소'));
-  document.getElementById('btnFit').onclick = fitView;
+  document.getElementById('btnFit')?.addEventListener('click', e => {
+    e.stopPropagation();
+    closeToolFlyouts();
+    fitView();
+  });
+
+  const CANVAS_PREF_KEY = 'orange3-canvas-prefs';
+  const CANVAS_BGS = {
+    white: { color: '#FFFFFF', grid: 'rgba(15,23,42,0.13)' },
+    mist: { color: '#F4F5F7', grid: 'rgba(15,23,42,0.12)' },
+    blue: { color: '#EEF2F7', grid: 'rgba(15,23,42,0.12)' },
+    cream: { color: '#FBF6EE', grid: 'rgba(120,90,40,0.12)' },
+    gray: { color: '#E8EAED', grid: 'rgba(15,23,42,0.14)' },
+    ink: { color: '#1B1F24', grid: 'rgba(255,255,255,0.14)' },
+  };
+  const canvasPrefs = (() => {
+    try { return JSON.parse(localStorage.getItem(CANVAS_PREF_KEY) || '{}'); }
+    catch { return {}; }
+  })();
+  if (canvasPrefs.minimap == null) canvasPrefs.minimap = false;
+  if (canvasPrefs.grid == null) canvasPrefs.grid = true;
+  if (canvasPrefs.fitOnOpen == null) canvasPrefs.fitOnOpen = false;
+  if (canvasPrefs.anim == null) canvasPrefs.anim = true;
+  if (canvasPrefs.workflowInfo == null) canvasPrefs.workflowInfo = false;
+  if (!CANVAS_BGS[canvasPrefs.bg]) canvasPrefs.bg = 'white';
+
+  function saveCanvasPrefs() {
+    localStorage.setItem(CANVAS_PREF_KEY, JSON.stringify(canvasPrefs));
+  }
+
+  function applyCanvasPrefs() {
+    const theme = CANVAS_BGS[canvasPrefs.bg] || CANVAS_BGS.white;
+    if (canvasPrefs.grid) {
+      canvasWrap.style.background =
+        `radial-gradient(circle, ${theme.grid} 1px, transparent 1px) 0 0 / 22px 22px, ${theme.color}`;
+    } else {
+      canvasWrap.style.background = theme.color;
+    }
+    const viewControls = document.getElementById('viewControls');
+    if (viewControls) viewControls.hidden = !canvasPrefs.minimap;
+    canvasWrap.classList.toggle('no-conn-anim', !canvasPrefs.anim);
+    document.querySelectorAll('[data-canvas-bg]').forEach(btn => {
+      btn.classList.toggle('is-on', btn.dataset.canvasBg === canvasPrefs.bg);
+    });
+    document.getElementById('prefMinimap')?.classList.toggle('is-on', !!canvasPrefs.minimap);
+    document.getElementById('prefGrid')?.classList.toggle('is-on', !!canvasPrefs.grid);
+    document.getElementById('prefFitOnOpen')?.classList.toggle('is-on', !!canvasPrefs.fitOnOpen);
+    document.getElementById('prefAnim')?.classList.toggle('is-on', !!canvasPrefs.anim);
+    const infoState = document.getElementById('prefWorkflowInfoState');
+    if (infoState) infoState.textContent = canvasPrefs.workflowInfo ? '켜짐' : '꺼짐';
+    if (canvasPrefs.minimap && typeof drawMinimap === 'function') drawMinimap();
+  }
+
+  document.querySelectorAll('[data-canvas-bg]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      canvasPrefs.bg = btn.dataset.canvasBg;
+      saveCanvasPrefs();
+      applyCanvasPrefs();
+    });
+  });
+  document.querySelectorAll('.canvas-menu-row[data-pref]').forEach(row => {
+    row.addEventListener('click', e => {
+      e.stopPropagation();
+      const key = row.dataset.pref;
+      canvasPrefs[key] = !canvasPrefs[key];
+      saveCanvasPrefs();
+      applyCanvasPrefs();
+    });
+  });
+  document.querySelector('.canvas-menu [data-action="workflow-info"]')?.addEventListener('click', e => {
+    e.stopPropagation();
+    canvasPrefs.workflowInfo = !canvasPrefs.workflowInfo;
+    saveCanvasPrefs();
+    applyCanvasPrefs();
+    showHint(canvasPrefs.workflowInfo ? '워크플로우 정보를 켰습니다' : '워크플로우 정보를 껐습니다');
+  });
+  document.querySelector('.canvas-menu [data-action="reset"]')?.addEventListener('click', e => {
+    e.stopPropagation();
+    closeToolFlyouts();
+    createBlankWorkflow();
+  });
+  applyCanvasPrefs();
 
   const tabsList = document.getElementById('tabsList');
 
@@ -7035,6 +7280,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       tabSeq++;
     }
     showHint(`${file.name} 열림`);
+    if (canvasPrefs.fitOnOpen) fitView();
   }
 
   document.querySelectorAll('.open-nav-item').forEach(btn => {
