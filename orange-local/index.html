@@ -1275,10 +1275,9 @@
     cursor: default;
     background: transparent;
   }
-  .tabs-scroll-btn svg {
-    width: 14px; height: 14px;
-    stroke: currentColor; fill: none;
-    stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+  .tabs-scroll-btn[hidden] { display: none !important; }
+  .tabs:not(.is-tab-overflow) .tabs-list {
+    padding-left: 16px;
   }
 
   .tabs-divider {
@@ -4184,7 +4183,7 @@
 
   <div class="main">
     <div class="tabs">
-      <button class="tabs-scroll-btn" type="button" id="btnTabsScrollLeft" title="탭 왼쪽으로" aria-label="탭 왼쪽으로">
+      <button class="tabs-scroll-btn" type="button" id="btnTabsScrollLeft" title="탭 왼쪽으로" aria-label="탭 왼쪽으로" hidden>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
       </button>
       <div class="tabs-list" id="tabsList">
@@ -6815,13 +6814,21 @@ document.querySelector('.tab-add')?.addEventListener('click', () => {
   const list = document.getElementById('tabsList');
   const btnLeft = document.getElementById('btnTabsScrollLeft');
   const btnRight = document.getElementById('btnTabsScrollRight');
+  const tabsBar = list?.closest('.tabs');
   if (!list || !btnLeft || !btnRight) return;
 
   const STEP = 160;
 
   function syncTabsScrollButtons() {
-    const max = Math.max(0, list.scrollWidth - list.clientWidth);
+    const overflowPx = list.scrollWidth - list.clientWidth;
+    const shown = !btnLeft.hidden;
+    const need = shown ? overflowPx > -40 : overflowPx > 1;
+    btnLeft.hidden = !need;
+    btnRight.hidden = !need;
+    tabsBar?.classList.toggle('is-tab-overflow', need);
+    if (!need) return;
     const left = list.scrollLeft;
+    const max = Math.max(0, list.scrollWidth - list.clientWidth);
     btnLeft.disabled = left <= 1;
     btnRight.disabled = left >= max - 1;
   }
