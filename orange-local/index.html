@@ -2539,7 +2539,7 @@
     cursor: pointer;
   }
   .canvas-menu-row[data-action="reset"] {
-    color: #E85A2A;
+    color: var(--brand);
     font-weight: 650;
   }
   .canvas-menu-row svg {
@@ -2592,12 +2592,6 @@
   }
   .canvas-switch.is-on::after {
     transform: translateX(16px);
-  }
-  .canvas-wrap.no-conn-anim .conn-path {
-    stroke: #C8CCD4;
-  }
-  .canvas-wrap.no-conn-anim .connectors.is-running .conn-path {
-    stroke: #C8CCD4;
   }
   .tool-flyout-item {
     border: none; background: transparent; cursor: pointer;
@@ -2696,7 +2690,7 @@
   .connectors .hit { pointer-events: stroke; cursor: pointer; }
   .conn-path {
     fill: none;
-    stroke: url(#connShimmer);
+    stroke: #C8CCD4;
     stroke-width: 1.35;
     stroke-linecap: round;
     stroke-dasharray: none;
@@ -2722,7 +2716,7 @@
     opacity: 1;
   }
   .connectors.is-running .conn-path {
-    stroke: url(#connShimmerActive);
+    stroke: #C8CCD4;
     stroke-width: 1.5;
     opacity: 1;
   }
@@ -4709,10 +4703,6 @@
                 <span>열 때 화면에 맞춤</span>
                 <button class="canvas-switch" type="button" id="prefFitOnOpen" aria-label="열 때 화면에 맞춤"></button>
               </div>
-              <div class="canvas-menu-row" data-pref="anim">
-                <span>연결선 애니메이션</span>
-                <button class="canvas-switch is-on" type="button" id="prefAnim" aria-label="연결선 애니메이션"></button>
-              </div>
               <div class="canvas-menu-sep"></div>
               <button class="canvas-menu-row" type="button" data-action="workflow-info">
                 <span class="canvas-menu-row-left">
@@ -5746,37 +5736,7 @@
     connSvg.setAttribute('width', 4000);
     connSvg.setAttribute('height', 3000);
     const running = connSvg.classList.contains('is-running');
-    // 지금보다 0.5배속 → 실효 4초
-    const dur = '4s';
-    connSvg.innerHTML = `
-      <defs>
-        <linearGradient id="connShimmer" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="520" y2="0">
-          <stop offset="0%" stop-color="#C8CCD4"/>
-          <stop offset="18%" stop-color="#C8CCD4"/>
-          <stop offset="32%" stop-color="#9AA0AA"/>
-          <stop offset="42%" stop-color="#555960"/>
-          <stop offset="50%" stop-color="#222222"/>
-          <stop offset="58%" stop-color="#555960"/>
-          <stop offset="68%" stop-color="#9AA0AA"/>
-          <stop offset="82%" stop-color="#C8CCD4"/>
-          <stop offset="100%" stop-color="#C8CCD4"/>
-          <animate attributeName="x1" values="-520;980" keyTimes="0;1" calcMode="spline" keySplines="0.45 0.05 0.55 0.95" dur="${dur}" repeatCount="indefinite"/>
-          <animate attributeName="x2" values="0;1500" keyTimes="0;1" calcMode="spline" keySplines="0.45 0.05 0.55 0.95" dur="${dur}" repeatCount="indefinite"/>
-        </linearGradient>
-        <linearGradient id="connShimmerActive" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="560" y2="0">
-          <stop offset="0%" stop-color="#B8C0CC"/>
-          <stop offset="18%" stop-color="#B8C0CC"/>
-          <stop offset="32%" stop-color="#8A93A0"/>
-          <stop offset="42%" stop-color="#4A5058"/>
-          <stop offset="50%" stop-color="#222222"/>
-          <stop offset="58%" stop-color="#4A5058"/>
-          <stop offset="68%" stop-color="#8A93A0"/>
-          <stop offset="82%" stop-color="#B8C0CC"/>
-          <stop offset="100%" stop-color="#B8C0CC"/>
-          <animate attributeName="x1" values="-560;980" keyTimes="0;1" calcMode="spline" keySplines="0.45 0.05 0.55 0.95" dur="${dur}" repeatCount="indefinite"/>
-          <animate attributeName="x2" values="0;1540" keyTimes="0;1" calcMode="spline" keySplines="0.45 0.05 0.55 0.95" dur="${dur}" repeatCount="indefinite"/>
-        </linearGradient>
-      </defs>`;
+    connSvg.innerHTML = '';
     if (running) connSvg.classList.add('is-running');
     labelsLayer.innerHTML = '';
 
@@ -6968,7 +6928,6 @@
   if (canvasPrefs.minimap == null) canvasPrefs.minimap = false;
   if (canvasPrefs.grid == null) canvasPrefs.grid = true;
   if (canvasPrefs.fitOnOpen == null) canvasPrefs.fitOnOpen = false;
-  if (canvasPrefs.anim == null) canvasPrefs.anim = true;
   if (canvasPrefs.workflowInfo == null) canvasPrefs.workflowInfo = false;
   if (!CANVAS_BGS[canvasPrefs.bg]) canvasPrefs.bg = 'white';
 
@@ -6989,7 +6948,6 @@
     }
     const viewControls = document.getElementById('viewControls');
     if (viewControls) viewControls.hidden = !canvasPrefs.minimap;
-    canvasWrap.classList.toggle('no-conn-anim', !canvasPrefs.anim);
     canvasWrap.classList.toggle('canvas-bg-ink', canvasPrefs.bg === 'ink');
     document.querySelectorAll('[data-canvas-bg]').forEach(btn => {
       btn.classList.toggle('is-on', btn.dataset.canvasBg === canvasPrefs.bg);
@@ -6997,7 +6955,6 @@
     document.getElementById('prefMinimap')?.classList.toggle('is-on', !!canvasPrefs.minimap);
     document.getElementById('prefGrid')?.classList.toggle('is-on', !!canvasPrefs.grid);
     document.getElementById('prefFitOnOpen')?.classList.toggle('is-on', !!canvasPrefs.fitOnOpen);
-    document.getElementById('prefAnim')?.classList.toggle('is-on', !!canvasPrefs.anim);
     const infoState = document.getElementById('prefWorkflowInfoState');
     if (infoState) infoState.textContent = canvasPrefs.workflowInfo ? '켜짐' : '꺼짐';
     if (canvasPrefs.minimap && typeof drawMinimap === 'function') drawMinimap();
