@@ -127,13 +127,11 @@ button {
   top: var(--spacing-8);
 }
 
-/* ---------- Header (practice-tool blue chrome) ---------- */
+/* ---------- Header ---------- */
 .header {
-  --header-blue: #1e88e5;
-  --header-blue-deep: #1565c0;
   height: 56px;
-  background: var(--header-blue);
-  border-bottom: 1px solid var(--header-blue-deep);
+  background: var(--color-grey-0);
+  border-bottom: 1px solid var(--color-grey-300);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -141,7 +139,6 @@ button {
   position: sticky;
   top: 0;
   z-index: 20;
-  color: #fff;
 }
 
 .header-left {
@@ -154,7 +151,7 @@ button {
 .header-title {
   font-size: 16px;
   font-weight: 600;
-  color: #fff;
+  color: var(--color-grey-900);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -167,66 +164,56 @@ button {
   flex-shrink: 0;
 }
 
-.header-right .btn-primary {
-  background: var(--header-blue-deep);
-  border-color: var(--header-blue-deep);
-  color: #fff;
-}
-
-.header-right .btn-primary:hover {
-  background: #0d47a1;
-  border-color: #0d47a1;
-}
-
 .divider-v {
   width: 1px;
   height: 20px;
-  background: rgba(255, 255, 255, 0.35);
+  background: var(--color-grey-300);
   margin: 0 2px;
 }
 
 .admin-user {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .admin-name {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  color: #fff;
+  color: var(--color-grey-900);
   white-space: nowrap;
 }
 
 .logout-btn {
   width: 32px;
   height: 32px;
-  border-radius: 6px;
+  border-radius: var(--radius-8);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: var(--color-grey-700);
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--color-grey-300);
   cursor: pointer;
   flex-shrink: 0;
 }
 
 .logout-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--color-primary-500);
+  color: var(--color-primary-500);
+  background: var(--color-primary-100);
 }
 
 .logout-btn:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--color-primary-500);
   outline-offset: 2px;
 }
 
-/* legacy aliases kept for responsive rules */
 .admin-chip {
   display: flex;
   align-items: center;
   gap: var(--spacing-8);
-  color: #fff;
+  color: var(--color-grey-900);
   font-size: 13px;
   font-weight: 500;
 }
@@ -235,8 +222,8 @@ button {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
+  background: var(--color-primary-100);
+  color: var(--color-primary-500);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -251,19 +238,19 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: var(--color-grey-700);
   position: relative;
   background: transparent;
   border: none;
 }
 
 .icon-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
+  background: var(--color-primary-100);
+  color: var(--color-primary-500);
 }
 
 .icon-btn:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--color-primary-500);
   outline-offset: 2px;
 }
 
@@ -1156,13 +1143,16 @@ button {
     font-size: 13px;
   }
 
-  .header-right .admin-chip span:not(.avatar),
-  .admin-chip {
-    font-size: 0;
+  .header-right .btn-primary {
+    display: none;
   }
 
-  .admin-chip .avatar {
-    font-size: 11px;
+  .admin-name {
+    font-size: 13px;
+  }
+
+  .divider-v {
+    display: none;
   }
 }
 
