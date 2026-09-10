@@ -1005,8 +1005,7 @@
     gap: 0;
     flex: 1;
     min-width: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
+    overflow: hidden;
     padding: 0 0 0 16px;
   }
   .tabs-list::-webkit-scrollbar { display: none; }
@@ -1015,9 +1014,13 @@
     --tab-bg: rgba(255,255,255,.22);
     position: relative;
     display: inline-flex; align-items: center; justify-content: center;
-    gap: 8px;
-    height: 30px; padding: 0 16px;
+    gap: 6px;
+    height: 30px; padding: 0 12px;
     margin: 0;
+    flex: 0 1 auto;
+    min-width: 72px;
+    max-width: 180px;
+    overflow: hidden;
     border: none;
     cursor: pointer;
     background: transparent;
@@ -1066,6 +1069,7 @@
     transition: background var(--motion), box-shadow var(--motion), border-color var(--motion);
   }
   .tab:last-child .tab-shade,
+  .tab:has(+ .tab-add) .tab-shade,
   .tab.active .tab-shade {
     border-right-color: rgba(255,255,255,.22);
   }
@@ -1086,7 +1090,10 @@
   .tab.active.tab-purple,
   .tab.active { --tab-bg: #fff; }
 
-  .tab-label { position: relative; z-index: 1; pointer-events: none; }
+  .tab-label {
+    position: relative; z-index: 1; pointer-events: none;
+    min-width: 0; overflow: hidden; text-overflow: ellipsis;
+  }
   .tab-close {
     position: relative; z-index: 1;
     width: 18px; height: 18px; flex-shrink: 0;
@@ -1120,18 +1127,6 @@
     stroke-width: 2.2; stroke-linecap: round;
   }
 
-  .tabs-end-nav {
-    display: inline-flex;
-    align-items: center;
-    align-self: stretch;
-    flex-shrink: 0;
-    gap: 8px;
-    /* Cancel .tabs top padding — center in the full 64px blue strip */
-    margin-top: -16px;
-    height: 64px;
-    padding: 0 8px 0 14px;
-    box-sizing: border-box;
-  }
   .tabs-end {
     display: flex;
     align-items: center;
@@ -1249,85 +1244,35 @@
   /* Spacing restored: nav (<> / 추가하기) sits left of the fixed 300px
      blue column; exec controls stay on the right. Both are vertically
      centered in the blue header strip above the widget panel. */
-  .tabs-scroll {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    height: 36px;
-    margin: 0;
-    border: 1px solid rgba(255,255,255,.45);
-    border-radius: 8px;
-    overflow: hidden;
-    box-sizing: border-box;
-  }
   .tab-add {
     position: relative; z-index: 2;
-    margin: 0;
+    margin: 0 0 0 6px;
     flex-shrink: 0;
-    width: auto; min-width: 30px; height: 36px;
-    padding: 0 12px;
-    gap: 6px;
+    align-self: flex-end;
+    width: 30px; min-width: 30px; height: 30px;
+    padding: 0;
+    gap: 0;
     border: 1px solid rgba(255,255,255,.45);
     background: transparent; color: #fff; cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center;
-    font-family: inherit; font-size: 14px; font-weight: 500; line-height: 1;
-    letter-spacing: -0.01em;
+    font-family: inherit; font-size: 18px; font-weight: 400; line-height: 1;
+    letter-spacing: 0;
     white-space: nowrap;
     border-radius: 8px;
     box-sizing: border-box;
     transition: color .2s, opacity .2s, background .15s, border-color .15s;
     box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
   }
   .tab-add-plus {
     font-size: 18px; font-weight: 400; line-height: 1;
     display: inline-flex; align-items: center; justify-content: center;
     width: 1em; height: 1em;
   }
-  .tab-add-label {
-    display: inline-flex; align-items: center;
-    line-height: 1;
-  }
   .tab-add:hover {
     background: rgba(255,255,255,.12);
     color: #fff;
     border-color: rgba(255,255,255,.7);
     opacity: 1;
-  }
-  .tabs-scroll-btn {
-    flex-shrink: 0;
-    width: 28px; height: 100%;
-    margin: 0;
-    padding: 0;
-    border: none;
-    border-radius: 0;
-    background: transparent;
-    color: #fff;
-    cursor: pointer;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-family: inherit; font-size: 16px; font-weight: 600;
-    line-height: 1;
-    opacity: .9;
-    transition: opacity .15s, background .15s;
-  }
-  .tabs-scroll-btn + .tabs-scroll-btn {
-    border-left: 1px solid rgba(255,255,255,.35);
-  }
-  .tabs-scroll-btn:hover {
-    opacity: 1;
-    background: rgba(255,255,255,.12);
-  }
-  .tabs-scroll-btn:disabled {
-    opacity: .35;
-    cursor: default;
-    background: transparent;
-  }
-  .tabs-scroll-btn svg {
-    width: 16px; height: 16px;
-    stroke: currentColor; fill: none;
-    stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
   }
 
   .tabs-divider {
@@ -4245,19 +4190,8 @@
             <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
           </span>
         </button>
-      </div>
-      <div class="tabs-end-nav">
-        <div class="tabs-scroll" role="group" aria-label="탭 스크롤">
-          <button class="tabs-scroll-btn" type="button" id="btnTabsScrollLeft" title="탭 왼쪽으로" aria-label="탭 왼쪽으로">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
-          </button>
-          <button class="tabs-scroll-btn" type="button" id="btnTabsScrollRight" title="탭 오른쪽으로" aria-label="탭 오른쪽으로">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
-          </button>
-        </div>
         <button class="tab-add" type="button" title="탭 추가" aria-label="탭 추가">
           <span class="tab-add-plus">+</span>
-          <span class="tab-add-label">추가하기</span>
         </button>
       </div>
       <div class="tabs-end">
@@ -6774,6 +6708,13 @@ function blankTabLabel() {
   return n === 1 ? '빈 탭' : `빈 탭 ${n}`;
 }
 
+function appendTabButton(btn) {
+  if (!tabsList) return;
+  const add = tabsList.querySelector('.tab-add');
+  if (add) tabsList.insertBefore(btn, add);
+  else tabsList.appendChild(btn);
+}
+
 function createBlankTab(activate = true) {
   if (!tabsList) return null;
   const color = TAB_COLORS[(tabSeq - 1) % TAB_COLORS.length];
@@ -6781,7 +6722,7 @@ function createBlankTab(activate = true) {
   btn.type = 'button';
   btn.className = `tab ${color}`;
   btn.innerHTML = `<span class="tab-shade" aria-hidden="true"></span><span class="tab-label">${blankTabLabel()}</span>${tabCloseHtml()}`;
-  tabsList.appendChild(btn);
+  appendTabButton(btn);
   if (activate) {
     activateTab(btn);
     showEmptyCanvasOnboard();
@@ -6832,34 +6773,6 @@ tabsList?.addEventListener('click', e => {
 document.querySelector('.tab-add')?.addEventListener('click', () => {
   createBlankTab(true);
 });
-
-(function setupTabsScrollButtons() {
-  const list = document.getElementById('tabsList');
-  const btnLeft = document.getElementById('btnTabsScrollLeft');
-  const btnRight = document.getElementById('btnTabsScrollRight');
-  if (!list || !btnLeft || !btnRight) return;
-
-  const STEP = 160;
-
-  function syncTabsScrollButtons() {
-    const max = Math.max(0, list.scrollWidth - list.clientWidth);
-    const left = list.scrollLeft;
-    btnLeft.disabled = left <= 1;
-    btnRight.disabled = left >= max - 1;
-  }
-
-  btnLeft.addEventListener('click', () => {
-    list.scrollBy({ left: -STEP, behavior: 'smooth' });
-  });
-  btnRight.addEventListener('click', () => {
-    list.scrollBy({ left: STEP, behavior: 'smooth' });
-  });
-  list.addEventListener('scroll', syncTabsScrollButtons, { passive: true });
-  window.addEventListener('resize', syncTabsScrollButtons);
-  const mo = new MutationObserver(() => requestAnimationFrame(syncTabsScrollButtons));
-  mo.observe(list, { childList: true, subtree: true });
-  requestAnimationFrame(syncTabsScrollButtons);
-})();
 
 /* initial tab already in DOM counts as #1 */
 tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
@@ -7037,7 +6950,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       btn.type = 'button';
       btn.className = `tab ${color}`;
       btn.innerHTML = `<span class="tab-shade" aria-hidden="true"></span><span class="tab-label">${name}</span>${tabCloseHtml()}`;
-      tabsList.appendChild(btn);
+      appendTabButton(btn);
       activateTab(btn);
       tabSeq++;
     }
@@ -7106,7 +7019,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
       btn.type = 'button';
       btn.className = `tab ${color}`;
       btn.innerHTML = `<span class="tab-shade" aria-hidden="true"></span><span class="tab-label">${label}</span>${tabCloseHtml()}`;
-      tabsList.appendChild(btn);
+      appendTabButton(btn);
       activateTab(btn);
       tabSeq++;
     }
