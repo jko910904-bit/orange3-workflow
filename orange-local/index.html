@@ -1166,7 +1166,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 148px;
+    max-width: 120px;
   }
   .header-auth-name[hidden] { display: none !important; }
   .header-auth-btn {
@@ -1184,12 +1184,37 @@
     white-space: nowrap;
     cursor: pointer;
     opacity: .92;
-    transition: opacity .15s;
+    transition: opacity .15s, background .15s, border-color .15s;
   }
   .header-auth-btn:hover {
     opacity: 1;
     text-decoration: underline;
     text-underline-offset: 3px;
+  }
+  .header-auth-btn.header-auth-icon {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,.45);
+    border-radius: 8px;
+    text-decoration: none;
+    opacity: .95;
+  }
+  .header-auth-btn.header-auth-icon:hover {
+    text-decoration: none;
+    background: rgba(255,255,255,.12);
+    border-color: rgba(255,255,255,.7);
+  }
+  .header-auth-btn.header-auth-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
   .header-auth-btn[hidden] { display: none !important; }
   /* Spacing restored: nav (<> / 추가하기) sits left of the fixed 300px
@@ -4227,7 +4252,9 @@
         </div>
         <div class="header-auth" id="headerAuth">
           <span class="header-auth-name" id="authName" hidden></span>
-          <button class="header-auth-btn" type="button" id="btnLogout" hidden data-i18n="auth.logout">로그아웃</button>
+          <button class="header-auth-btn header-auth-icon" type="button" id="btnLogout" hidden title="로그아웃" aria-label="로그아웃">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 12H5"/><path d="M9 7l-5 5 5 5"/><path d="M11 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6"/></svg>
+          </button>
           <button class="header-auth-btn" type="button" id="btnLogin" data-i18n="auth.login">로그인</button>
         </div>
       </div>
@@ -7059,7 +7086,7 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
   const AUTH_KEY = 'orange3-auth-user';
   const AUTH_FIXED_ID = '1234';
   const AUTH_FIXED_PW = '5678';
-  const AUTH_DISPLAY_NAME = '김교육님(EBS_KIM)';
+  const AUTH_DISPLAY_NAME = '김교육님';
   const authOverlay = document.getElementById('authOverlay');
   const authForm = document.getElementById('authForm');
   const authError = document.getElementById('authError');
@@ -8298,9 +8325,10 @@ tabSeq = Math.max(tabSeq, (tabsList?.querySelectorAll('.tab').length || 0) + 1);
     if (btnLogout) btnLogout.hidden = !loggedIn;
     if (authNameEl) {
       if (loggedIn) {
-        const name = user.id === AUTH_FIXED_ID
+        const raw = user.id === AUTH_FIXED_ID
           ? AUTH_DISPLAY_NAME
           : (user.name || user.id || 'User');
+        const name = String(raw).replace(/\(.*$/, '').trim() || raw;
         authNameEl.hidden = false;
         authNameEl.textContent = name;
         authNameEl.title = name;
